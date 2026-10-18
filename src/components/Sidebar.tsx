@@ -58,7 +58,7 @@ export default function Sidebar({
       <aside
         className={`${styles.sidebar} ${isOpen ? styles.open : ''} ${isMobile ? styles.mobile : ''}`}
       >
-        <div className={styles.logo}>EduBridge</div>
+        <div className={styles.logo}>JomBeelajar</div>
         <nav>
           <Link href="/dashboard">
             <FiHome /> Dashboard

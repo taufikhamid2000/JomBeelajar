@@ -41,7 +41,7 @@ describe('Header Component', () => {
   });
   it('renders the header with logo', () => {
     render(<Header />);
-    expect(screen.getByAltText('EduBridge Logo')).toBeInTheDocument();
+    expect(screen.getByAltText('JomBeelajar Logo')).toBeInTheDocument();
   });
   it('applies dark theme by default', async () => {
     render(<Header />);

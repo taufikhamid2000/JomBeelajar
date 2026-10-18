@@ -66,7 +66,7 @@ export default function CareerGuidancePage() {
   return (
     <>
       <Head>
-        <title>Career Guidance - EduBridge</title>
+        <title>Career Guidance - JomBeelajar</title>
       </Head>
       <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">

@@ -28,7 +28,7 @@ function EyeOffIcon() {
 }
 
 // Each instance keeps its own show/hide state — the login field and the
-// confirm-password field never share one flag (see EduBridge auth-page
+// confirm-password field never share one flag (see JomBeelajar auth-page
 // history: previously the plain <input> markup was hand-duplicated per
 // field, which is exactly the kind of copy-paste that risks one shared
 // `showPassword` flag controlling both fields).

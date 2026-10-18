@@ -15,14 +15,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const school = await getSchoolDetail(id);
 
     return {
-      title: `${school.name} | EduBridge`,
-      description: `View ${school.name}'s performance and statistics on EduBridge`,
+      title: `${school.name} | JomBeelajar`,
+      description: `View ${school.name}'s performance and statistics on JomBeelajar`,
     };
   } catch (error) {
     logger.error('Error generating metadata:', error);
     return {
-      title: 'School Profile | EduBridge',
-      description: 'View school performance and statistics on EduBridge',
+      title: 'School Profile | JomBeelajar',
+      description: 'View school performance and statistics on JomBeelajar',
     };
   }
 }

@@ -7,7 +7,7 @@ import { validateEnvironment } from '@/lib/env-check';
 validateEnvironment();
 
 export const metadata = {
-  title: 'EduBridge - Learn, Earn, Grow',
+  title: 'JomBeelajar - Learn, Earn, Grow',
   description:
     'Empowering students and educators with tools to learn, earn and grow.',
 };

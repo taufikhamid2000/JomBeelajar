@@ -21,7 +21,7 @@ export default function ContributePage() {
   return (
     <>
       <Head>
-        <title>Contribute a Career Pathway - EduBridge</title>
+        <title>Contribute a Career Pathway - JomBeelajar</title>
       </Head>{' '}
       <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
@@ -41,7 +41,7 @@ export default function ContributePage() {
           />{' '}
           <div className="mt-16 text-center">
             <p className="text-base text-gray-400">
-              Thank you for helping make EduBridge better for everyone!
+              Thank you for helping make JomBeelajar better for everyone!
             </p>
             <button
               onClick={() => router.push('/career-guidance')}

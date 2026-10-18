@@ -16,7 +16,7 @@ export function AuthBrandingPanel() {
 
       <Link href="/" className="relative flex items-center gap-2.5">
         <LogoMark size={30} />
-        <span className="text-lg font-semibold text-white">EduBridge</span>
+        <span className="text-lg font-semibold text-white">JomBeelajar</span>
       </Link>
 
       <div className="relative">

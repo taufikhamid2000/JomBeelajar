@@ -94,12 +94,12 @@ export default function Header(): JSX.Element {
         <Link href="/" className="header-link">
           <Image
             src="/favicon.ico"
-            alt="EduBridge Logo"
+            alt="JomBeelajar Logo"
             width={32}
             height={32}
             className="w-8 h-8 mr-2"
           />
-          EduBridge
+          JomBeelajar
         </Link>{' '}
         <nav className="header-nav space-x-2 md:space-x-4">
           {user ? (

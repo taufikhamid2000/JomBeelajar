@@ -16,7 +16,7 @@ export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false);
 
   // General settings
-  const [siteName, setSiteName] = useState('EduBridge');
+  const [siteName, setSiteName] = useState('JomBeelajar');
   const [siteDescription, setSiteDescription] = useState(
     'Interactive educational platform'
   );

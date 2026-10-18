@@ -28,7 +28,7 @@ export default function PrivacyPage() {
   return (
     <>
       <Head>
-        <title>Privacy Policy | EduBridge</title>
+        <title>Privacy Policy | JomBeelajar</title>
       </Head>
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <h1 className="text-4xl font-bold mb-8 text-center">Privacy Policy</h1>
@@ -41,7 +41,7 @@ export default function PrivacyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-3">1. Introduction</h2>
             <p className="text-gray-300 dark:text-gray-700">
-              EduBridge ("we", "our", or "us") is committed to protecting your
+              JomBeelajar ("we", "our", or "us") is committed to protecting your
               privacy. This Privacy Policy explains how we collect, use, and
               share information about you when you use our website, mobile
               application, and services (collectively, the "Services").
@@ -125,7 +125,7 @@ export default function PrivacyPage() {
                 agreements or policies
               </li>
               <li>
-                To protect the rights, property, and safety of EduBridge or
+                To protect the rights, property, and safety of JomBeelajar or
                 others
               </li>
             </ul>

@@ -1,6 +1,6 @@
-# EduBridge
+# JomBeelajar
 
-EduBridge is an educational platform built with Next.js and Supabase, designed to provide structured learning experiences with gamification elements to increase engagement.
+JomBeelajar is an educational platform built with Next.js and Supabase, designed to provide structured learning experiences with gamification elements to increase engagement.
 
 **Live demo:** https://edubridge-sigma.vercel.app
 

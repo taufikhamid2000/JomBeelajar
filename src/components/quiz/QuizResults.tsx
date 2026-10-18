@@ -46,14 +46,14 @@ export default function QuizResults({
   };
 
   const getShareText = () => {
-    return `I scored ${score}% on the EduBridge quiz! Try it out!`;
+    return `I scored ${score}% on the JomBeelajar quiz! Try it out!`;
   };
 
   const handleShare = () => {
     if (navigator.share) {
       navigator
         .share({
-          title: 'My EduBridge Quiz Result',
+          title: 'My JomBeelajar Quiz Result',
           text: getShareText(),
           url: window.location.href,
         })

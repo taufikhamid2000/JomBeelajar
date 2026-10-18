@@ -11,7 +11,7 @@ export default function Footer() {
     <footer className="bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-900 py-6">
       <div className="container mx-auto text-center">
         <p className="text-sm">
-          © {new Date().getFullYear()} EduBridge. All rights reserved.
+          © {new Date().getFullYear()} JomBeelajar. All rights reserved.
         </p>{' '}
         <nav className="mt-4 flex justify-center space-x-6">
           <Link

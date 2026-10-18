@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'EduBridge · Authentication',
-  description: 'Sign in or create an account to access EduBridge',
+  title: 'JomBeelajar · Authentication',
+  description: 'Sign in or create an account to access JomBeelajar',
 };
 
 export default function AuthLayout({

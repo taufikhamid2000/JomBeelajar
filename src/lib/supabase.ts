@@ -1,5 +1,5 @@
 // NOTE: The Supabase clients below are intentionally typed as `<any>` (untyped
-// schema). EduBridge is migrating off direct DB access onto the MyQuiza API, so
+// schema). JomBeelajar is migrating off direct DB access onto the MyQuiza API, so
 // this data layer is slated for removal — we deliberately opt it out of the
 // strict schema typing that newer @supabase/supabase-js infers (it otherwise
 // resolves every query to `never`). This restores the pre-upgrade behavior in

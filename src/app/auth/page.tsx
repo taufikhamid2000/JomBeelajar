@@ -108,7 +108,7 @@ export default function Auth() {
       <div className="flex flex-1 flex-col items-center justify-center gap-6 bg-muted px-4 py-12">
         <Link href="/" className="flex items-center gap-2 md:hidden">
           <LogoMark size={28} />
-          <span className="text-lg font-semibold text-foreground">EduBridge</span>
+          <span className="text-lg font-semibold text-foreground">JomBeelajar</span>
         </Link>
 
         <div className="w-full max-w-sm animate-page-in rounded-2xl border border-border bg-background p-8">

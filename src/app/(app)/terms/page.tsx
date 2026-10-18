@@ -28,7 +28,7 @@ export default function TermsPage() {
   return (
     <>
       <Head>
-        <title>Terms of Service | EduBridge</title>
+        <title>Terms of Service | JomBeelajar</title>
       </Head>
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <h1 className="text-4xl font-bold mb-8 text-center">
@@ -45,7 +45,7 @@ export default function TermsPage() {
               1. Acceptance of Terms
             </h2>
             <p className="text-gray-300 dark:text-gray-700">
-              By accessing or using EduBridge ("we", "our", or "us") website,
+              By accessing or using JomBeelajar ("we", "our", or "us") website,
               mobile application, or any of our services (collectively, the
               "Services"), you agree to be bound by these Terms of Service. If
               you do not agree to these terms, please do not use our Services.
@@ -57,7 +57,7 @@ export default function TermsPage() {
               2. Description of Services
             </h2>
             <p className="text-gray-300 dark:text-gray-700">
-              EduBridge is a microlearning platform that offers educational
+              JomBeelajar is a microlearning platform that offers educational
               content through quizzes, activities, and other learning materials
               primarily focused on the Malaysian Form 4 and Form 5 curriculum.
               Our Services include features such as daily quizzes, progress
@@ -114,7 +114,7 @@ export default function TermsPage() {
             <p className="text-gray-300 dark:text-gray-700">
               All content, features, and functionality of our Services,
               including but not limited to text, graphics, logos, and software,
-              are owned by EduBridge or our licensors and are protected by
+              are owned by JomBeelajar or our licensors and are protected by
               intellectual property laws. You may not reproduce, distribute, or
               create derivative works without our express permission.
             </p>
@@ -137,7 +137,7 @@ export default function TermsPage() {
               7. Limitation of Liability
             </h2>
             <p className="text-gray-300 dark:text-gray-700">
-              In no event shall EduBridge be liable for any indirect,
+              In no event shall JomBeelajar be liable for any indirect,
               incidental, special, or consequential damages arising out of or in
               any way connected with the use of our Services.
             </p>

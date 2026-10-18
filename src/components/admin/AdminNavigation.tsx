@@ -184,7 +184,7 @@ export default function AdminNavigation({
       className={`${isCollapsed ? 'w-16' : 'w-64'} transition-all duration-300 min-h-screen bg-gray-900 dark:bg-gray-800 text-white p-4 ${isMobile ? 'shadow-lg' : ''}`}
     >
       <div className="mb-8 flex items-center justify-between">
-        {!isCollapsed && <h2 className="text-xl font-bold">EduBridge Admin</h2>}
+        {!isCollapsed && <h2 className="text-xl font-bold">JomBeelajar Admin</h2>}
 
         {/* Sidebar toggle button */}
         <button

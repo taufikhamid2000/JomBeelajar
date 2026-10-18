@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'School Rankings | EduBridge',
+  title: 'School Rankings | JomBeelajar',
   description:
-    'View top performing schools in EduBridge platform across different categories and regions',
+    'View top performing schools in JomBeelajar platform across different categories and regions',
 };
 
 export default function SchoolLeaderboardLayout({

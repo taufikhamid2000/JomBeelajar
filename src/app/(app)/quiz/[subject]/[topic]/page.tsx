@@ -24,13 +24,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     logger.log('🔍 APP ROUTER - generateMetadata called:', { subject, topic });
 
     return {
-      title: `${subject} - ${topic} | EduBridge Quiz`,
+      title: `${subject} - ${topic} | JomBeelajar Quiz`,
       description: `Learn about ${subject} with our interactive quizzes on ${topic}`,
     };
   } catch (error) {
     logger.error('💥 METADATA ERROR (APP ROUTER):', error);
     return {
-      title: 'Quiz | EduBridge',
+      title: 'Quiz | JomBeelajar',
       description: 'Interactive learning quizzes',
     };
   }

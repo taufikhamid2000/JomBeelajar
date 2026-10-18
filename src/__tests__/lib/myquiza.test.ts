@@ -6,7 +6,7 @@ import {
   getLeaderboard,
 } from '@/lib/myquiza';
 
-// These tests exercise EduBridge's own MyQuiza client in isolation: fetch is
+// These tests exercise JomBeelajar's own MyQuiza client in isolation: fetch is
 // mocked, so they assert that we build the right request (URL, method, headers,
 // body, query params) and parse/propagate responses correctly — without ever
 // hitting the live MyQuiza API.

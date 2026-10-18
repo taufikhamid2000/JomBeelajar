@@ -71,7 +71,7 @@ export default function AboutPage() {
   return (
     <>
       <Head>
-        <title>About EduBridge</title>
+        <title>About JomBeelajar</title>
       </Head>{' '}
       <div className="relative bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-24 px-8 md:px-20 overflow-hidden">
         {' '}
@@ -96,7 +96,7 @@ export default function AboutPage() {
             <span className="inline-block text-yellow-300">Bridge</span>
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto font-light">
-            Earn up to RM1000 when you join EduBridge – and make your school
+            Earn up to RM1000 when you join JomBeelajar – and make your school
             proud!
           </p>{' '}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -159,10 +159,10 @@ export default function AboutPage() {
         <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-8 mb-8">
           <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
           <p className="mb-4 text-gray-300 dark:text-gray-700">
-            EduBridge is a lightweight, gamified microlearning platform built to
+            JomBeelajar is a lightweight, gamified microlearning platform built to
             help Malaysian Form 4 and Form 5 students strengthen their academic
             skills through daily engagement. By offering fast, rewarding quiz
-            experiences, EduBridge motivates students to build consistent study
+            experiences, JomBeelajar motivates students to build consistent study
             habits, earn recognition, and achieve measurable academic growth.
           </p>
           <p className="text-gray-300 dark:text-gray-700">
@@ -218,7 +218,7 @@ export default function AboutPage() {
           <h2 className="text-4xl font-bold mb-6">
             Welcome to{' '}
             <span className="text-blue-600 dark:text-blue-400 relative inline-block">
-              EduBridge
+              JomBeelajar
             </span>
           </h2>
           <div className="h-1 w-20 bg-yellow-400 mx-auto"></div>
@@ -227,12 +227,12 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto">
             <div className="prose prose-lg max-w-none text-gray-300 dark:text-gray-700">
               <h2 className="text-3xl font-bold mb-6 text-gray-100 dark:text-gray-800">
-                Earn up to RM1000 when you join EduBridge – and make your school
+                Earn up to RM1000 when you join JomBeelajar – and make your school
                 proud!
               </h2>
 
               <p className="text-lg mb-6">
-                EduBridge isn't just about preparing for your SPM – it's a
+                JomBeelajar isn't just about preparing for your SPM – it's a
                 revolution in how Malaysian students learn, compete, and get
                 rewarded.
               </p>
@@ -246,7 +246,7 @@ export default function AboutPage() {
               </p>
 
               <p className="text-lg mb-6">
-                But why stop at solo success? EduBridge lets you represent your
+                But why stop at solo success? JomBeelajar lets you represent your
                 school. Your points don't just boost your own ranking – they
                 contribute to your school's total. Imagine Sekolah Menengah
                 Kebangsaan Ayer Jernih outperforming MRSM Tawau. Pergh. The
@@ -259,14 +259,14 @@ export default function AboutPage() {
                 And it's not just the students paying attention. KPM be like:
                 "Alamak, this analytics says students from Klang, Selangor are
                 actually far behind. What are they doing? Maybe we gotta send in
-                some reinforcement." EduBridge doesn't just gamify studying – it
+                some reinforcement." JomBeelajar doesn't just gamify studying – it
                 generates real insights that spotlight where schools shine and
                 where they need extra support.
               </p>
 
               <p className="text-lg mb-6">
                 Here's the kicker: The KPM tried to switch away from exam-based
-                education. Oh yeah? Watch this. EduBridge isn't just embracing
+                education. Oh yeah? Watch this. JomBeelajar isn't just embracing
                 exams – we're making them worth your time.
               </p>
 
@@ -288,12 +288,12 @@ export default function AboutPage() {
 
               <p className="text-lg mb-6">
                 Whether you're competing solo, representing your school, or
-                creating quizzes, EduBridge is your chance to turn study time
+                creating quizzes, JomBeelajar is your chance to turn study time
                 into earning time.
               </p>
 
               <p className="text-lg mb-6 font-semibold">
-                Join EduBridge today. Master your subjects, make money, and
+                Join JomBeelajar today. Master your subjects, make money, and
                 maybe even watch your school crush the competition.
               </p>
 
@@ -1344,11 +1344,11 @@ export default function AboutPage() {
         <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-8 border border-gray-100 dark:border-gray-700 mb-16">
           <div className="max-w-3xl mx-auto">
             <p className="text-xl text-gray-300 dark:text-gray-700 leading-relaxed text-center">
-              EduBridge addresses a critical gap in Malaysia&rsquo;s education
+              JomBeelajar addresses a critical gap in Malaysia&rsquo;s education
               ecosystem: the need for daily, engaging, rewarding, and low-data
               independent learning. Its initial launch in Malaysia gives it a
               clear target market with manageable competition. By validating
-              user engagement and impact early, EduBridge can later expand to
+              user engagement and impact early, JomBeelajar can later expand to
               broader regions without losing focus.
             </p>
           </div>
@@ -1442,7 +1442,7 @@ export default function AboutPage() {
             Ready to empower students?
           </h4>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto opacity-90">
-            Join EduBridge today and make a difference in Malaysia's education
+            Join JomBeelajar today and make a difference in Malaysia's education
             ecosystem.
           </p>
           <button
