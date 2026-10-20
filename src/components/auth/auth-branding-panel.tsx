@@ -44,7 +44,7 @@ export function AuthBrandingPanel() {
       <p className="relative text-xs text-primary-foreground/50">
         Built to help every student find their path.{' '}
         <a
-          href="https://taufik.vercel.app"
+          href="https://taufikhamid.com"
           target="_blank"
           rel="noopener noreferrer"
           className="underline-offset-2 hover:underline hover:text-primary-foreground/70"

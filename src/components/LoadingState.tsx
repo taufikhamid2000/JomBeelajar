@@ -32,7 +32,7 @@ export default function LoadingState() {
               <Stopwatch />
               <div className="mt-4">
                 <Link
-                  href="/docs/EduBridge%20Research.pdf"
+                  href="/docs/JomBeelajar%20Research.pdf"
                   className="text-xs text-blue-600 dark:text-blue-300 hover:underline"
                   target="_blank"
                 >

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   const openResearchPDF = () => {
-    window.open('/docs/EduBridge%20Research.pdf', '_blank');
+    window.open('/docs/JomBeelajar%20Research.pdf', '_blank');
   };
 
   return (

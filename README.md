@@ -2,7 +2,7 @@
 
 JomBeelajar is an educational platform built with Next.js and Supabase, designed to provide structured learning experiences with gamification elements to increase engagement.
 
-**Live demo:** https://edubridge-sigma.vercel.app
+**Live demo:** https://jombeelajar.taufikhamid.com
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.5.19-blue)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.7-blue)](https://reactjs.org/)
@@ -174,4 +174,4 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
 
 ---
-Built by [Muhammad Taufik](https://taufik.vercel.app)
+Built by [Muhammad Taufik](https://taufikhamid.com)

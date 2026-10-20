@@ -132,7 +132,7 @@ export default function AboutPage() {
             <button
               className="inline-block uppercase tracking-wide rounded-full shadow-lg transition-all duration-300 ease-in-out px-8 py-4 bg-transparent border-2 border-white text-white font-medium hover:bg-white/10 hover:scale-105 transform"
               onClick={() => {
-                window.open('/docs/EduBridge%20Research.pdf', '_blank');
+                window.open('/docs/JomBeelajar%20Research.pdf', '_blank');
               }}
             >
               Learn More 📄
@@ -273,7 +273,7 @@ export default function AboutPage() {
               <p className="text-lg mb-6">
                 Meanwhile, the elite school's headmaster be like: "We can't lose
                 to fools like them." Slowly pulls out her rotan. "Get back to
-                https://edubridge-sigma.vercel.app/, students." (For legal
+                https://jombeelajar.taufikhamid.com/, students." (For legal
                 purposes, this is a joke.)
               </p>
 
