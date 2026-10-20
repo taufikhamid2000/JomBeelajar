@@ -51,6 +51,13 @@ const config = {
   // Add redirects from old Pages Router routes to new App Router routes
   async redirects() {
     return [
+      // Old *.vercel.app address -> the custom domain.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "edubridge-sigma.vercel.app" }],
+        destination: "https://jombeelajar.taufikhamid.com/:path*",
+        permanent: false,
+      },
       {
         source: '/pages/quiz/:subject/:topic',
         destination: '/quiz/:subject/:topic',
