@@ -1,5 +1,6 @@
 import { logger } from '@/lib/logger';
 import { supabase } from './supabase';
+import { jomCookieOptions } from '@/lib/supabase/cookie-options';
 
 export const signUp = async (email: string, password: string) => {
   const { error } = await supabase.auth.signUp({ email, password });
@@ -26,12 +27,11 @@ export const signIn = async (email: string, password: string) => {
 export const signOut = async () => {
   logger.log('SignOut function started');
 
-  // Clear local session state and redirect FIRST, unconditionally. Logging
-  // out is a client-side action — it must never be blocked by Supabase's
-  // own availability. If Supabase is down, slow, or unreachable, the user
-  // still ends up logged out on this device; they just don't get the
-  // "invalidate every other device's session too" bonus until the server
-  // call below succeeds (best-effort, not awaited by the caller).
+  // Logging out must never be blocked by Supabase's own availability. If
+  // Supabase is down, slow, or unreachable, the user still ends up logged
+  // out on this device (the auth cookies are expired locally below after at
+  // most 3s); they just don't get the "invalidate every other device's
+  // session too" bonus.
   if (typeof window !== 'undefined') {
     logger.log('Removing auth token from localStorage');
     try {
@@ -41,10 +41,13 @@ export const signOut = async () => {
     }
   }
 
-  // Fire the server-side global revocation without blocking on it. Race
-  // against a short timeout so a hung/unreachable request can never delay
-  // the redirect below.
-  Promise.race([
+  // Server-side global revocation, raced against a short timeout so a
+  // hung/unreachable request can delay the redirect below by at most 3s.
+  // Jom ID: the session now lives in the shared *.taufikhamid.com cookie,
+  // and supabase-js only clears it AFTER the network call returns — so it
+  // must be awaited (bounded) before navigating away, or the hard redirect
+  // aborts it and the user stays signed in (in every Jom app).
+  await Promise.race([
     supabase.auth.signOut({ scope: 'global' }),
     new Promise((resolve) => setTimeout(resolve, 3000)),
   ])
@@ -58,6 +61,20 @@ export const signOut = async () => {
     .catch((error) => {
       logger.error('Error signing out from Supabase (non-blocking):', error);
     });
+
+  // If the call above timed out or failed, the auth cookies are still there:
+  // expire them locally with the same Domain/Path they were written with
+  // (Jom ID shared cookie), so this device is signed out regardless.
+  if (typeof document !== 'undefined') {
+    const { domain, path } = jomCookieOptions(window.location.hostname);
+    for (const part of document.cookie.split(';')) {
+      const name = part.split('=')[0].trim();
+      if (!name.startsWith('sb-')) continue;
+      document.cookie = `${name}=; Max-Age=0; Path=${path ?? '/'}${
+        domain ? `; Domain=${domain}` : ''
+      }`;
+    }
+  }
 
   logger.log('Redirecting to /auth...');
 

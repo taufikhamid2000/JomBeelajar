@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
+import { jomCookieOptions } from '@/lib/supabase/cookie-options';
 import { logger } from '@/lib/logger';
 import { getLeaderboard } from '@/lib/myquiza';
 
@@ -24,6 +25,8 @@ export async function GET(request: Request) {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         db: { schema: 'edubridge' },
+        // Jom ID: shared *.taufikhamid.com session cookie (read-only here).
+        cookieOptions: jomCookieOptions((await headers()).get('host')),
         cookies: {
           get: (name) => cookieStore.get(name)?.value,
           set: () => {},

@@ -2,22 +2,33 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { log, logger } from '@/lib/logger';
+import { jomCookieOptions } from '@/lib/supabase/cookie-options';
+import { clearLegacyHostCookies } from '@/lib/supabase/legacy-cookies';
 
 export async function middleware(request: NextRequest) {
   // Skip noise from the auth API itself and Next static files
   if (
     /^\/(?:auth|_next|favicon\.ico|\.well-known)/.test(request.nextUrl.pathname)
   ) {
-    return NextResponse.next();
+    const passthrough = NextResponse.next();
+    // Jom ID: expire pre-Jom-ID host-only sb-* cookies (once per browser).
+    clearLegacyHostCookies(request, passthrough);
+    return passthrough;
   }
+  // Jom ID: cookie attributes for the shared *.taufikhamid.com session.
+  const cookieOptions = jomCookieOptions(request.headers.get('host'));
+
   // Create base response with strong cache control
-  let response = NextResponse.next({
-    headers: new Headers({
-      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-      Pragma: 'no-cache',
-      Expires: '0',
-    }),
-  });
+  const nextResponse = () =>
+    NextResponse.next({
+      request,
+      headers: new Headers({
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        Pragma: 'no-cache',
+        Expires: '0',
+      }),
+    });
+  let response = nextResponse();
 
   // Create a Supabase client with cookie handling
   const supabase = createServerClient(
@@ -25,39 +36,25 @@ export async function middleware(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       db: { schema: 'edubridge' },
+      // Jom ID: share the session cookie across *.taufikhamid.com.
+      cookieOptions,
       cookies: {
-        get(name) {
-          const cookie = request.cookies.get(name);
-          return cookie?.value ?? null;
+        getAll() {
+          return request.cookies.getAll();
         },
-        set(name, value, options) {
-          response = NextResponse.next({
-            headers: new Headers(request.headers),
-          });
-          response.cookies.set({
-            name,
-            value,
-            path: '/',
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            httpOnly: true,
-            maxAge: 60 * 60 * 24 * 7, // 7 days
-            ...options,
-          });
-        },
-        remove(name) {
-          response = NextResponse.next({
-            headers: new Headers(request.headers),
-          });
-          response.cookies.set({
-            name,
-            value: '',
-            path: '/',
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            httpOnly: true,
-            maxAge: 0,
-          });
+        // Forward Supabase's own options (Domain/Path/SameSite/Secure from
+        // cookieOptions, plus maxAge) untouched. The old adapter forced
+        // httpOnly, which hid the session from the browser client (it reads
+        // document.cookie), and dropped the options on removal, so a
+        // Domain=.taufikhamid.com cookie could never be deleted.
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value)
+          );
+          response = nextResponse();
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          );
         },
       },
       auth: {
@@ -102,12 +99,20 @@ export async function middleware(request: NextRequest) {
     //   return NextResponse.redirect(redirectUrl);
     // }
 
+    // Jom ID: MUST stay the very last cookie write on the response. It
+    // appends raw Set-Cookie headers, and any later response.cookies.set/
+    // delete rewrites the Set-Cookie list and would drop them.
+    clearLegacyHostCookies(request, response);
     return response;
   } catch (error) {
     // Log the error and clear all auth-related cookies
     logger.error('Middleware authentication error:', error);
 
-    // Clear all Supabase auth cookies
+    // Clear all Supabase auth cookies (legacy pre-@supabase/ssr names; the
+    // current sb-<ref>-auth-token cookies are cleared by Supabase itself via
+    // setAll when the session is unrecoverable). Same Domain/Path as the
+    // Jom ID cookie so the deletion actually matches.
+    const { domain, path, sameSite, secure } = cookieOptions;
     const cookiesToClear = [
       'sb-access-token',
       'sb-refresh-token',
@@ -118,7 +123,10 @@ export async function middleware(request: NextRequest) {
         name,
         value: '',
         maxAge: 0,
-        path: '/',
+        domain,
+        path,
+        sameSite,
+        secure,
       });
     });
 
@@ -128,23 +136,23 @@ export async function middleware(request: NextRequest) {
       const redirectUrl = new URL('/auth', request.url);
       const redirectResponse = NextResponse.redirect(redirectUrl);
 
-      // Copy cleared cookies to redirect response
-      cookiesToClear.forEach((name) => {
-        redirectResponse.cookies.set({
-          name,
-          value: '',
-          maxAge: 0,
-          path: '/',
-        });
-      });
+      // Copy every cookie written so far (Supabase's own setAll writes plus
+      // the cleared ones above) — a fresh redirect would otherwise drop them.
+      response.cookies
+        .getAll()
+        .forEach((cookie) => redirectResponse.cookies.set(cookie));
 
       // Add cache control headers to prevent caching
       redirectResponse.headers.set('Cache-Control', 'no-store, max-age=0');
+      // Jom ID: last cookie write (see above).
+      clearLegacyHostCookies(request, redirectResponse);
       return redirectResponse;
     }
 
     // Add cache control headers
     response.headers.set('Cache-Control', 'no-store, max-age=0');
+    // Jom ID: last cookie write (see above).
+    clearLegacyHostCookies(request, response);
     return response;
   }
 }

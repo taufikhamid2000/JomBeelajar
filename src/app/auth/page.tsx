@@ -1,12 +1,31 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { AuthBrandingPanel } from '@/components/auth/auth-branding-panel';
 import { LogoMark } from '@/components/auth/logo-mark';
 import { PasswordInput } from '@/components/auth/password-input';
 import { Spinner } from '@/components/auth/spinner';
+
+// Jom ID portal: signs in once for every *.taufikhamid.com app, then sends
+// the browser back to `next`.
+const JOM_ID_CONTINUE_URL = 'https://akaun.taufikhamid.com/continue';
+const PRODUCTION_ORIGIN = 'https://jombeelajar.taufikhamid.com';
+// Same destination every sign-in method below lands on.
+const POST_LOGIN_PATH = '/dashboard';
+
+const noopSubscribe = () => () => {};
+
+// window.location.origin in the browser; the production origin while
+// server-rendering (no window there).
+function useOrigin() {
+  return useSyncExternalStore(
+    noopSubscribe,
+    () => window.location.origin,
+    () => PRODUCTION_ORIGIN
+  );
+}
 
 export default function Auth() {
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
@@ -15,6 +34,9 @@ export default function Auth() {
   const [confirm, setConfirm] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const jomIdHref = `${JOM_ID_CONTINUE_URL}?next=${encodeURIComponent(
+    `${useOrigin()}${POST_LOGIN_PATH}`
+  )}`;
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -180,10 +202,17 @@ export default function Auth() {
             <div className="h-px flex-1 bg-border" />
           </div>
 
+          <a
+            href={jomIdHref}
+            className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          >
+            Continue with Jom ID
+          </a>
+
           <button
             type="button"
             onClick={handleGoogle}
-            className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="mt-3 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
               <path

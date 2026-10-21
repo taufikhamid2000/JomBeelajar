@@ -11,6 +11,14 @@ const config = {
   // Environment variables
   env: {
     DISABLE_SUPABASE_DEBUG: process.env.DISABLE_SUPABASE_DEBUG || 'true',
+    // Jom ID (src/lib/supabase/cookie-options.ts) only shares the session
+    // cookie on .taufikhamid.com when NEXT_PUBLIC_VERCEL_ENV === "production",
+    // and the browser client needs it too, or it writes host-only cookies the
+    // other Jom apps never see. Vercel only exposes NEXT_PUBLIC_VERCEL_ENV when
+    // its system-env toggle is on, but always sets VERCEL_ENV at build time,
+    // so inline it explicitly into the bundle from either source.
+    NEXT_PUBLIC_VERCEL_ENV:
+      process.env.NEXT_PUBLIC_VERCEL_ENV ?? process.env.VERCEL_ENV ?? '',
   },
   experimental: {
     serverActions: {
