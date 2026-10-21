@@ -71,7 +71,7 @@ export async function createQuiz(
     if (!session) {
       return {
         success: false,
-        error: 'Authentication required. Please log in to create a quiz.',
+        error: 'Authentication required. Please sign in to create a quiz.',
       };
     }
 
@@ -236,7 +236,7 @@ export async function fetchAdminQuizzes(): Promise<{
         data: null,
         error: {
           message:
-            accessError?.message || 'Authentication required. Please log in.',
+            accessError?.message || 'Authentication required. Please sign in.',
         },
       };
     } // Fetch quizzes with topic details
@@ -314,7 +314,7 @@ export async function createAdminQuiz(quizData: {
       return {
         error: {
           message:
-            accessError?.message || 'Authentication required. Please log in.',
+            accessError?.message || 'Authentication required. Please sign in.',
         },
       };
     }
@@ -377,7 +377,7 @@ export async function deleteQuiz(id: string): Promise<{
       return {
         error: {
           message:
-            accessError?.message || 'Authentication required. Please log in.',
+            accessError?.message || 'Authentication required. Please sign in.',
         },
       };
     }

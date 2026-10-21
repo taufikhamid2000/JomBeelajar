@@ -3,7 +3,7 @@
 // portal only accepts on https *.taufikhamid.com).
 const JOM_ID_SIGNUP_URL = 'https://akaun.taufikhamid.com/signup';
 const PRODUCTION_ORIGIN = 'https://jombeelajar.taufikhamid.com';
-// Same destination the in-app sign-up on /auth lands on.
+// Same destination sign-in on /auth lands on.
 const POST_SIGNUP_PATH = '/dashboard';
 
 export const jomIdSignupHref = `${JOM_ID_SIGNUP_URL}?next=${encodeURIComponent(

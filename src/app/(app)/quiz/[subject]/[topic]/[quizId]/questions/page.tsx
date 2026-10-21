@@ -208,7 +208,7 @@ export default function QuestionsManagementPage() {
     try {
       if (!userId) {
         setError(
-          'You must be logged in to save questions. Please log in and try again.'
+          'You must be signed in to save questions. Please sign in and try again.'
         );
         return;
       }
