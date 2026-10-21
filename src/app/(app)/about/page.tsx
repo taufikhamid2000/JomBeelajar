@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { jomIdSignupHref } from '@/lib/jom-id';
 
 export default function AboutPage() {
   const router = useRouter();
@@ -1445,12 +1446,12 @@ export default function AboutPage() {
             Join JomBeelajar today and make a difference in Malaysia's education
             ecosystem.
           </p>
-          <button
+          <a
+            href={jomIdSignupHref}
             className="inline-block uppercase tracking-wide rounded-full shadow-lg transition-all duration-300 ease-in-out px-8 py-4 bg-white text-blue-600 font-medium hover:bg-gray-100 hover:scale-105 transform"
-            onClick={() => router.push('/auth')}
           >
             Sign Up Now
-          </button>
+          </a>
         </div>
       </section>
     </>
