@@ -13,6 +13,7 @@ jest.mock('@/lib/myquiza', () => ({
 
 jest.mock('next/headers', () => ({
   cookies: jest.fn(async () => ({ get: () => undefined })),
+  headers: jest.fn(async () => new Headers({ host: 'app.test' })),
 }));
 
 const getSessionMock = jest.fn(async () => ({ data: { session: null } }));

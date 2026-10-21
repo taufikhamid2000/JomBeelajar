@@ -28,6 +28,6 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Lint
-        run: npx next lint
+        run: npx eslint .
       - name: Unit tests
         run: npx jest --config config/jest.config.mjs --ci
