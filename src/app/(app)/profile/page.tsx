@@ -31,10 +31,8 @@ function ProfileContent() {
   const [activeTab, setActiveTab] = useState<
     'stats' | 'achievements' | 'settings' | 'created-quizzes'
   >('stats');
-  const [isUpgrading, setIsUpgrading] = useState(false);
-
   // Start with guest data immediately for fast loading
-  const [displayUser, setDisplayUser] = useState<ExtendedUser>({
+  const [guestUser] = useState<ExtendedUser>(() => ({
     id: 'guest',
     email: '',
     display_name: 'Guest User',
@@ -47,7 +45,12 @@ function ProfileContent() {
     last_quiz_date: new Date().toISOString().split('T')[0],
     created_at: new Date().toISOString(),
     isGuest: true,
-  });
+  }));
+  // The real (non-guest) profile currently on screen; lags realUser by a
+  // short delay so the upgrade from guest data isn't jarring.
+  const [shownRealUser, setShownRealUser] = useState<ExtendedUser | null>(
+    null
+  );
 
   // Fetch real user profile with React Query (but don't block rendering)
   const {
@@ -65,26 +68,24 @@ function ProfileContent() {
   });
 
   // Progressive enhancement: upgrade from guest to real user data
+  const fetchedUser =
+    isFetched && realUser ? (realUser as ExtendedUser) : undefined;
+  // API returned guest user -> keep guest display (no delay); API returned a
+  // real user -> show it once the delay below has elapsed.
+  const isUpgrading =
+    !!fetchedUser && !fetchedUser.isGuest && shownRealUser !== fetchedUser;
+  const displayUser: ExtendedUser = fetchedUser?.isGuest
+    ? fetchedUser
+    : (shownRealUser ?? guestUser);
+
   useEffect(() => {
-    if (isFetched && realUser) {
-      if ((realUser as ExtendedUser).isGuest) {
-        // API returned guest user, keep guest display
-        setDisplayUser(realUser as ExtendedUser);
-        setIsUpgrading(false);
-      } else {
-        // API returned real user, upgrade the display
-        setIsUpgrading(true);
-
-        // Add a subtle delay to avoid jarring transitions
-        const timer = setTimeout(() => {
-          setDisplayUser(realUser as ExtendedUser);
-          setIsUpgrading(false);
-        }, 300);
-
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [isFetched, realUser]);
+    if (!fetchedUser || fetchedUser.isGuest) return;
+    // Add a subtle delay to avoid jarring transitions
+    const timer = setTimeout(() => {
+      setShownRealUser(fetchedUser);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [fetchedUser]);
 
   // Fetch user achievements with React Query
   const {

@@ -40,10 +40,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props): Promise<ReactNode> {
   logger.log('🚀 APP ROUTER - Page component called with params:', params);
 
+  let subject: string;
+  let topic: string;
   try {
     // Always await the params since they are always a Promise in Next.js 15.1.6
     logger.log('⏳ APP ROUTER - Awaiting params...');
-    const { subject, topic } = await params;
+    ({ subject, topic } = await params);
     logger.log(
       `✅ APP ROUTER - Params resolved: subject=${subject}, topic=${topic}`
     );
@@ -51,19 +53,6 @@ export default async function Page({ params }: Props): Promise<ReactNode> {
     // Log important information that might help diagnose the issue
     logger.log(`📊 APP ROUTER - Environment: ${process.env.NODE_ENV}`);
     logger.log(`📚 APP ROUTER - Route handler for: /quiz/${subject}/${topic}`);
-    if (!subject || !topic) {
-      logger.log('❌ APP ROUTER - Missing subject or topic, returning 404');
-      return notFound();
-    }
-
-    logger.log('🔄 APP ROUTER - Rendering ClientTopicPage component');
-    return (
-      <Suspense
-        fallback={<div className="p-8 text-center">Loading quiz data...</div>}
-      >
-        <ClientTopicPage subject={subject} topic={topic} />
-      </Suspense>
-    );
   } catch (error) {
     logger.error('💥 PAGE COMPONENT ERROR (APP ROUTER):', error);
     // Log full error details
@@ -76,4 +65,20 @@ export default async function Page({ params }: Props): Promise<ReactNode> {
     // Re-throw to see the error in production
     throw error;
   }
+
+  if (!subject || !topic) {
+    logger.log('❌ APP ROUTER - Missing subject or topic, returning 404');
+    return notFound();
+  }
+
+  // JSX is built outside the try/catch: rendering errors surface through the
+  // error boundary, not this catch block.
+  logger.log('🔄 APP ROUTER - Rendering ClientTopicPage component');
+  return (
+    <Suspense
+      fallback={<div className="p-8 text-center">Loading quiz data...</div>}
+    >
+      <ClientTopicPage subject={subject} topic={topic} />
+    </Suspense>
+  );
 }

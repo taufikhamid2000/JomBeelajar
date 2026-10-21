@@ -1,5 +1,5 @@
 import { Quiz } from '@/types/topics';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
 export interface QuizTableProps {
   quizzes: Quiz[];
@@ -37,17 +37,26 @@ export default function QuizTable({
   };
 
   // Reset to first page when search or filters change
-  useEffect(() => {
+  const updateSearchTerm = (value: string) => {
+    setSearchTerm(value);
     setCurrentPage(1);
-  }, [searchTerm, statusFilter]);
+  };
+  const updateStatusFilter = (value: StatusFilter) => {
+    if (value === statusFilter) return;
+    setStatusFilter(value);
+    setCurrentPage(1);
+  };
 
-  // Reset filters when initialQuizzes changes
-  useEffect(() => {
+  // Reset filters when initialQuizzes changes (adjusted during render rather
+  // than in an effect)
+  const [prevQuizzes, setPrevQuizzes] = useState(initialQuizzes);
+  if (initialQuizzes !== prevQuizzes) {
+    setPrevQuizzes(initialQuizzes);
     setSortDirection(null);
     setSearchTerm('');
     setStatusFilter('all');
     setCurrentPage(1);
-  }, [initialQuizzes]);
+  }
 
   // Default quiz link generator (for topic pages)
   const defaultGetQuizLink = (quiz: Quiz) => {
@@ -122,7 +131,7 @@ export default function QuizTable({
             type="text"
             placeholder="Search quiz name or creator..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => updateSearchTerm(e.target.value)}
             className="pl-10 pr-4 py-2 border rounded-md w-full max-w-xs bg-gray-800 dark:bg-white border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             aria-label="Search quizzes"
           />
@@ -157,7 +166,7 @@ export default function QuizTable({
             aria-labelledby="status-filter-label"
           >
             <button
-              onClick={() => setStatusFilter('all')}
+              onClick={() => updateStatusFilter('all')}
               className={`px-3 py-1 text-sm ${
                 statusFilter === 'all'
                   ? 'bg-blue-600 text-white'
@@ -168,7 +177,7 @@ export default function QuizTable({
               All
             </button>
             <button
-              onClick={() => setStatusFilter('verified')}
+              onClick={() => updateStatusFilter('verified')}
               className={`px-3 py-1 text-sm ${
                 statusFilter === 'verified'
                   ? 'bg-blue-600 text-white'
@@ -179,7 +188,7 @@ export default function QuizTable({
               Verified
             </button>
             <button
-              onClick={() => setStatusFilter('unverified')}
+              onClick={() => updateStatusFilter('unverified')}
               className={`px-3 py-1 text-sm ${
                 statusFilter === 'unverified'
                   ? 'bg-blue-600 text-white'

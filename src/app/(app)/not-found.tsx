@@ -3,19 +3,26 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { logger } from '@/lib/logger';
+
+const noopSubscribe = () => () => {};
 
 export default function NotFound() {
   const pathname = usePathname();
-  const [error, setError] = useState<string | null>(null);
-  const [from, setFrom] = useState<string | null>(null);
+  // URL params are read on the client only (empty during SSR/hydration) to
+  // avoid SSR issues.
+  const search = useSyncExternalStore(
+    noopSubscribe,
+    () => window.location.search,
+    () => ''
+  );
+  const searchParams = new URLSearchParams(search);
+  const error = searchParams.get('error');
+  const from = searchParams.get('from');
 
   useEffect(() => {
-    // Initialize URL params after component mounts (to avoid SSR issues)
     const params = new URLSearchParams(window.location.search);
-    setError(params.get('error'));
-    setFrom(params.get('from'));
 
     logger.debug(`404 Page not found: ${pathname}`, {
       error: params.get('error'),

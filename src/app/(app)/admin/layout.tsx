@@ -1,25 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
+import { useIsClient } from '@/hooks/useIsClient';
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [isMounted, setIsMounted] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const isMounted = useIsClient();
 
   // Initialize theme from localStorage and handle admin page access logging
   useEffect(() => {
-    setIsMounted(true);
-
     // Get theme from localStorage
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const initialTheme = savedTheme ?? 'dark';
-    setTheme(initialTheme);
 
     // Apply theme class to html element
     document.documentElement.classList.remove('light', 'dark');
@@ -41,14 +38,6 @@ export default function AdminLayout({
 
     logAdminAccess();
   }, []);
-
-  // Update theme when it changes
-  useEffect(() => {
-    if (isMounted) {
-      document.documentElement.classList.remove('light', 'dark');
-      document.documentElement.classList.add(theme);
-    }
-  }, [theme, isMounted]);
 
   if (!isMounted) {
     return null;

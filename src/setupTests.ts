@@ -18,7 +18,6 @@ export {
 // Extend the expect interface with the jest-dom matchers
 declare global {
   // We need to use namespace to properly augment Jest types
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace jest {
     interface Matchers<R> {
       toBeInTheDocument(): R;

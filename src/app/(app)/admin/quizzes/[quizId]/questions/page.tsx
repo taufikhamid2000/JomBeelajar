@@ -76,128 +76,125 @@ export default function AdminQuizQuestionsPage() {
   const [submittingComment, setSubmittingComment] = useState(false);
 
   useEffect(() => {
-    fetchQuizData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [quizId]);
-
-  async function fetchQuizData() {
-    try {
-      setLoading(true);
-
-      // Fetch quiz details
-      const { data: quizData, error: quizError } = await supabase
-        .from('quizzes')
-        .select(
-          `
-          *,          topics(
-            name,
-            chapters(
-              subjects(name)
+    async function fetchQuizData() {
+      try {
+        // Fetch quiz details
+        const { data: quizData, error: quizError } = await supabase
+          .from('quizzes')
+          .select(
+            `
+            *,          topics(
+              name,
+              chapters(
+                subjects(name)
+              )
             )
+          `
           )
-        `
-        )
-        .eq('id', quizId)
-        .single();
+          .eq('id', quizId)
+          .single();
 
-      if (quizError) throw quizError;
+        if (quizError) throw quizError;
 
-      if (!quizData) {
-        setError('Quiz not found');
-        return;
-      }
-
-      // Format quiz data
-      const formattedQuiz: QuizData = {
-        id: quizData.id,
-        title: quizData.name,
-        description: quizData.description,
-        subject_name: quizData.topics?.chapters?.subjects?.name,
-        topic_name: quizData.topics?.name,
-        difficulty: quizData.difficulty,
-        time_limit: quizData.time_limit,
-        passing_score: quizData.passing_score,
-        question_count: quizData.question_count || 0,
-        verified: quizData.verified || false,
-        created_at: quizData.created_at,
-      };
-
-      setQuiz(formattedQuiz);
-
-      // Fetch quiz questions and answers
-      const { data: questionsData, error: questionsError } = await supabase
-        .from('questions')
-        .select('*, answers(*)')
-        .eq('quiz_id', quizId)
-        .order('order_index', { ascending: true });
-
-      if (questionsError) throw questionsError;
-
-      if (questionsData && questionsData.length > 0) {
-        // Transform questions data to our format
-        const formattedQuestions: Question[] = questionsData.map((q) => ({
-          id: q.id,
-          text: q.text,
-          type: q.type as QuestionType,
-          order_index: q.order_index,
-          answers: q.answers
-            ? q.answers
-                .map(
-                  (a: {
-                    id: string;
-                    text: string;
-                    is_correct: boolean;
-                    order_index?: number;
-                  }) => ({
-                    id: a.id,
-                    text: a.text,
-                    isCorrect: a.is_correct,
-                    order_index: a.order_index,
-                  })
-                )
-                .sort(
-                  (a: QuestionAnswer, b: QuestionAnswer) =>
-                    (a.order_index || 0) - (b.order_index || 0)
-                )
-            : [],
-        }));
-
-        setQuestions(formattedQuestions);
-
-        // Fetch audit comments for all questions and answers
-        await fetchAuditComments(formattedQuestions);
-      }
-    } catch (error) {
-      logger.error('Error fetching quiz data:', error);
-      setError('Failed to load quiz data. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function fetchAuditComments(questions: Question[]) {
-    try {
-      const questionCommentsMap: Record<string, QuestionAuditComment[]> = {};
-      const answerCommentsMap: Record<string, AnswerAuditComment[]> = {};
-
-      // Fetch comments for all questions
-      for (const question of questions) {
-        const comments = await getQuestionAuditComments(question.id);
-        questionCommentsMap[question.id] = comments;
-
-        // Fetch comments for all answers in this question
-        for (const answer of question.answers) {
-          const answerComments = await getAnswerAuditComments(answer.id);
-          answerCommentsMap[answer.id] = answerComments;
+        if (!quizData) {
+          setError('Quiz not found');
+          return;
         }
-      }
 
-      setQuestionComments(questionCommentsMap);
-      setAnswerComments(answerCommentsMap);
-    } catch (error) {
-      logger.error('Error fetching audit comments:', error);
+        // Format quiz data
+        const formattedQuiz: QuizData = {
+          id: quizData.id,
+          title: quizData.name,
+          description: quizData.description,
+          subject_name: quizData.topics?.chapters?.subjects?.name,
+          topic_name: quizData.topics?.name,
+          difficulty: quizData.difficulty,
+          time_limit: quizData.time_limit,
+          passing_score: quizData.passing_score,
+          question_count: quizData.question_count || 0,
+          verified: quizData.verified || false,
+          created_at: quizData.created_at,
+        };
+
+        setQuiz(formattedQuiz);
+
+        // Fetch quiz questions and answers
+        const { data: questionsData, error: questionsError } = await supabase
+          .from('questions')
+          .select('*, answers(*)')
+          .eq('quiz_id', quizId)
+          .order('order_index', { ascending: true });
+
+        if (questionsError) throw questionsError;
+
+        if (questionsData && questionsData.length > 0) {
+          // Transform questions data to our format
+          const formattedQuestions: Question[] = questionsData.map((q) => ({
+            id: q.id,
+            text: q.text,
+            type: q.type as QuestionType,
+            order_index: q.order_index,
+            answers: q.answers
+              ? q.answers
+                  .map(
+                    (a: {
+                      id: string;
+                      text: string;
+                      is_correct: boolean;
+                      order_index?: number;
+                    }) => ({
+                      id: a.id,
+                      text: a.text,
+                      isCorrect: a.is_correct,
+                      order_index: a.order_index,
+                    })
+                  )
+                  .sort(
+                    (a: QuestionAnswer, b: QuestionAnswer) =>
+                      (a.order_index || 0) - (b.order_index || 0)
+                  )
+              : [],
+          }));
+
+          setQuestions(formattedQuestions);
+
+          // Fetch audit comments for all questions and answers
+          await fetchAuditComments(formattedQuestions);
+        }
+      } catch (error) {
+        logger.error('Error fetching quiz data:', error);
+        setError('Failed to load quiz data. Please try again.');
+      } finally {
+        setLoading(false);
+      }
     }
-  }
+
+    async function fetchAuditComments(questions: Question[]) {
+      try {
+        const questionCommentsMap: Record<string, QuestionAuditComment[]> = {};
+        const answerCommentsMap: Record<string, AnswerAuditComment[]> = {};
+
+        // Fetch comments for all questions
+        for (const question of questions) {
+          const comments = await getQuestionAuditComments(question.id);
+          questionCommentsMap[question.id] = comments;
+
+          // Fetch comments for all answers in this question
+          for (const answer of question.answers) {
+            const answerComments = await getAnswerAuditComments(answer.id);
+            answerCommentsMap[answer.id] = answerComments;
+          }
+        }
+
+        setQuestionComments(questionCommentsMap);
+        setAnswerComments(answerCommentsMap);
+      } catch (error) {
+        logger.error('Error fetching audit comments:', error);
+      }
+    }
+
+    fetchQuizData();
+  }, [quizId]);
 
   async function handleAddComment() {
     if (!showCommentForm || !commentText.trim()) return;

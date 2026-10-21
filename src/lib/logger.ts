@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Safe logging utility that handles logging differently between development and production environments.
  * - In development: Shows all logs for debugging

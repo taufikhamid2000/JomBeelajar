@@ -56,171 +56,169 @@ export default function AdminQuizStatsPage() {
   const [difficultyFilter, setDifficultyFilter] = useState<string>('all');
 
   useEffect(() => {
-    fetchStats();
-  }, []);
-
-  async function fetchStats() {
-    try {
-      setLoading(true);
-
-      // Fetch quizzes with related data
-      const { data: quizzesData, error: quizzesError } = await supabase.from(
-        'quizzes'
-      ).select(`
-          id, name, difficulty, question_count, time_limit,          topics(
-            name,
-            chapters(
-              subjects(name)
+    async function fetchStats() {
+      try {
+        // Fetch quizzes with related data
+        const { data: quizzesData, error: quizzesError } = await supabase.from(
+          'quizzes'
+        ).select(`
+            id, name, difficulty, question_count, time_limit,          topics(
+              name,
+              chapters(
+                subjects(name)
+              )
             )
-          )
-        `);
+          `);
 
-      if (quizzesError) throw quizzesError;
+        if (quizzesError) throw quizzesError;
 
-      // Fetch quiz attempts
-      const { data: attemptsData, error: attemptsError } = await supabase
-        .from('quiz_attempts')
-        .select('quiz_id, score, completed');
+        // Fetch quiz attempts
+        const { data: attemptsData, error: attemptsError } = await supabase
+          .from('quiz_attempts')
+          .select('quiz_id, score, completed');
 
-      if (attemptsError) throw attemptsError; // Process data for quiz statistics
-      const quizStatsMap: Record<string, QuizStats> = {};
+        if (attemptsError) throw attemptsError; // Process data for quiz statistics
+        const quizStatsMap: Record<string, QuizStats> = {};
 
-      // Initialize quiz stats
-      // Explicitly type the quiz objects
-      (
-        quizzesData as Array<{
-          id: string;
-          name: string; // quizzes table has 'name' column
-          difficulty: string;
-          question_count?: number;
-          time_limit?: number;
-          topics?: {
-            name?: string; // topics table has 'name' column
-            chapters?: {
-              subjects?: { name?: string } | null;
+        // Initialize quiz stats
+        // Explicitly type the quiz objects
+        (
+          quizzesData as Array<{
+            id: string;
+            name: string; // quizzes table has 'name' column
+            difficulty: string;
+            question_count?: number;
+            time_limit?: number;
+            topics?: {
+              name?: string; // topics table has 'name' column
+              chapters?: {
+                subjects?: { name?: string } | null;
+              } | null;
             } | null;
-          } | null;
-        }>
-      ).forEach((quiz) => {
-        quizStatsMap[quiz.id] = {
-          id: quiz.id,
-          title: quiz.name, // Use quiz.name instead of quiz.title
-          subject_name: quiz.topics?.chapters?.subjects?.name || 'Unknown',
-          topic_name: quiz.topics?.name || 'Unknown', // Use topics.name
-          difficulty: quiz.difficulty,
-          completion_rate: 0,
-          avg_score: 0,
-          attempts: 0,
-          question_count: quiz.question_count || 0,
-          time_limit: quiz.time_limit || 0,
-        };
-      }); // Calculate stats from attempts
-      // Explicitly type the attempt objects
-      (
-        attemptsData as Array<{
-          quiz_id: string;
-          score: number | null;
-          completed: boolean;
-        }>
-      ).forEach((attempt) => {
-        const quizId = attempt.quiz_id;
-        if (quizStatsMap[quizId]) {
-          const stats = quizStatsMap[quizId];
-          stats.attempts += 1;
+          }>
+        ).forEach((quiz) => {
+          quizStatsMap[quiz.id] = {
+            id: quiz.id,
+            title: quiz.name, // Use quiz.name instead of quiz.title
+            subject_name: quiz.topics?.chapters?.subjects?.name || 'Unknown',
+            topic_name: quiz.topics?.name || 'Unknown', // Use topics.name
+            difficulty: quiz.difficulty,
+            completion_rate: 0,
+            avg_score: 0,
+            attempts: 0,
+            question_count: quiz.question_count || 0,
+            time_limit: quiz.time_limit || 0,
+          };
+        }); // Calculate stats from attempts
+        // Explicitly type the attempt objects
+        (
+          attemptsData as Array<{
+            quiz_id: string;
+            score: number | null;
+            completed: boolean;
+          }>
+        ).forEach((attempt) => {
+          const quizId = attempt.quiz_id;
+          if (quizStatsMap[quizId]) {
+            const stats = quizStatsMap[quizId];
+            stats.attempts += 1;
 
-          if (attempt.completed) {
-            stats.completion_rate =
-              (stats.completion_rate * (stats.attempts - 1) + 100) /
+            if (attempt.completed) {
+              stats.completion_rate =
+                (stats.completion_rate * (stats.attempts - 1) + 100) /
+                stats.attempts;
+            }
+
+            stats.avg_score =
+              (stats.avg_score * (stats.attempts - 1) + (attempt.score || 0)) /
               stats.attempts;
           }
+        });
 
-          stats.avg_score =
-            (stats.avg_score * (stats.attempts - 1) + (attempt.score || 0)) /
-            stats.attempts;
-        }
-      });
+        const processedQuizStats = Object.values(quizStatsMap);
+        setQuizStats(processedQuizStats);
 
-      const processedQuizStats = Object.values(quizStatsMap);
-      setQuizStats(processedQuizStats);
+        // Process subject statistics
+        const subjectStatsMap: Record<string, SubjectStats> = {};
 
-      // Process subject statistics
-      const subjectStatsMap: Record<string, SubjectStats> = {};
+        processedQuizStats.forEach((quiz: QuizStats) => {
+          const subjectName = quiz.subject_name;
+          if (!subjectStatsMap[subjectName]) {
+            subjectStatsMap[subjectName] = {
+              id: subjectName,
+              name: subjectName,
+              quiz_count: 0,
+              avg_completion_rate: 0,
+              avg_score: 0,
+              total_attempts: 0,
+            };
+          }
 
-      processedQuizStats.forEach((quiz: QuizStats) => {
-        const subjectName = quiz.subject_name;
-        if (!subjectStatsMap[subjectName]) {
-          subjectStatsMap[subjectName] = {
-            id: subjectName,
-            name: subjectName,
-            quiz_count: 0,
-            avg_completion_rate: 0,
-            avg_score: 0,
-            total_attempts: 0,
-          };
-        }
+          const subject = subjectStatsMap[subjectName];
+          subject.quiz_count += 1;
+          subject.total_attempts += quiz.attempts;
 
-        const subject = subjectStatsMap[subjectName];
-        subject.quiz_count += 1;
-        subject.total_attempts += quiz.attempts;
+          if (quiz.attempts > 0) {
+            subject.avg_completion_rate =
+              (subject.avg_completion_rate * (subject.quiz_count - 1) +
+                quiz.completion_rate) /
+              subject.quiz_count;
+            subject.avg_score =
+              (subject.avg_score * (subject.quiz_count - 1) + quiz.avg_score) /
+              subject.quiz_count;
+          }
+        });
 
-        if (quiz.attempts > 0) {
-          subject.avg_completion_rate =
-            (subject.avg_completion_rate * (subject.quiz_count - 1) +
-              quiz.completion_rate) /
-            subject.quiz_count;
-          subject.avg_score =
-            (subject.avg_score * (subject.quiz_count - 1) + quiz.avg_score) /
-            subject.quiz_count;
-        }
-      });
+        const processedSubjectStats = Object.values(subjectStatsMap).sort(
+          (a, b) => b.total_attempts - a.total_attempts
+        );
+        setSubjectStats(processedSubjectStats);
 
-      const processedSubjectStats = Object.values(subjectStatsMap).sort(
-        (a, b) => b.total_attempts - a.total_attempts
-      );
-      setSubjectStats(processedSubjectStats);
-
-      // Calculate overall statistics
-      const totalQuizzes = processedQuizStats.length;
-      const totalQuestions = processedQuizStats.reduce(
-        (total, quiz) => total + quiz.question_count,
-        0
-      );
-      const totalAttempts = processedQuizStats.reduce(
-        (total, quiz) => total + quiz.attempts,
-        0
-      );
-
-      let overallAvgScore = 0;
-      let overallCompletionRate = 0;
-
-      if (totalAttempts > 0) {
-        const totalScores = processedQuizStats.reduce(
-          (total, quiz) => total + quiz.avg_score * quiz.attempts,
+        // Calculate overall statistics
+        const totalQuizzes = processedQuizStats.length;
+        const totalQuestions = processedQuizStats.reduce(
+          (total, quiz) => total + quiz.question_count,
           0
         );
-        overallAvgScore = totalScores / totalAttempts;
-
-        const totalCompletions = processedQuizStats.reduce(
-          (total, quiz) => total + (quiz.completion_rate * quiz.attempts) / 100,
+        const totalAttempts = processedQuizStats.reduce(
+          (total, quiz) => total + quiz.attempts,
           0
         );
-        overallCompletionRate = (totalCompletions / totalAttempts) * 100;
+
+        let overallAvgScore = 0;
+        let overallCompletionRate = 0;
+
+        if (totalAttempts > 0) {
+          const totalScores = processedQuizStats.reduce(
+            (total, quiz) => total + quiz.avg_score * quiz.attempts,
+            0
+          );
+          overallAvgScore = totalScores / totalAttempts;
+
+          const totalCompletions = processedQuizStats.reduce(
+            (total, quiz) => total + (quiz.completion_rate * quiz.attempts) / 100,
+            0
+          );
+          overallCompletionRate = (totalCompletions / totalAttempts) * 100;
+        }
+
+        setOverview({
+          total_quizzes: totalQuizzes,
+          total_questions: totalQuestions,
+          total_attempts: totalAttempts,
+          avg_score: overallAvgScore,
+          completion_rate: overallCompletionRate,
+        });
+      } catch (error) {
+        logger.error('Error fetching quiz statistics:', error);
+        setError('Failed to load quiz statistics. Please try again.');
+      } finally {
+        setLoading(false);
       }
-
-      setOverview({
-        total_quizzes: totalQuizzes,
-        total_questions: totalQuestions,
-        total_attempts: totalAttempts,
-        avg_score: overallAvgScore,
-        completion_rate: overallCompletionRate,
-      });
-    } catch (error) {
-      logger.error('Error fetching quiz statistics:', error);
-      setError('Failed to load quiz statistics. Please try again.');
-    } finally {
-      setLoading(false);
     }
-  }
+
+    fetchStats();
+  }, []);
 
   // Filter quizzes based on search and difficulty
   const filteredQuizStats = quizStats.filter((quiz) => {

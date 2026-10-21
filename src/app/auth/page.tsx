@@ -3,6 +3,7 @@
 import { useState, useEffect, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import { hardNavigate } from '@/lib/hard-navigate';
 import { AuthBrandingPanel } from '@/components/auth/auth-branding-panel';
 import { LogoMark } from '@/components/auth/logo-mark';
 import { PasswordInput } from '@/components/auth/password-input';
@@ -40,7 +41,7 @@ export default function Auth() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) window.location.assign('/dashboard');
+      if (data.session) hardNavigate(POST_LOGIN_PATH);
     });
   }, []);
 
@@ -70,14 +71,14 @@ export default function Auth() {
           setError('Check your email to confirm your account.');
           return;
         }
-        window.location.assign('/dashboard');
+        hardNavigate(POST_LOGIN_PATH);
       } else {
         const { error: err } = await supabase.auth.signInWithPassword({ email, password });
         if (err) {
           setError(err.message);
           return;
         }
-        window.location.assign('/dashboard');
+        hardNavigate(POST_LOGIN_PATH);
       }
     } catch {
       setError('Unable to connect to the API. Please contact the administrator.');
@@ -95,7 +96,7 @@ export default function Auth() {
         setError(err.message);
         return;
       }
-      window.location.assign('/dashboard');
+      hardNavigate(POST_LOGIN_PATH);
     } catch {
       setError('Unable to connect to the API. Please contact the administrator.');
     } finally {

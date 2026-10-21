@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Question } from '@/types/topics';
 import QuizQuestion from './QuizQuestion';
 import QuizProgress from './QuizProgress';
@@ -9,14 +9,39 @@ import { submitQuizAttempt } from '@/services/quizService';
 import { logger } from '@/lib/logger';
 import { supabase } from '@/lib/supabase';
 
-// Fisher-Yates shuffle algorithm
-function shuffleArray<T>(array: T[]): T[] {
+// Small seeded PRNG (mulberry32) so the shuffle is a pure function of its
+// seed: the random part (picking a seed) happens once on mount / on retake,
+// never during render.
+function seededRandom(seed: number): () => number {
+  let t = seed >>> 0;
+  return () => {
+    t = (t + 0x6d2b79f5) >>> 0;
+    let r = Math.imul(t ^ (t >>> 15), 1 | t);
+    r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function newShuffleSeed(): number {
+  return Math.floor(Math.random() * 4294967296);
+}
+
+// Fisher-Yates shuffle algorithm (deterministic for a given seed)
+function shuffleArray<T>(array: T[], seed: number): T[] {
+  const random = seededRandom(seed);
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;
+}
+
+// Questions that have everything needed to be played
+function getValidQuestions(questions: Question[]): Question[] {
+  return normalizeQuestions(questions).filter(
+    (q) => q.id && q.text && Array.isArray(q.answers) && q.answers.length > 0
+  );
 }
 
 // Define interfaces for flexible question & answer formats from different sources
@@ -123,7 +148,8 @@ export default function QuizPlayer({
     timeLimit ? timeLimit * 60 : 0
   );
   const [quizStarted, setQuizStarted] = useState(false);
-  const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([]);
+  // Seed for the question order; re-rolled on retake.
+  const [shuffleSeed, setShuffleSeed] = useState(newShuffleSeed);
   const [loadingTimeout, setLoadingTimeout] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showSignInGate, setShowSignInGate] = useState(false);
@@ -146,7 +172,20 @@ export default function QuizPlayer({
       subscription.unsubscribe();
     };
   }, []);
-  // Initialize shuffled questions when component mounts or questions change
+  // Shuffled questions, derived from the questions prop and the seed
+  const validQuestions = useMemo(() => getValidQuestions(questions), [questions]);
+  const shuffledQuestions = useMemo(() => {
+    if (validQuestions.length > 0) {
+      return shuffleArray(validQuestions, shuffleSeed);
+    }
+    // Force shuffle if we hit the loading timeout but have questions available
+    if (loadingTimeout && questions.length > 0) {
+      return shuffleArray(questions, shuffleSeed);
+    }
+    return [];
+  }, [validQuestions, questions, shuffleSeed, loadingTimeout]);
+
+  // Log question preparation when the questions prop changes
   useEffect(() => {
     logger.log('QuizPlayer: questions prop changed', {
       questionsLength: questions.length,
@@ -169,11 +208,6 @@ export default function QuizPlayer({
           : null,
     });
 
-    // Check if questions have the required fields
-    const validQuestions = normalizedQuestions.filter(
-      (q) => q.id && q.text && Array.isArray(q.answers) && q.answers.length > 0
-    );
-
     if (validQuestions.length !== normalizedQuestions.length) {
       logger.warn('QuizPlayer: Some questions are missing required fields', {
         totalQuestions: normalizedQuestions.length,
@@ -189,29 +223,16 @@ export default function QuizPlayer({
     }
 
     if (validQuestions.length > 0) {
-      const shuffled = shuffleArray(validQuestions);
-      logger.log('QuizPlayer: shuffling complete', {
-        shuffledLength: shuffled.length,
-        firstQuestion:
-          shuffled.length > 0
-            ? {
-                id: shuffled[0].id,
-                text: shuffled[0].text,
-                answerCount: shuffled[0].answers?.length || 0,
-              }
-            : null,
-      });
-
-      setShuffledQuestions(shuffled);
       // Log the randomization for verification
       logger.log('Quiz questions shuffled:', {
         originalOrder: validQuestions.map((q) => q.id.slice(-8)),
-        shuffledOrder: shuffled.map((q) => q.id.slice(-8)),
+        shuffledOrder: shuffledQuestions.map((q) => q.id.slice(-8)),
       });
     } else {
       logger.warn('QuizPlayer: No valid questions available to shuffle');
     }
   }, [questions]);
+
   // Function to reset quiz state for retaking
   const resetQuiz = () => {
     setCurrentQuestionIndex(0);
@@ -221,35 +242,14 @@ export default function QuizPlayer({
     setQuestionResults(undefined);
     setTimeRemaining(timeLimit ? timeLimit * 60 : 0);
     setQuizStarted(false);
-    // Normalize and re-shuffle questions for a fresh experience on retake
-    const normalizedQuestions = normalizeQuestions(questions);
-    const validQuestions = normalizedQuestions.filter(
-      (q) => q.id && q.text && Array.isArray(q.answers) && q.answers.length > 0
-    );
-    const reshuffled = shuffleArray(validQuestions);
-    setShuffledQuestions(reshuffled);
+    // Re-shuffle questions for a fresh experience on retake
+    const seed = newShuffleSeed();
+    setShuffleSeed(seed);
+    const reshuffled = shuffleArray(validQuestions, seed);
     logger.log('Quiz questions re-shuffled on retake:', {
       newOrder: reshuffled.map((q) => q.id.slice(-8)),
     });
   };
-
-  // Start quiz timer when quiz is started
-  useEffect(() => {
-    if (!quizStarted || !timeLimit || quizCompleted) return;
-
-    const timer = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          handleQuizSubmit();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [quizStarted, timeLimit, quizCompleted]);
 
   // Add timeout detection for the loading state
   useEffect(() => {
@@ -267,23 +267,6 @@ export default function QuizPlayer({
       if (timeoutId) clearTimeout(timeoutId);
     };
   }, [shuffledQuestions.length, questions.length]);
-
-  // Force shuffle if we hit the timeout but have questions available
-  useEffect(() => {
-    if (
-      loadingTimeout &&
-      questions.length > 0 &&
-      shuffledQuestions.length === 0
-    ) {
-      logger.log('QuizPlayer: Forcing shuffle after timeout');
-      try {
-        const forceShuffle = [...questions].sort(() => Math.random() - 0.5);
-        setShuffledQuestions(forceShuffle);
-      } catch (err) {
-        logger.error('QuizPlayer: Force shuffle error', err);
-      }
-    }
-  }, [loadingTimeout, questions, shuffledQuestions.length]);
 
   const handleStartQuiz = () => {
     setQuizStarted(true);
@@ -343,6 +326,33 @@ export default function QuizPlayer({
       setQuizCompleted(true);
     }
   };
+
+  // Latest remaining time / submit handler for the timer below, so starting
+  // the timer resumes from the current time and the auto-submit on time-up
+  // uses the latest answers. (Next's bundled React has no useEffectEvent.)
+  const timeRemainingRef = useRef(timeRemaining);
+  const handleQuizSubmitRef = useRef(handleQuizSubmit);
+  useEffect(() => {
+    timeRemainingRef.current = timeRemaining;
+    handleQuizSubmitRef.current = handleQuizSubmit;
+  });
+
+  // Start quiz timer when quiz is started
+  useEffect(() => {
+    if (!quizStarted || !timeLimit || quizCompleted) return;
+
+    let remaining = timeRemainingRef.current;
+    const timer = setInterval(() => {
+      remaining = remaining <= 1 ? 0 : remaining - 1;
+      setTimeRemaining(remaining);
+      if (remaining === 0) {
+        clearInterval(timer);
+        handleQuizSubmitRef.current();
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [quizStarted, timeLimit, quizCompleted]);
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -498,10 +508,8 @@ export default function QuizPlayer({
                   onClick={() => {
                     if (questions.length > 0) {
                       // Try forcing a shuffle again
-                      const forceShuffle = [...questions].sort(
-                        () => Math.random() - 0.5
-                      );
-                      setShuffledQuestions(forceShuffle);
+                      setLoadingTimeout(true);
+                      setShuffleSeed(newShuffleSeed());
                     } else {
                       // If no questions, refresh the page
                       window.location.reload();

@@ -2,7 +2,7 @@
 // Import dynamic config to optimize build
 import './config';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
@@ -48,95 +48,92 @@ export default function AdminQuizPreviewPage() {
   const [selectedAnswers, setSelectedAnswers] = useState<
     Record<string, string[]>
   >({});
-  const fetchQuizData = useCallback(async () => {
-    try {
-      setLoading(true);
-
-      // Fetch quiz details
-      const { data: quizData, error: quizError } = await supabase
-        .from('quizzes')
-        .select(
-          `
-          *,          topics(
-            name,
-            chapters(
-              subjects(name)
-            )
-          )
-        `
-        )
-        .eq('id', quizId)
-        .single();
-
-      if (quizError) throw quizError;
-
-      if (!quizData) {
-        setError('Quiz not found');
-        return;
-      } // Format quiz data
-      const formattedQuiz: QuizData = {
-        id: quizData.id,
-        title: quizData.name, // quizzes table has 'name' column
-        description: quizData.description,
-        subject_name: quizData.topics?.chapters?.subjects?.name,
-        topic_name: quizData.topics?.name, // topics table has 'name' column
-        difficulty: quizData.difficulty,
-        time_limit: quizData.time_limit,
-        passing_score: quizData.passing_score,
-        question_count: quizData.question_count || 0,
-      };
-
-      setQuiz(formattedQuiz);
-
-      // Fetch quiz questions and answers
-      const { data: questionsData, error: questionsError } = await supabase
-        .from('questions')
-        .select('*, answers(*)')
-        .eq('quiz_id', quizId)
-        .order('order_index', { ascending: true });
-
-      if (questionsError) throw questionsError;
-
-      if (questionsData && questionsData.length > 0) {
-        // Transform questions data to our format
-        const formattedQuestions: Question[] = questionsData.map((q) => ({
-          id: q.id,
-          text: q.text,
-          type: q.type,
-          answers: q.answers
-            ? q.answers
-                .map(
-                  (a: {
-                    id: string;
-                    text: string;
-                    is_correct: boolean;
-                    order_index?: number;
-                  }) => ({
-                    id: a.id,
-                    text: a.text,
-                    isCorrect: a.is_correct,
-                  })
-                )
-                .sort(
-                  (a: QuestionAnswer, b: QuestionAnswer) =>
-                    (a.order_index || 0) - (b.order_index || 0)
-                )
-            : [],
-        }));
-
-        setQuestions(formattedQuestions);
-      }
-    } catch (error) {
-      logger.error('Error fetching quiz data:', error);
-      setError('Failed to load quiz data. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  }, [quizId]);
-
   useEffect(() => {
+    const fetchQuizData = async () => {
+      try {
+        // Fetch quiz details
+        const { data: quizData, error: quizError } = await supabase
+          .from('quizzes')
+          .select(
+            `
+            *,          topics(
+              name,
+              chapters(
+                subjects(name)
+              )
+            )
+          `
+          )
+          .eq('id', quizId)
+          .single();
+
+        if (quizError) throw quizError;
+
+        if (!quizData) {
+          setError('Quiz not found');
+          return;
+        } // Format quiz data
+        const formattedQuiz: QuizData = {
+          id: quizData.id,
+          title: quizData.name, // quizzes table has 'name' column
+          description: quizData.description,
+          subject_name: quizData.topics?.chapters?.subjects?.name,
+          topic_name: quizData.topics?.name, // topics table has 'name' column
+          difficulty: quizData.difficulty,
+          time_limit: quizData.time_limit,
+          passing_score: quizData.passing_score,
+          question_count: quizData.question_count || 0,
+        };
+
+        setQuiz(formattedQuiz);
+
+        // Fetch quiz questions and answers
+        const { data: questionsData, error: questionsError } = await supabase
+          .from('questions')
+          .select('*, answers(*)')
+          .eq('quiz_id', quizId)
+          .order('order_index', { ascending: true });
+
+        if (questionsError) throw questionsError;
+
+        if (questionsData && questionsData.length > 0) {
+          // Transform questions data to our format
+          const formattedQuestions: Question[] = questionsData.map((q) => ({
+            id: q.id,
+            text: q.text,
+            type: q.type,
+            answers: q.answers
+              ? q.answers
+                  .map(
+                    (a: {
+                      id: string;
+                      text: string;
+                      is_correct: boolean;
+                      order_index?: number;
+                    }) => ({
+                      id: a.id,
+                      text: a.text,
+                      isCorrect: a.is_correct,
+                    })
+                  )
+                  .sort(
+                    (a: QuestionAnswer, b: QuestionAnswer) =>
+                      (a.order_index || 0) - (b.order_index || 0)
+                  )
+              : [],
+          }));
+
+          setQuestions(formattedQuestions);
+        }
+      } catch (error) {
+        logger.error('Error fetching quiz data:', error);
+        setError('Failed to load quiz data. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchQuizData();
-  }, [fetchQuizData]);
+  }, [quizId]);
 
   function handleAnswerSelect(questionId: string, answerId: string) {
     const question = questions.find((q) => q.id === questionId);

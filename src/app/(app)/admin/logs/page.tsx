@@ -2,7 +2,7 @@
 // Import dynamic config to optimize build
 import './config';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 import AdminNavigation from '@/components/admin/AdminNavigation';
@@ -26,44 +26,54 @@ export default function AdminLogsPage() {
   const [days, setDays] = useState(7);
   const [source, setSource] = useState('all');
 
-  const fetchLogs = useCallback(async () => {
-    try {
-      setLoading(true); // Calculate the date range for the query
-      const startDate = new Date();
-      startDate.setDate(startDate.getDate() - days);
-
-      // Build the query
-      let query = supabase
-        .from('system_logs')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .gte('created_at', startDate.toISOString());
-
-      if (logLevel !== 'all') {
-        query = query.eq('level', logLevel);
-      }
-
-      if (source !== 'all') {
-        query = query.eq('source', source);
-      }
-
-      // Execute the query
-      const { data, error } = await query;
-
-      if (error) {
-        throw error;
-      }
-      setLogs(data || []);
-    } catch (error) {
-      logger.error('Error fetching logs:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [days, logLevel, source]);
+  // Bumped by the Refresh button to re-run the fetch effect.
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
+    const fetchLogs = async () => {
+      try {
+        // Calculate the date range for the query
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - days);
+
+        // Build the query
+        let query = supabase
+          .from('system_logs')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .gte('created_at', startDate.toISOString());
+
+        if (logLevel !== 'all') {
+          query = query.eq('level', logLevel);
+        }
+
+        if (source !== 'all') {
+          query = query.eq('source', source);
+        }
+
+        // Execute the query
+        const { data, error } = await query;
+
+        if (error) {
+          throw error;
+        }
+        setLogs(data || []);
+      } catch (error) {
+        logger.error('Error fetching logs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchLogs();
-  }, [fetchLogs]);
+  }, [days, logLevel, source, reloadKey]);
+
+  // Filter changes and Refresh re-run the effect above; the loading flag is
+  // set here in the handlers so the effect only sets state asynchronously.
+  const refreshLogs = () => {
+    setLoading(true);
+    setReloadKey((k) => k + 1);
+  };
+
   // Function to get the appropriate color based on log level
   function getLevelColor(level: string): string {
     switch (level) {
@@ -90,7 +100,8 @@ export default function AdminLogsPage() {
               {' '}
               <select
                 value={logLevel}
-                onChange={(e) =>
+                onChange={(e) => {
+                  setLoading(true);
                   setLogLevel(
                     e.target.value as
                       | 'all'
@@ -98,8 +109,8 @@ export default function AdminLogsPage() {
                       | 'warn'
                       | 'info'
                       | 'debug'
-                  )
-                }
+                  );
+                }}
                 className="bg-white dark:bg-gray-700 border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-900 dark:text-gray-100 sm:text-sm"
               >
                 <option value="all">All Levels</option>
@@ -110,7 +121,10 @@ export default function AdminLogsPage() {
               </select>
               <select
                 value={days}
-                onChange={(e) => setDays(Number(e.target.value))}
+                onChange={(e) => {
+                  setLoading(true);
+                  setDays(Number(e.target.value));
+                }}
                 className="bg-white dark:bg-gray-700 border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-900 dark:text-gray-100 sm:text-sm"
               >
                 <option value={1}>Last 24 hours</option>
@@ -120,7 +134,10 @@ export default function AdminLogsPage() {
               </select>
               <select
                 value={source}
-                onChange={(e) => setSource(e.target.value)}
+                onChange={(e) => {
+                  setLoading(true);
+                  setSource(e.target.value);
+                }}
                 className="bg-white dark:bg-gray-700 border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-900 dark:text-gray-100 sm:text-sm"
               >
                 <option value="all">All Sources</option>
@@ -130,7 +147,7 @@ export default function AdminLogsPage() {
                 <option value="auth">Authentication</option>
               </select>
               <button
-                onClick={fetchLogs}
+                onClick={refreshLogs}
                 disabled={loading}
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 dark:hover:bg-blue-800 disabled:bg-blue-300 dark:disabled:bg-blue-700"
               >

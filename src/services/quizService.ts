@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 import { checkAdminAccess } from './adminAuthService';

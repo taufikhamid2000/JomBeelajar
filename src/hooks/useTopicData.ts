@@ -5,8 +5,15 @@ import { logger } from '@/lib/logger';
 import { Subject, Topic, Chapter, Quiz } from '@/types/topics';
 
 export function useTopicData(subject: string, topic: string) {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loadingState, setLoading] = useState(true);
+  const [errorState, setError] = useState<string | null>(null);
+  // Missing params mean there's nothing to fetch: derive the error rather
+  // than setting it from the effect.
+  const hasParams = Boolean(subject && topic);
+  const loading = hasParams ? loadingState : false;
+  const error = hasParams
+    ? errorState
+    : 'Missing subject or topic parameters';
   const [subjectData, setSubjectData] = useState<Subject | null>(null);
   const [topicData, setTopicData] = useState<Topic | null>(null);
   const [chapterData, setChapterData] = useState<Chapter | null>(null);
@@ -15,11 +22,7 @@ export function useTopicData(subject: string, topic: string) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (!subject || !topic) {
-      setError('Missing subject or topic parameters');
-      setLoading(false);
-      return;
-    }
+    if (!subject || !topic) return;
     (async () => {
       try {
         logger.log(`Fetching topic data via API for topic: ${topic}`);

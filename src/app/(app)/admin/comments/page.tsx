@@ -26,58 +26,64 @@ export default function CommentsAdminPage() {
   const [filter, setFilter] = useState<CommentSource | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const loadComments = async () => {
+  // Bumped by the retry button to re-run the load effect below.
+  const [reloadKey, setReloadKey] = useState(0);
+
+  const reloadComments = () => {
     setIsLoading(true);
     setError(null);
-    try {
-      // Load pathway comments
-      const pathwayComments = await PathwayCommentService.getAllComments();
-      const transformedPathwayComments = pathwayComments.map((comment) => ({
-        id: comment.id,
-        comment: comment.comment,
-        authorName: comment.authorName,
-        createdAt: comment.createdAt,
-        source: 'pathway' as CommentSource,
-        sourceId: comment.pathwayId,
-        userId: comment.userId,
-        isAnonymous: comment.isAnonymous,
-      }));
-
-      // Load career comments
-      const careerComments = await CareerCommentService.getAllComments();
-      const transformedCareerComments = careerComments.map((comment) => ({
-        id: comment.id,
-        comment: comment.comment,
-        authorName: comment.authorName,
-        createdAt: comment.createdAt,
-        source: 'career' as CommentSource,
-        sourceId: comment.careerId,
-        userId: comment.userId,
-        isAnonymous: comment.isAnonymous,
-      }));
-
-      // Combine and sort by date (newest first)
-      const allComments = [
-        ...transformedPathwayComments,
-        ...transformedCareerComments,
-      ].sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-
-      setComments(allComments);
-    } catch (err) {
-      logger.error('Failed to load comments:', err);
-      setError('Failed to load comments. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+    setReloadKey((k) => k + 1);
   };
 
-  // Load comments on initial render
+  // Load comments on initial render (and on retry)
   useEffect(() => {
+    const loadComments = async () => {
+      try {
+        // Load pathway comments
+        const pathwayComments = await PathwayCommentService.getAllComments();
+        const transformedPathwayComments = pathwayComments.map((comment) => ({
+          id: comment.id,
+          comment: comment.comment,
+          authorName: comment.authorName,
+          createdAt: comment.createdAt,
+          source: 'pathway' as CommentSource,
+          sourceId: comment.pathwayId,
+          userId: comment.userId,
+          isAnonymous: comment.isAnonymous,
+        }));
+
+        // Load career comments
+        const careerComments = await CareerCommentService.getAllComments();
+        const transformedCareerComments = careerComments.map((comment) => ({
+          id: comment.id,
+          comment: comment.comment,
+          authorName: comment.authorName,
+          createdAt: comment.createdAt,
+          source: 'career' as CommentSource,
+          sourceId: comment.careerId,
+          userId: comment.userId,
+          isAnonymous: comment.isAnonymous,
+        }));
+
+        // Combine and sort by date (newest first)
+        const allComments = [
+          ...transformedPathwayComments,
+          ...transformedCareerComments,
+        ].sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+
+        setComments(allComments);
+      } catch (err) {
+        logger.error('Failed to load comments:', err);
+        setError('Failed to load comments. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
     loadComments();
-  }, []);
+  }, [reloadKey]);
 
   // Filter comments
   const filteredComments = comments.filter((comment) => {
@@ -134,7 +140,7 @@ export default function CommentsAdminPage() {
         </h1>
 
         <button
-          onClick={loadComments}
+          onClick={reloadComments}
           className="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           <RefreshCw className="mr-2" size={16} /> Refresh

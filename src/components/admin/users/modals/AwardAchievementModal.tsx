@@ -45,9 +45,16 @@ export default function AwardAchievementModal({
 
   const [submitting, setSubmitting] = useState(false);
 
+  // Reset the loading flag whenever the modal opens (adjusting state during
+  // render rather than in the fetch effect).
+  const [wasOpen, setWasOpen] = useState(isOpen);
+  if (isOpen !== wasOpen) {
+    setWasOpen(isOpen);
+    if (isOpen) setLoadingCatalog(true);
+  }
+
   useEffect(() => {
     if (!isOpen) return;
-    setLoadingCatalog(true);
     fetch('/api/achievements')
       .then((r) => r.json())
       .then((data) => {

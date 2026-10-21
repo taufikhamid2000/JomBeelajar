@@ -29,33 +29,45 @@ export default function AdminAnalyticsPage() {
   });
 
   useEffect(() => {
+    let cancelled = false;
+    async function fetchAnalytics() {
+      try {
+        // In a real application, you would fetch this data from your database
+        // This is a placeholder implementation
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Mock data for now
+        if (cancelled) return;
+        setAnalyticsData({
+          dailyActiveUsers: Math.floor(Math.random() * 100) + 50,
+          totalQuizAttempts: Math.floor(Math.random() * 500) + 200,
+          averageQuizScore: Math.floor(Math.random() * 30) + 70, // 70-100%
+          completionRate: Math.floor(Math.random() * 30) + 0, // 65-95%
+          subjectActivity: [
+            { name: 'Mathematics', percentage: 87 },
+            { name: 'Science', percentage: 75 },
+            { name: 'History', percentage: 62 },
+            { name: 'English', percentage: 58 },
+          ],
+        });
+      } catch (error) {
+        logger.error('Error fetching analytics:', error);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
     fetchAnalytics();
+    return () => {
+      cancelled = true;
+    };
   }, [timeFrame]);
 
-  async function fetchAnalytics() {
+  // Loading is flipped on here (not in the effect) so the fetch effect only
+  // ever sets state asynchronously.
+  function selectTimeFrame(next: typeof timeFrame) {
+    if (next === timeFrame) return;
     setLoading(true);
-    try {
-      // In a real application, you would fetch this data from your database
-      // This is a placeholder implementation
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Mock data for now
-      setAnalyticsData({
-        dailyActiveUsers: Math.floor(Math.random() * 100) + 50,
-        totalQuizAttempts: Math.floor(Math.random() * 500) + 200,
-        averageQuizScore: Math.floor(Math.random() * 30) + 70, // 70-100%
-        completionRate: Math.floor(Math.random() * 30) + 0, // 65-95%
-        subjectActivity: [
-          { name: 'Mathematics', percentage: 87 },
-          { name: 'Science', percentage: 75 },
-          { name: 'History', percentage: 62 },
-          { name: 'English', percentage: 58 },
-        ],
-      });
-    } catch (error) {
-      logger.error('Error fetching analytics:', error);
-    } finally {
-      setLoading(false);
-    }
+    setTimeFrame(next);
   }
+
   return (
     <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
       <div className="flex">
@@ -66,7 +78,7 @@ export default function AdminAnalyticsPage() {
             <div className="flex space-x-2">
               {' '}
               <button
-                onClick={() => setTimeFrame('day')}
+                onClick={() => selectTimeFrame('day')}
                 className={`px-4 py-2 rounded ${
                   timeFrame === 'day'
                     ? 'bg-blue-600 dark:bg-blue-700 text-white'
@@ -76,7 +88,7 @@ export default function AdminAnalyticsPage() {
                 Day
               </button>
               <button
-                onClick={() => setTimeFrame('week')}
+                onClick={() => selectTimeFrame('week')}
                 className={`px-4 py-2 rounded ${
                   timeFrame === 'week'
                     ? 'bg-blue-600 dark:bg-blue-700 text-white'
@@ -86,7 +98,7 @@ export default function AdminAnalyticsPage() {
                 Week
               </button>{' '}
               <button
-                onClick={() => setTimeFrame('month')}
+                onClick={() => selectTimeFrame('month')}
                 className={`px-4 py-2 rounded ${
                   timeFrame === 'month'
                     ? 'bg-blue-600 dark:bg-blue-700 text-white'
@@ -96,7 +108,7 @@ export default function AdminAnalyticsPage() {
                 Month
               </button>
               <button
-                onClick={() => setTimeFrame('year')}
+                onClick={() => selectTimeFrame('year')}
                 className={`px-4 py-2 rounded ${
                   timeFrame === 'year'
                     ? 'bg-blue-600 dark:bg-blue-700 text-white'

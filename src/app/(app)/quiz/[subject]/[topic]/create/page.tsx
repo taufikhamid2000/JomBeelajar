@@ -42,8 +42,14 @@ export default function CreateQuizPage() {
   const subject = (params?.subject as string) || '';
   const topic = (params?.topic as string) || '';
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [isLoadingTopic, setIsLoading] = useState(true);
+  const [stateError, setError] = useState<string | null>(null);
+  // No topic in the URL means there's nothing to load: show the error
+  // straight away instead of setting it from the effect.
+  const isLoading = topic ? isLoadingTopic : false;
+  const error = topic
+    ? stateError
+    : 'Unable to connect to the API. Please contact the administrator.';
   const [subjectData, setSubjectData] = useState<SubjectData | null>(null);
   const [topicData, setTopicData] = useState<TopicData | null>(null);
   const [chapterData, setChapterData] = useState<ChapterData | null>(null);
@@ -61,11 +67,7 @@ export default function CreateQuizPage() {
   });
 
   useEffect(() => {
-    if (!topic) {
-      setError('Unable to connect to the API. Please contact the administrator.');
-      setIsLoading(false);
-      return;
-    }
+    if (!topic) return;
 
     let cancelled = false;
     const timeout = setTimeout(() => {

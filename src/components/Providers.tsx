@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { initConsoleOverride } from '@/lib/console-override';
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
+import { hardNavigate } from '@/lib/hard-navigate';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -91,7 +92,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         if (
           protectedPrefixes.some((p) => window.location.pathname.startsWith(p))
         ) {
-          window.location.assign('/auth');
+          hardNavigate('/auth');
         }
       } else if (event === 'USER_UPDATED') {
         logger.info('User data updated');

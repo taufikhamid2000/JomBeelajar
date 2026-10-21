@@ -26,7 +26,7 @@ export default function NewQuizPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [subjectId, setSubjectId] = useState('');
-  const [topicId, setTopicId] = useState('');
+  const [selectedTopicId, setTopicId] = useState('');
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>(
     'medium'
   );
@@ -35,63 +35,53 @@ export default function NewQuizPage() {
 
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [topics, setTopics] = useState<Topic[]>([]);
-  const [filteredTopics, setFilteredTopics] = useState<Topic[]>([]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
+    async function fetchSubjectsAndTopics() {
+      try {
+        // Fetch subjects
+        const { data: subjectsData, error: subjectsError } = await supabase
+          .from('subjects')
+          .select('id, name')
+          .order('name', { ascending: true });
+
+        if (subjectsError) throw subjectsError;
+        setSubjects(subjectsData || []);
+
+        // Fetch topics
+        const { data: topicsData, error: topicsError } = await supabase
+          .from('topics')
+          .select('id, name, subject_id')
+          .order('name', { ascending: true });
+
+        if (topicsError) throw topicsError;
+        setTopics(topicsData || []);
+      } catch (error) {
+        logger.error('Error fetching subjects and topics:', error);
+        setError(
+          'Failed to load subjects and topics. Please refresh and try again.'
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+
     fetchSubjectsAndTopics();
   }, []);
 
-  useEffect(() => {
-    // Filter topics based on selected subject
-    if (subjectId) {
-      const filtered = topics.filter((topic) => topic.subject_id === subjectId);
-      setFilteredTopics(filtered);
-
-      // Reset topic selection if current selection is not valid for the new subject
-      if (!filtered.some((topic) => topic.id === topicId)) {
-        setTopicId('');
-      }
-    } else {
-      setFilteredTopics([]);
-      setTopicId('');
-    }
-  }, [subjectId, topics, topicId]);
-
-  async function fetchSubjectsAndTopics() {
-    try {
-      setLoading(true);
-
-      // Fetch subjects
-      const { data: subjectsData, error: subjectsError } = await supabase
-        .from('subjects')
-        .select('id, name')
-        .order('name', { ascending: true });
-
-      if (subjectsError) throw subjectsError;
-      setSubjects(subjectsData || []);
-
-      // Fetch topics
-      const { data: topicsData, error: topicsError } = await supabase
-        .from('topics')
-        .select('id, name, subject_id')
-        .order('name', { ascending: true });
-
-      if (topicsError) throw topicsError;
-      setTopics(topicsData || []);
-    } catch (error) {
-      logger.error('Error fetching subjects and topics:', error);
-      setError(
-        'Failed to load subjects and topics. Please refresh and try again.'
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
+  // Topics for the selected subject, and the selected topic only while it
+  // still belongs to that subject (derived instead of reset in an effect).
+  const filteredTopics = subjectId
+    ? topics.filter((topic) => topic.subject_id === subjectId)
+    : [];
+  const topicId = filteredTopics.some((topic) => topic.id === selectedTopicId)
+    ? selectedTopicId
+    : '';
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -227,7 +217,20 @@ export default function NewQuizPage() {
                   <select
                     id="subject"
                     value={subjectId}
-                    onChange={(e) => setSubjectId(e.target.value)}
+                    onChange={(e) => {
+                      const nextSubjectId = e.target.value;
+                      setSubjectId(nextSubjectId);
+                      // Reset topic selection if it's not valid for the new subject
+                      if (
+                        !topics.some(
+                          (topic) =>
+                            topic.id === topicId &&
+                            topic.subject_id === nextSubjectId
+                        )
+                      ) {
+                        setTopicId('');
+                      }
+                    }}
                     className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-white dark:text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   >
                     <option value="">Select a subject</option>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { User } from '@/types/users';
 
@@ -7,6 +7,10 @@ interface ProfileHeaderProps {
 }
 
 export default function ProfileHeader({ user }: ProfileHeaderProps) {
+  // Fallback "member since" date when the profile has no created_at; read
+  // once on mount rather than on every render.
+  const [now] = useState(() => Date.now());
+
   // Helper function to validate image URLs
   const isValidImageUrl = (url: string | undefined): boolean => {
     if (!url) return false;
@@ -58,7 +62,7 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
               {user.display_name || 'Anonymous User'}
             </h1>
             <p className="text-sm text-gray-400 dark:text-gray-500">
-              Member since {formatDate(new Date(user.created_at || Date.now()))}
+              Member since {formatDate(new Date(user.created_at || now))}
             </p>
           </div>
           <div className="mt-4 sm:mt-0 sm:ml-auto flex space-x-3">

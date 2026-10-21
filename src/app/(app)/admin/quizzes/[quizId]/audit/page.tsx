@@ -2,7 +2,7 @@
 // Import dynamic config to optimize build
 import './config';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 import AdminNavigation from '@/components/admin/AdminNavigation';
@@ -62,54 +62,55 @@ export default function QuizAuditPage() {
     'verify' | 'unverify'
   >('verify');
 
-  const fetchQuizData = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(''); // Fetch quiz with related data
-      const { data: quizData, error: quizError } = await supabase
-        .from('quizzes')
-        .select(
-          `
-          *,
-          topics!inner(
-            name,
-            chapters!inner(
-              subjects!inner(name)
-            )
-          )
-        `
-        )
-        .eq('id', quizId)
-        .single();
-
-      if (quizError) throw quizError;
-      if (!quizData) throw new Error('Quiz not found');
-
-      // Transform the nested data to match our Quiz interface
-      const transformedQuiz = {
-        ...quizData,
-        topic: { name: quizData.topics?.name },
-        subject: { name: quizData.topics?.chapters?.subjects?.name },
-      };
-
-      setQuiz(transformedQuiz);
-
-      // Fetch audit comments
-      const comments = await getQuizAuditComments(quizId);
-      setAuditComments(comments); // Fetch verification log
-      const logs = await getQuizVerificationHistory(quizId);
-      setVerificationLog(logs);
-    } catch (error) {
-      logger.error('Error fetching quiz data:', error);
-      setError('Failed to load quiz data. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  }, [quizId]);
+  // Bumped after a verification change to re-run the fetch effect.
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
+    const fetchQuizData = async () => {
+      try {
+        // Fetch quiz with related data
+        const { data: quizData, error: quizError } = await supabase
+          .from('quizzes')
+          .select(
+            `
+            *,
+            topics!inner(
+              name,
+              chapters!inner(
+                subjects!inner(name)
+              )
+            )
+          `
+          )
+          .eq('id', quizId)
+          .single();
+
+        if (quizError) throw quizError;
+        if (!quizData) throw new Error('Quiz not found');
+
+        // Transform the nested data to match our Quiz interface
+        const transformedQuiz = {
+          ...quizData,
+          topic: { name: quizData.topics?.name },
+          subject: { name: quizData.topics?.chapters?.subjects?.name },
+        };
+
+        setQuiz(transformedQuiz);
+
+        // Fetch audit comments
+        const comments = await getQuizAuditComments(quizId);
+        setAuditComments(comments); // Fetch verification log
+        const logs = await getQuizVerificationHistory(quizId);
+        setVerificationLog(logs);
+      } catch (error) {
+        logger.error('Error fetching quiz data:', error);
+        setError('Failed to load quiz data. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchQuizData();
-  }, [fetchQuizData]);
+  }, [quizId, reloadKey]);
 
   const handleAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -151,7 +152,9 @@ export default function QuizAuditPage() {
         setVerificationReason('');
 
         // Refresh quiz data and logs
-        await fetchQuizData();
+        setLoading(true);
+        setError('');
+        setReloadKey((k) => k + 1);
       }
     } catch (error) {
       logger.error('Error updating verification:', error);

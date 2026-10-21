@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/triple-slash-reference */
 // This file provides TypeScript type definitions for Jest DOM matchers
 /// <reference types="jest" />
 /// <reference types="@testing-library/jest-dom" />

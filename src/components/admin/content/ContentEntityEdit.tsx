@@ -74,13 +74,11 @@ export interface ContentEntityEditProps<T extends ContentEntity> {
 
 export default function ContentEntityEdit<T extends ContentEntity>({
   // Core data
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   entityId, // Used by parent components but not in this component
   entityName,
   backLink,
   backLinkText = 'Back to Content',
   // Data fetching and saving
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fetchEntity, // Used by parent components but not in this component
   saveEntity,
 
@@ -97,7 +95,6 @@ export default function ContentEntityEdit<T extends ContentEntity>({
   setEntity,
   // UI state
   loading,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setLoading, // Used by parent components but not in this component
   saving,
   setSaving,

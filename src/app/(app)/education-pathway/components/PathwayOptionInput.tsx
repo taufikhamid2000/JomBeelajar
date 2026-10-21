@@ -10,6 +10,53 @@ interface PathwayOptionInputProps {
   index: number;
 }
 
+// Component to render array items with delete button
+const ArrayItems = ({
+  items,
+  onRemove,
+  colorClass = 'bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-200',
+}: {
+  items: string[];
+  onRemove: (index: number) => void;
+  colorClass?: string;
+}) => (
+  <div className="mt-2">
+    {items.length > 0 && (
+      <div className="flex flex-wrap gap-2">
+        {items.map((item, idx) => (
+          <span
+            key={idx}
+            className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium ${colorClass}`}
+          >
+            {item}
+            <button
+              type="button"
+              onClick={() => onRemove(idx)}
+              className="ml-1.5 inline-flex items-center justify-center h-4 w-4 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none"
+            >
+              <span className="sr-only">Remove {item}</span>
+              <svg
+                className="h-3 w-3 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </span>
+        ))}
+      </div>
+    )}
+  </div>
+);
+
 const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
   option,
   onChange,
@@ -55,53 +102,6 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
   const [advantageInput, setAdvantageInput] = useState('');
   const [challengeInput, setChallengeInput] = useState('');
   const [requirementInput, setRequirementInput] = useState('');
-
-  // Component to render array items with delete button
-  const ArrayItems = ({
-    items,
-    onRemove,
-    colorClass = 'bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-200',
-  }: {
-    items: string[];
-    onRemove: (index: number) => void;
-    colorClass?: string;
-  }) => (
-    <div className="mt-2">
-      {items.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {items.map((item, idx) => (
-            <span
-              key={idx}
-              className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium ${colorClass}`}
-            >
-              {item}
-              <button
-                type="button"
-                onClick={() => onRemove(idx)}
-                className="ml-1.5 inline-flex items-center justify-center h-4 w-4 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none"
-              >
-                <span className="sr-only">Remove {item}</span>
-                <svg
-                  className="h-3 w-3 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </span>
-          ))}
-        </div>
-      )}
-    </div>
-  );
 
   return (
     <div className="bg-gray-700 dark:bg-gray-100 p-4 rounded-md mb-4 border border-gray-600 dark:border-gray-300">

@@ -4,7 +4,6 @@
 // strict schema typing that newer @supabase/supabase-js infers (it otherwise
 // resolves every query to `never`). This restores the pre-upgrade behavior in
 // one place instead of hand-typing dozens of soon-to-be-deleted queries.
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createClient,
   isAuthRetryableFetchError,

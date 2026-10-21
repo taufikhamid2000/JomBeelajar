@@ -21,6 +21,21 @@ interface QuestionFormData {
 
 const API_MSG = 'Unable to connect to the API. Please contact the administrator.';
 
+// A blank 4-answer question (first answer marked correct) for the editor.
+function createEmptyQuestion(): QuestionFormData {
+  return {
+    text: '',
+    type: 'radio',
+    answers: [
+      { text: '', isCorrect: true },
+      { text: '', isCorrect: false },
+      { text: '', isCorrect: false },
+      { text: '', isCorrect: false },
+    ],
+    tempId: `new-${Date.now()}`,
+  };
+}
+
 export default function QuestionsManagementPage() {
   const router = useRouter();
   const params = useParams();
@@ -88,7 +103,7 @@ export default function QuestionsManagementPage() {
           setQuestions(formattedQuestions);
           setExistingQuestionIds(data.questions.map((q: { id: string }) => q.id));
         } else {
-          addNewQuestion();
+          setQuestions((prev) => [...prev, createEmptyQuestion()]);
         }
       } catch (err) {
         logger.error('Error:', err);
@@ -102,19 +117,7 @@ export default function QuestionsManagementPage() {
   }, [quizId]);
 
   const addNewQuestion = () => {
-    const newQuestion: QuestionFormData = {
-      text: '',
-      type: 'radio',
-      answers: [
-        { text: '', isCorrect: true },
-        { text: '', isCorrect: false },
-        { text: '', isCorrect: false },
-        { text: '', isCorrect: false },
-      ],
-      tempId: `new-${Date.now()}`,
-    };
-
-    setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
+    setQuestions((prevQuestions) => [...prevQuestions, createEmptyQuestion()]);
   };
 
   const removeQuestion = (index: number) => {

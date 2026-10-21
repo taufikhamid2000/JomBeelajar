@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { signOut } from '@/lib/auth';
+import { hardNavigate } from '@/lib/hard-navigate';
 import { verifyAdminAccess } from '@/services/adminAuthService';
 import { useTheme } from '@/hooks/useTheme';
 import type { User } from '@supabase/supabase-js';
@@ -164,11 +165,11 @@ export default function Header(): JSX.Element {
                       setTimeout(() => {
                         logger.log('Redirecting after UI update...');
                         // Force a hard refresh/redirect to the home page
-                        document.location.href = '/';
+                        hardNavigate('/');
                       }, 150); // 150ms delay to allow React to render the UI change
                     } catch (error) {
                       logger.error('Error during sign out:', error);
-                      document.location.href = '/auth';
+                      hardNavigate('/auth');
                     }
                   }}
                 >

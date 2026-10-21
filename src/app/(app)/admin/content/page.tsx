@@ -22,6 +22,101 @@ import ChapterManagement from '@/components/admin/content/ChapterManagement';
 import TopicManagement from '@/components/admin/content/TopicManagement';
 import QuizManagement from '@/components/admin/content/QuizManagement';
 
+// Function to check admin status
+const checkAdminStatus = async () => {
+  // Check if user is logged in first by verifying Supabase session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session) {
+    return {
+      isAdmin: false,
+      message: 'You must be logged in to access the admin area',
+    };
+  }
+
+  // maybeSingle — most users have no row here, which is expected, not
+  // an error.
+  const { data, error } = await supabase
+    .from('user_roles')
+    .select('role')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  if (error) {
+    return { isAdmin: false, message: 'Error checking admin status' };
+  }
+
+  if (!data || data.role !== 'admin') {
+    return { isAdmin: false, message: 'You do not have admin privileges' };
+  }
+
+  return { isAdmin: true, message: '' };
+};
+
+// Admin check + fetch for one content type. Pure data loading (returns the
+// rows or throws); the page applies the result to state.
+async function loadAdminContent<T>(
+  label: string,
+  fetcherName: string,
+  fetcher: () => Promise<{ data: T[] | null; error: { message?: string } | null }>
+): Promise<T[]> {
+  logger.log(`Attempting to fetch ${label} via client-side service...`);
+
+  // Check admin status first
+  const adminCheck = await checkAdminStatus();
+  if (!adminCheck.isAdmin) {
+    throw new Error(
+      `${adminCheck.message}. Please check login-first.md for manual fix instructions.`
+    );
+  }
+
+  // Use the contentService instead of direct Supabase calls
+  logger.log(`Admin check passed, calling ${fetcherName}`);
+  const { data, error } = await fetcher();
+
+  if (error) {
+    logger.error('contentService error:', error);
+    // More descriptive error with debugging info
+    throw new Error(
+      `Failed to fetch ${label}: ${error.message || 'Unknown error'} (Check browser console for more details)`
+    );
+  }
+
+  if (!data) {
+    throw new Error('No data returned from content service');
+  }
+
+  return data;
+}
+
+// Logs a failed content fetch and returns the message to show the admin.
+function reportContentError(label: string, error: unknown): string {
+  const errorMessage = error instanceof Error ? error.message : String(error);
+  logger.error(`Error fetching ${label}:`, error);
+  const capitalized = label.charAt(0).toUpperCase() + label.slice(1, -1);
+  logger.error(`${capitalized} fetch error details:`, {
+    error,
+    message: errorMessage,
+    errorType: typeof error,
+    hasFields: error && typeof error === 'object' ? Object.keys(error) : 'N/A',
+    timestamp: new Date().toISOString(),
+  });
+  return errorMessage;
+}
+
+function logAuthStateForDebugging() {
+  supabase.auth.getSession().then(({ data }) => {
+    logger.log('Current auth state:', {
+      hasSession: !!data?.session,
+      isExpired: data?.session?.expires_at
+        ? new Date(data.session.expires_at * 1000) < new Date()
+        : 'N/A',
+      userId: data?.session?.user?.id || 'not authenticated',
+    });
+  });
+}
+
 export default function AdminContentPage() {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [chapters, setChapters] = useState<Chapter[]>([]);
@@ -34,256 +129,75 @@ export default function AdminContentPage() {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Function to check admin status
-  const checkAdminStatus = async () => {
-    // Check if user is logged in first by verifying Supabase session
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    if (!session) {
-      return {
-        isAdmin: false,
-        message: 'You must be logged in to access the admin area',
-      };
-    }
+  // Each loadX fetches one content type and applies it to state. State is
+  // only set in promise callbacks, so the tab effects below can call them;
+  // fetchX adds the synchronous loading reset for user-triggered refreshes.
+  const handleContentError = useCallback((label: string, error: unknown) => {
+    setError(reportContentError(label, error));
+  }, []);
 
-    // maybeSingle — most users have no row here, which is expected, not
-    // an error.
-    const { data, error } = await supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', session.user.id)
-      .maybeSingle();
+  const loadSubjects = useCallback(
+    () =>
+      loadAdminContent('subjects', 'fetchAdminSubjects', fetchAdminSubjects)
+        .then(setSubjects, (error) => {
+          handleContentError('subjects', error);
+          logAuthStateForDebugging();
+        })
+        .finally(() => setLoading(false)),
+    [handleContentError]
+  );
 
-    if (error) {
-      return { isAdmin: false, message: 'Error checking admin status' };
-    }
+  const loadChapters = useCallback(
+    () =>
+      loadAdminContent('chapters', 'fetchAdminChapters', fetchAdminChapters)
+        .then((data) => {
+          setChapters(data);
+          logger.log('Admin content page - chapters fetched:', {
+            chaptersCount: data.length,
+            chapters: data.map((c) => ({ id: c.id, name: c.name })),
+          });
+        }, (error) => handleContentError('chapters', error))
+        .finally(() => setLoading(false)),
+    [handleContentError]
+  );
 
-    if (!data || data.role !== 'admin') {
-      return { isAdmin: false, message: 'You do not have admin privileges' };
-    }
+  const loadTopics = useCallback(
+    () =>
+      loadAdminContent('topics', 'fetchAdminTopics', fetchAdminTopics)
+        .then(setTopics, (error) => handleContentError('topics', error))
+        .finally(() => setLoading(false)),
+    [handleContentError]
+  );
 
-    return { isAdmin: true, message: '' };
+  const loadQuizzes = useCallback(
+    () =>
+      loadAdminContent('quizzes', 'fetchAdminQuizzes', fetchAdminQuizzes)
+        .then(setQuizzes, (error) => handleContentError('quizzes', error))
+        .finally(() => setLoading(false)),
+    [handleContentError]
+  );
+
+  const startLoading = () => {
+    setLoading(true);
+    setError(null);
   };
+  const fetchSubjects = useCallback(() => {
+    startLoading();
+    return loadSubjects();
+  }, [loadSubjects]);
+  const fetchChapters = useCallback(() => {
+    startLoading();
+    return loadChapters();
+  }, [loadChapters]);
+  const fetchTopics = useCallback(() => {
+    startLoading();
+    return loadTopics();
+  }, [loadTopics]);
+  const fetchQuizzes = useCallback(() => {
+    startLoading();
+    return loadQuizzes();
+  }, [loadQuizzes]);
 
-  // Function to fetch subjects - wrapped in useCallback to avoid dependency issues
-  const fetchSubjects = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      logger.log('Attempting to fetch subjects via client-side service...');
-
-      // Check admin status first
-      const adminCheck = await checkAdminStatus();
-      if (!adminCheck.isAdmin) {
-        throw new Error(
-          `${adminCheck.message}. Please check login-first.md for manual fix instructions.`
-        );
-      }
-
-      // Use the contentService instead of direct Supabase calls
-      logger.log('Admin check passed, calling fetchAdminSubjects');
-      const { data, error } = await fetchAdminSubjects();
-
-      if (error) {
-        logger.error('contentService error:', error);
-        // More descriptive error with debugging info
-        throw new Error(
-          `Failed to fetch subjects: ${error.message || 'Unknown error'} (Check browser console for more details)`
-        );
-      }
-
-      if (!data) {
-        throw new Error('No data returned from content service');
-      }
-
-      setSubjects(data);
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
-      logger.error('Error fetching subjects:', error);
-      setError(errorMessage);
-
-      // More detailed error logging
-      logger.error('Subject fetch error details:', {
-        error,
-        message: errorMessage,
-        errorType: typeof error,
-        hasFields:
-          error && typeof error === 'object' ? Object.keys(error) : 'N/A',
-        timestamp: new Date().toISOString(),
-        authState: 'Checking auth state...',
-      }); // Try to log auth state for debugging
-      supabase.auth.getSession().then(({ data }) => {
-        logger.log('Current auth state:', {
-          hasSession: !!data?.session,
-          isExpired: data?.session?.expires_at
-            ? new Date(data.session.expires_at * 1000) < new Date()
-            : 'N/A',
-          userId: data?.session?.user?.id || 'not authenticated',
-        });
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-  // Function to fetch chapters - wrapped in useCallback to avoid dependency issues
-  const fetchChapters = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      logger.log('Attempting to fetch chapters via client-side service...');
-
-      // Check admin status first
-      const adminCheck = await checkAdminStatus();
-      if (!adminCheck.isAdmin) {
-        throw new Error(
-          `${adminCheck.message}. Please check login-first.md for manual fix instructions.`
-        );
-      }
-
-      // Use the contentService instead of direct Supabase calls
-      logger.log('Admin check passed, calling fetchAdminChapters');
-      const { data, error } = await fetchAdminChapters();
-
-      if (error) {
-        logger.error('contentService error:', error);
-        throw new Error(
-          `Failed to fetch chapters: ${error.message || 'Unknown error'} (Check browser console for more details)`
-        );
-      }
-
-      if (!data) {
-        throw new Error('No data returned from content service');
-      }
-
-      setChapters(data);
-      logger.log('Admin content page - chapters fetched:', {
-        chaptersCount: data.length,
-        chapters: data.map((c) => ({ id: c.id, name: c.name })),
-      });
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
-      logger.error('Error fetching chapters:', error);
-      setError(errorMessage);
-
-      logger.error('Chapter fetch error details:', {
-        error,
-        message: errorMessage,
-        errorType: typeof error,
-        hasFields:
-          error && typeof error === 'object' ? Object.keys(error) : 'N/A',
-        timestamp: new Date().toISOString(),
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Function to fetch topics - wrapped in useCallback to avoid dependency issues
-  const fetchTopics = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      logger.log('Attempting to fetch topics via client-side service...');
-
-      // Check admin status first
-      const adminCheck = await checkAdminStatus();
-      if (!adminCheck.isAdmin) {
-        throw new Error(
-          `${adminCheck.message}. Please check login-first.md for manual fix instructions.`
-        );
-      }
-
-      // Use the contentService instead of direct Supabase calls
-      logger.log('Admin check passed, calling fetchAdminTopics');
-      const { data, error } = await fetchAdminTopics();
-
-      if (error) {
-        logger.error('contentService error:', error);
-        throw new Error(
-          `Failed to fetch topics: ${error.message || 'Unknown error'} (Check browser console for more details)`
-        );
-      }
-
-      if (!data) {
-        throw new Error('No data returned from content service');
-      }
-
-      setTopics(data);
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
-      logger.error('Error fetching topics:', error);
-      setError(errorMessage);
-
-      logger.error('Topic fetch error details:', {
-        error,
-        message: errorMessage,
-        errorType: typeof error,
-        hasFields:
-          error && typeof error === 'object' ? Object.keys(error) : 'N/A',
-        timestamp: new Date().toISOString(),
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Function to fetch quizzes - wrapped in useCallback to avoid dependency issues
-  const fetchQuizzes = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      logger.log('Attempting to fetch quizzes via client-side service...');
-
-      // Check admin status first
-      const adminCheck = await checkAdminStatus();
-      if (!adminCheck.isAdmin) {
-        throw new Error(
-          `${adminCheck.message}. Please check login-first.md for manual fix instructions.`
-        );
-      }
-
-      // Use the contentService instead of direct Supabase calls
-      logger.log('Admin check passed, calling fetchAdminQuizzes');
-      const { data, error } = await fetchAdminQuizzes();
-
-      if (error) {
-        logger.error('contentService error:', error);
-        throw new Error(
-          `Failed to fetch quizzes: ${error.message || 'Unknown error'} (Check browser console for more details)`
-        );
-      }
-
-      if (!data) {
-        throw new Error('No data returned from content service');
-      }
-
-      setQuizzes(data);
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
-      logger.error('Error fetching quizzes:', error);
-      setError(errorMessage);
-
-      logger.error('Quiz fetch error details:', {
-        error,
-        message: errorMessage,
-        errorType: typeof error,
-        hasFields:
-          error && typeof error === 'object' ? Object.keys(error) : 'N/A',
-        timestamp: new Date().toISOString(),
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, []);
   // Function to handle current content refresh based on active tab
   const refreshCurrentContent = async () => {
     if (activeTab === 'subjects') {
@@ -314,31 +228,40 @@ export default function AdminContentPage() {
   // Fetch subjects when active tab changes
   useEffect(() => {
     if (activeTab === 'subjects') {
-      fetchSubjects();
+      loadSubjects();
     }
-  }, [activeTab, fetchSubjects]);
+  }, [activeTab, loadSubjects]);
 
   // Fetch chapters when active tab changes
   useEffect(() => {
     if (activeTab === 'chapters') {
-      fetchChapters();
+      loadChapters();
     }
-  }, [activeTab, fetchChapters]); // Fetch topics when active tab changes
+  }, [activeTab, loadChapters]); // Fetch topics when active tab changes
   useEffect(() => {
     if (activeTab === 'topics') {
       // Fetch both chapters and topics since topics depend on chapters for the dropdown
-      fetchChapters().then(() => {
-        fetchTopics();
+      loadChapters().then(() => {
+        startLoading();
+        loadTopics();
       });
     }
-  }, [activeTab, fetchChapters, fetchTopics]);
+  }, [activeTab, loadChapters, loadTopics]);
 
   // Fetch quizzes when active tab changes
   useEffect(() => {
     if (activeTab === 'quizzes') {
-      fetchQuizzes();
+      loadQuizzes();
     }
-  }, [activeTab, fetchQuizzes]);
+  }, [activeTab, loadQuizzes]);
+
+  // The tab effects above only set state asynchronously, so the loading
+  // reset for a tab switch happens here in the event handler.
+  const selectTab = (tab: typeof activeTab) => {
+    if (tab === activeTab) return;
+    startLoading();
+    setActiveTab(tab);
+  };
   return (
     <AdminLayout
       title="Content Management"
@@ -348,7 +271,7 @@ export default function AdminContentPage() {
       <div className="mb-6">
         <div className="flex space-x-2">
           <button
-            onClick={() => setActiveTab('subjects')}
+            onClick={() => selectTab('subjects')}
             className={`px-4 py-2 rounded ${
               activeTab === 'subjects'
                 ? 'bg-blue-600 text-white'
@@ -358,7 +281,7 @@ export default function AdminContentPage() {
             Subjects
           </button>
           <button
-            onClick={() => setActiveTab('chapters')}
+            onClick={() => selectTab('chapters')}
             className={`px-4 py-2 rounded ${
               activeTab === 'chapters'
                 ? 'bg-blue-600 text-white'
@@ -368,7 +291,7 @@ export default function AdminContentPage() {
             Chapters
           </button>
           <button
-            onClick={() => setActiveTab('topics')}
+            onClick={() => selectTab('topics')}
             className={`px-4 py-2 rounded ${
               activeTab === 'topics'
                 ? 'bg-blue-600 text-white'
@@ -378,7 +301,7 @@ export default function AdminContentPage() {
             Topics
           </button>
           <button
-            onClick={() => setActiveTab('quizzes')}
+            onClick={() => selectTab('quizzes')}
             className={`px-4 py-2 rounded ${
               activeTab === 'quizzes'
                 ? 'bg-blue-600 text-white'

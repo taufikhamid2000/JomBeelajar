@@ -17,19 +17,19 @@ export default function PlayQuizPage() {
   const subject = params?.subject as string;
   const topic = params?.topic as string;
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loadingQuiz, setLoading] = useState(true);
+  const [stateError, setError] = useState<string | null>(null);
+  // Without a quiz ID there's nothing to load: derive the error instead of
+  // setting it from the effect.
+  const loading = quizId ? loadingQuiz : false;
+  const error = quizId ? stateError : 'Quiz ID is required';
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [topicContext, setTopicContext] = useState<TopicContext | null>(null);
 
   useEffect(() => {
-    if (!quizId) {
-      setError('Quiz ID is required');
-      setLoading(false);
-      return;
-    }
+    if (!quizId) return;
 
     let cancelled = false;
 

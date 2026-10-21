@@ -1,6 +1,7 @@
 import { logger } from '@/lib/logger';
 import { supabase } from './supabase';
 import { jomCookieOptions } from '@/lib/supabase/cookie-options';
+import { hardNavigate } from '@/lib/hard-navigate';
 
 export const signUp = async (email: string, password: string) => {
   const { error } = await supabase.auth.signUp({ email, password });
@@ -81,6 +82,6 @@ export const signOut = async () => {
   // Use a hard redirect that won't be caught by Next.js router. Standardized
   // to /auth everywhere sign-out happens (Header, profile settings, and the
   // dedicated /auth/logout page all now land in the same place).
-  document.location.href = '/auth';
+  hardNavigate('/auth');
   return true;
 };

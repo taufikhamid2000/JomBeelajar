@@ -23,20 +23,6 @@ const eslintConfig = [
       'no-console': 'off',
     },
   },
-  {
-    // eslint-config-next 16 bundles a rewritten eslint-plugin-react-hooks
-    // with new React Compiler-oriented rules that surface ~100 pre-existing
-    // patterns across the app (setState-in-effect, immutability, etc.).
-    // Real findings, but fixing them is a separate effort from the dependency
-    // bump — downgraded to warn so they stay visible without blocking CI.
-    rules: {
-      'react-hooks/set-state-in-effect': 'warn',
-      'react-hooks/immutability': 'warn',
-      'react-hooks/static-components': 'warn',
-      'react-hooks/error-boundaries': 'warn',
-      'react-hooks/purity': 'warn',
-    },
-  },
 ];
 
 export default eslintConfig;

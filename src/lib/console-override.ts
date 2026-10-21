@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Console override utility to redirect all console logs to our logger
  * This is useful to catch any console logs that were missed during refactoring

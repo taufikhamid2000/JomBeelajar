@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 import AdminNavigation from '@/components/admin/AdminNavigation';
@@ -26,72 +26,83 @@ export default function AdminQuizzesPage() {
   const [difficultyFilter, setDifficultyFilter] = useState<string>('all');
   const [subjects, setSubjects] = useState<{ id: string; name: string }[]>([]);
 
-  async function fetchSubjects() {
-    try {
-      const { data, error } = await supabase
-        .from('subjects')
-        .select('id, name')
-        .order('name', { ascending: true });
-
-      if (error) throw error;
-      setSubjects(data || []);
-    } catch (error) {
-      logger.error('Error fetching subjects:', error);
-    }
-  }
-
-  const fetchQuizzes = useCallback(async () => {
-    try {
-      setLoading(true);
-
-      let query = supabase
-        .from('quizzes')
-        .select(
-          `
-          *,
-          subjects(name),
-          topics(name)
-        `
-        )
-        .order('created_at', { ascending: false });
-
-      // Apply filters
-      if (subjectFilter !== 'all') {
-        query = query.eq('subject_id', subjectFilter);
-      }
-
-      if (difficultyFilter !== 'all') {
-        query = query.eq('difficulty', difficultyFilter);
-      }
-
-      const { data, error } = await query;
-
-      if (error) throw error;
-
-      const formattedQuizzes = data.map((quiz) => ({
-        id: quiz.id,
-        title: quiz.title,
-        subject_id: quiz.subject_id,
-        topic_id: quiz.topic_id,
-        difficulty: quiz.difficulty,
-        question_count: quiz.question_count || 0,
-        created_at: quiz.created_at,
-        subject_name: quiz.subjects?.name,
-        topic_name: quiz.topics?.name,
-      }));
-
-      setQuizzes(formattedQuizzes);
-    } catch (error) {
-      logger.error('Error fetching quizzes:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [subjectFilter, difficultyFilter]);
+  // Bumped by the Refresh button to re-run the quiz fetch effect.
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
+    async function fetchSubjects() {
+      try {
+        const { data, error } = await supabase
+          .from('subjects')
+          .select('id, name')
+          .order('name', { ascending: true });
+
+        if (error) throw error;
+        setSubjects(data || []);
+      } catch (error) {
+        logger.error('Error fetching subjects:', error);
+      }
+    }
+
     fetchSubjects();
+  }, []);
+
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      try {
+
+        let query = supabase
+          .from('quizzes')
+          .select(
+            `
+            *,
+            subjects(name),
+            topics(name)
+          `
+          )
+          .order('created_at', { ascending: false });
+
+        // Apply filters
+        if (subjectFilter !== 'all') {
+          query = query.eq('subject_id', subjectFilter);
+        }
+
+        if (difficultyFilter !== 'all') {
+          query = query.eq('difficulty', difficultyFilter);
+        }
+
+        const { data, error } = await query;
+
+        if (error) throw error;
+
+        const formattedQuizzes = data.map((quiz) => ({
+          id: quiz.id,
+          title: quiz.title,
+          subject_id: quiz.subject_id,
+          topic_id: quiz.topic_id,
+          difficulty: quiz.difficulty,
+          question_count: quiz.question_count || 0,
+          created_at: quiz.created_at,
+          subject_name: quiz.subjects?.name,
+          topic_name: quiz.topics?.name,
+        }));
+
+        setQuizzes(formattedQuizzes);
+      } catch (error) {
+        logger.error('Error fetching quizzes:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchQuizzes();
-  }, [fetchQuizzes]);
+  }, [subjectFilter, difficultyFilter, reloadKey]);
+
+  // Filter changes and Refresh re-run the effect above; loading is set here
+  // in the handlers so the effect only sets state asynchronously.
+  const refreshQuizzes = () => {
+    setLoading(true);
+    setReloadKey((k) => k + 1);
+  };
 
   async function handleDeleteQuiz(quizId: string) {
     if (
@@ -174,7 +185,10 @@ export default function AdminQuizzesPage() {
                 <div className="flex space-x-2">
                   <select
                     value={subjectFilter}
-                    onChange={(e) => setSubjectFilter(e.target.value)}
+                    onChange={(e) => {
+                      setLoading(true);
+                      setSubjectFilter(e.target.value);
+                    }}
                     className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="all">All Subjects</option>
@@ -186,7 +200,10 @@ export default function AdminQuizzesPage() {
                   </select>
                   <select
                     value={difficultyFilter}
-                    onChange={(e) => setDifficultyFilter(e.target.value)}
+                    onChange={(e) => {
+                      setLoading(true);
+                      setDifficultyFilter(e.target.value);
+                    }}
                     className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="all">All Difficulties</option>
@@ -195,7 +212,7 @@ export default function AdminQuizzesPage() {
                     <option value="hard">Hard</option>
                   </select>
                   <button
-                    onClick={() => fetchQuizzes()}
+                    onClick={refreshQuizzes}
                     className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
                   >
                     Refresh

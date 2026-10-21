@@ -1,7 +1,7 @@
 'use client';
 import { logger } from '@/lib/logger';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   fetchDashboardData,
@@ -10,7 +10,6 @@ import {
 import DashboardClient from './DashboardClient';
 
 export default function DashboardPage() {
-  const [isUpgrading, setIsUpgrading] = useState(false);
   // Fetch dashboard data with React Query - no authentication required
   const { data: dashboardData, error: dashboardError } = useQuery({
     queryKey: ['dashboard'],
@@ -37,7 +36,6 @@ export default function DashboardPage() {
     data: userStats,
     isLoading: isStatsLoading,
     error: statsError,
-    isFetched: isStatsFetched,
   } = useQuery({
     queryKey: ['userStats'],
     queryFn: fetchUserStats,
@@ -47,14 +45,8 @@ export default function DashboardPage() {
     refetchOnWindowFocus: false,
   });
 
-  // Show upgrading indicator when real data is being fetched
-  useEffect(() => {
-    if (isStatsLoading) {
-      setIsUpgrading(true);
-    } else if (isStatsFetched) {
-      setIsUpgrading(false);
-    }
-  }, [isStatsLoading, isStatsFetched]);
+  // Show upgrading indicator while real data is being fetched
+  const isUpgrading = isStatsLoading;
 
   // Never show loading spinner for dashboard data - show guest data immediately
   // Only show error if critical dashboard data fails
