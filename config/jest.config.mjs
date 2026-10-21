@@ -31,6 +31,8 @@ const customJestConfig = {
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/.next/',
+    // Playwright specs (npm run test:e2e), not Jest tests.
+    '<rootDir>/e2e/',
     // TODO(tests): these suites assert pre-MyQuiza-migration behavior / stale
     // mocks and currently fail. Quarantined so CI stays green; rewrite and
     // re-enable one at a time. Tracked under improvement #4 follow-up.
