@@ -27,6 +27,9 @@ export default function Footer() {
           <button onClick={openResearchPDF} className={`${linkClass} cursor-pointer`}>
             Research
           </button>
+          <Link href="/api-docs" className={linkClass}>
+            API
+          </Link>
           <a
             href="https://jomid.taufikhamid.com"
             target="_blank"

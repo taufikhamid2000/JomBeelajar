@@ -16,6 +16,7 @@ const PUBLIC_PAGES = [
   '/auth',
   '/privacy',
   '/terms',
+  '/api-docs',
   '/leaderboard',
   '/leaderboard/schools',
   '/career-guidance',
