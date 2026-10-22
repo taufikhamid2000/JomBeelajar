@@ -27,7 +27,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
  * Jom ID: in the browser this is an @supabase/ssr cookie-based client, so the
  * session lives in the `sb-<ref>-auth-token*` cookies, written on the shared
  * `.taufikhamid.com` domain in production (see lib/supabase/cookie-options.ts).
- * That is what lets a sign-in at https://akaun.taufikhamid.com (or any other
+ * That is what lets a sign-in at https://jomid.taufikhamid.com (or any other
  * Jom app) carry over here, and lets the API routes / middleware see the same
  * session. It previously used supabase-js's default localStorage, which no
  * other app (and no server route) could read.

@@ -12,7 +12,7 @@ import { jomIdSignupHref } from '@/lib/jom-id';
 
 // Jom ID portal: signs in once for every *.taufikhamid.com app, then sends
 // the browser back to `next`.
-const JOM_ID_CONTINUE_URL = 'https://akaun.taufikhamid.com/continue';
+const JOM_ID_CONTINUE_URL = 'https://jomid.taufikhamid.com/continue';
 const PRODUCTION_ORIGIN = 'https://jombeelajar.taufikhamid.com';
 // Same destination every sign-in method below lands on.
 const POST_LOGIN_PATH = '/dashboard';
