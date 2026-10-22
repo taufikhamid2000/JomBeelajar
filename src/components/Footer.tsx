@@ -38,6 +38,14 @@ export default function Footer() {
           >
             Research
           </button>
+          <a
+            href="https://jomid.taufikhamid.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 dark:text-blue-600 hover:underline"
+          >
+            Jom ID
+          </a>
         </nav>
       </div>
     </footer>
