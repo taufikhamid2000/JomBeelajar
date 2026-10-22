@@ -2,47 +2,36 @@
 
 import Link from 'next/link';
 
+const linkClass =
+  'text-xs text-foreground/60 underline-offset-4 transition-colors hover:text-foreground hover:underline';
+
 export default function Footer() {
   const openResearchPDF = () => {
     window.open('/docs/JomBeelajar%20Research.pdf', '_blank');
   };
 
   return (
-    <footer className="bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-900 py-6">
-      <div className="container mx-auto text-center">
-        <p className="text-sm">
-          © {new Date().getFullYear()} JomBeelajar. All rights reserved.
-        </p>{' '}
-        <nav className="mt-4 flex justify-center space-x-6">
-          <Link
-            href="/about"
-            className="text-blue-400 dark:text-blue-600 hover:underline"
-          >
+    <footer className="border-t border-border bg-background px-6 py-4">
+      <div className="mx-auto flex w-full max-w-4xl items-center justify-between">
+        <span className="text-xs text-foreground/60">JomBeelajar</span>
+        <nav className="flex items-center gap-3">
+          <Link href="/about" className={linkClass}>
             About
           </Link>
-          <Link
-            href="/privacy"
-            className="text-blue-400 dark:text-blue-600 hover:underline"
-          >
+          <Link href="/privacy" className={linkClass}>
             Privacy
           </Link>
-          <Link
-            href="/terms"
-            className="text-blue-400 dark:text-blue-600 hover:underline"
-          >
+          <Link href="/terms" className={linkClass}>
             Terms
           </Link>
-          <button
-            onClick={openResearchPDF}
-            className="text-blue-400 dark:text-blue-600 hover:underline cursor-pointer"
-          >
+          <button onClick={openResearchPDF} className={`${linkClass} cursor-pointer`}>
             Research
           </button>
           <a
             href="https://jomid.taufikhamid.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-400 dark:text-blue-600 hover:underline"
+            className={linkClass}
           >
             Jom ID
           </a>
