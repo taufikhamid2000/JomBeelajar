@@ -7,6 +7,8 @@ import {
   fetchDashboardData,
   fetchUserStats,
 } from '@/services/dashboardService';
+import { DashboardSkeleton } from '@/components/ui/Skeleton';
+import { ServerWaking } from '@/components/ui/ServerWaking';
 import DashboardClient from './DashboardClient';
 
 export default function DashboardPage() {
@@ -52,15 +54,15 @@ export default function DashboardPage() {
   // Only show error if critical dashboard data fails
   if (dashboardError) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-[60vh] px-4">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-red-600 mb-4">Error</h1>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
             Unable to connect to the API. Please contact the administrator.
           </p>
           <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="min-h-[44px] px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
           >
             Retry
           </button>
@@ -69,24 +71,12 @@ export default function DashboardPage() {
     );
   }
 
-  // Data not available state
+  // Still loading (no data, no error): skeleton + delayed "server waking" hint
   if (!dashboardData) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">
-            Data Unavailable
-          </h1>
-          <p className="text-gray-600 mb-4">
-            Unable to connect to the API. Please contact the administrator.
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Retry
-          </button>
-        </div>
+      <div>
+        <DashboardSkeleton />
+        <ServerWaking />
       </div>
     );
   }

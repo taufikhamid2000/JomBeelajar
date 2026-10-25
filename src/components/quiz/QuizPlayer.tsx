@@ -153,6 +153,14 @@ export default function QuizPlayer({
   const [loadingTimeout, setLoadingTimeout] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showSignInGate, setShowSignInGate] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [xpAwarded, setXpAwarded] = useState(false);
+  const [timeTaken, setTimeTaken] = useState<number | undefined>(undefined);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
+  const startedAtRef = useRef<number | null>(null);
+  const submittingRef = useRef(false);
+  const headingRef = useRef<HTMLHeadingElement>(null);
   const router = useRouter();
 
   // Track whether the visitor is signed in — anonymous visitors can take the
@@ -242,6 +250,10 @@ export default function QuizPlayer({
     setQuestionResults(undefined);
     setTimeRemaining(timeLimit ? timeLimit * 60 : 0);
     setQuizStarted(false);
+    setChecked(false);
+    setXpAwarded(false);
+    setTimeTaken(undefined);
+    startedAtRef.current = null;
     // Re-shuffle questions for a fresh experience on retake
     const seed = newShuffleSeed();
     setShuffleSeed(seed);
@@ -269,6 +281,7 @@ export default function QuizPlayer({
   }, [shuffledQuestions.length, questions.length]);
 
   const handleStartQuiz = () => {
+    startedAtRef.current = Date.now();
     setQuizStarted(true);
   };
 
@@ -281,22 +294,14 @@ export default function QuizPlayer({
       [questionId]: selectedAnswers,
     }));
   };
-  const handleNextQuestion = () => {
-    if (currentQuestionIndex < shuffledQuestions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
-  };
-
-  const handlePrevQuestion = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
-  };
   const handleQuizSubmit = async () => {
     if (!isAuthenticated) {
       setShowSignInGate(true);
       return;
     }
+    if (submittingRef.current) return;
+    submittingRef.current = true;
+    setSubmitting(true);
     try {
       // Format answers for submission
       const formattedAnswers = Object.entries(answers).map(
@@ -315,6 +320,7 @@ export default function QuizPlayer({
 
       setScore(typeof result?.score === 'number' ? result.score : 0);
       setQuestionResults(result?.questions);
+      setXpAwarded(result?.xpAwarded === true);
 
       if (onComplete) {
         onComplete();
@@ -323,6 +329,11 @@ export default function QuizPlayer({
       logger.error('Error submitting quiz:', error);
       setScore(0);
     } finally {
+      if (startedAtRef.current) {
+        setTimeTaken(Math.round((Date.now() - startedAtRef.current) / 1000));
+      }
+      submittingRef.current = false;
+      setSubmitting(false);
       setQuizCompleted(true);
     }
   };
@@ -354,57 +365,147 @@ export default function QuizPlayer({
     return () => clearInterval(timer);
   }, [quizStarted, timeLimit, quizCompleted]);
 
+  const totalQuestions = shuffledQuestions.length;
+  const currentQuestion = shuffledQuestions[currentQuestionIndex];
+  const selectedForCurrent = currentQuestion
+    ? answers[currentQuestion.id] || []
+    : [];
+  const isLast = currentQuestionIndex >= totalQuestions - 1;
+  const canCheck = selectedForCurrent.length > 0;
+  const playing = quizStarted && !quizCompleted && totalQuestions > 0;
+
+  const exitQuiz = () => {
+    if (subject && topic) {
+      router.push(`/quiz/${subject}/${topic}`);
+    } else {
+      router.push('/dashboard');
+    }
+  };
+
+  const handlePrimary = () => {
+    if (submitting) return;
+    if (!checked) {
+      if (!canCheck) return;
+      setChecked(true);
+    } else if (isLast) {
+      handleQuizSubmit();
+    } else {
+      setCurrentQuestionIndex((i) => i + 1);
+      setChecked(false);
+    }
+  };
+
+  // Latest handler + state for the key listener below
+  const keyStateRef = useRef({ handlePrimary, currentQuestion, checked });
+  useEffect(() => {
+    keyStateRef.current = { handlePrimary, currentQuestion, checked };
+  });
+  const overlayOpenRef = useRef(false);
+  useEffect(() => {
+    overlayOpenRef.current = showExitConfirm || showSignInGate;
+  }, [showExitConfirm, showSignInGate]);
+
+  // Keyboard: 1-9 picks an option, Enter checks / continues
+  useEffect(() => {
+    if (!playing) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (overlayOpenRef.current || e.metaKey || e.ctrlKey || e.altKey) return;
+      const target = e.target as HTMLElement | null;
+      const tag = target?.tagName;
+      const {
+        handlePrimary: primary,
+        currentQuestion: q,
+        checked: isChecked,
+      } = keyStateRef.current;
+
+      if (e.key === 'Enter') {
+        // Let focused non-option buttons/links activate natively
+        if (
+          (tag === 'BUTTON' || tag === 'A') &&
+          !target?.hasAttribute('data-option')
+        ) {
+          return;
+        }
+        e.preventDefault();
+        primary();
+        return;
+      }
+
+      if (/^[1-9]$/.test(e.key) && !isChecked && q?.answers) {
+        const answer = q.answers[Number(e.key) - 1];
+        if (!answer) return;
+        e.preventDefault();
+        if (q.type === 'checkbox') {
+          setAnswers((prev) => {
+            const cur = prev[q.id] || [];
+            return {
+              ...prev,
+              [q.id]: cur.includes(answer.id)
+                ? cur.filter((id) => id !== answer.id)
+                : [...cur, answer.id],
+            };
+          });
+        } else {
+          setAnswers((prev) => ({ ...prev, [q.id]: [answer.id] }));
+        }
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [playing]);
+
+  // Escape closes dialogs
+  useEffect(() => {
+    if (!showExitConfirm && !showSignInGate) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setShowExitConfirm(false);
+        setShowSignInGate(false);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [showExitConfirm, showSignInGate]);
+
+  // Move focus to the question heading when the question changes
+  useEffect(() => {
+    if (playing) headingRef.current?.focus({ preventScroll: true });
+  }, [currentQuestionIndex, playing]);
+
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
+
   if (!quizStarted) {
     return (
-      <div className="bg-gray-800 dark:bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-4">Quiz: {quizName}</h2>
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <h1 className="mb-4 text-2xl font-extrabold text-gray-900 dark:text-gray-100">
+          Quiz: {quizName}
+        </h1>
 
         {/* Unverified quiz warning */}
         {!isVerified && (
-          <div className="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-            <div className="flex items-start">
-              <div className="flex-shrink-0">
-                <svg
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-                  Unverified Quiz
-                </h3>
-                <div className="mt-2 text-sm text-yellow-700 dark:text-yellow-300">
-                  <p>
-                    This quiz has not been verified by administrators.
-                    <strong> No points or XP will be awarded</strong> for
-                    completing this quiz. The content may not have been reviewed
-                    for accuracy.
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="mb-4 rounded-2xl border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-800 dark:bg-yellow-900/20">
+            <h2 className="text-sm font-semibold text-yellow-800 dark:text-yellow-200">
+              Unverified Quiz
+            </h2>
+            <p className="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
+              This quiz has not been verified by administrators.
+              <strong> No points or XP will be awarded</strong> for completing
+              this quiz. The content may not have been reviewed for accuracy.
+            </p>
           </div>
         )}
 
         {!isAuthenticated && (
-          <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg text-sm text-blue-800 dark:text-blue-200">
+          <div className="mb-4 rounded-2xl border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-900/20 dark:text-blue-200">
             You&apos;re playing as a guest.{' '}
             <button
               type="button"
               onClick={() => router.push('/auth')}
-              className="underline font-medium hover:text-blue-600 dark:hover:text-blue-100"
+              className="font-semibold underline hover:text-blue-600 dark:hover:text-blue-100"
             >
               Sign in
             </button>{' '}
@@ -413,41 +514,36 @@ export default function QuizPlayer({
         )}
 
         {topicContext && (
-          <div className="mb-4 text-gray-300 dark:text-gray-600">
-            <p className="mb-1">
+          <div className="mb-4 space-y-1 text-gray-600 dark:text-gray-300">
+            <p>
               <strong>Topic:</strong> {topicContext.topicTitle}
             </p>
-            <p className="mb-1">
+            <p>
               <strong>Chapter:</strong> {topicContext.chapterTitle} (Form{' '}
               {topicContext.form})
             </p>
-            <p className="mb-1">
+            <p>
               <strong>Subject:</strong> {topicContext.subjectName}
             </p>
           </div>
         )}
-        <div className="mb-6">
-          <p className="text-gray-300 dark:text-gray-600 mb-2">
-            This quiz contains {shuffledQuestions.length} questions.
-          </p>
+        <div className="mb-6 space-y-1 text-gray-600 dark:text-gray-300">
+          <p>This quiz contains {shuffledQuestions.length} questions.</p>
           {timeLimit && (
-            <p className="text-gray-300 dark:text-gray-600 mb-2">
-              You will have {timeLimit} minutes to complete this quiz.
-            </p>
+            <p>You will have {timeLimit} minutes to complete this quiz.</p>
           )}
-          <p className="text-gray-300 dark:text-gray-600">
-            Click the button below to start the quiz.
-          </p>
+          <p>Click the button below to start the quiz.</p>
         </div>
         <button
           onClick={handleStartQuiz}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="min-h-12 w-full rounded-2xl bg-blue-600 px-6 py-3 font-bold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:w-auto"
         >
           Start Quiz
         </button>
       </div>
     );
   }
+
   if (quizCompleted) {
     return (
       <QuizResults
@@ -457,14 +553,10 @@ export default function QuizPlayer({
         perQuestion={questionResults}
         questions={shuffledQuestions}
         userAnswers={answers}
+        timeTakenSeconds={timeTaken}
+        xpAwarded={xpAwarded}
         onRetake={resetQuiz}
-        onViewAll={() => {
-          if (subject && topic) {
-            router.push(`/quiz/${subject}/${topic}`);
-          } else {
-            router.push('/dashboard');
-          }
-        }}
+        onViewAll={exitQuiz}
       />
     );
   }
@@ -477,15 +569,15 @@ export default function QuizPlayer({
     });
 
     return (
-      <div className="bg-gray-800 dark:bg-white rounded-lg shadow-md p-6">
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div className="text-center">
           {!loadingTimeout ? (
             <>
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-blue-500 border-r-transparent border-b-blue-500 border-l-transparent"></div>
-              <p className="mt-4 text-gray-400 dark:text-gray-600">
+              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-r-transparent border-l-transparent motion-reduce:animate-none"></div>
+              <p className="mt-4 text-gray-600 dark:text-gray-300">
                 Preparing quiz questions...
               </p>
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
+              <p className="mt-2 text-sm text-gray-500">
                 {questions.length > 0
                   ? `Found ${questions.length} questions, shuffling...`
                   : 'Waiting for questions...'}
@@ -493,11 +585,11 @@ export default function QuizPlayer({
             </>
           ) : (
             <>
-              <div className="text-yellow-500 mb-2">⚠️</div>
-              <p className="text-gray-300 dark:text-gray-700 font-medium">
+              <div className="mb-2 text-yellow-500">⚠️</div>
+              <p className="font-medium text-gray-800 dark:text-gray-200">
                 Taking longer than expected
               </p>
-              <p className="mt-2 text-sm text-gray-400 dark:text-gray-600">
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 {questions.length > 0
                   ? `Found ${questions.length} questions, but having trouble shuffling them.`
                   : 'There was a problem loading the quiz questions.'}
@@ -515,7 +607,7 @@ export default function QuizPlayer({
                       window.location.reload();
                     }
                   }}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm transition-colors"
+                  className="min-h-11 rounded-2xl bg-blue-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
                 >
                   {questions.length > 0 ? 'Try Again' : 'Reload Quiz'}
                 </button>
@@ -527,32 +619,42 @@ export default function QuizPlayer({
     );
   }
 
-  const currentQuestion = shuffledQuestions[currentQuestionIndex];
+  const primaryLabel = !checked ? 'Check' : isLast ? 'Finish' : 'Continue';
+  const primaryDisabled = submitting || (!checked && !canCheck);
 
   return (
-    <div className="bg-gray-800 dark:bg-white rounded-lg shadow-md p-6 relative">
+    <div className="fixed inset-0 z-40 flex flex-col bg-gray-50 dark:bg-gray-900">
       {showSignInGate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-sm w-full p-6">
-            <h3 className="text-lg font-bold mb-2 text-gray-900 dark:text-gray-100">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="signin-gate-title"
+        >
+          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
+            <h3
+              id="signin-gate-title"
+              className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100"
+            >
               Sign in to save your score and XP
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
+            <p className="mb-6 text-sm text-gray-600 dark:text-gray-300">
               You&apos;re browsing as a guest, so this attempt can&apos;t be
               submitted or scored. Sign in to record your result and earn XP.
             </p>
             <div className="flex justify-end gap-3">
               <button
                 type="button"
+                autoFocus
                 onClick={() => setShowSignInGate(false)}
-                className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+                className="min-h-11 rounded-2xl border border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
               >
                 Keep reviewing
               </button>
               <button
                 type="button"
                 onClick={() => router.push('/auth')}
-                className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                className="min-h-11 rounded-2xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
               >
                 Sign in
               </button>
@@ -560,63 +662,139 @@ export default function QuizPlayer({
           </div>
         </div>
       )}
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold">{quizName}</h2>
-        {timeLimit && (
-          <div
-            className={`px-4 py-2 rounded-md font-mono ${
-              timeRemaining < 60
-                ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
-                : 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300'
-            }`}
-          >
-            Time: {formatTime(timeRemaining)}
+
+      {showExitConfirm && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="exit-quiz-title"
+          aria-describedby="exit-quiz-desc"
+        >
+          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
+            <h3
+              id="exit-quiz-title"
+              className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100"
+            >
+              Leave this quiz?
+            </h3>
+            <p
+              id="exit-quiz-desc"
+              className="mb-6 text-sm text-gray-600 dark:text-gray-300"
+            >
+              Your progress won&apos;t be saved.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                type="button"
+                autoFocus
+                onClick={() => setShowExitConfirm(false)}
+                className="min-h-11 rounded-2xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+              >
+                Keep going
+              </button>
+              <button
+                type="button"
+                onClick={exitQuiz}
+                className="min-h-11 rounded-2xl border border-gray-300 px-4 py-2 font-semibold text-red-600 hover:bg-red-50 dark:border-gray-600 dark:text-red-400 dark:hover:bg-red-900/20"
+              >
+                Exit
+              </button>
+            </div>
           </div>
-        )}
-      </div>{' '}
+        </div>
+      )}
+
       <QuizProgress
         currentQuestion={currentQuestionIndex + 1}
-        totalQuestions={shuffledQuestions.length}
-        answeredQuestions={Object.keys(answers).length}
+        totalQuestions={totalQuestions}
+        answeredQuestions={currentQuestionIndex + (checked ? 1 : 0)}
+        onExit={() => setShowExitConfirm(true)}
+        timeLabel={timeLimit ? formatTime(timeRemaining) : undefined}
+        timeCritical={!!timeLimit && timeRemaining < 60}
       />
-      {currentQuestion && (
-        <QuizQuestion
-          question={currentQuestion}
-          selectedAnswers={answers[currentQuestion.id] || []}
-          onAnswerChange={(selectedAnswers) =>
-            handleAnswerChange(currentQuestion.id, selectedAnswers)
-          }
-        />
-      )}
-      <div className="flex justify-between mt-8">
-        <button
-          onClick={handlePrevQuestion}
-          disabled={currentQuestionIndex === 0}
-          className={`px-4 py-2 rounded-md ${
-            currentQuestionIndex === 0
-              ? 'bg-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:text-gray-400'
-              : 'bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600'
-          }`}
-        >
-          Previous
-        </button>
 
-        {currentQuestionIndex < shuffledQuestions.length - 1 ? (
-          <button
-            onClick={handleNextQuestion}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          >
-            Next Question
-          </button>
-        ) : (
-          <button
-            onClick={handleQuizSubmit}
-            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-          >
-            Submit Quiz
-          </button>
-        )}
+      <div className="flex-1 overflow-y-auto">
+        <div className="mx-auto max-w-2xl px-4 py-6">
+          {currentQuestion && (
+            <QuizQuestion
+              key={currentQuestion.id}
+              ref={headingRef}
+              question={currentQuestion}
+              selectedAnswers={selectedForCurrent}
+              locked={checked}
+              onAnswerChange={(selectedAnswers) =>
+                handleAnswerChange(currentQuestion.id, selectedAnswers)
+              }
+            />
+          )}
+        </div>
       </div>
+
+      <div
+        className={`border-t px-4 pb-4 pt-3 motion-safe:transition-colors ${
+          checked
+            ? 'border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-950'
+            : 'border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900'
+        }`}
+      >
+        <div className="mx-auto max-w-2xl">
+          <div aria-live="polite" role="status">
+            {checked && (
+              <FeedbackPanel
+                key={currentQuestion?.id}
+                message={
+                  isLast
+                    ? 'Answer locked in. Finish to see your score.'
+                    : 'Answer locked in.'
+                }
+              />
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={handlePrimary}
+            disabled={primaryDisabled}
+            className="min-h-14 w-full rounded-2xl bg-blue-600 px-6 py-3 text-base font-bold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none dark:focus-visible:ring-offset-gray-900 dark:disabled:bg-gray-700 dark:disabled:text-gray-500"
+          >
+            {submitting ? 'Submitting...' : primaryLabel}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// The answer key stays on the server until the attempt is submitted, so the
+// per-question panel confirms the answer and the correct/incorrect verdict
+// (with the correct answer) is shown on the results screen.
+function FeedbackPanel({ message }: { message: string }) {
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setShown(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+  return (
+    <div
+      className={`mb-3 flex items-center gap-2 text-sm font-semibold text-blue-800 motion-safe:transition-all motion-safe:duration-200 dark:text-blue-200 ${
+        shown
+          ? 'translate-y-0 opacity-100'
+          : 'translate-y-3 opacity-0 motion-reduce:translate-y-0 motion-reduce:opacity-100'
+      }`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        className="h-5 w-5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M5 12l5 5L20 7" />
+      </svg>
+      {message}
     </div>
   );
 }

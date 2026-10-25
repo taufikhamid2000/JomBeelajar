@@ -1,6 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import ContinueLearningCard from '@/components/dashboard/ContinueLearningCard';
+import StreakXpStrip from '@/components/dashboard/StreakXpStrip';
+
+const LAST_SUBJECT_KEY = 'jombeelajar:last-subject';
 import { useRouter } from 'next/navigation';
 import EnhancedWelcomeBanner from '@/components/dashboard/EnhancedWelcomeBanner';
 import SubjectSearch from '@/components/dashboard/SubjectSearch';
@@ -58,6 +62,17 @@ export default function DashboardClient({
   // statsError,
 }: DashboardClientProps) {
   const router = useRouter();
+  const [lastSlug, setLastSlug] = useState<string | null>(null);
+  useEffect(() => {
+    const t = setTimeout(() => {
+      try {
+        setLastSlug(localStorage.getItem(LAST_SUBJECT_KEY));
+      } catch {
+        /* ignore */
+      }
+    }, 0);
+    return () => clearTimeout(t);
+  }, []);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -103,9 +118,23 @@ export default function DashboardClient({
     setCurrentPage(1); // Reset to first page on filter change
   };
 
+  const rememberSubject = (slug: string) => {
+    try {
+      localStorage.setItem(LAST_SUBJECT_KEY, slug);
+    } catch {
+      /* ignore */
+    }
+    setLastSlug(slug);
+  };
+
   const handleSubjectClick = (subject: Subject) => {
+    rememberSubject(subject.slug);
     router.push(`/quiz/${subject.slug}/chapters`);
   };
+
+  const lastSubject = initialSubjects.find((s) => s.slug === lastSlug);
+  const heroSubject = lastSubject || initialSubjects[0];
+  const hasHistory = !!lastSubject;
   // Achievement data - use from userStats or fallback to static
   const achievements = userStats?.achievements || [
     {
@@ -136,11 +165,22 @@ export default function DashboardClient({
       <div className="flex flex-col gap-8 sm:gap-10 md:gap-12">
         {/* Welcome Section */}
         <EnhancedWelcomeBanner initialUser={initialUser} />
+        <ContinueLearningCard
+          subject={heroSubject}
+          hasHistory={hasHistory}
+          percent={0}
+          onNavigate={rememberSubject}
+        />
+        <StreakXpStrip
+          streak={initialUser.streak}
+          xp={initialUser.xp}
+          level={initialUser.level}
+        />
         {/* Subjects Section */}
         <section id="subjects-section">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 sm:mb-6">
-            <h2 className="text-2xl sm:text-3xl font-semibold mb-4 md:mb-0">
-              Subjects
+          <div className="mb-4 sm:mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">
+              Courses
             </h2>
           </div>
           <SubjectSearch
@@ -152,7 +192,7 @@ export default function DashboardClient({
           />
           {/* Subjects Grid with Results Count */}
           <div className="mb-4">
-            <p className="text-sm text-gray-400 dark:text-gray-500">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Showing {currentSubjects.length} of {filteredSubjects.length}{' '}
               subjects
               {searchQuery && ` matching "${searchQuery}"`}
@@ -166,8 +206,9 @@ export default function DashboardClient({
             totalPages={totalPages}
             handleSubjectClick={handleSubjectClick}
             handlePageChange={handlePageChange}
-          />{' '}
-        </section>{' '}
+            lastSlug={lastSlug}
+          />
+        </section>
         {/* Weekly Progress Section */}
         <EnhancedWeeklyProgress
           initialData={{

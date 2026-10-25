@@ -1,88 +1,110 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Question } from '@/types/topics';
 
 interface QuizQuestionProps {
   question: Question;
   selectedAnswers: string[];
   onAnswerChange: (selectedAnswers: string[]) => void;
+  /** Answer is locked in (after pressing Check) */
+  locked?: boolean;
 }
 
-export default function QuizQuestion({
-  question,
-  selectedAnswers,
-  onAnswerChange,
-}: QuizQuestionProps) {
-  const handleRadioChange = (answerId: string) => {
-    onAnswerChange([answerId]);
-  };
+const QuizQuestion = forwardRef<HTMLHeadingElement, QuizQuestionProps>(
+  function QuizQuestion(
+    { question, selectedAnswers, onAnswerChange, locked = false },
+    headingRef
+  ) {
+    const isMulti = question.type === 'checkbox';
 
-  const handleCheckboxChange = (answerId: string) => {
-    const isSelected = selectedAnswers.includes(answerId);
-    if (isSelected) {
-      // Remove the answer
-      onAnswerChange(selectedAnswers.filter((id) => id !== answerId));
-    } else {
-      // Add the answer
-      onAnswerChange([...selectedAnswers, answerId]);
+    const toggle = (answerId: string) => {
+      if (locked) return;
+      if (!isMulti) {
+        onAnswerChange([answerId]);
+        return;
+      }
+      onAnswerChange(
+        selectedAnswers.includes(answerId)
+          ? selectedAnswers.filter((id) => id !== answerId)
+          : [...selectedAnswers, answerId]
+      );
+    };
+
+    const headingId = `question-heading-${question.id}`;
+
+    if (!question.answers || question.answers.length === 0) {
+      return (
+        <div className="py-4">
+          <h2
+            ref={headingRef}
+            tabIndex={-1}
+            className="mb-4 text-xl font-bold text-gray-900 focus:outline-none dark:text-gray-100"
+          >
+            {question.text}
+          </h2>
+          <p className="text-yellow-600 dark:text-yellow-400">
+            No answer options available for this question.
+          </p>
+        </div>
+      );
     }
-  };
 
-  if (!question.answers || question.answers.length === 0) {
     return (
       <div className="py-4">
-        <h3 className="text-lg font-medium mb-4">{question.text}</h3>
-        <p className="text-yellow-600 dark:text-yellow-400">
-          No answer options available for this question.
+        <h2
+          id={headingId}
+          ref={headingRef}
+          tabIndex={-1}
+          className="mb-2 text-xl font-bold leading-snug text-gray-900 focus:outline-none sm:text-2xl dark:text-gray-100"
+        >
+          {question.text}
+        </h2>
+        <p className="mb-5 text-sm text-gray-500 dark:text-gray-400">
+          {isMulti ? 'Select all that apply' : 'Choose one answer'}
+          <span className="hidden sm:inline"> &middot; press 1-{Math.min(9, question.answers.length)} to pick</span>
         </p>
+        <div
+          role={isMulti ? 'group' : 'radiogroup'}
+          aria-labelledby={headingId}
+          className="space-y-3"
+        >
+          {question.answers.map((answer, i) => {
+            const selected = selectedAnswers.includes(answer.id);
+            return (
+              <button
+                key={answer.id}
+                id={answer.id}
+                type="button"
+                role={isMulti ? 'checkbox' : 'radio'}
+                aria-checked={selected}
+                aria-disabled={locked}
+                data-option
+                onClick={() => toggle(answer.id)}
+                className={`flex min-h-14 w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-left text-base font-medium shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 motion-safe:transition-colors dark:focus-visible:ring-offset-gray-900 ${
+                  selected
+                    ? 'border-blue-600 bg-blue-50 text-blue-900 dark:border-blue-400 dark:bg-blue-900/30 dark:text-blue-100'
+                    : 'border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-gray-600 dark:hover:bg-gray-700/60'
+                } ${locked ? 'cursor-default' : 'cursor-pointer'}`}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center border-2 text-sm font-bold ${
+                    isMulti ? 'rounded-lg' : 'rounded-full'
+                  } ${
+                    selected
+                      ? 'border-blue-600 bg-blue-600 text-white dark:border-blue-400 dark:bg-blue-500'
+                      : 'border-gray-300 text-gray-500 dark:border-gray-600 dark:text-gray-400'
+                  }`}
+                >
+                  {i + 1}
+                </span>
+                <span className="flex-1">{answer.text}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
     );
   }
+);
 
-  return (
-    <div className="py-4">
-      <h3 className="text-lg font-medium mb-4">{question.text}</h3>
-      <div className="space-y-3">
-        {question.answers.map((answer) => (
-          <div key={answer.id} className="flex items-start">
-            {question.type === 'radio' ? (
-              <input
-                type="radio"
-                id={answer.id}
-                name={`question-${question.id}`}
-                value={answer.id}
-                checked={selectedAnswers.includes(answer.id)}
-                onChange={() => handleRadioChange(answer.id)}
-                className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 dark:border-gray-300"
-                aria-labelledby={`label-${answer.id}`}
-              />
-            ) : (
-              <input
-                type="checkbox"
-                id={answer.id}
-                name={`question-${question.id}`}
-                value={answer.id}
-                checked={selectedAnswers.includes(answer.id)}
-                onChange={() => handleCheckboxChange(answer.id)}
-                className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 rounded border-gray-600 dark:border-gray-300"
-                aria-labelledby={`label-${answer.id}`}
-              />
-            )}
-            <label
-              id={`label-${answer.id}`}
-              htmlFor={answer.id}
-              className="ml-3 block text-blue-500"
-            >
-              {answer.text}
-            </label>
-          </div>
-        ))}
-      </div>
-
-      {question.type === 'checkbox' && (
-        <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
-          Select all that apply
-        </p>
-      )}
-    </div>
-  );
-}
+export default QuizQuestion;

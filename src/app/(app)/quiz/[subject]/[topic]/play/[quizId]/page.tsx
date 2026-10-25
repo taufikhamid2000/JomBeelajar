@@ -94,10 +94,10 @@ export default function PlayQuizPage() {
     return (
       <div className="container mx-auto py-8 px-4">
         <div className="max-w-3xl mx-auto">
-          <div className="bg-gray-800 dark:bg-white rounded-lg shadow-md p-8 flex items-center justify-center">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-8 flex items-center justify-center">
             <div className="text-center">
               <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-blue-500 border-r-transparent border-b-blue-500 border-l-transparent"></div>
-              <p className="mt-4 text-gray-400 dark:text-gray-600">Loading quiz...</p>
+              <p className="mt-4 text-gray-600 dark:text-gray-300">Loading quiz...</p>
             </div>
           </div>
         </div>
@@ -109,16 +109,16 @@ export default function PlayQuizPage() {
     return (
       <div className="container mx-auto py-8 px-4">
         <div className="max-w-3xl mx-auto">
-          <div className="bg-gray-800 dark:bg-white rounded-lg shadow-md p-8">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-8">
             <h1 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
               Error Loading Quiz
             </h1>
-            <p className="text-gray-300 dark:text-gray-700">
+            <p className="text-gray-700 dark:text-gray-300">
               {error || API_MSG}
             </p>
             <button
               onClick={() => window.history.back()}
-              className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="mt-6 min-h-11 px-5 py-2 bg-blue-600 text-white font-semibold rounded-2xl hover:bg-blue-700"
             >
               Go Back
             </button>

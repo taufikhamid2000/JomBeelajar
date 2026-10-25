@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Question } from '@/types/topics';
 import { logger } from '@/lib/logger';
 
@@ -19,6 +19,14 @@ interface QuizResultsProps {
   // render the per-question breakdown with correct/selected highlighting.
   questions?: Question[];
   userAnswers?: Record<string, string[]>;
+  timeTakenSeconds?: number;
+  xpAwarded?: boolean;
+}
+
+function formatDuration(seconds: number): string {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
 export default function QuizResults({
@@ -30,214 +38,245 @@ export default function QuizResults({
   perQuestion,
   questions = [],
   userAnswers = {},
+  timeTakenSeconds,
+  xpAwarded,
 }: QuizResultsProps) {
-  const getStatusClass = (score: number) => {
-    if (score >= 80) return 'text-green-600 dark:text-green-400';
-    if (score >= 60) return 'text-blue-600 dark:text-blue-400';
-    if (score >= 40) return 'text-yellow-600 dark:text-yellow-400';
-    return 'text-red-600 dark:text-red-400';
-  };
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, []);
 
-  const getStatusText = (score: number) => {
-    if (score >= 80) return 'Excellent!';
-    if (score >= 60) return 'Good job!';
-    if (score >= 40) return 'Not bad!';
-    return 'Keep practicing!';
-  };
+  const tone =
+    score >= 80
+      ? 'text-green-600 dark:text-green-400'
+      : score >= 60
+        ? 'text-blue-600 dark:text-blue-400'
+        : score >= 40
+          ? 'text-orange-500 dark:text-orange-400'
+          : 'text-red-600 dark:text-red-400';
+  const ringColor =
+    score >= 80 ? '#16a34a' : score >= 60 ? '#2563eb' : score >= 40 ? '#f97316' : '#ef4444';
 
-  const getShareText = () => {
-    return `I scored ${score}% on the JomBeelajar quiz! Try it out!`;
-  };
+  const statusText =
+    score >= 80
+      ? 'Excellent!'
+      : score >= 60
+        ? 'Good job!'
+        : score >= 40
+          ? 'Not bad!'
+          : 'Keep practicing!';
 
+  const correctCount = perQuestion
+    ? perQuestion.filter((q) => q.correct).length
+    : Math.round((score / 100) * totalQuestions);
+
+  const shareText = `I scored ${score}% on the JomBeelajar quiz! Try it out!`;
   const handleShare = () => {
     if (navigator.share) {
       navigator
         .share({
           title: 'My JomBeelajar Quiz Result',
-          text: getShareText(),
+          text: shareText,
           url: window.location.href,
         })
         .catch((error) => logger.log('Error sharing', error));
     } else {
-      // Fallback for browsers that don't support Web Share API
       navigator.clipboard
-        .writeText(getShareText() + ' ' + window.location.href)
+        .writeText(shareText + ' ' + window.location.href)
         .then(() => alert('Result copied to clipboard!'))
         .catch((err) => logger.error('Failed to copy: ', err));
     }
   };
 
+  const circumference = 2 * Math.PI * 45;
+  const dash = (Math.max(0, Math.min(100, score)) / 100) * circumference;
+
+  const stat = (label: string, value: string, extra = '') => (
+    <div
+      className={`rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm dark:border-gray-700 dark:bg-gray-800 ${extra}`}
+    >
+      <span className="block text-xl font-bold text-gray-900 dark:text-gray-100">
+        {value}
+      </span>
+      <span className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
+        {label}
+      </span>
+    </div>
+  );
+
   return (
-    <div className="bg-gray-800 dark:bg-white rounded-lg shadow-md p-6">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold mb-4">Quiz Completed!</h2>
-        <div className="relative w-48 h-48 mx-auto mb-4">
-          <svg viewBox="0 0 100 100" className="w-full h-full">
-            {/* Background circle */}
-            <circle
-              cx="50"
-              cy="50"
-              r="45"
-              fill="none"
-              stroke="#e6e6e6"
-              strokeWidth="10"
-              className="dark:stroke-gray-700"
-            />
-            {/* Progress circle */}
-            <circle
-              cx="50"
-              cy="50"
-              r="45"
-              fill="none"
-              stroke={
-                score >= 60 ? '#4ade80' : score >= 40 ? '#facc15' : '#ef4444'
-              }
-              strokeWidth="10"
-              strokeDasharray={`${score * 2.83} ${283 - score * 2.83}`}
-              strokeDashoffset="70.75"
-              className="transform -rotate-90 origin-center"
-            />
-          </svg>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <span className={`text-4xl font-bold ${getStatusClass(score)}`}>
-                {score}%
-              </span>
-              <span className="block text-sm text-gray-400 dark:text-gray-500">
-                Score
-              </span>
-            </div>
-          </div>
-        </div>{' '}
-        <p className={`text-xl font-medium ${getStatusClass(score)} mb-2`}>
-          {getStatusText(score)}
-        </p>
-        <p className="text-sm text-gray-400 dark:text-gray-600">
-          You scored {score}% ({Math.round((score / 100) * totalQuestions)}/
-          {totalQuestions} correct)
-        </p>
-        {/* Unverified quiz notice */}
-        {!isVerified && (
-          <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-            <p className="text-sm text-yellow-800 dark:text-yellow-200 text-center">
-              <strong>No points awarded:</strong> This was an unverified quiz
-            </p>
-          </div>
-        )}
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-        <div className="bg-gray-700/50 dark:bg-gray-50 p-4 rounded-lg text-center">
-          <span className="block text-xl font-semibold">{totalQuestions}</span>
-          <span className="text-sm text-gray-400 dark:text-gray-500">
-            Questions
-          </span>
-        </div>
-        <div className="bg-gray-700/50 dark:bg-gray-50 p-4 rounded-lg text-center">
-          <span className="block text-xl font-semibold">
-            {score >= 60 ? 'Passed' : 'Try Again'}
-          </span>
-          <span className="text-sm text-gray-400 dark:text-gray-500">
-            Status
-          </span>
-        </div>
-      </div>
-
-      {/* Per-question breakdown (server-scored; answer key arrives only here) */}
-      {perQuestion && perQuestion.length > 0 && (
-        <div className="space-y-3 mb-8">
-          <h3 className="text-lg font-medium mb-3">Performance Breakdown</h3>
-          {perQuestion.map((q, index) => {
-            const question = questions.find((qq) => qq.id === q.questionId);
-            const correctIds = new Set(q.correctAnswerIds);
-            const selectedIds = new Set(userAnswers[q.questionId] || []);
-
-            return (
-              <div
-                key={q.questionId}
-                className={`p-3 rounded-md ${
-                  q.correct
-                    ? 'bg-green-900/20 dark:bg-green-50 border-l-4 border-green-500'
-                    : 'bg-red-900/20 dark:bg-red-900/20 border-l-4 border-red-500'
-                }`}
-              >
-                <div className="flex justify-between">
-                  <span className="font-medium">Question {index + 1}</span>
-                  <span
-                    className={
-                      q.correct
-                        ? 'text-green-600 dark:text-green-400'
-                        : 'text-red-600 dark:text-red-400'
-                    }
-                  >
-                    {q.correct ? 'Correct' : 'Incorrect'}
-                  </span>
-                </div>
-
-                {question && (
-                  <>
-                    {question.text && (
-                      <p className="mt-2 text-sm text-gray-300 dark:text-gray-700">
-                        {question.text}
-                      </p>
-                    )}
-                    <ul className="mt-2 space-y-1">
-                      {(question.answers || []).map((opt) => {
-                        const isCorrect = correctIds.has(opt.id);
-                        const isSelected = selectedIds.has(opt.id);
-                        return (
-                          <li
-                            key={opt.id}
-                            className={`text-sm flex items-center gap-2 ${
-                              isCorrect
-                                ? 'text-green-600 dark:text-green-400 font-medium'
-                                : isSelected
-                                  ? 'text-red-600 dark:text-red-400 line-through'
-                                  : 'text-gray-400 dark:text-gray-500'
-                            }`}
-                          >
-                            <span aria-hidden="true">
-                              {isCorrect ? '✓' : isSelected ? '✗' : '•'}
-                            </span>
-                            <span>{opt.text}</span>
-                            {isSelected && (
-                              <span className="text-xs opacity-70">
-                                (your answer)
-                              </span>
-                            )}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </>
-                )}
+    <div className="fixed inset-0 z-40 flex flex-col bg-gray-50 dark:bg-gray-900">
+      <div className="flex-1 overflow-y-auto">
+        <div className="mx-auto max-w-2xl px-4 py-8">
+          <div className="mb-8 text-center" role="status">
+            <h1
+              ref={headingRef}
+              tabIndex={-1}
+              className="mb-4 text-2xl font-extrabold text-gray-900 focus:outline-none dark:text-gray-100"
+            >
+              Quiz Completed!
+            </h1>
+            <div className="relative mx-auto mb-4 h-44 w-44">
+              <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90" aria-hidden="true">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  fill="none"
+                  strokeWidth="9"
+                  className="stroke-gray-200 dark:stroke-gray-700"
+                />
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  fill="none"
+                  stroke={ringColor}
+                  strokeWidth="9"
+                  strokeLinecap="round"
+                  strokeDasharray={`${dash} ${circumference - dash}`}
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className={`text-4xl font-extrabold ${tone}`}>{score}%</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">Score</span>
               </div>
-            );
-          })}
-        </div>
-      )}
+            </div>
+            <p className={`text-xl font-bold ${tone}`}>{statusText}</p>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              You scored {score}% ({correctCount}/{totalQuestions} correct)
+            </p>
+            {!isVerified && (
+              <div className="mt-4 rounded-2xl border border-yellow-200 bg-yellow-50 p-3 dark:border-yellow-800 dark:bg-yellow-900/20">
+                <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                  <strong>No points awarded:</strong> This was an unverified quiz
+                </p>
+              </div>
+            )}
+          </div>
 
-      <div className="flex flex-col sm:flex-row gap-3 justify-between">
-        <div>
-          <button
-            onClick={onRetake}
-            className="w-full sm:w-auto px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors mb-3 sm:mb-0"
-          >
-            Retake Quiz
-          </button>
+          <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {stat('Score', `${correctCount}/${totalQuestions}`)}
+            {stat('Accuracy', `${totalQuestions ? Math.round((correctCount / totalQuestions) * 100) : 0}%`)}
+            {stat('Time', typeof timeTakenSeconds === 'number' ? formatDuration(timeTakenSeconds) : '-')}
+            {xpAwarded && isVerified ? (
+              <div className="rounded-2xl border border-orange-200 bg-orange-50 p-4 text-center shadow-sm dark:border-orange-800 dark:bg-orange-900/20">
+                <span className="block text-xl font-bold text-orange-600 dark:text-orange-300">
+                  XP earned
+                </span>
+                <span className="text-xs font-medium uppercase tracking-wide text-orange-600/80 dark:text-orange-300/80">
+                  Reward
+                </span>
+              </div>
+            ) : (
+              stat('Status', score >= 60 ? 'Passed' : 'Try again')
+            )}
+          </div>
+
+          {/* Per-question breakdown (server-scored; answer key arrives only here) */}
+          {perQuestion && perQuestion.length > 0 && (
+            <div className="mb-8 space-y-3">
+              <h2 className="mb-3 text-lg font-bold text-gray-900 dark:text-gray-100">
+                Performance Breakdown
+              </h2>
+              {perQuestion.map((q, index) => {
+                const question = questions.find((qq) => qq.id === q.questionId);
+                const correctIds = new Set(q.correctAnswerIds);
+                const selectedIds = new Set(userAnswers[q.questionId] || []);
+                const explanation = (question as { explanation?: string } | undefined)
+                  ?.explanation;
+
+                return (
+                  <div
+                    key={q.questionId}
+                    className={`rounded-2xl border-l-4 bg-white p-4 shadow-sm dark:bg-gray-800 ${
+                      q.correct ? 'border-green-500' : 'border-red-500'
+                    }`}
+                  >
+                    <div className="flex justify-between text-sm">
+                      <span className="font-semibold text-gray-900 dark:text-gray-100">
+                        Question {index + 1}
+                      </span>
+                      <span
+                        className={`font-semibold ${
+                          q.correct
+                            ? 'text-green-600 dark:text-green-400'
+                            : 'text-red-600 dark:text-red-400'
+                        }`}
+                      >
+                        {q.correct ? 'Correct' : 'Incorrect'}
+                      </span>
+                    </div>
+                    {question && (
+                      <>
+                        {question.text && (
+                          <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                            {question.text}
+                          </p>
+                        )}
+                        <ul className="mt-2 space-y-1">
+                          {(question.answers || []).map((opt) => {
+                            const isCorrect = correctIds.has(opt.id);
+                            const isSelected = selectedIds.has(opt.id);
+                            return (
+                              <li
+                                key={opt.id}
+                                className={`flex items-center gap-2 text-sm ${
+                                  isCorrect
+                                    ? 'font-medium text-green-600 dark:text-green-400'
+                                    : isSelected
+                                      ? 'text-red-600 line-through dark:text-red-400'
+                                      : 'text-gray-500 dark:text-gray-400'
+                                }`}
+                              >
+                                <span aria-hidden="true">
+                                  {isCorrect ? '✓' : isSelected ? '✗' : '•'}
+                                </span>
+                                <span>{opt.text}</span>
+                                {isSelected && (
+                                  <span className="text-xs opacity-70">(your answer)</span>
+                                )}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                        {explanation && (
+                          <p className="mt-2 rounded-xl bg-gray-50 p-2 text-sm text-gray-600 dark:bg-gray-700/50 dark:text-gray-300">
+                            {explanation}
+                          </p>
+                        )}
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
-        <div className="flex gap-3">
+      </div>
+
+      <div className="border-t border-gray-200 bg-white px-4 py-4 dark:border-gray-800 dark:bg-gray-900">
+        <div className="mx-auto flex max-w-2xl flex-col gap-3 sm:flex-row">
           <button
+            type="button"
+            onClick={onRetake}
+            className="min-h-12 flex-1 rounded-2xl bg-blue-600 px-4 py-3 font-bold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+          >
+            Retry
+          </button>
+          <button
+            type="button"
+            onClick={onViewAll}
+            className="min-h-12 flex-1 rounded-2xl border-2 border-gray-200 bg-white px-4 py-3 font-bold text-gray-800 transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700"
+          >
+            Back to subject
+          </button>
+          <button
+            type="button"
             onClick={handleShare}
-            className="px-4 py-2 border border-gray-600 dark:border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md transition-colors"
+            className="min-h-12 rounded-2xl px-4 py-3 font-semibold text-gray-600 transition-colors hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-300 dark:hover:bg-gray-800"
           >
             Share Result
-          </button>
-          <button
-            onClick={onViewAll}
-            className="px-4 py-2 bg-gray-700 dark:bg-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md transition-colors text-gray-200 dark:text-gray-800"
-          >
-            View All Quizzes
           </button>
         </div>
       </div>
