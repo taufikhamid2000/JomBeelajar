@@ -6,7 +6,7 @@ import {
   updateSchool,
   deleteSchool,
   SCHOOL_TYPES,
-} from '@/lib/myquiza';
+} from '@/lib/jombeelajar-api';
 import { getSessionToken } from '@/lib/serverSession';
 
 export async function GET(
@@ -27,7 +27,7 @@ export async function GET(
     }
 
     // teacherCount/studentCount are live counts from user_profiles, which
-    // MyQuiza's schools domain doesn't own (school_id/school_role linkage
+    // JomBeelajar API's schools domain doesn't own (school_id/school_role linkage
     // stays on Supabase) — these two queries are NOT part of the retirement.
     const { count: teacherCount, error: teacherError } = await supabase
       .from('user_profiles')

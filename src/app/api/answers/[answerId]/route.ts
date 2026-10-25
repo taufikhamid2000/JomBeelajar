@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
-import { updateAnswer, deleteAnswer } from '@/lib/myquiza';
+import { updateAnswer, deleteAnswer } from '@/lib/jombeelajar-api';
 import { getSessionToken } from '@/lib/serverSession';
 
 export async function PATCH(

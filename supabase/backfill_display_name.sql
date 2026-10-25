@@ -1,4 +1,4 @@
--- One-off backfill for null user_profiles.display_name (MyQuiza-provided,
+-- One-off backfill for null user_profiles.display_name (JomBeelajar API-provided,
 -- reviewed). Prefers Google metadata; falls back to a non-identifying
 -- "Player <first 4 of id>" handle. Never uses email local-parts.
 -- Idempotent: only touches rows where display_name IS NULL.

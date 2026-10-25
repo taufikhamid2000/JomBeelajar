@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
-import { getSubjectsList } from '@/lib/myquiza';
+import { getSubjectsList } from '@/lib/jombeelajar-api';
 
 const CACHE_DURATION = 300; // 5 minutes
 

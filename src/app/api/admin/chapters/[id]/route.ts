@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
-import { updateMyQuizaChapter, deleteMyQuizaChapter } from '@/lib/myquiza';
+import { updateApiChapter, deleteApiChapter } from '@/lib/jombeelajar-api';
 import { getSessionToken } from '@/lib/serverSession';
 
 export async function PATCH(
@@ -17,7 +17,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const chapter = await updateMyQuizaChapter(
+    const chapter = await updateApiChapter(
       id,
       { subjectId, name, form, orderIndex, description },
       token
@@ -50,7 +50,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    await deleteMyQuizaChapter(id, token);
+    await deleteApiChapter(id, token);
     return NextResponse.json({ success: true });
   } catch (error) {
     logger.error('Error deleting chapter:', error);

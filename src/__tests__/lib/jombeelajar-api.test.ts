@@ -4,13 +4,13 @@ import {
   submitAttempt,
   getMyProgress,
   getLeaderboard,
-} from '@/lib/myquiza';
+} from '@/lib/jombeelajar-api';
 
-// These tests exercise JomBeelajar's own MyQuiza client in isolation: fetch is
+// These tests exercise JomBeelajar's own JomBeelajar API client in isolation: fetch is
 // mocked, so they assert that we build the right request (URL, method, headers,
 // body, query params) and parse/propagate responses correctly — without ever
-// hitting the live MyQuiza API.
-describe('MyQuiza API client (lib/myquiza)', () => {
+// hitting the live JomBeelajar API API.
+describe('JomBeelajar API API client (lib/jombeelajar-api)', () => {
   const realFetch = global.fetch;
   let fetchMock: jest.Mock;
 
@@ -120,6 +120,6 @@ describe('MyQuiza API client (lib/myquiza)', () => {
       text: async () => '{}',
     });
 
-    await expect(getQuizDetail('missing')).rejects.toThrow('MyQuiza 404');
+    await expect(getQuizDetail('missing')).rejects.toThrow('JomBeelajar API 404');
   });
 });

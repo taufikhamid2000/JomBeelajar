@@ -28,7 +28,7 @@ Shows every request the page makes to load data.
   - `403` = logged in, but not allowed (expected if testing admin features as a regular user)
   - `404` = not found (usually a real bug)
   - `500` = server error (**always** a real bug — screenshot the row, click it, check the "Response" or "Preview" sub-tab for the error message)
-- Type part of a URL (e.g. `myquiza` or `api/`) into the filter box at the top to find relevant requests quickly.
+- Type part of a URL (e.g. `jombeelajar-api` or `api/`) into the filter box at the top to find relevant requests quickly.
 
 That's all you need. Every checklist item below tells you exactly what
 to click and what "pass" looks like — you won't need to read any code.

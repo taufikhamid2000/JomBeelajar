@@ -63,7 +63,7 @@ export function useUserDetails(userId: string) {
           logger.warn('Error fetching user role:', roleError);
         }
 
-        // Fetch achievements (moderator-gated MyQuiza endpoint)
+        // Fetch achievements (moderator-gated JomBeelajar API endpoint)
         let achievements: Achievement[] = [];
         try {
           const achievementsRes = await fetch(

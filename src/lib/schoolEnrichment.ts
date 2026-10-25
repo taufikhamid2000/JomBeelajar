@@ -1,9 +1,9 @@
-import { getSchoolDetail } from './myquiza';
+import { getSchoolDetail } from './jombeelajar-api';
 import { logger } from './logger';
 
 /**
  * Attaches a lightweight school summary to a user profile, sourced from
- * MyQuiza instead of a Supabase join (schools/school_stats are retired).
+ * JomBeelajar API instead of a Supabase join (schools/school_stats are retired).
  * Used by both /api/profile and /api/profile/[userId].
  */
 export async function attachSchool<T extends { school_id?: string | null }>(

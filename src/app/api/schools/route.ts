@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
-import { getSchools, createSchool, SCHOOL_TYPES } from '@/lib/myquiza';
+import { getSchools, createSchool, SCHOOL_TYPES } from '@/lib/jombeelajar-api';
 import { getSessionToken } from '@/lib/serverSession';
 
 export async function GET() {

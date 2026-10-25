@@ -4,11 +4,11 @@ import {
   getUserAchievements,
   awardAchievement,
   AwardAchievementPayload,
-  MyQuizaAchievement,
-} from '@/lib/myquiza';
+  JomBeelajarApiAchievement,
+} from '@/lib/jombeelajar-api';
 import { getSessionToken } from '@/lib/serverSession';
 
-function mapAchievement(a: MyQuizaAchievement, userId: string) {
+function mapAchievement(a: JomBeelajarApiAchievement, userId: string) {
   return {
     id: a.id,
     user_id: userId,

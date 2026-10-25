@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
-import { getAuditSummary, getUnverifiedQuizzes } from '@/lib/myquiza';
+import { getAuditSummary, getUnverifiedQuizzes } from '@/lib/jombeelajar-api';
 import { getSessionToken } from '@/lib/serverSession';
 
 export async function GET() {

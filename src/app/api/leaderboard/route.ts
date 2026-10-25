@@ -3,7 +3,7 @@ import { cookies, headers } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { jomCookieOptions } from '@/lib/supabase/cookie-options';
 import { logger } from '@/lib/logger';
-import { getLeaderboard } from '@/lib/myquiza';
+import { getLeaderboard } from '@/lib/jombeelajar-api';
 
 const CACHE_DURATION = {
   daily: 60,
@@ -41,7 +41,7 @@ export async function GET(request: Request) {
       limit: 100,
     });
 
-    // Map MyQuiza camelCase → User shape expected by the frontend
+    // Map JomBeelajar API camelCase → User shape expected by the frontend
     const data = entries.map((entry) => ({
       id: entry.userId,
       email: '',

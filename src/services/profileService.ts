@@ -167,7 +167,7 @@ export async function fetchUserProfile(): Promise<{
 /**
  * Updates user profile data.
  *
- * display_name/avatar_url go through MyQuiza (PATCH /api/v1/me) — MyQuiza is
+ * display_name/avatar_url go through JomBeelajar API (PATCH /api/v1/me) — JomBeelajar API is
  * now the source of truth for those fields. school_id/is_school_visible are
  * not yet covered by that endpoint (Schools domain isn't migrated), so they
  * still write directly to Supabase.

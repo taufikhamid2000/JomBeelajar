@@ -4,7 +4,7 @@ import { logger } from '@/lib/logger';
 import { cookies, headers } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { jomCookieOptions } from '@/lib/supabase/cookie-options';
-import { getMyStats, getMe, getSubjectsList } from '@/lib/myquiza';
+import { getMyStats, getMe, getSubjectsList } from '@/lib/jombeelajar-api';
 
 // Cache duration in seconds
 const CACHE_DURATION = 300; // 5 minutes
@@ -108,14 +108,14 @@ export async function GET() {
       userStatsData,
       meData,
     ] = await Promise.all([
-      // Subjects now come from MyQuiza (categoryPriority shipped on their
+      // Subjects now come from JomBeelajar API (categoryPriority shipped on their
       // /api/v1/subjects response) rather than a direct Supabase read.
       getSubjectsList().catch((err) => {
-        logger.error('Error fetching subjects from MyQuiza:', err);
+        logger.error('Error fetching subjects from JomBeelajar API:', err);
         return null;
       }),
 
-      // display_name/streak stay on Supabase — MyQuiza doesn't touch streak
+      // display_name/streak stay on Supabase — JomBeelajar API doesn't touch streak
       isAuthenticated
         ? supabase
             .from('user_profiles')
@@ -125,19 +125,19 @@ export async function GET() {
         : Promise.resolve({ data: null, error: null }),
 
       // Fetch user statistics only if authenticated (mv_user_dashboard_stats
-      // is now served by MyQuiza)
+      // is now served by JomBeelajar API)
       isAuthenticated
         ? getMyStats(session!.access_token).catch((err) => {
-            logger.error('Error fetching user stats from MyQuiza:', err);
+            logger.error('Error fetching user stats from JomBeelajar API:', err);
             return null;
           })
         : Promise.resolve(null),
 
-      // xp/level/lastQuizDate are authoritative on MyQuiza's side
+      // xp/level/lastQuizDate are authoritative on JomBeelajar API's side
       // (submitAttempt writes them directly to user_profiles)
       isAuthenticated
         ? getMe(session!.access_token).catch((err) => {
-            logger.error('Error fetching /me from MyQuiza:', err);
+            logger.error('Error fetching /me from JomBeelajar API:', err);
             return null;
           })
         : Promise.resolve(null),
@@ -160,7 +160,7 @@ export async function GET() {
       );
     }
 
-    // Process subjects data server-side (MyQuiza's response is already
+    // Process subjects data server-side (JomBeelajar API's response is already
     // sorted by categoryPriority/orderIndex/name; map camelCase -> the
     // snake_case shape the rest of the dashboard response uses)
     const processedSubjects = subjectsList.map((subject) => ({

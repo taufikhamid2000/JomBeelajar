@@ -2,12 +2,12 @@
  * @jest-environment node
  */
 import { GET } from '@/app/api/leaderboard/route';
-import { getLeaderboard } from '@/lib/myquiza';
+import { getLeaderboard } from '@/lib/jombeelajar-api';
 
-// Mock the boundaries: the MyQuiza client and the Supabase server client.
+// Mock the boundaries: the JomBeelajar API client and the Supabase server client.
 // The test asserts our proxy route's own logic — query mapping, camelCase ->
 // User shape, and server-side rank computation.
-jest.mock('@/lib/myquiza', () => ({
+jest.mock('@/lib/jombeelajar-api', () => ({
   getLeaderboard: jest.fn(),
 }));
 
@@ -26,7 +26,7 @@ jest.mock('@supabase/ssr', () => ({
 describe('GET /api/leaderboard (proxy route)', () => {
   beforeEach(() => jest.clearAllMocks());
 
-  it('maps MyQuiza weekly entries to the User shape and requests the weekly period', async () => {
+  it('maps JomBeelajar API weekly entries to the User shape and requests the weekly period', async () => {
     (getLeaderboard as jest.Mock).mockResolvedValue([
       { userId: 'u1', displayName: 'Ada', avatarUrl: null, xp: 100, level: 3, weeklyXp: 20 },
       { userId: 'u2', displayName: 'Lin', avatarUrl: 'a.png', xp: 80, level: 2, weeklyXp: 10 },

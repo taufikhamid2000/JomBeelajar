@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
-import { getQuizDetail, updateQuiz } from '@/lib/myquiza';
+import { getQuizDetail, updateQuiz } from '@/lib/jombeelajar-api';
 import { getSessionToken } from '@/lib/serverSession';
 
 export async function GET(
@@ -20,19 +20,19 @@ export async function GET(
 
     logger.log(`Fetching quiz data for quiz ID: ${quizId}`);
 
-    // Quiz + questions come from MyQuiza (answer key never leaves the server)
+    // Quiz + questions come from JomBeelajar API (answer key never leaves the server)
     let quizData;
     try {
       quizData = await getQuizDetail(quizId);
     } catch (err) {
-      // MyQuiza returns 404 for unknown ids
+      // JomBeelajar API returns 404 for unknown ids
       if (err instanceof Error && err.message.includes('404')) {
         return NextResponse.json({ error: 'Quiz not found' }, { status: 404 });
       }
       throw err;
     }
 
-    // Breadcrumb context — MyQuiza only carries topicId, so source the
+    // Breadcrumb context — JomBeelajar API only carries topicId, so source the
     // topic/chapter/subject names from Supabase (content tree stays on Supabase).
     let topicTitle = 'Unknown Topic';
     let chapterTitle = 'Unknown Chapter';
@@ -82,7 +82,7 @@ export async function GET(
 
     const topicContext = { topicTitle, chapterTitle, subjectName, form };
 
-    // Map MyQuiza camelCase questions/options to the frontend shape.
+    // Map JomBeelajar API camelCase questions/options to the frontend shape.
     // No is_correct field — scoring is server-side on submit.
     const questions = quizData.questions.map((q) => ({
       id: q.id,

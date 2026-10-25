@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
-import { createMyQuizaChapter } from '@/lib/myquiza';
+import { createApiChapter } from '@/lib/jombeelajar-api';
 import { getSessionToken } from '@/lib/serverSession';
 
 export async function POST(request: NextRequest) {
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const chapter = await createMyQuizaChapter(
+    const chapter = await createApiChapter(
       { subjectId, name, form, orderIndex, description },
       token
     );

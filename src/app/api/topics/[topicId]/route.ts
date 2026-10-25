@@ -6,7 +6,7 @@ import {
   getSubjectChapters,
   getChapterTopics,
   getSubjectsList,
-} from '@/lib/myquiza';
+} from '@/lib/jombeelajar-api';
 
 export async function GET(
   request: NextRequest,
@@ -24,7 +24,7 @@ export async function GET(
 
     logger.log(`Fetching topic data for topic ID: ${topicId}`);
 
-    // Resolve topic -> chapter -> subject ancestry via MyQuiza's breadcrumb
+    // Resolve topic -> chapter -> subject ancestry via JomBeelajar API's breadcrumb
     // endpoint, then pull full chapter/topic/subject detail from the
     // already-migrated list endpoints (breadcrumb itself is intentionally
     // thin — id/name pairs only).
@@ -54,7 +54,7 @@ export async function GET(
       return NextResponse.json({ error: 'Topic not found' }, { status: 404 });
     }
 
-    // Fetch verified quizzes from MyQuiza API (topic may not exist there yet)
+    // Fetch verified quizzes from JomBeelajar API API (topic may not exist there yet)
     let processedQuizzes: {
       id: string;
       name: string;
@@ -63,8 +63,8 @@ export async function GET(
       questionCount: number;
     }[] = [];
     try {
-      const myquizaQuizzes = await getTopicQuizzes(topicId);
-      processedQuizzes = myquizaQuizzes.map((quiz) => ({
+      const apiQuizzes = await getTopicQuizzes(topicId);
+      processedQuizzes = apiQuizzes.map((quiz) => ({
         id: quiz.id,
         name: quiz.name,
         verified: quiz.verified,
@@ -74,7 +74,7 @@ export async function GET(
         isPublic: quiz.isPublic,
       }));
     } catch (err) {
-      logger.warn(`MyQuiza returned no quizzes for topic ${topicId}:`, err);
+      logger.warn(`JomBeelajar API returned no quizzes for topic ${topicId}:`, err);
     }
 
     const response = {

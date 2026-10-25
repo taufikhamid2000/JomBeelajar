@@ -1,7 +1,7 @@
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 import { checkAdminAccess } from './adminAuthService';
-import type { MyQuizaSubjectTreeEntry } from '@/lib/myquiza';
+import type { JomBeelajarApiSubjectTreeEntry } from '@/lib/jombeelajar-api';
 
 /**
  * Interface for Chapter structure
@@ -12,7 +12,7 @@ export interface Chapter {
   name: string; // Was previously called 'title', standardized as part of field naming conventions
   form: number;
   order_index: number;
-  // Not returned by MyQuiza's content-tree (and not rendered anywhere in
+  // Not returned by JomBeelajar API's content-tree (and not rendered anywhere in
   // the admin UI) — kept optional rather than backfilled.
   created_at?: string;
   updated_at?: string;
@@ -20,7 +20,7 @@ export interface Chapter {
 }
 
 /**
- * Fetches all chapters with topic counts, via MyQuiza's content-tree
+ * Fetches all chapters with topic counts, via JomBeelajar API's content-tree
  * endpoint (GET /api/admin/content-tree) — one call replaces the previous
  * full-table chapters read plus a separate all-topics count query.
  * @returns A promise with chapters data and error status
@@ -49,7 +49,7 @@ export async function fetchAdminChapters(): Promise<{
       };
     }
 
-    const formattedChapters: Chapter[] = (tree as MyQuizaSubjectTreeEntry[]).flatMap(
+    const formattedChapters: Chapter[] = (tree as JomBeelajarApiSubjectTreeEntry[]).flatMap(
       (subject) =>
         subject.chapters.map((chapter) => ({
           id: chapter.id,
@@ -83,7 +83,7 @@ export async function fetchAdminChapters(): Promise<{
 }
 
 /**
- * Creates a new chapter via MyQuiza (POST /api/v1/chapters, moderator-only)
+ * Creates a new chapter via JomBeelajar API (POST /api/v1/chapters, moderator-only)
  * @param chapterData The chapter data to create
  * @returns A promise with the created chapter ID or error
  */
@@ -144,7 +144,7 @@ export async function createChapter(chapterData: {
 }
 
 /**
- * Updates an existing chapter via MyQuiza (PATCH /api/v1/chapters/{id})
+ * Updates an existing chapter via JomBeelajar API (PATCH /api/v1/chapters/{id})
  * @param id The ID of the chapter to update
  * @param chapterData The updated chapter data
  * @returns A promise with success status and error
@@ -192,7 +192,7 @@ export async function updateChapter(
 }
 
 /**
- * Deletes a chapter via MyQuiza (DELETE /api/v1/chapters/{id}). Guarded
+ * Deletes a chapter via JomBeelajar API (DELETE /api/v1/chapters/{id}). Guarded
  * server-side — returns a 409 (surfaced as an Error here) if any topics
  * still exist under this chapter.
  * @param id The ID of the chapter to delete

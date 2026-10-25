@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
-import { getSchools } from '@/lib/myquiza';
+import { getSchools } from '@/lib/jombeelajar-api';
 
 export async function GET() {
   try {
-    // School rankings + per-school stats come from MyQuiza now. Growth rates
-    // still read school_stats_history directly — MyQuiza excluded that table
+    // School rankings + per-school stats come from JomBeelajar API now. Growth rates
+    // still read school_stats_history directly — JomBeelajar API excluded that table
     // (it's a single platform-wide time series, not per-school, so it
     // doesn't fit their schools domain).
     const [mqSchools, studentsResult, historyResult] = await Promise.all([

@@ -1,8 +1,8 @@
-const BASE_URL = process.env.MYQUIZA_API_URL ?? '';
+const BASE_URL = process.env.JOMBEELAJAR_API_URL ?? '';
 
 // ---- Types ----
 
-export interface MyQuizaQuiz {
+export interface JomBeelajarApiQuiz {
   id: string;
   topicId: string;
   name: string;
@@ -122,10 +122,10 @@ export interface UpdateMePayload {
   avatarUrl?: string;
 }
 
-// Audit comments: identical shape on quizzes/questions/answers, per MyQuiza.
+// Audit comments: identical shape on quizzes/questions/answers, per JomBeelajar API.
 export type AuditEntityType = 'quizzes' | 'questions' | 'answers';
 
-export interface MyQuizaAuditComment {
+export interface JomBeelajarApiAuditComment {
   id: string;
   commentText: string;
   commentType: 'suggestion' | 'issue' | 'approved' | 'rejected';
@@ -138,7 +138,7 @@ export interface CreateAuditCommentPayload {
   commentType: 'suggestion' | 'issue' | 'approved' | 'rejected';
 }
 
-export interface MyQuizaVerificationLogEntry {
+export interface JomBeelajarApiVerificationLogEntry {
   id: string;
   action: 'verified' | 'unverified';
   reason: string | null;
@@ -164,7 +164,7 @@ export interface LeaderboardEntry {
 
 // ---- Core fetch ----
 
-async function myquizaFetch<T>(
+async function apiFetch<T>(
   path: string,
   token: string | null,
   options: RequestInit = {}
@@ -181,7 +181,7 @@ async function myquizaFetch<T>(
   if (!res.ok) {
     // Include the response body's error detail when present (e.g. 409
     // delete-guard responses tell the caller how many children are blocking
-    // the delete) while keeping the "MyQuiza {status}" prefix callers match
+    // the delete) while keeping the "JomBeelajar API {status}" prefix callers match
     // on via .includes('403') etc.
     let detail = '';
     try {
@@ -190,7 +190,7 @@ async function myquizaFetch<T>(
     } catch {
       // no JSON body — ignore
     }
-    throw new Error(`MyQuiza ${res.status}: ${path}${detail ? ` — ${detail}` : ''}`);
+    throw new Error(`JomBeelajar API ${res.status}: ${path}${detail ? ` — ${detail}` : ''}`);
   }
 
   // PATCH/DELETE may return 204 No Content or an empty body.
@@ -201,24 +201,24 @@ async function myquizaFetch<T>(
 // ---- Endpoints ----
 
 export function createQuiz(payload: CreateQuizPayload, token: string | null) {
-  return myquizaFetch<{ id: string }>('/api/v1/quizzes', token, {
+  return apiFetch<{ id: string }>('/api/v1/quizzes', token, {
     method: 'POST',
     body: JSON.stringify(payload),
   });
 }
 
 export function getTopicQuizzes(topicId: string) {
-  return myquizaFetch<MyQuizaQuiz[]>(`/api/v1/topics/${topicId}/quizzes`, null);
+  return apiFetch<JomBeelajarApiQuiz[]>(`/api/v1/topics/${topicId}/quizzes`, null);
 }
 
 export function getQuizDetail(quizId: string) {
-  return myquizaFetch<QuizDetail>(`/api/v1/quizzes/${quizId}`, null);
+  return apiFetch<QuizDetail>(`/api/v1/quizzes/${quizId}`, null);
 }
 
 // Author/moderator-only quiz view — includes isCorrect on every answer.
 // Use for the quiz editor; never expose this response to non-owners.
 export function getQuizAuthorDetail(quizId: string, token: string | null) {
-  return myquizaFetch<QuizAuthorDetail>(`/api/v1/quizzes/${quizId}/author`, token);
+  return apiFetch<QuizAuthorDetail>(`/api/v1/quizzes/${quizId}/author`, token);
 }
 
 export function updateQuiz(
@@ -226,7 +226,7 @@ export function updateQuiz(
   payload: UpdateQuizPayload,
   token: string | null
 ) {
-  return myquizaFetch<QuizDetail>(`/api/v1/quizzes/${quizId}`, token, {
+  return apiFetch<QuizDetail>(`/api/v1/quizzes/${quizId}`, token, {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });
@@ -237,7 +237,7 @@ export function createQuestion(
   payload: CreateQuestionPayload,
   token: string | null
 ) {
-  return myquizaFetch<{ id: string }>(`/api/v1/quizzes/${quizId}/questions`, token, {
+  return apiFetch<{ id: string }>(`/api/v1/quizzes/${quizId}/questions`, token, {
     method: 'POST',
     body: JSON.stringify(payload),
   });
@@ -248,14 +248,14 @@ export function updateQuestion(
   payload: UpdateQuestionPayload,
   token: string | null
 ) {
-  return myquizaFetch<void>(`/api/v1/questions/${questionId}`, token, {
+  return apiFetch<void>(`/api/v1/questions/${questionId}`, token, {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });
 }
 
 export function deleteQuestion(questionId: string, token: string | null) {
-  return myquizaFetch<void>(`/api/v1/questions/${questionId}`, token, {
+  return apiFetch<void>(`/api/v1/questions/${questionId}`, token, {
     method: 'DELETE',
   });
 }
@@ -265,7 +265,7 @@ export function createAnswer(
   payload: CreateAnswerPayload,
   token: string | null
 ) {
-  return myquizaFetch<{ id: string }>(
+  return apiFetch<{ id: string }>(
     `/api/v1/questions/${questionId}/answers`,
     token,
     { method: 'POST', body: JSON.stringify(payload) }
@@ -277,14 +277,14 @@ export function updateAnswer(
   payload: UpdateAnswerPayload,
   token: string | null
 ) {
-  return myquizaFetch<void>(`/api/v1/answers/${answerId}`, token, {
+  return apiFetch<void>(`/api/v1/answers/${answerId}`, token, {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });
 }
 
 export function deleteAnswer(answerId: string, token: string | null) {
-  return myquizaFetch<void>(`/api/v1/answers/${answerId}`, token, {
+  return apiFetch<void>(`/api/v1/answers/${answerId}`, token, {
     method: 'DELETE',
   });
 }
@@ -294,7 +294,7 @@ export function getAuditComments(
   entityId: string,
   token: string | null
 ) {
-  return myquizaFetch<MyQuizaAuditComment[]>(
+  return apiFetch<JomBeelajarApiAuditComment[]>(
     `/api/v1/${entity}/${entityId}/comments`,
     token
   );
@@ -306,7 +306,7 @@ export function addAuditComment(
   payload: CreateAuditCommentPayload,
   token: string | null
 ) {
-  return myquizaFetch<MyQuizaAuditComment>(
+  return apiFetch<JomBeelajarApiAuditComment>(
     `/api/v1/${entity}/${entityId}/comments`,
     token,
     { method: 'POST', body: JSON.stringify(payload) }
@@ -320,7 +320,7 @@ export function resolveAuditComment(
   isResolved: boolean,
   token: string | null
 ) {
-  return myquizaFetch<MyQuizaAuditComment>(
+  return apiFetch<JomBeelajarApiAuditComment>(
     `/api/v1/${entity}/${entityId}/comments/${commentId}`,
     token,
     { method: 'PATCH', body: JSON.stringify({ isResolved }) }
@@ -328,7 +328,7 @@ export function resolveAuditComment(
 }
 
 export function getQuizVerificationLog(quizId: string, token: string | null) {
-  return myquizaFetch<MyQuizaVerificationLogEntry[]>(
+  return apiFetch<JomBeelajarApiVerificationLogEntry[]>(
     `/api/v1/quizzes/${quizId}/verification-log`,
     token
   );
@@ -346,17 +346,17 @@ export function verifyQuiz(
   payload: VerifyQuizPayload,
   token: string | null
 ) {
-  return myquizaFetch<void>(`/api/v1/quizzes/${quizId}/verify`, token, {
+  return apiFetch<void>(`/api/v1/quizzes/${quizId}/verify`, token, {
     method: 'POST',
     body: JSON.stringify(payload),
   });
 }
 
 // Awarded-achievement rows (per user). A real catalog now exists too —
-// see MyQuizaAchievementCatalogEntry below — but earned rows always
+// see JomBeelajarApiAchievementCatalogEntry below — but earned rows always
 // snapshot title/description/icon/achievementType at award time, so
 // editing the catalog later never retroactively changes past awards.
-export interface MyQuizaAchievement {
+export interface JomBeelajarApiAchievement {
   id: string;
   achievementType: string;
   title: string;
@@ -381,13 +381,13 @@ export type AwardAchievementPayload =
     };
 
 export function getMyAchievements(token: string | null) {
-  return myquizaFetch<MyQuizaAchievement[]>('/api/v1/me/achievements', token);
+  return apiFetch<JomBeelajarApiAchievement[]>('/api/v1/me/achievements', token);
 }
 
 // Public — achievement badges aren't sensitive, and profile pages need to
 // show other users' earned badges. Safe to call with token: null.
 export function getUserAchievements(userId: string, token: string | null) {
-  return myquizaFetch<MyQuizaAchievement[]>(
+  return apiFetch<JomBeelajarApiAchievement[]>(
     `/api/v1/users/${userId}/achievements`,
     token
   );
@@ -399,7 +399,7 @@ export function awardAchievement(
   payload: AwardAchievementPayload,
   token: string | null
 ) {
-  return myquizaFetch<MyQuizaAchievement>(
+  return apiFetch<JomBeelajarApiAchievement>(
     `/api/v1/users/${userId}/achievements`,
     token,
     { method: 'POST', body: JSON.stringify(payload) }
@@ -408,7 +408,7 @@ export function awardAchievement(
 
 // Achievement catalog — template definitions admins manage, referenced by
 // achievementId when awarding (see AwardAchievementPayload above).
-export interface MyQuizaAchievementCatalogEntry {
+export interface JomBeelajarApiAchievementCatalogEntry {
   id: string;
   achievementType: string;
   title: string;
@@ -426,7 +426,7 @@ export interface CatalogAchievementPayload {
 }
 
 export function getAchievementCatalog() {
-  return myquizaFetch<MyQuizaAchievementCatalogEntry[]>(
+  return apiFetch<JomBeelajarApiAchievementCatalogEntry[]>(
     '/api/v1/achievements',
     null
   );
@@ -436,7 +436,7 @@ export function createCatalogAchievement(
   payload: CatalogAchievementPayload,
   token: string | null
 ) {
-  return myquizaFetch<MyQuizaAchievementCatalogEntry>(
+  return apiFetch<JomBeelajarApiAchievementCatalogEntry>(
     '/api/v1/achievements',
     token,
     { method: 'POST', body: JSON.stringify(payload) }
@@ -448,7 +448,7 @@ export function updateCatalogAchievement(
   payload: Partial<CatalogAchievementPayload>,
   token: string | null
 ) {
-  return myquizaFetch<MyQuizaAchievementCatalogEntry>(
+  return apiFetch<JomBeelajarApiAchievementCatalogEntry>(
     `/api/v1/achievements/${id}`,
     token,
     { method: 'PATCH', body: JSON.stringify(payload) }
@@ -456,7 +456,7 @@ export function updateCatalogAchievement(
 }
 
 export function deleteCatalogAchievement(id: string, token: string | null) {
-  return myquizaFetch<void>(`/api/v1/achievements/${id}`, token, {
+  return apiFetch<void>(`/api/v1/achievements/${id}`, token, {
     method: 'DELETE',
   });
 }
@@ -466,20 +466,20 @@ export function submitAttempt(
   payload: SubmitAttemptPayload,
   token: string | null
 ) {
-  return myquizaFetch<AttemptResult>(`/api/v1/quizzes/${quizId}/attempts`, token, {
+  return apiFetch<AttemptResult>(`/api/v1/quizzes/${quizId}/attempts`, token, {
     method: 'POST',
     body: JSON.stringify(payload),
   });
 }
 
 export function getMyProgress(token: string | null) {
-  return myquizaFetch<TopicProgress[]>('/api/v1/me/progress', token);
+  return apiFetch<TopicProgress[]>('/api/v1/me/progress', token);
 }
 
 // displayName/avatarUrl only — schoolRole is deliberately not editable here
 // (privilege-escalation risk: schoolRole drives Moderator/Admin authorization).
 export function updateMe(payload: UpdateMePayload, token: string | null) {
-  return myquizaFetch<{ id: string }>('/api/v1/me', token, {
+  return apiFetch<{ id: string }>('/api/v1/me', token, {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });
@@ -493,7 +493,7 @@ export function getLeaderboard(
   if (options.period) params.set('period', options.period);
   if (options.limit) params.set('limit', String(options.limit));
   const qs = params.toString();
-  return myquizaFetch<LeaderboardEntry[]>(
+  return apiFetch<LeaderboardEntry[]>(
     `/api/v1/leaderboard${qs ? `?${qs}` : ''}`,
     token
   );
@@ -517,7 +517,7 @@ export const SCHOOL_TYPES = [
 ] as const;
 export type SchoolType = (typeof SCHOOL_TYPES)[number];
 
-export interface MyQuizaSchool {
+export interface JomBeelajarApiSchool {
   id: string;
   name: string;
   type: SchoolType;
@@ -528,21 +528,21 @@ export interface MyQuizaSchool {
   activeStudents: number;
 }
 
-export interface MyQuizaSchoolStats {
+export interface JomBeelajarApiSchoolStats {
   totalQuizzesTaken: number;
   totalQuestionsAnswered: number;
   correctAnswers: number;
   lastCalculatedAt: string;
 }
 
-export interface MyQuizaSchoolDetail extends MyQuizaSchool {
+export interface JomBeelajarApiSchoolDetail extends JomBeelajarApiSchool {
   code: string | null;
   address: string | null;
   website: string | null;
   phone: string | null;
   principalName: string | null;
   totalStudents: number | null;
-  stats: MyQuizaSchoolStats | null;
+  stats: JomBeelajarApiSchoolStats | null;
 }
 
 export interface SchoolPayload {
@@ -559,15 +559,15 @@ export interface SchoolPayload {
 }
 
 export function getSchools() {
-  return myquizaFetch<MyQuizaSchool[]>('/api/v1/schools', null);
+  return apiFetch<JomBeelajarApiSchool[]>('/api/v1/schools', null);
 }
 
 export function getSchoolDetail(id: string) {
-  return myquizaFetch<MyQuizaSchoolDetail>(`/api/v1/schools/${id}`, null);
+  return apiFetch<JomBeelajarApiSchoolDetail>(`/api/v1/schools/${id}`, null);
 }
 
 export function createSchool(payload: SchoolPayload, token: string | null) {
-  return myquizaFetch<MyQuizaSchoolDetail>('/api/v1/schools', token, {
+  return apiFetch<JomBeelajarApiSchoolDetail>('/api/v1/schools', token, {
     method: 'POST',
     body: JSON.stringify(payload),
   });
@@ -578,20 +578,20 @@ export function updateSchool(
   payload: Partial<SchoolPayload>,
   token: string | null
 ) {
-  return myquizaFetch<MyQuizaSchoolDetail>(`/api/v1/schools/${id}`, token, {
+  return apiFetch<JomBeelajarApiSchoolDetail>(`/api/v1/schools/${id}`, token, {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });
 }
 
 export function deleteSchool(id: string, token: string | null) {
-  return myquizaFetch<void>(`/api/v1/schools/${id}`, token, {
+  return apiFetch<void>(`/api/v1/schools/${id}`, token, {
     method: 'DELETE',
   });
 }
 
-// Dashboard aggregate stats, backed by MyQuiza's mv_user_dashboard_stats.
-export interface MyQuizaUserStats {
+// Dashboard aggregate stats, backed by JomBeelajar API's mv_user_dashboard_stats.
+export interface JomBeelajarApiUserStats {
   completedQuizzes: number;
   averageScore: number;
   activeDays: number;
@@ -601,13 +601,13 @@ export interface MyQuizaUserStats {
 }
 
 export function getMyStats(token: string | null) {
-  return myquizaFetch<MyQuizaUserStats>('/api/v1/me/stats', token);
+  return apiFetch<JomBeelajarApiUserStats>('/api/v1/me/stats', token);
 }
 
-// MyQuiza is authoritative for xp/level/dailyXp/weeklyXp/lastQuizDate —
+// JomBeelajar API is authoritative for xp/level/dailyXp/weeklyXp/lastQuizDate —
 // its submitAttempt endpoint writes these directly to user_profiles.
-// streak is NOT touched by MyQuiza; keep reading that from Supabase.
-export interface MyQuizaMe {
+// streak is NOT touched by JomBeelajar API; keep reading that from Supabase.
+export interface JomBeelajarApiMe {
   id: string;
   displayName: string | null;
   avatarUrl: string | null;
@@ -620,13 +620,13 @@ export interface MyQuizaMe {
 }
 
 export function getMe(token: string | null) {
-  return myquizaFetch<MyQuizaMe>('/api/v1/me', token);
+  return apiFetch<JomBeelajarApiMe>('/api/v1/me', token);
 }
 
 // Attempt history. topic/subject were added to the response after we
 // flagged the gap — subject is null on attempts recorded before that fix
 // (never captured), topic is present on all attempts.
-export interface MyQuizaAttempt {
+export interface JomBeelajarApiAttempt {
   id: string;
   quizId: string;
   quizTitle: string;
@@ -639,7 +639,7 @@ export interface MyQuizaAttempt {
 }
 
 export function getMyAttempts(token: string | null) {
-  return myquizaFetch<MyQuizaAttempt[]>('/api/v1/me/attempts', token);
+  return apiFetch<JomBeelajarApiAttempt[]>('/api/v1/me/attempts', token);
 }
 
 // Content tree CRUD (moderator-only). Deletes are guarded server-side —
@@ -656,26 +656,26 @@ export interface SubjectPayload {
   categoryPriority?: number;
 }
 
-export function createMyQuizaSubject(payload: SubjectPayload, token: string | null) {
-  return myquizaFetch<{ id: string }>('/api/v1/subjects', token, {
+export function createApiSubject(payload: SubjectPayload, token: string | null) {
+  return apiFetch<{ id: string }>('/api/v1/subjects', token, {
     method: 'POST',
     body: JSON.stringify(payload),
   });
 }
 
-export function updateMyQuizaSubject(
+export function updateApiSubject(
   id: string,
   payload: Partial<SubjectPayload>,
   token: string | null
 ) {
-  return myquizaFetch<{ id: string }>(`/api/v1/subjects/${id}`, token, {
+  return apiFetch<{ id: string }>(`/api/v1/subjects/${id}`, token, {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });
 }
 
-export function deleteMyQuizaSubject(id: string, token: string | null) {
-  return myquizaFetch<void>(`/api/v1/subjects/${id}`, token, {
+export function deleteApiSubject(id: string, token: string | null) {
+  return apiFetch<void>(`/api/v1/subjects/${id}`, token, {
     method: 'DELETE',
   });
 }
@@ -688,26 +688,26 @@ export interface ChapterPayload {
   description?: string;
 }
 
-export function createMyQuizaChapter(payload: ChapterPayload, token: string | null) {
-  return myquizaFetch<{ id: string }>('/api/v1/chapters', token, {
+export function createApiChapter(payload: ChapterPayload, token: string | null) {
+  return apiFetch<{ id: string }>('/api/v1/chapters', token, {
     method: 'POST',
     body: JSON.stringify(payload),
   });
 }
 
-export function updateMyQuizaChapter(
+export function updateApiChapter(
   id: string,
   payload: Partial<ChapterPayload>,
   token: string | null
 ) {
-  return myquizaFetch<{ id: string }>(`/api/v1/chapters/${id}`, token, {
+  return apiFetch<{ id: string }>(`/api/v1/chapters/${id}`, token, {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });
 }
 
-export function deleteMyQuizaChapter(id: string, token: string | null) {
-  return myquizaFetch<void>(`/api/v1/chapters/${id}`, token, {
+export function deleteApiChapter(id: string, token: string | null) {
+  return apiFetch<void>(`/api/v1/chapters/${id}`, token, {
     method: 'DELETE',
   });
 }
@@ -721,26 +721,26 @@ export interface TopicPayload {
   orderIndex: number;
 }
 
-export function createMyQuizaTopic(payload: TopicPayload, token: string | null) {
-  return myquizaFetch<{ id: string }>('/api/v1/topics', token, {
+export function createApiTopic(payload: TopicPayload, token: string | null) {
+  return apiFetch<{ id: string }>('/api/v1/topics', token, {
     method: 'POST',
     body: JSON.stringify(payload),
   });
 }
 
-export function updateMyQuizaTopic(
+export function updateApiTopic(
   id: string,
   payload: Partial<TopicPayload>,
   token: string | null
 ) {
-  return myquizaFetch<{ id: string }>(`/api/v1/topics/${id}`, token, {
+  return apiFetch<{ id: string }>(`/api/v1/topics/${id}`, token, {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });
 }
 
-export function deleteMyQuizaTopic(id: string, token: string | null) {
-  return myquizaFetch<void>(`/api/v1/topics/${id}`, token, {
+export function deleteApiTopic(id: string, token: string | null) {
+  return apiFetch<void>(`/api/v1/topics/${id}`, token, {
     method: 'DELETE',
   });
 }
@@ -749,7 +749,7 @@ export function deleteMyQuizaTopic(id: string, token: string | null) {
 // formal contract given; verified directly). No by-slug or by-single-id
 // lookup exists for subjects/topics; only "list all subjects" and
 // "list a subject's chapters" / "list a chapter's topics".
-export interface MyQuizaSubjectListEntry {
+export interface JomBeelajarApiSubjectListEntry {
   id: string;
   name: string;
   slug: string;
@@ -761,7 +761,7 @@ export interface MyQuizaSubjectListEntry {
   categoryPriority: number | null;
 }
 
-export interface MyQuizaChapterListEntry {
+export interface JomBeelajarApiChapterListEntry {
   id: string;
   subjectId: string;
   name: string;
@@ -770,7 +770,7 @@ export interface MyQuizaChapterListEntry {
   description: string | null;
 }
 
-export interface MyQuizaTopicListEntry {
+export interface JomBeelajarApiTopicListEntry {
   id: string;
   chapterId: string;
   name: string;
@@ -781,18 +781,18 @@ export interface MyQuizaTopicListEntry {
 }
 
 export function getSubjectsList() {
-  return myquizaFetch<MyQuizaSubjectListEntry[]>('/api/v1/subjects', null);
+  return apiFetch<JomBeelajarApiSubjectListEntry[]>('/api/v1/subjects', null);
 }
 
 export function getSubjectChapters(subjectId: string) {
-  return myquizaFetch<MyQuizaChapterListEntry[]>(
+  return apiFetch<JomBeelajarApiChapterListEntry[]>(
     `/api/v1/subjects/${subjectId}/chapters`,
     null
   );
 }
 
 export function getChapterTopics(chapterId: string) {
-  return myquizaFetch<MyQuizaTopicListEntry[]>(
+  return apiFetch<JomBeelajarApiTopicListEntry[]>(
     `/api/v1/chapters/${chapterId}/topics`,
     null
   );
@@ -800,7 +800,7 @@ export function getChapterTopics(chapterId: string) {
 
 // Reverse lookup: topic -> its parent chapter/subject. No single-topic-detail
 // endpoint otherwise exists — only nested lists under a chapter.
-export interface MyQuizaTopicBreadcrumb {
+export interface JomBeelajarApiTopicBreadcrumb {
   id: string;
   name: string;
   chapterId: string | null;
@@ -810,7 +810,7 @@ export interface MyQuizaTopicBreadcrumb {
 }
 
 export function getTopicBreadcrumb(topicId: string) {
-  return myquizaFetch<MyQuizaTopicBreadcrumb>(
+  return apiFetch<JomBeelajarApiTopicBreadcrumb>(
     `/api/v1/topics/${topicId}/breadcrumb`,
     null
   );
@@ -819,7 +819,7 @@ export function getTopicBreadcrumb(topicId: string) {
 // Full nested subjects -> chapters -> topics tree in one call, for admin UIs
 // that would otherwise fan out into subjects * chapters individual requests.
 // Moderator-only; includes disabled subjects.
-export interface MyQuizaTopicTreeEntry {
+export interface JomBeelajarApiTopicTreeEntry {
   id: string;
   name: string;
   orderIndex: number;
@@ -827,33 +827,33 @@ export interface MyQuizaTopicTreeEntry {
   quizCount: number;
 }
 
-export interface MyQuizaChapterTreeEntry {
+export interface JomBeelajarApiChapterTreeEntry {
   id: string;
   name: string;
   form: number;
   orderIndex: number;
   description: string | null;
   quizCount: number;
-  topics: MyQuizaTopicTreeEntry[];
+  topics: JomBeelajarApiTopicTreeEntry[];
 }
 
-export interface MyQuizaSubjectTreeEntry {
+export interface JomBeelajarApiSubjectTreeEntry {
   id: string;
   name: string;
   slug: string;
   description: string | null;
   isDisabled: boolean;
   quizCount: number;
-  chapters: MyQuizaChapterTreeEntry[];
+  chapters: JomBeelajarApiChapterTreeEntry[];
 }
 
 export function getContentTree(token: string | null) {
-  return myquizaFetch<MyQuizaSubjectTreeEntry[]>('/api/v1/content-tree', token);
+  return apiFetch<JomBeelajarApiSubjectTreeEntry[]>('/api/v1/content-tree', token);
 }
 
 // Cross-quiz moderator dashboard aggregate — every other audit endpoint is
 // scoped to a single quiz/question/answer, so this avoids an admin UI fan-out.
-export interface MyQuizaAuditSummary {
+export interface JomBeelajarApiAuditSummary {
   unresolvedQuizComments: number;
   unresolvedQuestionComments: number;
   unresolvedAnswerComments: number;
@@ -864,13 +864,13 @@ export interface MyQuizaAuditSummary {
 }
 
 export function getAuditSummary(token: string | null) {
-  return myquizaFetch<MyQuizaAuditSummary>('/api/v1/admin/audit-summary', token);
+  return apiFetch<JomBeelajarApiAuditSummary>('/api/v1/admin/audit-summary', token);
 }
 
 // Review queue: all unverified quizzes with ancestry + a rolled-up
 // unresolved-comment count, replacing an admin-side N+1 (one comment-count
 // query per quiz).
-export interface MyQuizaUnverifiedQuiz {
+export interface JomBeelajarApiUnverifiedQuiz {
   id: string;
   name: string;
   topicId: string;
@@ -884,7 +884,7 @@ export interface MyQuizaUnverifiedQuiz {
 }
 
 export function getUnverifiedQuizzes(token: string | null) {
-  return myquizaFetch<MyQuizaUnverifiedQuiz[]>(
+  return apiFetch<JomBeelajarApiUnverifiedQuiz[]>(
     '/api/v1/admin/quizzes/unverified',
     token
   );
@@ -905,7 +905,7 @@ export function checkAnswer(
   selectedAnswerIds: string[],
   token: string | null
 ) {
-  return myquizaFetch<CheckAnswerResult>(
+  return apiFetch<CheckAnswerResult>(
     `/api/v1/quizzes/${quizId}/questions/${questionId}/check`,
     token,
     { method: 'POST', body: JSON.stringify({ selectedAnswerIds }) }
@@ -915,7 +915,7 @@ export function checkAnswer(
 // Per-subject progress rollup + most recent activity (dashboard rings and
 // Continue card). A topic is "completed" when the user passed a verified quiz
 // in it; topicsTotal counts topics that have at least one verified quiz.
-export interface MyQuizaSubjectProgress {
+export interface JomBeelajarApiSubjectProgress {
   subjectId: string;
   slug: string;
   name: string;
@@ -926,8 +926,8 @@ export interface MyQuizaSubjectProgress {
   lastAttemptAt: string | null;
 }
 
-export interface MyQuizaProgressSummary {
-  subjects: MyQuizaSubjectProgress[];
+export interface JomBeelajarApiProgressSummary {
+  subjects: JomBeelajarApiSubjectProgress[];
   last: {
     subjectId: string;
     subjectSlug: string;
@@ -939,7 +939,7 @@ export interface MyQuizaProgressSummary {
 }
 
 export function getMyProgressSummary(token: string | null) {
-  return myquizaFetch<MyQuizaProgressSummary>('/api/v1/me/progress/summary', token, {
+  return apiFetch<JomBeelajarApiProgressSummary>('/api/v1/me/progress/summary', token, {
     // Fail fast on a cold-starting API instead of hitting the platform timeout.
     signal: AbortSignal.timeout(8000),
   });

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import SchoolProfileContent from '@/components/schools/SchoolProfileContent';
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
-import { getSchoolDetail } from '@/lib/myquiza';
+import { getSchoolDetail } from '@/lib/jombeelajar-api';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -40,7 +40,7 @@ async function loadSchoolProfile(id: string) {
   }
 
   // teacherCount/studentCount/topStudents come from user_profiles
-  // (school_id/school_role linkage), which MyQuiza's schools domain
+  // (school_id/school_role linkage), which JomBeelajar API's schools domain
   // doesn't own — these stay on Supabase.
   const { count: teacherCount } = await supabase
     .from('user_profiles')

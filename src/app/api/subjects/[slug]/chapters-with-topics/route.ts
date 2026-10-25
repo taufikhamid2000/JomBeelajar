@@ -4,7 +4,7 @@ import {
   getSubjectsList,
   getSubjectChapters,
   getChapterTopics,
-} from '@/lib/myquiza';
+} from '@/lib/jombeelajar-api';
 
 // Cache duration in seconds
 const CACHE_DURATION = 300; // 5 minutes
@@ -40,7 +40,7 @@ export async function GET(
       );
     }
 
-    // No by-slug lookup on MyQuiza's side — resolve slug -> id first.
+    // No by-slug lookup on JomBeelajar API's side — resolve slug -> id first.
     const subjects = await getSubjectsList();
     const subject = subjects.find((s) => s.slug === slug);
 

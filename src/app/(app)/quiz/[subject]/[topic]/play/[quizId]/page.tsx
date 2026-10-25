@@ -33,7 +33,7 @@ export default function PlayQuizPage() {
 
     let cancelled = false;
 
-    // 20-second hard timeout — MyQuiza cold-starts can be slow
+    // 20-second hard timeout — JomBeelajar API cold-starts can be slow
     const timeout = setTimeout(() => {
       if (!cancelled) {
         cancelled = true;

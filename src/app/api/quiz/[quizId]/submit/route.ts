@@ -3,7 +3,7 @@ import { cookies, headers } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { jomCookieOptions } from '@/lib/supabase/cookie-options';
 import { logger } from '@/lib/logger';
-import { submitAttempt } from '@/lib/myquiza';
+import { submitAttempt } from '@/lib/jombeelajar-api';
 
 interface SubmitQuizRequest {
   answers: { questionId: string; selectedAnswerIds: string[] }[];
@@ -23,7 +23,7 @@ export async function POST(
       return NextResponse.json({ error: 'Missing quizId' }, { status: 400 });
     }
 
-    // Get session token from cookies to forward to MyQuiza
+    // Get session token from cookies to forward to JomBeelajar API
     const cookieStore = await cookies();
     const supabaseServer = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -45,7 +45,7 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    logger.log('Forwarding quiz attempt to MyQuiza:', { quizId });
+    logger.log('Forwarding quiz attempt to JomBeelajar API:', { quizId });
 
     const result = await submitAttempt(
       quizId,

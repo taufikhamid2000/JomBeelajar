@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
-import { getSubjectsList } from '@/lib/myquiza';
+import { getSubjectsList } from '@/lib/jombeelajar-api';
 
 // Cache duration in seconds
 const CACHE_DURATION = 300; // 5 minutes
@@ -19,7 +19,7 @@ export async function GET(
       );
     }
 
-    // No by-slug lookup on MyQuiza's side — fetch the list and match locally.
+    // No by-slug lookup on JomBeelajar API's side — fetch the list and match locally.
     const subjects = await getSubjectsList();
     const subject = subjects.find((s) => s.slug === slug);
 

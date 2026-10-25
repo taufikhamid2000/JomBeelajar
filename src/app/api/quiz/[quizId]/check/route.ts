@@ -3,10 +3,10 @@ import { cookies, headers } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { jomCookieOptions } from '@/lib/supabase/cookie-options';
 import { logger } from '@/lib/logger';
-import { checkAnswer } from '@/lib/myquiza';
+import { checkAnswer } from '@/lib/jombeelajar-api';
 
 // Per-question feedback. Guests may play, so a missing session is fine —
-// the MyQuiza endpoint is anonymous; we forward the token only if present.
+// the JomBeelajar API endpoint is anonymous; we forward the token only if present.
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ quizId: string }> }
@@ -50,7 +50,7 @@ export async function POST(
     );
     return NextResponse.json(result, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
-    if (error instanceof Error && /MyQuiza 404/.test(error.message)) {
+    if (error instanceof Error && /JomBeelajar API 404/.test(error.message)) {
       return NextResponse.json({ error: 'Question not found' }, { status: 404 });
     }
     logger.error('Error checking answer:', error);

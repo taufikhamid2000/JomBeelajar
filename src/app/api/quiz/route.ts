@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies, headers } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { jomCookieOptions } from '@/lib/supabase/cookie-options';
-import { createQuiz } from '@/lib/myquiza';
+import { createQuiz } from '@/lib/jombeelajar-api';
 import { logger } from '@/lib/logger';
 
 export async function POST(request: NextRequest) {
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       session.access_token
     );
 
-    logger.log('Quiz created via MyQuiza:', result.id);
+    logger.log('Quiz created via JomBeelajar API:', result.id);
     return NextResponse.json({ quizId: result.id });
   } catch (error) {
     logger.error('Error creating quiz:', error);

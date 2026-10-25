@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 import { checkAdminAccess } from './adminAuthService';
 import { Topic as TopicType, Chapter, Subject, Quiz } from '@/types/topics';
-import type { MyQuizaSubjectTreeEntry } from '@/lib/myquiza';
+import type { JomBeelajarApiSubjectTreeEntry } from '@/lib/jombeelajar-api';
 
 /**
  * Interface for Topic structure
@@ -13,14 +13,14 @@ export interface Topic {
   name: string;
   order_index: number;
   created_at: string;
-  // Not returned by MyQuiza's content-tree (and not rendered anywhere in
+  // Not returned by JomBeelajar API's content-tree (and not rendered anywhere in
   // the admin UI) — kept optional rather than backfilled.
   updated_at?: string;
   quiz_count?: number;
 }
 
 /**
- * Fetches all topics with quiz counts, via MyQuiza's content-tree endpoint
+ * Fetches all topics with quiz counts, via JomBeelajar API's content-tree endpoint
  * (GET /api/admin/content-tree) — one call replaces the previous full-table
  * topics read plus a separate all-quizzes count query.
  * @returns A promise with topics data and error status
@@ -50,7 +50,7 @@ export async function fetchAdminTopics(): Promise<{
       };
     }
 
-    const formattedTopics: Topic[] = (tree as MyQuizaSubjectTreeEntry[]).flatMap(
+    const formattedTopics: Topic[] = (tree as JomBeelajarApiSubjectTreeEntry[]).flatMap(
       (subject) =>
         subject.chapters.flatMap((chapter) =>
           chapter.topics.map((topic) => ({
@@ -86,7 +86,7 @@ export async function fetchAdminTopics(): Promise<{
 }
 
 /**
- * Creates a new topic via MyQuiza (POST /api/v1/topics, moderator-only)
+ * Creates a new topic via JomBeelajar API (POST /api/v1/topics, moderator-only)
  * @param topicData The topic data to create
  * @returns A promise with the created topic ID or error
  */
@@ -142,9 +142,9 @@ export async function createTopic(topicData: {
 }
 
 /**
- * Updates an existing topic via MyQuiza (PATCH /api/v1/topics/{id}).
+ * Updates an existing topic via JomBeelajar API (PATCH /api/v1/topics/{id}).
  * `title`/`content` are the historical local field names (pre-dating a
- * `name` standardization elsewhere); mapped onto MyQuiza's `name`/
+ * `name` standardization elsewhere); mapped onto JomBeelajar API's `name`/
  * `description` fields.
  * @param id The ID of the topic to update
  * @param topicData The updated topic data
@@ -191,7 +191,7 @@ export async function updateTopic(
 }
 
 /**
- * Deletes a topic via MyQuiza (DELETE /api/v1/topics/{id}). Guarded
+ * Deletes a topic via JomBeelajar API (DELETE /api/v1/topics/{id}). Guarded
  * server-side — returns a 409 (surfaced as an Error here) if any quizzes
  * still exist under this topic.
  * @param id The ID of the topic to delete

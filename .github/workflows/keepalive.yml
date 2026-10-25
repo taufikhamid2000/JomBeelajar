@@ -1,6 +1,6 @@
-name: Keep MyQuiza API awake
+name: Keep JomBeelajar API API awake
 
-# Pings the MyQuiza API /health endpoint to prevent the Render free-tier
+# Pings the JomBeelajar API API /health endpoint to prevent the Render free-tier
 # instance from sleeping (it spins down after ~15 min of inactivity).
 # Vercel Cron can't do this on the Hobby plan (daily-only), so we use
 # GitHub Actions, which supports short intervals and is plan-independent.
@@ -14,10 +14,10 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping MyQuiza /health
+      - name: Ping JomBeelajar API /health
         run: |
-          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 60 https://myquiza-api.onrender.com/health)
-          echo "MyQuiza /health responded with HTTP $code"
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 60 https://jombeelajar-api.taufikhamid.com/health)
+          echo "JomBeelajar API /health responded with HTTP $code"
           if [ "$code" != "200" ]; then
-            echo "::warning::Unexpected status $code from MyQuiza /health"
+            echo "::warning::Unexpected status $code from JomBeelajar API /health"
           fi

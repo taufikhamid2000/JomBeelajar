@@ -4,7 +4,7 @@ import './config';
 
 import { useEffect, useState } from 'react';
 import { logger } from '@/lib/logger';
-import { SCHOOL_TYPES, type SchoolType } from '@/lib/myquiza';
+import { SCHOOL_TYPES, type SchoolType } from '@/lib/jombeelajar-api';
 import {
   AdminLayout,
   SearchBar,

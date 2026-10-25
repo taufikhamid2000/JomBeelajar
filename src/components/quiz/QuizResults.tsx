@@ -8,7 +8,7 @@ interface QuizResultsProps {
   onRetake: () => void;
   onViewAll: () => void;
   isVerified?: boolean; // Quiz verification status
-  // Per-question correctness + correct option ids from the server (MyQuiza),
+  // Per-question correctness + correct option ids from the server (JomBeelajar API),
   // ordered by question. The answer key only arrives here, post-submission.
   perQuestion?: Array<{
     questionId: string;

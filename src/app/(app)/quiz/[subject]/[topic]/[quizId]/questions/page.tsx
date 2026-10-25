@@ -248,7 +248,7 @@ export default function QuestionsManagementPage() {
         }
       }
 
-      // Replace-all strategy via MyQuiza CRUD: delete every existing question
+      // Replace-all strategy via JomBeelajar API CRUD: delete every existing question
       // (cascades to its answers), then recreate all questions from the form.
       for (const questionId of existingQuestionIds) {
         const res = await fetch(`/api/questions/${questionId}`, {

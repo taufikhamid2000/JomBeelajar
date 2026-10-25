@@ -4,7 +4,7 @@ import { jomCookieOptions } from '@/lib/supabase/cookie-options';
 
 /**
  * Reads the Supabase session from request cookies (server-side only) and
- * returns the access token to forward as a Bearer token to MyQuiza.
+ * returns the access token to forward as a Bearer token to JomBeelajar API.
  */
 export async function getSessionToken(): Promise<string | null> {
   const cookieStore = await cookies();

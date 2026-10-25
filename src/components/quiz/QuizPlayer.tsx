@@ -317,7 +317,7 @@ export default function QuizPlayer({
         })
       );
 
-      // Submit quiz attempt — MyQuiza scores server-side and returns the result.
+      // Submit quiz attempt — JomBeelajar API scores server-side and returns the result.
       // The answer key never reaches the client, so we trust the server score.
       const result = await submitQuizAttempt({
         quizId,

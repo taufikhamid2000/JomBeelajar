@@ -135,7 +135,7 @@ export default function TopicEditPage() {
     }
   };
 
-  // Save topic. Note: this form's `title` field maps onto MyQuiza's `name`
+  // Save topic. Note: this form's `title` field maps onto JomBeelajar API's `name`
   // parameter (see updateTopic in services/topicService.ts).
   const saveEntity = async (topic: Topic) => {
     const { success, error } = await updateTopic(topic.id, {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
-import { getAchievementCatalog, createCatalogAchievement } from '@/lib/myquiza';
+import { getAchievementCatalog, createCatalogAchievement } from '@/lib/jombeelajar-api';
 import { getSessionToken } from '@/lib/serverSession';
 
 export async function GET() {

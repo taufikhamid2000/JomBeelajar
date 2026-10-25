@@ -6,10 +6,10 @@ import { jomCookieOptions } from '@/lib/supabase/cookie-options';
 import {
   getMyAchievements,
   getUserAchievements,
-  MyQuizaAchievement,
-} from '@/lib/myquiza';
+  JomBeelajarApiAchievement,
+} from '@/lib/jombeelajar-api';
 
-function mapAchievement(a: MyQuizaAchievement, userId: string) {
+function mapAchievement(a: JomBeelajarApiAchievement, userId: string) {
   return {
     id: a.id,
     user_id: userId,
@@ -86,7 +86,7 @@ export async function GET(
           }
         );
       } catch (error) {
-        logger.error('Error fetching own achievements from MyQuiza:', error);
+        logger.error('Error fetching own achievements from JomBeelajar API:', error);
         return NextResponse.json(
           { error: 'Unable to connect to the API. Please contact the administrator.' },
           { status: 500 }
@@ -95,7 +95,7 @@ export async function GET(
     }
 
     // Fetch achievements for a specific OTHER user (public profile view).
-    // MyQuiza's GET /api/v1/users/{userId}/achievements is now public.
+    // JomBeelajar API's GET /api/v1/users/{userId}/achievements is now public.
     try {
       const achievements = await getUserAchievements(userId, null);
       return NextResponse.json(
@@ -107,7 +107,7 @@ export async function GET(
         }
       );
     } catch (error) {
-      logger.error('Error fetching user achievements from MyQuiza:', error);
+      logger.error('Error fetching user achievements from JomBeelajar API:', error);
       return NextResponse.json(
         { error: 'Failed to fetch achievements' },
         { status: 500 }

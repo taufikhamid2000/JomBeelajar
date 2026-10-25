@@ -3,7 +3,7 @@ import { cookies, headers } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { jomCookieOptions } from '@/lib/supabase/cookie-options';
 import { logger } from '@/lib/logger';
-import { getMyProgressSummary } from '@/lib/myquiza';
+import { getMyProgressSummary } from '@/lib/jombeelajar-api';
 
 export async function GET() {
   try {

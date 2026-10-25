@@ -33,7 +33,7 @@ export interface Quiz {
   created_at?: string;
   verified: boolean;
   topic_id: string;
-  timeLimit?: number | null; // seconds, from MyQuiza quiz-detail; null -> default
+  timeLimit?: number | null; // seconds, from JomBeelajar API quiz-detail; null -> default
   email?: string;
   display_name?: string;
   questionCount?: number;

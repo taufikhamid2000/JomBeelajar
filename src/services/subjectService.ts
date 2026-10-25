@@ -1,7 +1,7 @@
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 import { checkAdminAccess } from './adminAuthService';
-import type { MyQuizaSubjectTreeEntry } from '@/lib/myquiza';
+import type { JomBeelajarApiSubjectTreeEntry } from '@/lib/jombeelajar-api';
 
 /**
  * Interface for Subject data structure
@@ -69,7 +69,7 @@ export interface SubjectWithChaptersAndTopics {
 
 /**
  * Fetches all subjects with their related topic and quiz counts, via
- * MyQuiza's content-tree endpoint (GET /api/admin/content-tree) — one call
+ * JomBeelajar API's content-tree endpoint (GET /api/admin/content-tree) — one call
  * replaces what used to be a Supabase nested-join query.
  * @returns A promise with subjects data and error status
  */
@@ -98,7 +98,7 @@ export async function fetchAdminSubjects(): Promise<{
       };
     }
 
-    const formattedSubjects = (tree as MyQuizaSubjectTreeEntry[]).map(
+    const formattedSubjects = (tree as JomBeelajarApiSubjectTreeEntry[]).map(
       (subject) => ({
         id: subject.id,
         name: subject.name,
@@ -163,7 +163,7 @@ export async function fetchSubjects(): Promise<{
 }
 
 /**
- * Creates a new subject via MyQuiza (POST /api/v1/subjects, moderator-only)
+ * Creates a new subject via JomBeelajar API (POST /api/v1/subjects, moderator-only)
  * @param subjectData The subject data to create
  * @returns A promise with the created subject ID or error
  */
@@ -209,7 +209,7 @@ export async function createSubject(subjectData: {
 }
 
 /**
- * Updates an existing subject via MyQuiza (PATCH /api/v1/subjects/{id})
+ * Updates an existing subject via JomBeelajar API (PATCH /api/v1/subjects/{id})
  * @param id The ID of the subject to update
  * @param subjectData The updated subject data
  * @returns A promise with success status and error
@@ -250,7 +250,7 @@ export async function updateSubject(
 }
 
 /**
- * Deletes a subject via MyQuiza (DELETE /api/v1/subjects/{id}). Guarded
+ * Deletes a subject via JomBeelajar API (DELETE /api/v1/subjects/{id}). Guarded
  * server-side — returns a 409 (surfaced as an Error here) if any chapters
  * still exist under this subject.
  * @param id The ID of the subject to delete
@@ -280,7 +280,7 @@ export async function deleteSubject(id: string): Promise<{
 }
 
 /**
- * Fetches subjects for public API (no auth required) via MyQuiza
+ * Fetches subjects for public API (no auth required) via JomBeelajar API
  * (GET /api/v1/subjects, proxied through /api/subjects)
  * @returns A promise with public subjects data
  */

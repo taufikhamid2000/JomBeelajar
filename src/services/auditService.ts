@@ -1,15 +1,15 @@
 // Audit service for quiz verification system.
 //
 // Comments (quiz/question/answer), the verification log, and the verify/
-// unverify action itself all come from MyQuiza now (Sprint A item 3),
+// unverify action itself all come from JomBeelajar API now (Sprint A item 3),
 // proxied through /api/quiz/[quizId]/comments, /api/questions/[id]/comments,
 // /api/answers/[id]/comments, /api/quiz/[quizId]/verification-log, and
 // /api/quiz/[quizId]/verify. Responses are mapped into the existing
 // snake_case shapes below so the consuming pages didn't need to change.
-// MyQuiza's comment response has no author/admin_user info, so
+// JomBeelajar API's comment response has no author/admin_user info, so
 // admin_user_id/admin_user are left blank/undefined on the mapped result.
 //
-// getQuizzesNeedingReview/getAuditDashboardStats now come from MyQuiza too,
+// getQuizzesNeedingReview/getAuditDashboardStats now come from JomBeelajar API too,
 // via GET /api/admin/audit-summary (proxies /api/v1/admin/audit-summary +
 // /api/v1/admin/quizzes/unverified) — replaces the old Supabase queries
 // plus an admin-side N+1 (one comment-count query per quiz).
@@ -24,7 +24,7 @@ import {
   QuizWithAudit,
   AuditDashboardStats,
 } from '@/types/audit';
-import { MyQuizaAuditComment, MyQuizaVerificationLogEntry } from '@/lib/myquiza';
+import { JomBeelajarApiAuditComment, JomBeelajarApiVerificationLogEntry } from '@/lib/jombeelajar-api';
 
 async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, options);
@@ -43,7 +43,7 @@ function mapComment<
     updated_at: string;
     admin_user_id: string;
   },
->(c: MyQuizaAuditComment, parentField: Extract<keyof T, string>, parentId: string): T {
+>(c: JomBeelajarApiAuditComment, parentField: Extract<keyof T, string>, parentId: string): T {
   return {
     id: c.id,
     [parentField]: parentId,
@@ -63,7 +63,7 @@ export async function getQuizAuditComments(
   quizId: string
 ): Promise<QuizAuditComment[]> {
   try {
-    const comments = await fetchJson<MyQuizaAuditComment[]>(
+    const comments = await fetchJson<JomBeelajarApiAuditComment[]>(
       `/api/quiz/${quizId}/comments`
     );
     return comments.map((c) => mapComment<QuizAuditComment>(c, 'quiz_id', quizId));
@@ -80,7 +80,7 @@ export async function getQuestionAuditComments(
   questionId: string
 ): Promise<QuestionAuditComment[]> {
   try {
-    const comments = await fetchJson<MyQuizaAuditComment[]>(
+    const comments = await fetchJson<JomBeelajarApiAuditComment[]>(
       `/api/questions/${questionId}/comments`
     );
     return comments.map((c) =>
@@ -99,7 +99,7 @@ export async function getAnswerAuditComments(
   answerId: string
 ): Promise<AnswerAuditComment[]> {
   try {
-    const comments = await fetchJson<MyQuizaAuditComment[]>(
+    const comments = await fetchJson<JomBeelajarApiAuditComment[]>(
       `/api/answers/${answerId}/comments`
     );
     return comments.map((c) =>
@@ -191,7 +191,7 @@ export async function addAnswerAuditComment(
 
 /**
  * Resolve an audit comment. Unlike the old Supabase version (update by
- * comment id alone), MyQuiza scopes comments under their parent entity, so
+ * comment id alone), JomBeelajar API scopes comments under their parent entity, so
  * the parent id is now required too.
  */
 export async function resolveAuditComment(
@@ -223,7 +223,7 @@ export async function resolveAuditComment(
 }
 
 /**
- * Verify or unverify a quiz via MyQuiza's POST /api/v1/quizzes/{id}/verify.
+ * Verify or unverify a quiz via JomBeelajar API's POST /api/v1/quizzes/{id}/verify.
  * That endpoint takes a single `verified` boolean (no separate action enum) —
  * 'reject' is our own client-side composition: unverify + a 'rejected'
  * comment, same as before the migration.
@@ -269,7 +269,7 @@ export async function getQuizVerificationHistory(
   quizId: string
 ): Promise<QuizVerificationLog[]> {
   try {
-    const log = await fetchJson<MyQuizaVerificationLogEntry[]>(
+    const log = await fetchJson<JomBeelajarApiVerificationLogEntry[]>(
       `/api/quiz/${quizId}/verification-log`
     );
     return log.map((entry) => ({

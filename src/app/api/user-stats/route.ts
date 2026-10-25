@@ -5,7 +5,7 @@ import { cookies, headers } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { jomCookieOptions } from '@/lib/supabase/cookie-options';
 import { WEEKLY_QUIZ_TARGET } from '@/config/app';
-import { getMyStats, getMe, getMyAttempts } from '@/lib/myquiza';
+import { getMyStats, getMe, getMyAttempts } from '@/lib/jombeelajar-api';
 
 // Cache duration in seconds
 const CACHE_DURATION = 600; // 10 minutes
@@ -94,27 +94,27 @@ export async function GET() {
     // Fetch user statistics in parallel
     const [userStatsData, meData, recentAttempts, { data: userProfile, error: userProfileError }] =
       await Promise.all([
-        // mv_user_dashboard_stats is now served by MyQuiza
+        // mv_user_dashboard_stats is now served by JomBeelajar API
         getMyStats(session.access_token).catch((err) => {
-          logger.error('Error fetching user stats from MyQuiza:', err);
+          logger.error('Error fetching user stats from JomBeelajar API:', err);
           return null;
         }),
 
-        // xp/level are authoritative on MyQuiza's side (submitAttempt writes
+        // xp/level are authoritative on JomBeelajar API's side (submitAttempt writes
         // them directly to user_profiles)
         getMe(session.access_token).catch((err) => {
-          logger.error('Error fetching /me from MyQuiza:', err);
+          logger.error('Error fetching /me from JomBeelajar API:', err);
           return null;
         }),
 
         // Recent quiz attempts (topic/subject added to this response after
         // we flagged the gap; subject is null on pre-fix historical rows)
         getMyAttempts(session.access_token).catch((err) => {
-          logger.error('Error fetching attempts from MyQuiza:', err);
+          logger.error('Error fetching attempts from JomBeelajar API:', err);
           return [] as Awaited<ReturnType<typeof getMyAttempts>>;
         }),
 
-        // streak stays on Supabase — MyQuiza doesn't touch it
+        // streak stays on Supabase — JomBeelajar API doesn't touch it
         supabase
           .from('user_profiles')
           .select('streak')
