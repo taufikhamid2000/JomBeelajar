@@ -1,5 +1,7 @@
 import { logger } from './logger';
 
+export const THEME_KEY = 'jb-theme';
+
 // Safe localStorage wrapper to handle SSR
 const safeStorage = {
   getItem: (key: string): string | null => {
@@ -21,37 +23,19 @@ const safeStorage = {
   },
 };
 
-// Get system color scheme preference
-export function getSystemTheme(): 'light' | 'dark' {
-  if (typeof window === 'undefined') return 'light';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-}
-
-// Initialize theme from localStorage or system preference
+// Saved choice, else light (never follows the OS).
 export function initializeTheme(): 'light' | 'dark' {
-  // Check localStorage first
-  const savedTheme = safeStorage.getItem('theme') as 'light' | 'dark' | null;
-  if (savedTheme) {
-    return savedTheme;
-  }
-
-  // No saved choice: default to the light look ('dark' in the legacy
-  // inverted class mechanism) regardless of OS preference.
-  safeStorage.setItem('theme', 'dark');
-  return 'dark';
+  return safeStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light';
 }
 
-// Apply theme to document
+// <html class="dark"> is the dark look; no class is the light look.
 function applyTheme(theme: 'light' | 'dark'): void {
   if (typeof document === 'undefined') return;
-  document.documentElement.classList.remove('light', 'dark');
-  document.documentElement.classList.add(theme);
+  document.documentElement.classList.toggle('dark', theme === 'dark');
 }
 
 // Set theme in both localStorage and HTML class
 export function setTheme(theme: 'light' | 'dark'): void {
-  safeStorage.setItem('theme', theme);
+  safeStorage.setItem(THEME_KEY, theme);
   applyTheme(theme);
 }

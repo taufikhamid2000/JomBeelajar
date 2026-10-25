@@ -14,13 +14,7 @@ export default function AdminLayout({
 
   // Initialize theme from localStorage and handle admin page access logging
   useEffect(() => {
-    // Get theme from localStorage
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    const initialTheme = savedTheme ?? 'dark';
-
-    // Apply theme class to html element
-    document.documentElement.classList.remove('light', 'dark');
-    document.documentElement.classList.add(initialTheme);
+    // Theme class is applied globally by the init script in the root layout.
 
     // Log admin page access for monitoring/security
     const logAdminAccess = async () => {

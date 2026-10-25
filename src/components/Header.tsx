@@ -104,8 +104,7 @@ export default function Header(): JSX.Element {
     }
   };
 
-  // Legacy theme mechanism: stored theme "dark" (html.dark) is the LIGHT look.
-  const isLightLook = theme === 'dark';
+  const isLightLook = theme === 'light';
   const initial = (user?.email ?? '?').charAt(0).toUpperCase();
 
   return (

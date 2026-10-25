@@ -1,8 +1,5 @@
-import { useEffect, useSyncExternalStore } from 'react';
-import {
-  initializeTheme,
-  setTheme as setGlobalTheme,
-} from '@/lib/theme';
+import { useSyncExternalStore } from 'react';
+import { THEME_KEY, setTheme as setGlobalTheme } from '@/lib/theme';
 
 type Theme = 'light' | 'dark';
 
@@ -21,13 +18,11 @@ function subscribe(onChange: () => void) {
 
 function getSnapshot(): Theme {
   try {
-    const saved = window.localStorage.getItem('theme');
-    if (saved === 'light' || saved === 'dark') return saved;
+    if (window.localStorage.getItem(THEME_KEY) === 'dark') return 'dark';
   } catch {
-    // Storage unavailable (private mode etc.) — fall back to system.
+    // Storage unavailable (private mode etc.) — default to light.
   }
-  // Default is the light look, which the legacy class mechanism calls 'dark'.
-  return 'dark';
+  return 'light';
 }
 
 function getServerSnapshot(): Theme {
@@ -36,12 +31,6 @@ function getServerSnapshot(): Theme {
 
 export function useTheme() {
   const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-
-  useEffect(() => {
-    // Persist the system preference on first visit (no state update needed —
-    // the snapshot already resolves to the same value).
-    initializeTheme();
-  }, []);
 
   const setTheme = (newTheme: Theme) => {
     setGlobalTheme(newTheme);

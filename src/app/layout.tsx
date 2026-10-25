@@ -19,9 +19,9 @@ export const viewport = {
   viewportFit: 'cover',
 };
 
-// Light is the default theme. Legacy mechanism: class "dark" = light look,
-// class "light" = dark look. Only a saved user choice overrides the default.
-const themeInit = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t='dark';localStorage.setItem('theme',t);}var c=document.documentElement.classList;c.remove('light','dark');c.add(t);}catch(e){document.documentElement.classList.add('dark');}})();`;
+// Light is the default. <html class="dark"> enables the dark look; only a
+// saved user choice (key "jb-theme") overrides it.
+const themeInit = `(function(){try{if(localStorage.getItem('jb-theme')==='dark')document.documentElement.classList.add('dark');}catch(e){}})();`;
 
 export default function RootLayout({
   children,

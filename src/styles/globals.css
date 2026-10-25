@@ -52,12 +52,11 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/*
- * Theme mechanism (legacy, inverted): <html class="dark"> = LIGHT look,
- * <html class="light"> = DARK look. Light is the default (see the inline
- * script in src/app/layout.tsx). Tokens below follow the class, not the OS.
- */
-.light {
+/* Theme: <html class="dark"> = dark look; no class = light (the default). */
+.dark {
+  --color-bg: #121212;
+  --color-text: #e0e0e0;
+  --color-accent: #1e90ff;
   --background: #0b1220;
   --foreground: #f1f5f9;
   --muted: #111a2e;
@@ -229,10 +228,10 @@ body {
   transition: background-color 9999s ease-in-out 0s;
 }
 
-.dark .auth-input:-webkit-autofill,
-.dark .auth-input:-webkit-autofill:hover,
-.dark .auth-input:-webkit-autofill:focus,
-.dark .auth-input:-webkit-autofill:active {
+.auth-input:-webkit-autofill,
+.auth-input:-webkit-autofill:hover,
+.auth-input:-webkit-autofill:focus,
+.auth-input:-webkit-autofill:active {
   -webkit-text-fill-color: #111827;
   box-shadow: 0 0 0 1000px #ffffff inset;
   -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
