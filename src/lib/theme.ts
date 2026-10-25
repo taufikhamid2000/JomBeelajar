@@ -37,10 +37,10 @@ export function initializeTheme(): 'light' | 'dark' {
     return savedTheme;
   }
 
-  // Otherwise, check system preference
-  const systemTheme = getSystemTheme();
-  safeStorage.setItem('theme', systemTheme);
-  return systemTheme;
+  // No saved choice: default to the light look ('dark' in the legacy
+  // inverted class mechanism) regardless of OS preference.
+  safeStorage.setItem('theme', 'dark');
+  return 'dark';
 }
 
 // Apply theme to document

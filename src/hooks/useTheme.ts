@@ -1,6 +1,5 @@
 import { useEffect, useSyncExternalStore } from 'react';
 import {
-  getSystemTheme,
   initializeTheme,
   setTheme as setGlobalTheme,
 } from '@/lib/theme';
@@ -27,7 +26,8 @@ function getSnapshot(): Theme {
   } catch {
     // Storage unavailable (private mode etc.) — fall back to system.
   }
-  return getSystemTheme();
+  // Default is the light look, which the legacy class mechanism calls 'dark'.
+  return 'dark';
 }
 
 function getServerSnapshot(): Theme {
