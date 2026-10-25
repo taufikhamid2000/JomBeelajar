@@ -36,6 +36,9 @@ export async function GET() {
       },
     });
   } catch (error) {
+    if (error instanceof Error && error.name === 'TimeoutError') {
+      return NextResponse.json({ error: 'Service is waking up' }, { status: 503 });
+    }
     logger.error('Error fetching progress summary:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

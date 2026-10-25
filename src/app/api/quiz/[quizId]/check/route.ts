@@ -50,6 +50,9 @@ export async function POST(
     );
     return NextResponse.json(result, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
+    if (error instanceof Error && /MyQuiza 404/.test(error.message)) {
+      return NextResponse.json({ error: 'Question not found' }, { status: 404 });
+    }
     logger.error('Error checking answer:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

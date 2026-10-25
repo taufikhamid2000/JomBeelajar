@@ -939,5 +939,8 @@ export interface MyQuizaProgressSummary {
 }
 
 export function getMyProgressSummary(token: string | null) {
-  return myquizaFetch<MyQuizaProgressSummary>('/api/v1/me/progress/summary', token);
+  return myquizaFetch<MyQuizaProgressSummary>('/api/v1/me/progress/summary', token, {
+    // Fail fast on a cold-starting API instead of hitting the platform timeout.
+    signal: AbortSignal.timeout(8000),
+  });
 }
