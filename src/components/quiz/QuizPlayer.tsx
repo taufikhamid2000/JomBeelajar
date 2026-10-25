@@ -154,6 +154,12 @@ export default function QuizPlayer({
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showSignInGate, setShowSignInGate] = useState(false);
   const [checked, setChecked] = useState(false);
+  const [checking, setChecking] = useState(false);
+  const checkingRef = useRef(false);
+  // Per-question verdict from the server; absent => fall back to "Answer locked in".
+  const [feedback, setFeedback] = useState<
+    Record<string, QuestionFeedback | undefined>
+  >({});
   const [submitting, setSubmitting] = useState(false);
   const [xpAwarded, setXpAwarded] = useState(false);
   const [timeTaken, setTimeTaken] = useState<number | undefined>(undefined);
@@ -382,11 +388,48 @@ export default function QuizPlayer({
     }
   };
 
-  const handlePrimary = () => {
-    if (submitting) return;
+  const handlePrimary = async () => {
+    if (submitting || checkingRef.current) return;
     if (!checked) {
-      if (!canCheck) return;
-      setChecked(true);
+      if (!canCheck || !currentQuestion) return;
+      const qid = currentQuestion.id;
+      checkingRef.current = true;
+      setChecking(true);
+      try {
+        const res = await fetch(`/api/quiz/${quizId}/check`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            questionId: qid,
+            selectedAnswerIds: selectedForCurrent,
+          }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (
+            typeof data?.isCorrect === 'boolean' &&
+            Array.isArray(data?.correctOptionIds)
+          ) {
+            setFeedback((prev) => ({
+              ...prev,
+              [qid]: {
+                isCorrect: data.isCorrect,
+                correctOptionIds: data.correctOptionIds,
+                explanation:
+                  typeof data.explanation === 'string'
+                    ? data.explanation
+                    : null,
+              },
+            }));
+          }
+        }
+      } catch (error) {
+        logger.error('Error checking answer:', error);
+      } finally {
+        checkingRef.current = false;
+        setChecking(false);
+        setChecked(true);
+      }
     } else if (isLast) {
       handleQuizSubmit();
     } else {
@@ -620,7 +663,16 @@ export default function QuizPlayer({
   }
 
   const primaryLabel = !checked ? 'Check' : isLast ? 'Finish' : 'Continue';
-  const primaryDisabled = submitting || (!checked && !canCheck);
+  const primaryDisabled = submitting || checking || (!checked && !canCheck);
+  const currentFeedback = currentQuestion
+    ? feedback[currentQuestion.id]
+    : undefined;
+  const correctTexts =
+    currentFeedback && !currentFeedback.isCorrect && currentQuestion
+      ? currentQuestion.answers
+          ?.filter((a) => currentFeedback.correctOptionIds.includes(a.id))
+          .map((a) => a.text)
+      : undefined;
 
   return (
     <div className="fixed inset-0 z-40 flex flex-col bg-gray-50 dark:bg-gray-900">
@@ -723,6 +775,9 @@ export default function QuizPlayer({
               question={currentQuestion}
               selectedAnswers={selectedForCurrent}
               locked={checked}
+              correctIds={
+                checked ? currentFeedback?.correctOptionIds : undefined
+              }
               onAnswerChange={(selectedAnswers) =>
                 handleAnswerChange(currentQuestion.id, selectedAnswers)
               }
@@ -734,7 +789,11 @@ export default function QuizPlayer({
       <div
         className={`border-t px-4 pb-4 pt-3 motion-safe:transition-colors ${
           checked
-            ? 'border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-950'
+            ? currentFeedback
+              ? currentFeedback.isCorrect
+                ? 'border-green-200 bg-green-50 dark:border-green-900 dark:bg-green-950'
+                : 'border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950'
+              : 'border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-950'
             : 'border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900'
         }`}
       >
@@ -743,6 +802,8 @@ export default function QuizPlayer({
             {checked && (
               <FeedbackPanel
                 key={currentQuestion?.id}
+                verdict={currentFeedback}
+                correctTexts={correctTexts}
                 message={
                   isLast
                     ? 'Answer locked in. Finish to see your score.'
@@ -757,7 +818,7 @@ export default function QuizPlayer({
             disabled={primaryDisabled}
             className="min-h-14 w-full rounded-2xl bg-blue-600 px-6 py-3 text-base font-bold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none dark:focus-visible:ring-offset-gray-900 dark:disabled:bg-gray-700 dark:disabled:text-gray-500"
           >
-            {submitting ? 'Submitting...' : primaryLabel}
+            {submitting ? 'Submitting...' : checking ? 'Checking...' : primaryLabel}
           </button>
         </div>
       </div>
@@ -765,36 +826,69 @@ export default function QuizPlayer({
   );
 }
 
-// The answer key stays on the server until the attempt is submitted, so the
-// per-question panel confirms the answer and the correct/incorrect verdict
-// (with the correct answer) is shown on the results screen.
-function FeedbackPanel({ message }: { message: string }) {
+interface QuestionFeedback {
+  isCorrect: boolean;
+  correctOptionIds: string[];
+  explanation: string | null;
+}
+
+// Verdict comes from the server's per-question check endpoint (the answer key
+// is never in the quiz payload). If that call fails we fall back to the neutral
+// "Answer locked in" message; the final score still comes from submission.
+function FeedbackPanel({
+  message,
+  verdict,
+  correctTexts,
+}: {
+  message: string;
+  verdict?: QuestionFeedback;
+  correctTexts?: string[];
+}) {
   const [shown, setShown] = useState(false);
   useEffect(() => {
     const id = requestAnimationFrame(() => setShown(true));
     return () => cancelAnimationFrame(id);
   }, []);
+  const tone = !verdict
+    ? 'text-blue-800 dark:text-blue-200'
+    : verdict.isCorrect
+      ? 'text-green-800 dark:text-green-200'
+      : 'text-red-800 dark:text-red-200';
   return (
     <div
-      className={`mb-3 flex items-center gap-2 text-sm font-semibold text-blue-800 motion-safe:transition-all motion-safe:duration-200 dark:text-blue-200 ${
+      className={`mb-3 text-sm font-semibold ${tone} motion-safe:transition-all motion-safe:duration-200 ${
         shown
           ? 'translate-y-0 opacity-100'
           : 'translate-y-3 opacity-0 motion-reduce:translate-y-0 motion-reduce:opacity-100'
       }`}
     >
-      <svg
-        viewBox="0 0 24 24"
-        className="h-5 w-5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M5 12l5 5L20 7" />
-      </svg>
-      {message}
+      <div className="flex items-center gap-2">
+        <svg
+          viewBox="0 0 24 24"
+          className="h-5 w-5 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          {verdict && !verdict.isCorrect ? (
+            <path d="M6 6l12 12M18 6L6 18" />
+          ) : (
+            <path d="M5 12l5 5L20 7" />
+          )}
+        </svg>
+        {verdict ? (verdict.isCorrect ? 'Correct!' : 'Not quite') : message}
+      </div>
+      {correctTexts && correctTexts.length > 0 && (
+        <p className="mt-1 pl-7 font-medium">
+          Correct answer: {correctTexts.join(', ')}
+        </p>
+      )}
+      {verdict?.explanation && (
+        <p className="mt-1 pl-7 font-normal">{verdict.explanation}</p>
+      )}
     </div>
   );
 }

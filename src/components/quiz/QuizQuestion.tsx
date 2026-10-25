@@ -7,11 +7,13 @@ interface QuizQuestionProps {
   onAnswerChange: (selectedAnswers: string[]) => void;
   /** Answer is locked in (after pressing Check) */
   locked?: boolean;
+  /** Correct option ids, once the server has checked this question */
+  correctIds?: string[];
 }
 
 const QuizQuestion = forwardRef<HTMLHeadingElement, QuizQuestionProps>(
   function QuizQuestion(
-    { question, selectedAnswers, onAnswerChange, locked = false },
+    { question, selectedAnswers, onAnswerChange, locked = false, correctIds },
     headingRef
   ) {
     const isMulti = question.type === 'checkbox';
@@ -69,6 +71,9 @@ const QuizQuestion = forwardRef<HTMLHeadingElement, QuizQuestionProps>(
         >
           {question.answers.map((answer, i) => {
             const selected = selectedAnswers.includes(answer.id);
+            const revealed = locked && !!correctIds;
+            const isRight = revealed && correctIds!.includes(answer.id);
+            const isWrong = revealed && selected && !isRight;
             return (
               <button
                 key={answer.id}
@@ -80,7 +85,11 @@ const QuizQuestion = forwardRef<HTMLHeadingElement, QuizQuestionProps>(
                 data-option
                 onClick={() => toggle(answer.id)}
                 className={`flex min-h-14 w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-left text-base font-medium shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 motion-safe:transition-colors dark:focus-visible:ring-offset-gray-900 ${
-                  selected
+                  isRight
+                    ? 'border-green-600 bg-green-50 text-green-900 dark:border-green-400 dark:bg-green-900/30 dark:text-green-100'
+                    : isWrong
+                    ? 'border-red-600 bg-red-50 text-red-900 dark:border-red-400 dark:bg-red-900/30 dark:text-red-100'
+                    : selected
                     ? 'border-blue-600 bg-blue-50 text-blue-900 dark:border-blue-400 dark:bg-blue-900/30 dark:text-blue-100'
                     : 'border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-gray-600 dark:hover:bg-gray-700/60'
                 } ${locked ? 'cursor-default' : 'cursor-pointer'}`}
@@ -90,12 +99,16 @@ const QuizQuestion = forwardRef<HTMLHeadingElement, QuizQuestionProps>(
                   className={`flex h-8 w-8 shrink-0 items-center justify-center border-2 text-sm font-bold ${
                     isMulti ? 'rounded-lg' : 'rounded-full'
                   } ${
-                    selected
+                    isRight
+                      ? 'border-green-600 bg-green-600 text-white dark:border-green-400 dark:bg-green-500'
+                      : isWrong
+                      ? 'border-red-600 bg-red-600 text-white dark:border-red-400 dark:bg-red-500'
+                      : selected
                       ? 'border-blue-600 bg-blue-600 text-white dark:border-blue-400 dark:bg-blue-500'
                       : 'border-gray-300 text-gray-500 dark:border-gray-600 dark:text-gray-400'
                   }`}
                 >
-                  {i + 1}
+                  {isRight ? '✓' : isWrong ? '✕' : i + 1}
                 </span>
                 <span className="flex-1">{answer.text}</span>
               </button>

@@ -73,6 +73,38 @@ export default function DashboardClient({
     }, 0);
     return () => clearTimeout(t);
   }, []);
+  // Real progress from the API (slug -> percent, plus most recent subject).
+  // Guests / failures leave this null and everything falls back to 0% + localStorage.
+  const [progress, setProgress] = useState<{
+    percents: Record<string, number>;
+    lastSlug: string | null;
+  } | null>(null);
+  useEffect(() => {
+    const controller = new AbortController();
+    (async () => {
+      try {
+        const res = await fetch('/api/me/progress/summary', {
+          signal: controller.signal,
+        });
+        if (!res.ok) return;
+        const data = (await res.json()) as {
+          subjects?: Array<{ slug: string; percent: number }>;
+          last?: { subjectSlug: string } | null;
+        };
+        if (!Array.isArray(data?.subjects)) return;
+        const percents: Record<string, number> = {};
+        for (const s of data.subjects) {
+          if (typeof s.slug === 'string' && Number.isFinite(s.percent)) {
+            percents[s.slug] = Math.max(0, Math.min(100, Math.round(s.percent)));
+          }
+        }
+        setProgress({ percents, lastSlug: data.last?.subjectSlug ?? null });
+      } catch {
+        /* fall back to defaults */
+      }
+    })();
+    return () => controller.abort();
+  }, []);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -132,9 +164,13 @@ export default function DashboardClient({
     router.push(`/quiz/${subject.slug}/chapters`);
   };
 
-  const lastSubject = initialSubjects.find((s) => s.slug === lastSlug);
+  const effectiveLastSlug = progress?.lastSlug || lastSlug;
+  const lastSubject = initialSubjects.find((s) => s.slug === effectiveLastSlug);
   const heroSubject = lastSubject || initialSubjects[0];
   const hasHistory = !!lastSubject;
+  const heroPercent = heroSubject
+    ? (progress?.percents[heroSubject.slug] ?? 0)
+    : 0;
   // Achievement data - use from userStats or fallback to static
   const achievements = userStats?.achievements || [
     {
@@ -168,7 +204,7 @@ export default function DashboardClient({
         <ContinueLearningCard
           subject={heroSubject}
           hasHistory={hasHistory}
-          percent={0}
+          percent={heroPercent}
           onNavigate={rememberSubject}
         />
         <StreakXpStrip
@@ -206,7 +242,8 @@ export default function DashboardClient({
             totalPages={totalPages}
             handleSubjectClick={handleSubjectClick}
             handlePageChange={handlePageChange}
-            lastSlug={lastSlug}
+            lastSlug={effectiveLastSlug}
+            progress={progress?.percents}
           />
         </section>
         {/* Weekly Progress Section */}

@@ -889,3 +889,55 @@ export function getUnverifiedQuizzes(token: string | null) {
     token
   );
 }
+
+// Per-question feedback while playing. Anonymous-friendly (guests can play);
+// records nothing — scoring/XP stay on submitAttempt. explanation is null
+// until the schema carries one.
+export interface CheckAnswerResult {
+  isCorrect: boolean;
+  correctOptionIds: string[];
+  explanation: string | null;
+}
+
+export function checkAnswer(
+  quizId: string,
+  questionId: string,
+  selectedAnswerIds: string[],
+  token: string | null
+) {
+  return myquizaFetch<CheckAnswerResult>(
+    `/api/v1/quizzes/${quizId}/questions/${questionId}/check`,
+    token,
+    { method: 'POST', body: JSON.stringify({ selectedAnswerIds }) }
+  );
+}
+
+// Per-subject progress rollup + most recent activity (dashboard rings and
+// Continue card). A topic is "completed" when the user passed a verified quiz
+// in it; topicsTotal counts topics that have at least one verified quiz.
+export interface MyQuizaSubjectProgress {
+  subjectId: string;
+  slug: string;
+  name: string;
+  topicsTotal: number;
+  topicsAttempted: number;
+  topicsCompleted: number;
+  percent: number;
+  lastAttemptAt: string | null;
+}
+
+export interface MyQuizaProgressSummary {
+  subjects: MyQuizaSubjectProgress[];
+  last: {
+    subjectId: string;
+    subjectSlug: string;
+    subjectName: string;
+    topicId: string;
+    topicName: string;
+    attemptedAt: string;
+  } | null;
+}
+
+export function getMyProgressSummary(token: string | null) {
+  return myquizaFetch<MyQuizaProgressSummary>('/api/v1/me/progress/summary', token);
+}
