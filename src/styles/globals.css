@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #121212;
+  --color-bg: #ffffff;
   --scroll: 0;
-  --color-text: #e0e0e0;
-  --color-accent: #1e90ff;
+  --color-text: #1a1a1a;
+  --color-accent: #0071e3;
 
   /*
    * Portfolio-wide design tokens (see template/DESIGN.md, "Tokens are roles,
