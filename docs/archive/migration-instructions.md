@@ -68,7 +68,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
 # Optional: Direct database connection string (only if you have direct access)
-# SUPABASE_DB_URL=postgres://postgres:password@db.fbxcmlrwydbguzjnktag.supabase.co:5432/postgres
+# SUPABASE_DB_URL=postgres://postgres:password@db.<project-ref>.supabase.co:5432/postgres
 ```
 
 ### Running the Script

@@ -1,6 +1,6 @@
 # Testing Strategy
 
-This document outlines the testing approach for the EduBridge application.
+This document outlines the testing approach for the JomBeelajar application.
 
 ## Testing Pyramid
 

@@ -1,6 +1,6 @@
 # Leaderboard Feature Implementation
 
-This document outlines the implementation of the leaderboard feature in EduBridge.
+This document outlines the implementation of the leaderboard feature in JomBeelajar.
 
 ## Overview
 

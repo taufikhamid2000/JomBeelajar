@@ -1,10 +1,10 @@
 # Authentication System
 
-This document explains the authentication system implemented in EduBridge.
+This document explains the authentication system implemented in JomBeelajar.
 
 ## Overview
 
-EduBridge uses Supabase Authentication for user management. The system handles user registration, login, session management, and role-based access control.
+JomBeelajar uses Supabase Authentication for user management. The system handles user registration, login, session management, and role-based access control.
 
 ## Architecture
 

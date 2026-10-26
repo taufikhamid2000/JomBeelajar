@@ -1,10 +1,10 @@
 # Component Design System
 
-This document outlines the component design system used throughout the EduBridge application.
+This document outlines the component design system used throughout the JomBeelajar application.
 
 ## Design Principles
 
-EduBridge follows these core design principles:
+JomBeelajar follows these core design principles:
 
 1. **Consistency**: Uniform look and feel across all pages
 2. **Accessibility**: WCAG 2.1 AA compliance for all components

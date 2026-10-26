@@ -1,8 +1,8 @@
-# EduBridge Admin Panel Documentation
+# JomBeelajar Admin Panel Documentation
 
 ## Overview
 
-The admin panel provides centralized management capabilities for the EduBridge platform. It allows administrators to manage users, content, monitor analytics, configure achievements, and adjust system settings.
+The admin panel provides centralized management capabilities for the JomBeelajar platform. It allows administrators to manage users, content, monitor analytics, configure achievements, and adjust system settings.
 
 ## Key Features
 

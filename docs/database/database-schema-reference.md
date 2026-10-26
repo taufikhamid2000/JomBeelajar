@@ -1,4 +1,4 @@
-# Database Schema Understanding for EduBridge
+# Database Schema Understanding for JomBeelajar
 
 ## Database Structure
 

@@ -1,6 +1,6 @@
 # Environment Setup Guide
 
-This guide explains how to configure the environment variables required for EduBridge development.
+This guide explains how to configure the environment variables required for JomBeelajar development.
 
 ## Required Environment Variables
 

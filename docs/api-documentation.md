@@ -1,6 +1,6 @@
 # API Documentation
 
-This document provides detailed information about the EduBridge API endpoints, their usage, and response formats.
+This document provides detailed information about the JomBeelajar API endpoints, their usage, and response formats.
 
 ## Authentication
 

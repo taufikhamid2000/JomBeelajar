@@ -1,6 +1,6 @@
-# Contributing to EduBridge
+# Contributing to JomBeelajar
 
-Thank you for considering contributing to EduBridge! This document outlines the process for contributing to the project.
+Thank you for considering contributing to JomBeelajar! This document outlines the process for contributing to the project.
 
 ## Code of Conduct
 
@@ -113,4 +113,4 @@ If you need help with the contribution process:
 
 All contributors will be recognized in our CONTRIBUTORS.md file.
 
-Thank you for contributing to EduBridge!
+Thank you for contributing to JomBeelajar!

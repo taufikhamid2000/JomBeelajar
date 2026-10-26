@@ -1,6 +1,6 @@
-# Development Guide for EduBridge
+# Development Guide for JomBeelajar
 
-This guide provides essential information for developers working on the EduBridge project.
+This guide provides essential information for developers working on the JomBeelajar project.
 
 ## Getting Started
 
