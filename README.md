@@ -16,6 +16,14 @@ forms, [date-fns](https://date-fns.org/) for date handling, and
 [lucide-react](https://lucide.dev/) / [react-icons](https://react-icons.github.io/react-icons/)
 for icons.
 
+## Screenshots
+
+Public pages of the [live site](https://jombeelajar.taufikhamid.com) (the sign-in page is what visitors see first).
+
+![JomBeelajar sign-in page, desktop](docs/screenshots/landing-desktop.png)
+
+<img src="docs/screenshots/landing-mobile.png" alt="JomBeelajar sign-in page, mobile" width="280">
+
 ## 🚀 Getting Started
 
 ### Prerequisites
