@@ -1,5 +1,9 @@
 const BASE_URL = process.env.JOMBEELAJAR_API_URL ?? '';
 
+// Kept under Vercel's 10s Hobby function limit so a slow API surfaces as a
+// handled error rather than a platform timeout.
+const API_TIMEOUT_MS = 8000;
+
 // ---- Types ----
 
 export interface JomBeelajarApiQuiz {
@@ -169,14 +173,25 @@ async function apiFetch<T>(
   token: string | null,
   options: RequestInit = {}
 ): Promise<T> {
-  const res = await fetch(`${BASE_URL}${path}`, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options.headers,
-    },
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${BASE_URL}${path}`, {
+      // Fail fast on a cold-starting API (Render free tier sleeps when idle)
+      // instead of hanging until Vercel kills the function at its time limit.
+      signal: AbortSignal.timeout(API_TIMEOUT_MS),
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options.headers,
+      },
+    });
+  } catch (err) {
+    if (err instanceof Error && err.name === 'TimeoutError') {
+      throw new Error(`JomBeelajar API 504: ${path} — timed out after ${API_TIMEOUT_MS}ms`);
+    }
+    throw err;
+  }
 
   if (!res.ok) {
     // Include the response body's error detail when present (e.g. 409
