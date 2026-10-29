@@ -36,3 +36,17 @@ jest.mock('@/lib/supabase', () => ({
     select: jest.fn().mockReturnThis(),
   },
 }));
+
+// jsdom's AbortSignal lacks the static timeout() that Node and browsers have
+// (used by src/lib/jombeelajar-api.ts); mirror its TimeoutError behaviour.
+if (typeof AbortSignal.timeout !== 'function') {
+  AbortSignal.timeout = (ms) => {
+    const controller = new AbortController();
+    setTimeout(() => {
+      const err = new Error('The operation timed out.');
+      err.name = 'TimeoutError';
+      controller.abort(err);
+    }, ms).unref?.();
+    return controller.signal;
+  };
+}
