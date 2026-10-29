@@ -23,6 +23,12 @@ export async function getSessionToken(): Promise<string | null> {
     }
   );
 
+  // Verify the JWT with Supabase Auth before trusting the cookie session.
+  const {
+    data: { user },
+  } = await supabaseServer.auth.getUser();
+  if (!user) return null;
+
   const {
     data: { session },
   } = await supabaseServer.auth.getSession();

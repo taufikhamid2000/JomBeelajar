@@ -23,7 +23,11 @@ export async function GET() {
       }
     );
 
-    const { data: { session } } = await supabaseServer.auth.getSession();
+    // Verify the JWT with Supabase Auth first; the session is only used for the token.
+    const { data: { user } } = await supabaseServer.auth.getUser();
+    const { data: { session } } = user
+      ? await supabaseServer.auth.getSession()
+      : { data: { session: null } };
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

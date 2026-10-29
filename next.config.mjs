@@ -4,6 +4,12 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 });
 
+let supabaseHost = null;
+try {
+  const u = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+  if (u) supabaseHost = new URL(u).hostname;
+} catch {}
+
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: false, // Temporarily disable to reduce doubles during log cleanup
@@ -46,15 +52,38 @@ const config = {
   // Configure image domains for remote images (avatars)
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-      {
-        protocol: 'http',
-        hostname: '**',
-      },
+      // Supabase Storage (user-avatars bucket); host derived from the project URL.
+      ...(supabaseHost
+        ? [{ protocol: 'https', hostname: supabaseHost, pathname: '/storage/v1/object/public/**' }]
+        : []),
+      // Fallback icon used by the admin subject editor on image load error.
+      { protocol: 'https', hostname: 'via.placeholder.com' },
     ],
+  },
+  // Baseline security headers. Only `frame-ancestors` is set as a CSP directive
+  // on purpose: a full CSP (script-src/img-src/connect-src, etc.) needs to be
+  // tested against the real app (Supabase, Vercel, inline styles) before
+  // enabling, so it is deliberately not set yet. No page is meant to be
+  // embedded in an iframe, so framing is denied everywhere.
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'Content-Security-Policy', value: "frame-ancestors 'none'" },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains',
+          },
+        ],
+      },
+    ];
   },
   // Add redirects from old Pages Router routes to new App Router routes
   async redirects() {

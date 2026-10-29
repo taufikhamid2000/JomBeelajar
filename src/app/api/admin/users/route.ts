@@ -28,9 +28,9 @@ export async function GET() {
 
     // Verify user is authenticated
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    if (!session) {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
       logger.warn(
         'Unauthorized attempt to access admin/users - no session found'
       );
@@ -43,12 +43,12 @@ export async function GET() {
     const { data: userRoles } = await supabaseAdmin
       .from('user_roles')
       .select('role')
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .maybeSingle();
 
     if (!userRoles || userRoles.role !== 'admin') {
       logger.warn(
-        `User ${session.user.id} attempted to access admin but lacks admin role`
+        `User ${user.id} attempted to access admin but lacks admin role`
       );
       return NextResponse.json(
         { error: 'Forbidden: Admin access required' },
@@ -151,9 +151,9 @@ export async function POST(request: Request) {
 
     // Verify user is authenticated
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    if (!session) {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -162,7 +162,7 @@ export async function POST(request: Request) {
     const { data: userRoles } = await supabase
       .from('user_roles')
       .select('role')
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .maybeSingle();
 
     if (!userRoles || userRoles.role !== 'admin') {

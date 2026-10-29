@@ -84,9 +84,9 @@ export async function POST(request: NextRequest) {
 
     // Check authorization
     const {
-      data: { session },
-    } = await supabaseClient.auth.getSession();
-    if (!session) {
+      data: { user },
+    } = await supabaseClient.auth.getUser();
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const isAdmin = await adminChecker(session.user.id);
+    const isAdmin = await adminChecker(user.id);
     if (!isAdmin) {
       return NextResponse.json(
         { error: 'Administrator privileges required' },
@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
 
     // Log the action
     logger.log(
-      `Migration '${migrationFile}' applied successfully by ${session.user.id}`
+      `Migration '${migrationFile}' applied successfully by ${user.id}`
     );
 
     return NextResponse.json({
