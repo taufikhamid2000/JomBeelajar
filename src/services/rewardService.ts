@@ -235,7 +235,8 @@ export async function checkRewardEligibility(userId: string): Promise<{
     return {
       eligibleRewards: [],
       error: {
-        message: error instanceof Error ? error.message : String(error),
+        message:
+          (error as { message?: string })?.message ?? String(error),
       },
     };
   }

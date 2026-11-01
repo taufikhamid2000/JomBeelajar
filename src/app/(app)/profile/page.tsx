@@ -163,9 +163,9 @@ function ProfileContent() {
         {/* Tab Navigation */}
         <div className="bg-surface shadow rounded-lg mt-6 overflow-hidden">
           <div className="border-b border-border">
-            <nav className="flex -mb-px">
+            <nav className="flex -mb-px overflow-x-auto">
               <button
-                className={`px-6 py-4 text-sm font-medium ${
+                className={`shrink-0 whitespace-nowrap px-4 py-4 text-sm font-medium sm:px-6 ${
                   activeTab === 'stats'
                     ? 'border-b-2 border-brand/40 text-brand'
                     : 'text-soft hover:text-soft'
@@ -175,7 +175,7 @@ function ProfileContent() {
                 Stats & Progress
               </button>
               <button
-                className={`px-6 py-4 text-sm font-medium ${
+                className={`shrink-0 whitespace-nowrap px-4 py-4 text-sm font-medium sm:px-6 ${
                   activeTab === 'achievements'
                     ? 'border-b-2 border-brand/40 text-brand'
                     : 'text-soft hover:text-soft'
@@ -185,7 +185,7 @@ function ProfileContent() {
                 Achievements
               </button>
               <button
-                className={`px-6 py-4 text-sm font-medium ${
+                className={`shrink-0 whitespace-nowrap px-4 py-4 text-sm font-medium sm:px-6 ${
                   activeTab === 'created-quizzes'
                     ? 'border-b-2 border-brand/40 text-brand'
                     : 'text-soft hover:text-soft'
@@ -196,7 +196,7 @@ function ProfileContent() {
               </button>
               {isOwnProfile && (
                 <button
-                  className={`px-6 py-4 text-sm font-medium ${
+                  className={`shrink-0 whitespace-nowrap px-4 py-4 text-sm font-medium sm:px-6 ${
                     activeTab === 'settings'
                       ? 'border-b-2 border-brand/40 text-brand'
                       : 'text-soft hover:text-soft'

@@ -27,7 +27,7 @@ const Achievements = ({
         {achievements.map((achievement, index) => (
           <div
             key={index}
-            className={`achievement-card ${achievement.bgColor} p-3 sm:p-4 rounded-lg shadow dark:bg-opacity-70`}
+            className="achievement-card border border-border bg-muted p-3 sm:p-4 rounded-lg"
           >
             <h3 className="text-base sm:text-lg font-semibold text-strong">
               {achievement.title}
@@ -41,7 +41,7 @@ const Achievements = ({
       <div className="mt-4 text-center">
         <a
           href={leaderboardPath}
-          className="inline-block px-4 py-2 bg-brand-soft hover:bg-brand-soft text-brand rounded-full text-sm font-medium transition-colors dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)]"
+          className="inline-flex min-h-[44px] items-center px-5 bg-brand-soft hover:bg-brand-soft text-brand rounded-full text-sm font-medium transition-colors"
         >
           {' '}
           View Leaderboard

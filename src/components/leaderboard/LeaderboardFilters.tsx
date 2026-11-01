@@ -20,7 +20,7 @@ export default function LeaderboardFilters({
         <div className="inline-flex bg-muted rounded-lg p-1">
           <button
             onClick={() => onTimeFrameChange('daily')}
-            className={`px-3 py-1 text-sm rounded-md transition-colors ${
+            className={`px-3 py-2.5 text-sm rounded-md transition-colors ${
               timeFrame === 'daily'
                 ? 'bg-surface shadow-sm text-brand font-medium'
                 : 'text-soft hover:bg-muted'
@@ -30,7 +30,7 @@ export default function LeaderboardFilters({
           </button>
           <button
             onClick={() => onTimeFrameChange('weekly')}
-            className={`px-3 py-1 text-sm rounded-md transition-colors ${
+            className={`px-3 py-2.5 text-sm rounded-md transition-colors ${
               timeFrame === 'weekly'
                 ? 'bg-surface shadow-sm text-brand font-medium'
                 : 'text-soft hover:bg-muted'
@@ -40,7 +40,7 @@ export default function LeaderboardFilters({
           </button>
           <button
             onClick={() => onTimeFrameChange('allTime')}
-            className={`px-3 py-1 text-sm rounded-md transition-colors ${
+            className={`px-3 py-2.5 text-sm rounded-md transition-colors ${
               timeFrame === 'allTime'
                 ? 'bg-surface shadow-sm text-brand font-medium'
                 : 'text-soft hover:bg-muted'

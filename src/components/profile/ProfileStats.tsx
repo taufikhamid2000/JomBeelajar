@@ -10,10 +10,10 @@ export default function ProfileStats({ user }: ProfileStatsProps) {
   const xpForCurrentLevel = user.level * 100;
   const xpForNextLevel = (user.level + 1) * 100;
   const xpNeeded = xpForNextLevel - xpForCurrentLevel;
-  const currentProgress = user.xp - xpForCurrentLevel;
+  const currentProgress = Math.max(0, user.xp - xpForCurrentLevel);
   const progressPercentage = Math.min(
     100,
-    Math.round((currentProgress / xpNeeded) * 100)
+    Math.max(0, Math.round((currentProgress / xpNeeded) * 100))
   );
 
   return (

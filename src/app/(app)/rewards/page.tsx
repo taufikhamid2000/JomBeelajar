@@ -123,8 +123,8 @@ export default function RewardsClaimPage() {
                     : 'border-border opacity-50 cursor-not-allowed'
               }`}
             >
-              <div className="text-lg font-medium mb-2">{reward.name}</div>
-              <div className="text-2xl font-bold mb-2">RM {reward.amount}</div>
+              <div className="text-lg font-medium mb-2 text-strong">{reward.name}</div>
+              <div className="text-2xl font-bold mb-2 text-strong">RM {reward.amount}</div>
               <div className="text-sm text-soft">
                 {isEligible ? 'Eligible' : 'Not Eligible'}
               </div>

@@ -56,7 +56,7 @@ export default function ContinueLearningCard({
         <Link
           href={`/quiz/${subject.slug}/chapters`}
           onClick={() => onNavigate?.(subject.slug)}
-          className="press inline-flex min-h-[48px] items-center justify-center rounded-full bg-surface px-8 text-base font-bold text-[#0b5f58] transition hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          className="press inline-flex min-h-[48px] items-center justify-center rounded-full bg-white px-8 text-base font-bold text-[#0b5f58] transition hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           {hasHistory ? 'Continue' : 'Start learning'}
         </Link>

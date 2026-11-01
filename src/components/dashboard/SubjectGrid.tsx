@@ -93,7 +93,7 @@ const SubjectGrid = ({
                     className={`mt-4 min-h-[44px] w-full rounded-xl px-4 py-2.5 text-sm font-bold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand/40 ${
                       isCurrent
                         ? 'bg-[var(--band-via)] text-white hover:bg-[var(--band-from)]'
-                        : 'bg-green-600 text-white hover:bg-green-700'
+                        : 'border border-brand/40 bg-brand-soft text-brand hover:bg-brand/10'
                     }`}
                   >
                     {isCurrent ? 'Continue' : 'Start'}

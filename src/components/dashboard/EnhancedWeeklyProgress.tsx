@@ -106,7 +106,7 @@ const EnhancedWeeklyProgress = ({
       <div className="mt-4 text-right">
         <Link
           href={isStatic ? '/static/leaderboard' : '/leaderboard'}
-          className="text-sm text-brand hover:underline inline-flex items-center"
+          className="text-sm text-brand hover:underline inline-flex min-h-[44px] items-center"
         >
           See how you rank <span className="ml-1">→</span>
         </Link>

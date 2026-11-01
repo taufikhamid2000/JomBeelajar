@@ -143,13 +143,13 @@ export default function LeaderboardTable({
           <table className="min-w-full divide-y divide-border">
             <thead className="bg-surface">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
+                <th className="px-3 py-3 sm:px-6 text-left text-xs font-medium text-soft uppercase tracking-wider">
                   Rank
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
+                <th className="px-3 py-3 sm:px-6 text-left text-xs font-medium text-soft uppercase tracking-wider">
                   Student
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
+                <th className="px-3 py-3 sm:px-6 text-left text-xs font-medium text-soft uppercase tracking-wider">
                   Level
                 </th>
               </tr>
@@ -165,7 +165,7 @@ export default function LeaderboardTable({
                         : 'hover:bg-muted/50'
                     } transition-colors duration-150`}
                   >
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-3 py-4 sm:px-6 whitespace-nowrap">
                       <div className="flex items-center">
                         {index < 3 ? (
                           <div
@@ -188,7 +188,7 @@ export default function LeaderboardTable({
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-3 py-4 sm:px-6 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="h-10 w-10 rounded-full bg-[var(--band-via)] dark:bg-brand-soft flex items-center justify-center mr-3 overflow-hidden">
                           {isValidImageUrl(user.avatar_url) ? (
@@ -220,7 +220,7 @@ export default function LeaderboardTable({
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-3 py-4 sm:px-6 whitespace-nowrap">
                       <div>
                         <span className="text-sm font-medium text-strong">
                           Lv. {user.level}
