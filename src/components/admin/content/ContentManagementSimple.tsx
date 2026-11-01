@@ -230,7 +230,7 @@ export default function ContentManagement<T extends { id: string }>({
         {baseRoute && (
           <Link
             href={`${baseRoute}/${item.id}`}
-            className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-4"
+            className="text-brand hover:text-brand mr-4"
           >
             Edit
           </Link>
@@ -259,13 +259,11 @@ export default function ContentManagement<T extends { id: string }>({
       {' '}
       {/* Header with title and add button */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold dark:text-white">
-          {entityNamePlural} Management
-        </h2>
+        <h2 className="text-xl font-semibold">{entityNamePlural} Management</h2>
         {!disableCreation && (
           <button
             onClick={() => setShowNewItemForm(!showNewItemForm)}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
+            className="bg-[var(--band-via)] text-white px-4 py-2 rounded hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)]"
           >
             {showNewItemForm ? 'Cancel' : `Add New ${entityName}`}
           </button>
@@ -296,10 +294,8 @@ export default function ContentManagement<T extends { id: string }>({
       </div>
       {/* New item form */}
       {showNewItemForm && (
-        <div className="mb-6 p-4 border rounded-lg dark:border-gray-700">
-          <h3 className="text-lg font-medium mb-3 dark:text-white">
-            Create New {entityName}
-          </h3>
+        <div className="mb-6 p-4 border rounded-lg">
+          <h3 className="text-lg font-medium mb-3">Create New {entityName}</h3>
           <form onSubmit={handleCreateItem}>
             {renderForm(newItemState, setNewItemState, loading)}
             <div className="flex justify-end">

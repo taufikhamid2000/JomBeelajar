@@ -49,9 +49,9 @@ const SubjectSelector: FC<SubjectSelectorProps> = ({
   return (
     <>
       {isLoading ? (
-        <div className="flex items-center justify-center py-3 px-2 bg-gray-800 dark:bg-gray-100 rounded-md">
+        <div className="flex items-center justify-center py-3 px-2 bg-surface rounded-md">
           <svg
-            className="animate-spin h-5 w-5 text-white dark:text-gray-700"
+            className="animate-spin h-5 w-5 text-strong"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -70,9 +70,7 @@ const SubjectSelector: FC<SubjectSelectorProps> = ({
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             ></path>
           </svg>
-          <span className="ml-2 text-white dark:text-gray-900">
-            Loading subjects...
-          </span>
+          <span className="ml-2 text-strong">Loading subjects...</span>
         </div>
       ) : (
         <div className="space-y-2">
@@ -83,13 +81,13 @@ const SubjectSelector: FC<SubjectSelectorProps> = ({
                 placeholder={placeholder}
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 required={required && selectedSubjects.length === 0}
               />
               <button
                 type="button"
                 onClick={() => setSearchText('')}
-                className="absolute right-3 top-3 text-gray-400 hover:text-white dark:hover:text-gray-800"
+                className="absolute right-3 top-3 text-soft hover:text-white"
                 aria-label="Clear search"
               >
                 {searchText && (
@@ -112,12 +110,12 @@ const SubjectSelector: FC<SubjectSelectorProps> = ({
             </div>
 
             {searchText.length > 0 && (
-              <ul className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-700 dark:bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <ul className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-muted py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {filteredSubjects.length > 0 ? (
                   filteredSubjects.map((subject) => (
                     <li
                       key={subject.id}
-                      className="relative cursor-pointer select-none py-2 px-3 text-white dark:text-gray-900 hover:bg-gray-600 dark:hover:bg-gray-200"
+                      className="relative cursor-pointer select-none py-2 px-3 text-strong hover:bg-muted"
                       onClick={() => {
                         onAddSubject(subject.id);
                         setSearchText('');
@@ -127,7 +125,7 @@ const SubjectSelector: FC<SubjectSelectorProps> = ({
                         <span className="block truncate">
                           {subject.name}{' '}
                           {subject.category && (
-                            <span className="text-xs text-gray-400 dark:text-gray-500">
+                            <span className="text-xs text-soft">
                               ({subject.category})
                             </span>
                           )}
@@ -136,7 +134,7 @@ const SubjectSelector: FC<SubjectSelectorProps> = ({
                     </li>
                   ))
                 ) : (
-                  <li className="relative cursor-default select-none py-2 px-3 text-gray-400 dark:text-gray-500">
+                  <li className="relative cursor-default select-none py-2 px-3 text-soft">
                     No matching subjects found
                   </li>
                 )}
@@ -456,8 +454,8 @@ const ContributionForm: FC<ContributionFormProps> = ({
   };
 
   return (
-    <div className="dark:bg-white bg-gray-800 shadow-lg rounded-lg p-6 max-w-3xl mx-auto border border-gray-200 dark:border-gray-700">
-      <h2 className="text-2xl font-bold dark:text-gray-900 text-white mb-6">
+    <div className="bg-surface shadow-lg rounded-lg p-6 max-w-3xl mx-auto border border-border">
+      <h2 className="text-2xl font-bold text-strong mb-6">
         Contribute Subject Guidance
       </h2>{' '}
       {success ? (
@@ -502,13 +500,11 @@ const ContributionForm: FC<ContributionFormProps> = ({
           )}
           <div className="space-y-4">
             {' '}
-            <h3 className="text-lg font-medium text-white dark:text-gray-900">
-              Career Details
-            </h3>
+            <h3 className="text-lg font-medium text-strong">Career Details</h3>
             <div>
               <label
                 htmlFor="title"
-                className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                className="block text-sm font-medium text-soft"
               >
                 Career Title*
               </label>
@@ -518,7 +514,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 placeholder="e.g., Cybersecurity Analyst"
                 required
               />
@@ -526,7 +522,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
             <div>
               <label
                 htmlFor="description"
-                className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                className="block text-sm font-medium text-soft"
               >
                 Description*
               </label>{' '}
@@ -536,7 +532,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
                 value={formData.description}
                 onChange={handleChange}
                 rows={3}
-                className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 placeholder="Describe the career path and main responsibilities"
                 required
               />
@@ -544,13 +540,13 @@ const ContributionForm: FC<ContributionFormProps> = ({
           </div>
           <div className="space-y-4">
             {' '}
-            <h3 className="text-lg font-medium text-white dark:text-gray-900">
+            <h3 className="text-lg font-medium text-strong">
               Required Subjects
             </h3>{' '}
             <div>
               <label
                 htmlFor="mustLearn"
-                className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                className="block text-sm font-medium text-soft"
               >
                 Must Learn Subjects*
               </label>
@@ -582,7 +578,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
             <div>
               <label
                 htmlFor="shouldLearn"
-                className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                className="block text-sm font-medium text-soft"
               >
                 Should Learn Subjects
               </label>
@@ -613,7 +609,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
             <div>
               <label
                 htmlFor="canLearn"
-                className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                className="block text-sm font-medium text-soft"
               >
                 Can Learn Subjects
               </label>
@@ -643,29 +639,29 @@ const ContributionForm: FC<ContributionFormProps> = ({
             </div>
           </div>{' '}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-white dark:text-gray-900">
+            <h3 className="text-lg font-medium text-strong">
               {isLoggedIn ? 'Submitter Information' : 'Your Information'}
             </h3>{' '}
             {isLoggedIn ? (
               // Show user info summary card when logged in
               <div className="space-y-4">
-                <div className="bg-gray-700 dark:bg-gray-100 rounded-md p-4 border border-gray-600 dark:border-gray-300">
+                <div className="bg-muted rounded-md p-4 border border-border">
                   <div className="flex items-center">
-                    <div className="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center">
+                    <div className="h-10 w-10 rounded-full bg-[var(--band-via)] flex items-center justify-center">
                       <span className="text-white font-medium text-sm">
                         {userName ? userName.charAt(0).toUpperCase() : '?'}
                       </span>
                     </div>
                     <div className="ml-4">
-                      <p className="text-white dark:text-gray-800 font-medium">
+                      <p className="text-strong font-medium">
                         {userName || 'User'}
                       </p>
-                      <p className="text-gray-400 dark:text-gray-500 text-sm">
+                      <p className="text-soft text-sm">
                         {userEmail || 'Authenticated user'}
                       </p>
                     </div>
                   </div>
-                  <p className="mt-3 text-sm text-gray-400 dark:text-gray-500">
+                  <p className="mt-3 text-sm text-soft">
                     Your contribution will be submitted with your account
                     information.
                   </p>
@@ -679,17 +675,17 @@ const ContributionForm: FC<ContributionFormProps> = ({
                       type="checkbox"
                       checked={isAnonymous}
                       onChange={(e) => setIsAnonymous(e.target.checked)}
-                      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-500 rounded"
+                      className="h-4 w-4 text-brand focus:ring-brand/40 border-border rounded"
                     />
                   </div>
                   <div className="ml-3 text-sm">
                     <label
                       htmlFor="anonymous"
-                      className="text-gray-300 dark:text-gray-700 cursor-pointer"
+                      className="text-soft cursor-pointer"
                     >
                       Contribute anonymously
                     </label>
-                    <p className="text-gray-400 dark:text-gray-500">
+                    <p className="text-soft">
                       Your name and email will not be publicly associated with
                       this contribution.
                     </p>
@@ -703,7 +699,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
                   <div>
                     <label
                       htmlFor="submitterName"
-                      className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                      className="block text-sm font-medium text-soft"
                     >
                       Your Name*
                     </label>
@@ -713,7 +709,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
                       name="submitterName"
                       value={formData.submitterName}
                       onChange={handleChange}
-                      className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                      className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                       required={!isAnonymous}
                       disabled={isAnonymous}
                     />
@@ -722,7 +718,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
                   <div>
                     <label
                       htmlFor="submitterEmail"
-                      className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                      className="block text-sm font-medium text-soft"
                     >
                       Your Email*
                     </label>
@@ -732,7 +728,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
                       name="submitterEmail"
                       value={formData.submitterEmail}
                       onChange={handleChange}
-                      className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                      className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                       required={!isAnonymous}
                       disabled={isAnonymous}
                     />
@@ -747,17 +743,17 @@ const ContributionForm: FC<ContributionFormProps> = ({
                       type="checkbox"
                       checked={isAnonymous}
                       onChange={(e) => setIsAnonymous(e.target.checked)}
-                      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-500 rounded"
+                      className="h-4 w-4 text-brand focus:ring-brand/40 border-border rounded"
                     />
                   </div>
                   <div className="ml-3 text-sm">
                     <label
                       htmlFor="anonymous"
-                      className="text-gray-300 dark:text-gray-700 cursor-pointer"
+                      className="text-soft cursor-pointer"
                     >
                       Contribute anonymously
                     </label>
-                    <p className="text-gray-400 dark:text-gray-500">
+                    <p className="text-soft">
                       Your contribution will be submitted anonymously. We still
                       need a contact email for moderation purposes, but it
                       won&apos;t be publicly displayed.
@@ -769,7 +765,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
             <div>
               <label
                 htmlFor="additionalNotes"
-                className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                className="block text-sm font-medium text-soft"
               >
                 Additional Notes
               </label>
@@ -779,7 +775,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
                 value={formData.additionalNotes}
                 onChange={handleChange}
                 rows={3}
-                className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 placeholder="Any additional information about this subject guidance"
               />
             </div>
@@ -789,7 +785,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
               <button
                 type="button"
                 onClick={onCancel}
-                className="px-4 py-2 text-sm font-medium text-gray-200 bg-gray-700 border border-gray-500 rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-800"
+                className="px-4 py-2 text-sm font-medium text-strong bg-muted border border-border rounded-md shadow-sm hover:bg-muted focus:outline-none focus:ring-2 focus:ring-brand/40 focus:ring-offset-2 focus:ring-offset-gray-800"
               >
                 Cancel
               </button>
@@ -797,7 +793,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-500 border border-transparent rounded-md shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-[var(--band-via)] border border-transparent rounded-md shadow-sm hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-brand/40 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
                 <>

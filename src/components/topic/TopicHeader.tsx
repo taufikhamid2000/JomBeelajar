@@ -31,7 +31,7 @@ export default function TopicHeader({
       <div className="flex items-center mt-2">
         <button
           type="button"
-          className="inline-flex items-center px-3 py-1.5 ml-0 my-1 bg-white hover:bg-gray-800 dark:bg-gray-100 dark:hover:bg-gray-700 text-purple-600 dark:text-purple-400 border border-purple-300 dark:border-purple-800 rounded transition-colors text-sm"
+          className="inline-flex items-center px-3 py-1.5 ml-0 my-1 bg-surface hover:bg-surface text-brand border border-brand/40 rounded transition-colors text-sm"
           onClick={() => {
             const descriptionPrompt = `Generate a description for the subject '${subject.name}', tingkatan '${chapter.form}', chapter '${chapter.name}', and topic '${topic.name}' based on the KSSM syllabus.`;
             const chatGPTUrl = `https://chat.openai.com/?prompt=${encodeURIComponent(descriptionPrompt)}`;

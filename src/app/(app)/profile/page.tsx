@@ -48,9 +48,7 @@ function ProfileContent() {
   }));
   // The real (non-guest) profile currently on screen; lags realUser by a
   // short delay so the upgrade from guest data isn't jarring.
-  const [shownRealUser, setShownRealUser] = useState<ExtendedUser | null>(
-    null
-  );
+  const [shownRealUser, setShownRealUser] = useState<ExtendedUser | null>(null);
 
   // Fetch real user profile with React Query (but don't block rendering)
   const {
@@ -124,18 +122,18 @@ function ProfileContent() {
   // Only show error if we can't get any data at all
   if (hasError && !displayUser) {
     return (
-      <div className="min-h-screen bg-gray-900 dark:bg-gray-50 py-12">
+      <div className="min-h-screen bg-surface py-12">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gray-800 dark:bg-white shadow rounded-lg p-8">
+          <div className="bg-surface shadow rounded-lg p-8">
             <h2 className="text-2xl font-bold text-red-600 dark:text-red-500 mb-4">
               Error
             </h2>
-            <p className="text-gray-300 dark:text-gray-600">
+            <p className="text-soft">
               Unable to connect to the API. Please contact the administrator.
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-500"
+              className="mt-6 px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)] dark:hover:bg-brand-soft0"
             >
               Try Again
             </button>
@@ -145,7 +143,7 @@ function ProfileContent() {
     );
   }
   return (
-    <div className="min-h-screen bg-gray-900 dark:bg-gray-50 py-12">
+    <div className="min-h-screen bg-surface py-12">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Profile Header with Avatar and Basic Info */}
         <div className="relative">
@@ -154,8 +152,8 @@ function ProfileContent() {
           {/* Upgrading indicator */}
           {isUpgrading && (
             <div className="absolute top-4 right-4">
-              <div className="flex items-center text-sm text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-3 py-1 rounded-full">
-                <div className="animate-spin rounded-full h-3 w-3 border border-blue-600 border-t-transparent mr-2"></div>
+              <div className="flex items-center text-sm text-brand bg-brand-soft dark:bg-[var(--band-via)]/20 px-3 py-1 rounded-full">
+                <div className="animate-spin rounded-full h-3 w-3 border border-brand/40 border-t-transparent mr-2"></div>
                 Loading your profile...
               </div>
             </div>
@@ -163,14 +161,14 @@ function ProfileContent() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="bg-gray-800 dark:bg-white shadow rounded-lg mt-6 overflow-hidden">
-          <div className="border-b border-gray-700 dark:border-gray-200">
+        <div className="bg-surface shadow rounded-lg mt-6 overflow-hidden">
+          <div className="border-b border-border">
             <nav className="flex -mb-px">
               <button
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === 'stats'
-                    ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
-                    : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
+                    ? 'border-b-2 border-brand/40 text-brand'
+                    : 'text-soft hover:text-soft'
                 }`}
                 onClick={() => setActiveTab('stats')}
               >
@@ -179,8 +177,8 @@ function ProfileContent() {
               <button
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === 'achievements'
-                    ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
-                    : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
+                    ? 'border-b-2 border-brand/40 text-brand'
+                    : 'text-soft hover:text-soft'
                 }`}
                 onClick={() => setActiveTab('achievements')}
               >
@@ -189,8 +187,8 @@ function ProfileContent() {
               <button
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === 'created-quizzes'
-                    ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
-                    : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
+                    ? 'border-b-2 border-brand/40 text-brand'
+                    : 'text-soft hover:text-soft'
                 }`}
                 onClick={() => setActiveTab('created-quizzes')}
               >
@@ -200,8 +198,8 @@ function ProfileContent() {
                 <button
                   className={`px-6 py-4 text-sm font-medium ${
                     activeTab === 'settings'
-                      ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
-                      : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
+                      ? 'border-b-2 border-brand/40 text-brand'
+                      : 'text-soft hover:text-soft'
                   }`}
                   onClick={() => setActiveTab('settings')}
                 >
@@ -251,10 +249,10 @@ export default function ProfilePage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="min-h-screen bg-surface-2 flex items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading profile...</p>
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand/40 mx-auto"></div>
+            <p className="mt-4 text-soft">Loading profile...</p>
           </div>
         </div>
       }

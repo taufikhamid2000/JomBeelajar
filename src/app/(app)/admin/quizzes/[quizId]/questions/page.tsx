@@ -249,17 +249,17 @@ export default function AdminQuizQuestionsPage() {
       case 'issue':
         return 'bg-yellow-100 text-yellow-800';
       default:
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-brand-soft text-brand';
     }
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+      <div className="min-h-screen bg-surface">
         <div className="flex">
           <AdminNavigation />
           <div className="flex-1 p-8 flex items-center justify-center">
-            <div className="w-8 h-8 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+            <div className="w-8 h-8 border-t-2 border-b-2 border-brand/40 rounded-full animate-spin"></div>
           </div>
         </div>
       </div>
@@ -267,7 +267,7 @@ export default function AdminQuizQuestionsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+    <div className="min-h-screen bg-surface">
       <div className="flex">
         <AdminNavigation />
         <div className="flex-1 p-8">
@@ -276,14 +276,14 @@ export default function AdminQuizQuestionsPage() {
               <div>
                 <Link
                   href="/admin/quizzes"
-                  className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 mb-2 inline-flex items-center"
+                  className="text-brand hover:text-brand mb-2 inline-flex items-center"
                 >
                   ← Back to Quizzes
                 </Link>
-                <h1 className="text-3xl font-bold text-white dark:text-gray-900">
+                <h1 className="text-3xl font-bold text-strong">
                   {quiz?.title || 'Quiz'}: Questions Audit
                 </h1>
-                <div className="text-gray-400 dark:text-gray-500 mt-1">
+                <div className="text-soft mt-1">
                   {quiz?.subject_name} / {quiz?.topic_name}
                 </div>
                 <div className="mt-2">
@@ -301,13 +301,13 @@ export default function AdminQuizQuestionsPage() {
               <div>
                 <Link
                   href={`/admin/quizzes/${quizId}/preview`}
-                  className="bg-blue-500 text-white py-2 px-4 rounded mr-2 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+                  className="bg-[var(--band-via)] text-white py-2 px-4 rounded mr-2 hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)]"
                 >
                   Preview Quiz
                 </Link>
                 <Link
                   href={`/admin/quizzes/${quizId}/audit`}
-                  className="bg-gray-200 text-gray-800 py-2 px-4 rounded mr-2 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+                  className="bg-muted text-strong py-2 px-4 rounded mr-2 hover:bg-muted"
                 >
                   Quiz Audit
                 </Link>
@@ -357,12 +357,10 @@ export default function AdminQuizQuestionsPage() {
             </div>
           )}
 
-          <div className="bg-gray-800 dark:bg-white rounded-lg shadow mb-6 p-6">
+          <div className="bg-surface rounded-lg shadow mb-6 p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
-                <p className="text-sm font-medium text-gray-300 dark:text-gray-700">
-                  Difficulty
-                </p>
+                <p className="text-sm font-medium text-soft">Difficulty</p>
                 <p className="mt-1">
                   <span
                     className={`px-2 py-1 text-xs font-semibold rounded-full ${
@@ -381,46 +379,38 @@ export default function AdminQuizQuestionsPage() {
                 </p>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-300 dark:text-gray-700">
-                  Time Limit
-                </p>
-                <p className="mt-1 text-white dark:text-gray-900">
+                <p className="text-sm font-medium text-soft">Time Limit</p>
+                <p className="mt-1 text-strong">
                   {Math.floor((quiz?.time_limit || 0) / 60)} minutes{' '}
                   {(quiz?.time_limit || 0) % 60} seconds
                 </p>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-300 dark:text-gray-700">
-                  Passing Score
-                </p>
-                <p className="mt-1 text-white dark:text-gray-900">
-                  {quiz?.passing_score || 0}%
-                </p>
+                <p className="text-sm font-medium text-soft">Passing Score</p>
+                <p className="mt-1 text-strong">{quiz?.passing_score || 0}%</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-800 dark:bg-white rounded-lg shadow overflow-hidden">
+          <div className="bg-surface rounded-lg shadow overflow-hidden">
             <div className="p-6">
-              <h2 className="text-xl font-semibold mb-4 text-white dark:text-gray-900">
+              <h2 className="text-xl font-semibold mb-4 text-strong">
                 Questions for Review
               </h2>
 
               {questions.length === 0 ? (
-                <div className="text-center py-6 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
-                  <p className="text-gray-400 dark:text-gray-500">
-                    No questions found for this quiz.
-                  </p>
+                <div className="text-center py-6 bg-surface-2 rounded-lg border border-border">
+                  <p className="text-soft">No questions found for this quiz.</p>
                 </div>
               ) : (
                 <div className="space-y-8">
                   {questions.map((question, qIndex) => (
                     <div
                       key={question.id}
-                      className="border border-gray-200 dark:border-gray-600 rounded-lg p-5 bg-gray-50 dark:bg-gray-700"
+                      className="border border-border rounded-lg p-5 bg-surface-2"
                     >
                       <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-lg font-medium text-white dark:text-gray-900">
+                        <h3 className="text-lg font-medium text-strong">
                           Question {qIndex + 1}
                         </h3>
                         <button
@@ -430,17 +420,17 @@ export default function AdminQuizQuestionsPage() {
                               id: question.id,
                             })
                           }
-                          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
+                          className="text-brand hover:text-brand text-sm"
                         >
                           Add Comment
                         </button>
                       </div>
 
                       <div className="mb-4">
-                        <p className="text-white dark:text-gray-900 font-medium mb-2">
+                        <p className="text-strong font-medium mb-2">
                           {question.text}
                         </p>
-                        <div className="text-sm text-gray-400 dark:text-gray-500">
+                        <div className="text-sm text-soft">
                           Type:{' '}
                           {question.type === 'radio'
                             ? 'Single Choice'
@@ -449,14 +439,14 @@ export default function AdminQuizQuestionsPage() {
                       </div>
 
                       <div className="mb-4">
-                        <h4 className="text-sm font-medium text-gray-300 dark:text-gray-700 mb-2">
+                        <h4 className="text-sm font-medium text-soft mb-2">
                           Answers:
                         </h4>{' '}
                         <div className="space-y-2">
                           {question.answers.map((answer) => (
                             <div
                               key={answer.id}
-                              className="flex items-center justify-between p-3 bg-gray-800 dark:bg-white rounded border border-gray-200 dark:border-gray-600"
+                              className="flex items-center justify-between p-3 bg-surface rounded border border-border"
                             >
                               <div className="flex items-center">
                                 <div className="flex-shrink-0 mr-3">
@@ -465,11 +455,11 @@ export default function AdminQuizQuestionsPage() {
                                       className={`w-4 h-4 rounded-full border-2 ${
                                         answer.isCorrect
                                           ? 'bg-green-500 border-green-500'
-                                          : 'border-gray-600 dark:border-gray-300'
+                                          : 'border-border'
                                       }`}
                                     >
                                       {answer.isCorrect && (
-                                        <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                                        <div className="w-2 h-2 bg-surface rounded-full m-0.5"></div>
                                       )}
                                     </div>
                                   ) : (
@@ -477,7 +467,7 @@ export default function AdminQuizQuestionsPage() {
                                       className={`w-4 h-4 rounded border-2 ${
                                         answer.isCorrect
                                           ? 'bg-green-500 border-green-500'
-                                          : 'border-gray-600 dark:border-gray-300'
+                                          : 'border-border'
                                       }`}
                                     >
                                       {answer.isCorrect && (
@@ -497,7 +487,7 @@ export default function AdminQuizQuestionsPage() {
                                   )}
                                 </div>
                                 <span
-                                  className={`${answer.isCorrect ? 'font-medium text-green-700 dark:text-green-300' : 'text-gray-300 dark:text-gray-700'}`}
+                                  className={`${answer.isCorrect ? 'font-medium text-green-700 dark:text-green-300' : 'text-soft'}`}
                                 >
                                   {answer.text}
                                 </span>
@@ -514,7 +504,7 @@ export default function AdminQuizQuestionsPage() {
                                     id: answer.id,
                                   })
                                 }
-                                className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
+                                className="text-brand hover:text-brand text-sm"
                               >
                                 Comment
                               </button>
@@ -527,14 +517,14 @@ export default function AdminQuizQuestionsPage() {
                       {questionComments[question.id] &&
                         questionComments[question.id].length > 0 && (
                           <div className="mb-4">
-                            <h4 className="text-sm font-medium text-gray-300 dark:text-gray-700 mb-2">
+                            <h4 className="text-sm font-medium text-soft mb-2">
                               Question Comments:
                             </h4>{' '}
                             <div className="space-y-2">
                               {questionComments[question.id].map((comment) => (
                                 <div
                                   key={comment.id}
-                                  className="bg-gray-800 dark:bg-white p-3 rounded border border-gray-200 dark:border-gray-600"
+                                  className="bg-surface p-3 rounded border border-border"
                                 >
                                   <div className="flex justify-between items-start mb-1">
                                     <span
@@ -542,13 +532,13 @@ export default function AdminQuizQuestionsPage() {
                                     >
                                       {comment.comment_type}
                                     </span>
-                                    <span className="text-xs text-gray-400 dark:text-gray-500">
+                                    <span className="text-xs text-soft">
                                       {new Date(
                                         comment.created_at
                                       ).toLocaleDateString()}
                                     </span>
                                   </div>
-                                  <p className="text-sm text-gray-300 dark:text-gray-700 mt-2">
+                                  <p className="text-sm text-soft mt-2">
                                     {comment.comment_text}
                                   </p>
                                 </div>
@@ -564,7 +554,7 @@ export default function AdminQuizQuestionsPage() {
                           answerComments[answer.id].length > 0
                       ) && (
                         <div>
-                          <h4 className="text-sm font-medium text-gray-300 dark:text-gray-700 mb-2">
+                          <h4 className="text-sm font-medium text-soft mb-2">
                             Answer Comments:
                           </h4>{' '}
                           <div className="space-y-3">
@@ -574,7 +564,7 @@ export default function AdminQuizQuestionsPage() {
                                 answerComments[answer.id].length > 0 && (
                                   <div key={answer.id}>
                                     {' '}
-                                    <p className="text-sm font-medium text-gray-400 dark:text-gray-600 mb-1">
+                                    <p className="text-sm font-medium text-soft mb-1">
                                       Answer {answerIndex + 1}: &ldquo;
                                       {answer.text}&rdquo;
                                     </p>
@@ -583,7 +573,7 @@ export default function AdminQuizQuestionsPage() {
                                         (comment) => (
                                           <div
                                             key={comment.id}
-                                            className="bg-gray-800 dark:bg-white p-3 rounded border border-gray-200 dark:border-gray-600"
+                                            className="bg-surface p-3 rounded border border-border"
                                           >
                                             <div className="flex justify-between items-start mb-1">
                                               <span
@@ -591,13 +581,13 @@ export default function AdminQuizQuestionsPage() {
                                               >
                                                 {comment.comment_type}
                                               </span>
-                                              <span className="text-xs text-gray-400 dark:text-gray-500">
+                                              <span className="text-xs text-soft">
                                                 {new Date(
                                                   comment.created_at
                                                 ).toLocaleDateString()}
                                               </span>
                                             </div>
-                                            <p className="text-sm text-gray-300 dark:text-gray-700 mt-2">
+                                            <p className="text-sm text-soft mt-2">
                                               {comment.comment_text}
                                             </p>
                                           </div>
@@ -619,10 +609,10 @@ export default function AdminQuizQuestionsPage() {
 
           {/* Comment Form Modal */}
           {showCommentForm && (
-            <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-              <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-gray-800 dark:bg-white">
+            <div className="fixed inset-0 bg-muted bg-opacity-50 overflow-y-auto h-full w-full z-50">
+              <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-surface">
                 <div className="mt-3">
-                  <h3 className="text-lg font-medium text-white dark:text-gray-900 mb-4">
+                  <h3 className="text-lg font-medium text-strong mb-4">
                     Add{' '}
                     {showCommentForm.type === 'question'
                       ? 'Question'
@@ -631,7 +621,7 @@ export default function AdminQuizQuestionsPage() {
                   </h3>
 
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-soft mb-2">
                       Comment Type
                     </label>
                     <select
@@ -639,13 +629,10 @@ export default function AdminQuizQuestionsPage() {
                       onChange={(e) =>
                         setCommentType(
                           e.target.value as
-                            | 'suggestion'
-                            | 'issue'
-                            | 'approved'
-                            | 'rejected'
+                            'suggestion' | 'issue' | 'approved' | 'rejected'
                         )
                       }
-                      className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand/40"
                     >
                       <option value="suggestion">Suggestion</option>
                       <option value="issue">Issue</option>
@@ -655,14 +642,14 @@ export default function AdminQuizQuestionsPage() {
                   </div>
 
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-soft mb-2">
                       Comment
                     </label>
                     <textarea
                       value={commentText}
                       onChange={(e) => setCommentText(e.target.value)}
                       rows={4}
-                      className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand/40"
                       placeholder="Enter your comment..."
                     />
                   </div>
@@ -674,14 +661,14 @@ export default function AdminQuizQuestionsPage() {
                         setCommentText('');
                         setCommentType('suggestion');
                       }}
-                      className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-500"
+                      className="px-4 py-2 bg-muted text-soft rounded-md hover:bg-muted"
                     >
                       Cancel
                     </button>
                     <button
                       onClick={handleAddComment}
                       disabled={submittingComment || !commentText.trim()}
-                      className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-4 py-2 bg-[var(--band-via)] text-white rounded-md hover:bg-[var(--band-from)] disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {submittingComment ? 'Adding...' : 'Add Comment'}
                     </button>

@@ -379,8 +379,8 @@ const ContributionForm: FC<ContributionFormProps> = ({
   };
 
   return (
-    <div className="bg-gray-800 dark:bg-white shadow-lg rounded-lg p-6 max-w-3xl mx-auto border border-gray-700 dark:border-gray-200">
-      <h2 className="text-2xl font-bold text-white dark:text-gray-900 mb-6">
+    <div className="bg-surface shadow-lg rounded-lg p-6 max-w-3xl mx-auto border border-border">
+      <h2 className="text-2xl font-bold text-strong mb-6">
         Contribute an Education Pathway
       </h2>
       {success ? (
@@ -429,13 +429,13 @@ const ContributionForm: FC<ContributionFormProps> = ({
             </div>
           )}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-white dark:text-gray-900">
+            <h3 className="text-lg font-medium text-strong">
               Career Information
             </h3>
             <div>
               <label
                 htmlFor="career"
-                className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                className="block text-sm font-medium text-soft"
               >
                 Career Title*
               </label>
@@ -445,7 +445,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
                 name="career"
                 value={formData.career}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 placeholder="e.g., Software Engineer, Medical Doctor"
                 required
               />
@@ -453,7 +453,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
             <div>
               <label
                 htmlFor="description"
-                className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                className="block text-sm font-medium text-soft"
               >
                 Description*
               </label>
@@ -463,22 +463,20 @@ const ContributionForm: FC<ContributionFormProps> = ({
                 value={formData.description}
                 onChange={handleChange}
                 rows={3}
-                className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 placeholder="Describe the career path and main responsibilities"
                 required
               />
             </div>
           </div>{' '}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-white dark:text-gray-900">
-              Career Outlook
-            </h3>
+            <h3 className="text-lg font-medium text-strong">Career Outlook</h3>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
                 <label
                   htmlFor="careerOutlook.demand"
-                  className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                  className="block text-sm font-medium text-soft"
                 >
                   Market Demand
                 </label>
@@ -487,13 +485,13 @@ const ContributionForm: FC<ContributionFormProps> = ({
                   name="careerOutlook.demand"
                   value={formData.careerOutlook?.demand || 'medium'}
                   onChange={handleChange}
-                  className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 >
                   <option value="high">High</option>
                   <option value="medium">Medium</option>
                   <option value="low">Low</option>
                 </select>
-                <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">
+                <p className="mt-1 text-sm text-soft">
                   Current and projected demand for this career
                 </p>
               </div>
@@ -501,7 +499,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
               <div>
                 <label
                   htmlFor="careerOutlook.growthOutlook"
-                  className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                  className="block text-sm font-medium text-soft"
                 >
                   Growth Outlook
                 </label>
@@ -511,7 +509,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
                   value={formData.careerOutlook?.growthOutlook || ''}
                   onChange={handleChange}
                   rows={2}
-                  className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                   placeholder="Projected growth over the next 5-10 years"
                 />
               </div>
@@ -521,7 +519,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
               <div>
                 <label
                   htmlFor="minSalary"
-                  className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                  className="block text-sm font-medium text-soft"
                 >
                   Minimum Salary (RM)
                 </label>
@@ -532,14 +530,14 @@ const ContributionForm: FC<ContributionFormProps> = ({
                   min="0"
                   value={formData.careerOutlook?.salaryRange?.min || 0}
                   onChange={(e) => handleSalaryChange('min', e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="maxSalary"
-                  className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                  className="block text-sm font-medium text-soft"
                 >
                   Maximum Salary (RM)
                 </label>
@@ -550,31 +548,31 @@ const ContributionForm: FC<ContributionFormProps> = ({
                   min="0"
                   value={formData.careerOutlook?.salaryRange?.max || 0}
                   onChange={(e) => handleSalaryChange('max', e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 />
               </div>
             </div>
           </div>
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-white dark:text-gray-900">
+            <h3 className="text-lg font-medium text-strong">
               Educational Pathway
             </h3>
 
             {/* Pre-University Options */}
-            <div className="bg-gray-750 dark:bg-gray-100 border border-gray-700 dark:border-gray-300 rounded-md p-4">
+            <div className="bg-muted border border-border rounded-md p-4">
               <div className="flex justify-between items-center mb-3">
-                <h4 className="text-base font-medium text-white dark:text-gray-800">
+                <h4 className="text-base font-medium text-strong">
                   Pre-University Options*
                 </h4>
                 <button
                   type="button"
                   onClick={() => handleAddPathwayOption('preUniversity')}
-                  className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white"
+                  className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-brand/40 text-white"
                 >
                   Add Option
                 </button>
               </div>
-              <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
+              <p className="text-sm text-soft mb-4">
                 Add pre-university pathways such as STPM, Foundation programs,
                 A-Levels, etc.
               </p>
@@ -603,14 +601,14 @@ const ContributionForm: FC<ContributionFormProps> = ({
                   )}
                 </div>
               ) : (
-                <div className="text-center py-6 border border-dashed border-gray-600 dark:border-gray-400 rounded-md">
-                  <p className="text-gray-400 dark:text-gray-600">
+                <div className="text-center py-6 border border-dashed border-border rounded-md">
+                  <p className="text-soft">
                     No pre-university options added yet
                   </p>
                   <button
                     type="button"
                     onClick={() => handleAddPathwayOption('preUniversity')}
-                    className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white"
+                    className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-brand/40 text-white"
                   >
                     Add Your First Option
                   </button>
@@ -619,20 +617,20 @@ const ContributionForm: FC<ContributionFormProps> = ({
             </div>
 
             {/* Bachelor's Degree Options */}
-            <div className="bg-gray-750 dark:bg-gray-100 border border-gray-700 dark:border-gray-300 rounded-md p-4">
+            <div className="bg-muted border border-border rounded-md p-4">
               <div className="flex justify-between items-center mb-3">
-                <h4 className="text-base font-medium text-white dark:text-gray-800">
+                <h4 className="text-base font-medium text-strong">
                   Bachelor&apos;s Degree Options*
                 </h4>
                 <button
                   type="button"
                   onClick={() => handleAddPathwayOption('bachelor')}
-                  className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white"
+                  className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-brand/40 text-white"
                 >
                   Add Option
                 </button>
               </div>
-              <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
+              <p className="text-sm text-soft mb-4">
                 Add bachelor degree pathways related to this career
               </p>
 
@@ -658,14 +656,14 @@ const ContributionForm: FC<ContributionFormProps> = ({
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-6 border border-dashed border-gray-600 dark:border-gray-400 rounded-md">
-                  <p className="text-gray-400 dark:text-gray-600">
+                <div className="text-center py-6 border border-dashed border-border rounded-md">
+                  <p className="text-soft">
                     No bachelor degree options added yet
                   </p>
                   <button
                     type="button"
                     onClick={() => handleAddPathwayOption('bachelor')}
-                    className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white"
+                    className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-brand/40 text-white"
                   >
                     Add Your First Option
                   </button>
@@ -674,20 +672,20 @@ const ContributionForm: FC<ContributionFormProps> = ({
             </div>
 
             {/* Advanced Degree Options */}
-            <div className="bg-gray-750 dark:bg-gray-100 border border-gray-700 dark:border-gray-300 rounded-md p-4">
+            <div className="bg-muted border border-border rounded-md p-4">
               <div className="flex justify-between items-center mb-3">
-                <h4 className="text-base font-medium text-white dark:text-gray-800">
+                <h4 className="text-base font-medium text-strong">
                   Advanced Degree Options (Optional)
                 </h4>
                 <button
                   type="button"
                   onClick={() => handleAddPathwayOption('advanced')}
-                  className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white"
+                  className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-brand/40 text-white"
                 >
                   Add Option
                 </button>
               </div>
-              <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
+              <p className="text-sm text-soft mb-4">
                 Add master&apos;s, PhD or other advanced degree options
               </p>
 
@@ -713,14 +711,14 @@ const ContributionForm: FC<ContributionFormProps> = ({
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-6 border border-dashed border-gray-600 dark:border-gray-400 rounded-md">
-                  <p className="text-gray-400 dark:text-gray-600">
+                <div className="text-center py-6 border border-dashed border-border rounded-md">
+                  <p className="text-soft">
                     No advanced degree options added yet (optional)
                   </p>
                   <button
                     type="button"
                     onClick={() => handleAddPathwayOption('advanced')}
-                    className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white"
+                    className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-brand/40 text-white"
                   >
                     Add an Option
                   </button>
@@ -729,20 +727,20 @@ const ContributionForm: FC<ContributionFormProps> = ({
             </div>
 
             {/* Professional Certifications */}
-            <div className="bg-gray-750 dark:bg-gray-100 border border-gray-700 dark:border-gray-300 rounded-md p-4">
+            <div className="bg-muted border border-border rounded-md p-4">
               <div className="flex justify-between items-center mb-3">
-                <h4 className="text-base font-medium text-white dark:text-gray-800">
+                <h4 className="text-base font-medium text-strong">
                   Professional Certifications (Optional)
                 </h4>
                 <button
                   type="button"
                   onClick={() => handleAddPathwayOption('certifications')}
-                  className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white"
+                  className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-brand/40 text-white"
                 >
                   Add Option
                 </button>
               </div>
-              <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
+              <p className="text-sm text-soft mb-4">
                 Add relevant professional certifications for this career
               </p>
 
@@ -770,14 +768,14 @@ const ContributionForm: FC<ContributionFormProps> = ({
                   )}
                 </div>
               ) : (
-                <div className="text-center py-6 border border-dashed border-gray-600 dark:border-gray-400 rounded-md">
-                  <p className="text-gray-400 dark:text-gray-600">
+                <div className="text-center py-6 border border-dashed border-border rounded-md">
+                  <p className="text-soft">
                     No certifications added yet (optional)
                   </p>
                   <button
                     type="button"
                     onClick={() => handleAddPathwayOption('certifications')}
-                    className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-white"
+                    className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-brand/40 text-white"
                   >
                     Add a Certification
                   </button>
@@ -787,7 +785,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
           </div>{' '}
           <div className="space-y-4">
             {/* Anonymous Contribution Option - Always visible */}
-            <div className="bg-gray-750 dark:bg-gray-100 border border-gray-700 dark:border-gray-300 rounded-md p-4 mb-4">
+            <div className="bg-muted border border-border rounded-md p-4 mb-4">
               <div className="flex items-start">
                 <div className="flex items-center h-5">
                   <input
@@ -796,17 +794,17 @@ const ContributionForm: FC<ContributionFormProps> = ({
                     type="checkbox"
                     checked={isAnonymous}
                     onChange={(e) => setIsAnonymous(e.target.checked)}
-                    className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-500 rounded"
+                    className="h-5 w-5 text-brand focus:ring-brand/40 border-border rounded"
                   />
                 </div>
                 <div className="ml-3">
                   <label
                     htmlFor="anonymous"
-                    className="text-lg font-medium text-white dark:text-gray-900 cursor-pointer"
+                    className="text-lg font-medium text-strong cursor-pointer"
                   >
                     Contribute anonymously
                   </label>
-                  <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">
+                  <p className="mt-1 text-sm text-soft">
                     Your contribution will be submitted anonymously. Your name
                     will not be publicly associated with this contribution.
                   </p>
@@ -817,15 +815,15 @@ const ContributionForm: FC<ContributionFormProps> = ({
             {/* Only show contributor information form for non-logged in users */}
             {!isLoggedIn && (
               <>
-                <h3 className="text-lg font-medium text-white dark:text-gray-900">
+                <h3 className="text-lg font-medium text-strong">
                   Your Information
                 </h3>
-                <div className="bg-gray-750 dark:bg-gray-100 border border-gray-700 dark:border-gray-300 rounded-md p-4">
+                <div className="bg-muted border border-border rounded-md p-4">
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                       <label
                         htmlFor="submitterName"
-                        className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                        className="block text-sm font-medium text-soft"
                       >
                         Your Name{!isAnonymous && '*'}
                       </label>
@@ -835,7 +833,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
                         name="submitterName"
                         value={formData.submitterName}
                         onChange={handleChange}
-                        className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                        className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                         required={!isAnonymous}
                         disabled={isAnonymous}
                       />
@@ -844,7 +842,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
                     <div>
                       <label
                         htmlFor="submitterEmail"
-                        className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                        className="block text-sm font-medium text-soft"
                       >
                         Your Email{!isAnonymous && '*'}
                       </label>
@@ -854,11 +852,11 @@ const ContributionForm: FC<ContributionFormProps> = ({
                         name="submitterEmail"
                         value={formData.submitterEmail}
                         onChange={handleChange}
-                        className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                        className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                         required={!isAnonymous}
                         disabled={isAnonymous}
                       />
-                      <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">
+                      <p className="mt-1 text-xs text-soft">
                         Email is required for verification but won&apos;t be
                         publicly displayed.
                       </p>
@@ -871,26 +869,26 @@ const ContributionForm: FC<ContributionFormProps> = ({
             {/* Show logged in user info */}
             {isLoggedIn && !isAnonymous && (
               <>
-                <h3 className="text-lg font-medium text-white dark:text-gray-900">
+                <h3 className="text-lg font-medium text-strong">
                   Submitter Information
                 </h3>
-                <div className="bg-gray-700 dark:bg-gray-100 rounded-md p-4 border border-gray-600 dark:border-gray-300">
+                <div className="bg-muted rounded-md p-4 border border-border">
                   <div className="flex items-center">
-                    <div className="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center">
+                    <div className="h-10 w-10 rounded-full bg-[var(--band-via)] flex items-center justify-center">
                       <span className="text-white font-medium text-sm">
                         {userName ? userName.charAt(0).toUpperCase() : '?'}
                       </span>
                     </div>
                     <div className="ml-4">
-                      <p className="text-white dark:text-gray-800 font-medium">
+                      <p className="text-strong font-medium">
                         {userName || 'User'}
                       </p>
-                      <p className="text-gray-400 dark:text-gray-500 text-sm">
+                      <p className="text-soft text-sm">
                         {userEmail || 'Authenticated user'}
                       </p>
                     </div>
                   </div>
-                  <p className="mt-3 text-sm text-gray-400 dark:text-gray-500">
+                  <p className="mt-3 text-sm text-soft">
                     Your contribution will be submitted with your account
                     information.
                   </p>
@@ -901,7 +899,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
             <div>
               <label
                 htmlFor="additionalNotes"
-                className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                className="block text-sm font-medium text-soft"
               >
                 Additional Notes
               </label>
@@ -911,7 +909,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
                 value={formData.additionalNotes}
                 onChange={handleChange}
                 rows={3}
-                className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 placeholder="Any additional information about this educational pathway"
               />
             </div>
@@ -921,7 +919,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
               <button
                 type="button"
                 onClick={onCancel}
-                className="px-4 py-2 text-sm font-medium text-gray-200 bg-gray-700 border border-gray-500 rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-800"
+                className="px-4 py-2 text-sm font-medium text-strong bg-muted border border-border rounded-md shadow-sm hover:bg-muted focus:outline-none focus:ring-2 focus:ring-brand/40 focus:ring-offset-2 focus:ring-offset-gray-800"
               >
                 Cancel
               </button>
@@ -929,7 +927,7 @@ const ContributionForm: FC<ContributionFormProps> = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-500 border border-transparent rounded-md shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-[var(--band-via)] border border-transparent rounded-md shadow-sm hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-brand/40 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
                 <>

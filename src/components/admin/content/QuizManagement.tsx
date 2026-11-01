@@ -45,18 +45,14 @@ export default function QuizManagement({
       key: 'name',
       header: 'Name',
       render: (quiz: Quiz) => (
-        <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-          {quiz.name}
-        </div>
+        <div className="text-sm font-medium text-strong">{quiz.name}</div>
       ),
     },
     {
       key: 'topic',
       header: 'Topic',
       render: (quiz: Quiz) => (
-        <div className="text-sm text-gray-400 dark:text-gray-500">
-          {getTopicTitle(quiz.topic_id)}
-        </div>
+        <div className="text-sm text-soft">{getTopicTitle(quiz.topic_id)}</div>
       ),
     },
     {
@@ -80,9 +76,7 @@ export default function QuizManagement({
       key: 'questions',
       header: 'Questions',
       render: (quiz: Quiz) => (
-        <div className="text-sm text-gray-400 dark:text-gray-500">
-          {quiz.question_count || 0}
-        </div>
+        <div className="text-sm text-soft">{quiz.question_count || 0}</div>
       ),
     },
     {
@@ -92,7 +86,7 @@ export default function QuizManagement({
         <div className="flex space-x-2">
           <Link
             href={`/admin/quizzes/${quiz.id}/questions`}
-            className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
+            className="text-brand hover:text-brand text-sm"
           >
             Edit Questions
           </Link>
@@ -108,16 +102,14 @@ export default function QuizManagement({
       label: 'Name',
       isHeader: true,
       render: (quiz: Quiz) => (
-        <div className="text-base font-medium text-gray-900 dark:text-gray-100">
-          {quiz.name}
-        </div>
+        <div className="text-base font-medium text-strong">{quiz.name}</div>
       ),
     },
     {
       key: 'topic',
       label: 'Topic',
       render: (quiz: Quiz) => (
-        <div className="text-sm text-gray-900 dark:text-gray-100">
+        <div className="text-sm text-strong">
           {getTopicTitle(quiz.topic_id)}
         </div>
       ),
@@ -143,9 +135,7 @@ export default function QuizManagement({
       key: 'questions',
       label: 'Questions',
       render: (quiz: Quiz) => (
-        <div className="text-sm text-gray-900 dark:text-gray-100">
-          {quiz.question_count || 0}
-        </div>
+        <div className="text-sm text-strong">{quiz.question_count || 0}</div>
       ),
     },
     {
@@ -155,7 +145,7 @@ export default function QuizManagement({
         <div className="mt-2">
           <Link
             href={`/admin/quizzes/${quiz.id}/questions`}
-            className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 text-sm"
+            className="text-brand hover:text-brand text-sm"
           >
             Edit Questions
           </Link>
@@ -183,7 +173,7 @@ export default function QuizManagement({
       <div className="mb-3">
         <label
           htmlFor="quiz-name"
-          className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+          className="block text-sm font-medium text-soft mb-1"
         >
           Quiz Name
         </label>
@@ -197,7 +187,7 @@ export default function QuizManagement({
               name: e.target.value,
             })
           }
-          className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border rounded-md"
           placeholder="Enter quiz name"
           disabled={loading}
           required
@@ -206,7 +196,7 @@ export default function QuizManagement({
       <div className="mb-3">
         <label
           htmlFor="quiz-topic"
-          className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+          className="block text-sm font-medium text-soft mb-1"
         >
           Topic
         </label>
@@ -219,7 +209,7 @@ export default function QuizManagement({
               topic_id: e.target.value,
             })
           }
-          className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border rounded-md"
           disabled={loading}
           required
         >
@@ -234,7 +224,7 @@ export default function QuizManagement({
       <div className="mb-3">
         <label
           htmlFor="quiz-difficulty"
-          className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+          className="block text-sm font-medium text-soft mb-1"
         >
           Difficulty Level
         </label>
@@ -247,7 +237,7 @@ export default function QuizManagement({
               difficulty_level: e.target.value,
             })
           }
-          className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border rounded-md"
           disabled={loading}
         >
           <option value="easy">Easy</option>
@@ -258,7 +248,7 @@ export default function QuizManagement({
       <div className="mb-3">
         <label
           htmlFor="quiz-time-limit"
-          className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+          className="block text-sm font-medium text-soft mb-1"
         >
           Time Limit (seconds)
         </label>
@@ -272,7 +262,7 @@ export default function QuizManagement({
               time_limit_seconds: parseInt(e.target.value) || 300,
             })
           }
-          className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border rounded-md"
           min="60"
           max="3600"
           disabled={loading}
@@ -281,7 +271,7 @@ export default function QuizManagement({
       <div className="mb-3">
         <label
           htmlFor="quiz-passing-score"
-          className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+          className="block text-sm font-medium text-soft mb-1"
         >
           Passing Score (%)
         </label>
@@ -295,7 +285,7 @@ export default function QuizManagement({
               passing_score: parseInt(e.target.value) || 70,
             })
           }
-          className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border rounded-md"
           min="1"
           max="100"
           disabled={loading}
@@ -317,9 +307,7 @@ export default function QuizManagement({
       name: String(item.name || ''),
       topic_id: String(item.topic_id),
       difficulty_level: String(item.difficulty_level || 'medium') as
-        | 'easy'
-        | 'medium'
-        | 'hard',
+        'easy' | 'medium' | 'hard',
       time_limit_seconds: Number(item.time_limit_seconds || 300),
       passing_score: Number(item.passing_score || 70),
     });

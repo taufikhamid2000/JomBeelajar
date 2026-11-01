@@ -181,15 +181,17 @@ export default function AdminNavigation({
 
   return (
     <div
-      className={`${isCollapsed ? 'w-16' : 'w-64'} transition-all duration-300 min-h-screen bg-gray-900 dark:bg-gray-800 text-white p-4 ${isMobile ? 'shadow-lg' : ''}`}
+      className={`${isCollapsed ? 'w-16' : 'w-64'} transition-all duration-300 min-h-screen bg-surface text-white p-4 ${isMobile ? 'shadow-lg' : ''}`}
     >
       <div className="mb-8 flex items-center justify-between">
-        {!isCollapsed && <h2 className="text-xl font-bold">JomBeelajar Admin</h2>}
+        {!isCollapsed && (
+          <h2 className="text-xl font-bold">JomBeelajar Admin</h2>
+        )}
 
         {/* Sidebar toggle button */}
         <button
           onClick={toggleSidebar}
-          className={`p-2 rounded-full hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors ${isCollapsed ? 'mx-auto' : ''}`}
+          className={`p-2 rounded-full hover:bg-surface transition-colors ${isCollapsed ? 'mx-auto' : ''}`}
           aria-label="Toggle sidebar"
         >
           {isCollapsed ? (
@@ -210,21 +212,21 @@ export default function AdminNavigation({
                 onClick={handleNavClick}
                 className={`flex items-center py-2 px-4 rounded transition-colors ${
                   isActive(item.path)
-                    ? 'bg-blue-700 text-white dark:bg-blue-600'
-                    : 'hover:bg-gray-800 dark:hover:bg-gray-700'
-                } ${isMobile ? 'active:bg-blue-800' : ''} ${isCollapsed ? 'justify-center' : ''}`}
+                    ? 'bg-[var(--band-via)] text-white dark:bg-[var(--band-via)]'
+                    : 'hover:bg-surface'
+                } ${isMobile ? 'active:bg-[var(--band-via)]' : ''} ${isCollapsed ? 'justify-center' : ''}`}
               >
                 <div className={isCollapsed ? 'mx-auto relative' : ''}>
                   {item.icon}
                   {isCollapsed && item.badge && (
-                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-[var(--band-via)] rounded-full"></span>
                   )}
                 </div>
                 {!isCollapsed && (
                   <div className="flex items-center justify-between w-full">
                     <span className="text-sm">{item.name}</span>
                     {item.badge && (
-                      <span className="ml-2 px-1.5 py-0.5 text-xs bg-blue-500 text-white rounded-full">
+                      <span className="ml-2 px-1.5 py-0.5 text-xs bg-[var(--band-via)] text-white rounded-full">
                         {item.badge}
                       </span>
                     )}
@@ -241,7 +243,7 @@ export default function AdminNavigation({
         <Link
           href="/dashboard"
           onClick={handleNavClick}
-          className={`flex items-center py-2 px-4 rounded hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors text-gray-400 hover:text-white ${isCollapsed ? 'justify-center' : ''}`}
+          className={`flex items-center py-2 px-4 rounded hover:bg-surface transition-colors text-soft hover:text-white ${isCollapsed ? 'justify-center' : ''}`}
         >
           <div className={isCollapsed ? 'mx-auto' : ''}>
             <LogOut className={isCollapsed ? '' : 'mr-3'} size={18} />

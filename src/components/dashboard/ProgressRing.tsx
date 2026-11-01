@@ -31,7 +31,7 @@ export default function ProgressRing({
           r={r}
           fill="none"
           strokeWidth={stroke}
-          className="stroke-gray-200 dark:stroke-gray-700"
+          className="stroke-[var(--border)]"
         />
         <circle
           cx={size / 2}
@@ -45,7 +45,7 @@ export default function ProgressRing({
           className="stroke-green-500 transition-all duration-500"
         />
       </svg>
-      <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-gray-700 dark:text-gray-200">
+      <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-soft">
         {pct}%
       </span>
     </div>

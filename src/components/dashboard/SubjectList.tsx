@@ -87,14 +87,14 @@ const SubjectList = ({
           <input
             type="text"
             placeholder="Search subjects..."
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/40"
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
               setCurrentPage(1); // Reset to first page on search
             }}
           />
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-soft">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -121,8 +121,8 @@ const SubjectList = ({
               key={category}
               className={`px-3 py-1 text-sm rounded-full whitespace-nowrap ${
                 selectedCategory === category
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                  ? 'bg-[var(--band-via)] text-white'
+                  : 'bg-muted text-strong'
               }`}
               onClick={() => {
                 setSelectedCategory(category);
@@ -137,7 +137,7 @@ const SubjectList = ({
 
       {/* Subjects Grid with Results Count */}
       <div className="mb-4">
-        <p className="text-sm text-gray-400 dark:text-gray-500">
+        <p className="text-sm text-soft">
           Showing {currentSubjects.length} of {filteredSubjects.length} subjects
           {searchQuery && ` matching "${searchQuery}"`}
           {selectedCategory !== 'all' && ` in ${selectedCategory}`}
@@ -150,7 +150,7 @@ const SubjectList = ({
             Error loading subjects: {error}
           </div>
         ) : filteredSubjects.length === 0 ? (
-          <div className="text-center p-3 sm:p-4 dark:text-gray-300 col-span-3">
+          <div className="text-center p-3 sm:p-4 col-span-3">
             <p>
               No subjects found matching your search or filter. Try different
               criteria.
@@ -160,7 +160,7 @@ const SubjectList = ({
           currentSubjects.map((subject) => (
             <div
               key={subject.id}
-              className="bg-white rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:shadow-lg transition-shadow cursor-pointer dark:bg-gray-800 dark:text-gray-200 border border-transparent hover:border-blue-200 dark:hover:border-blue-800"
+              className="bg-surface rounded-lg p-3 sm:p-4 md:p-6 shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-transparent hover:border-brand/40"
               onClick={() => handleSubjectClick(subject.slug)}
             >
               <div className="flex items-center gap-3 sm:gap-4">
@@ -169,11 +169,11 @@ const SubjectList = ({
                   <h3 className="text-lg sm:text-xl font-semibold text-dashboard-blue">
                     {subject.name}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-400 dark:text-gray-600">
+                  <p className="text-xs sm:text-sm text-soft">
                     {subject.description}
                   </p>
                   {subject.category && (
-                    <span className="inline-block mt-2 px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                    <span className="inline-block mt-2 px-2 py-1 text-xs font-medium rounded-full bg-muted text-strong">
                       {subject.category}
                     </span>
                   )}
@@ -193,8 +193,8 @@ const SubjectList = ({
               disabled={currentPage === 1}
               className={`px-3 py-1 rounded-md ${
                 currentPage === 1
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-blue-600 hover:bg-blue-100'
+                  ? 'text-soft cursor-not-allowed'
+                  : 'text-brand hover:bg-brand-soft'
               }`}
             >
               &laquo;
@@ -206,8 +206,8 @@ const SubjectList = ({
                 onClick={() => handlePageChange(number)}
                 className={`px-3 py-1 rounded-md ${
                   currentPage === number
-                    ? 'bg-blue-500 text-white'
-                    : 'text-blue-600 hover:bg-blue-100'
+                    ? 'bg-[var(--band-via)] text-white'
+                    : 'text-brand hover:bg-brand-soft'
                 }`}
               >
                 {number}
@@ -221,8 +221,8 @@ const SubjectList = ({
               disabled={currentPage === totalPages}
               className={`px-3 py-1 rounded-md ${
                 currentPage === totalPages
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-blue-600 hover:bg-blue-100'
+                  ? 'text-soft cursor-not-allowed'
+                  : 'text-brand hover:bg-brand-soft'
               }`}
             >
               &raquo;

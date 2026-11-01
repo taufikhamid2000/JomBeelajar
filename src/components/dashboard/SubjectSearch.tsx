@@ -9,7 +9,7 @@ interface SubjectSearchProps {
 }
 
 const fieldClass =
-  'block w-full min-h-[44px] rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-500 shadow-sm focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400';
+  'block w-full min-h-[44px] rounded-xl border border-border bg-surface text-sm text-strong placeholder:text-soft shadow-sm focus:border-brand/40 focus:outline-none focus:ring-2 focus:ring-brand/40';
 
 const SubjectSearch = ({
   searchTerm,
@@ -23,7 +23,7 @@ const SubjectSearch = ({
       <div className="relative flex-grow">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           <svg
-            className="h-5 w-5 text-gray-400"
+            className="h-5 w-5 text-soft"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"

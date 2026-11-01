@@ -19,16 +19,14 @@ export default function SubjectHeader({
     <div className="mb-8">
       <div className="flex items-center gap-3 mb-2">
         <span className="text-4xl">{subject.icon}</span>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+        <h1 className="text-3xl font-bold text-strong">
           {subject.name}
           {isStatic && (
-            <span className="ml-2 text-sm text-gray-400 dark:text-gray-500">
-              (Static Version)
-            </span>
+            <span className="ml-2 text-sm text-soft">(Static Version)</span>
           )}
         </h1>
       </div>
-      <p className="text-gray-400 dark:text-gray-600">{subject.description}</p>
+      <p className="text-soft">{subject.description}</p>
     </div>
   );
 }

@@ -251,19 +251,17 @@ export default function ChapterEditPage() {
   const renderTopicsTab = () => (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-medium text-white dark:text-gray-900">
-          Topics
-        </h2>
+        <h2 className="text-lg font-medium text-strong">Topics</h2>
         <Link
           href={`/admin/content/topics/new?chapter=${chapterId}`}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
+          className="px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)]"
         >
           Add New Topic
         </Link>
       </div>
 
       {topics.length === 0 ? (
-        <div className="text-center py-8 text-gray-400 dark:text-gray-500">
+        <div className="text-center py-8 text-soft">
           <p className="mb-4">No topics found for this chapter.</p>
           <p>To begin building your chapter content:</p>
           <ol className="list-decimal list-inside text-left max-w-md mx-auto mt-4">
@@ -275,47 +273,45 @@ export default function ChapterEditPage() {
         </div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-700 dark:divide-gray-200">
-            <thead className="bg-gray-50 dark:bg-gray-700">
+          <table className="min-w-full divide-y divide-border">
+            <thead className="bg-surface-2">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                   Title
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                   Quizzes
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                   Order
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium text-soft uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-gray-800 dark:bg-white divide-y divide-gray-700 dark:divide-gray-200">
+            <tbody className="bg-surface divide-y divide-border">
               {topics.map((topic) => (
                 <tr key={topic.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-white dark:text-gray-900">
+                    <div className="text-sm font-medium text-strong">
                       {topic.title}
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-400 dark:text-gray-500">
-                      <span className="px-2 py-1 text-xs rounded bg-gray-100 dark:bg-gray-700">
+                    <div className="text-sm text-soft">
+                      <span className="px-2 py-1 text-xs rounded bg-muted">
                         {topic.quiz_count || 0} quizzes
                       </span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-400 dark:text-gray-500">
-                      {topic.order_index}
-                    </div>
+                    <div className="text-sm text-soft">{topic.order_index}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <Link
                       href={`/admin/content/topics/${topic.id}`}
-                      className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-4"
+                      className="text-brand hover:text-brand mr-4"
                     >
                       Edit
                     </Link>

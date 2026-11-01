@@ -18,7 +18,7 @@ const Achievements = ({
   const leaderboardPath = isStatic ? '/static/leaderboard' : '/leaderboard';
 
   return (
-    <section className="dashboard-section achievements bg-gray-800 dark:bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-md text-gray-200 dark:text-gray-800">
+    <section className="dashboard-section achievements bg-surface p-3 sm:p-4 md:p-6 rounded-lg shadow-md text-strong">
       <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
         Recent Achievements
       </h2>
@@ -29,10 +29,10 @@ const Achievements = ({
             key={index}
             className={`achievement-card ${achievement.bgColor} p-3 sm:p-4 rounded-lg shadow dark:bg-opacity-70`}
           >
-            <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-900">
+            <h3 className="text-base sm:text-lg font-semibold text-strong">
               {achievement.title}
             </h3>
-            <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-700">
+            <p className="text-xs sm:text-sm text-soft">
               {achievement.description}
             </p>
           </div>
@@ -41,9 +41,10 @@ const Achievements = ({
       <div className="mt-4 text-center">
         <a
           href={leaderboardPath}
-          className="inline-block px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-full text-sm font-medium transition-colors dark:bg-blue-900 dark:text-blue-100 dark:hover:bg-blue-800"
+          className="inline-block px-4 py-2 bg-brand-soft hover:bg-brand-soft text-brand rounded-full text-sm font-medium transition-colors dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)]"
         >
-          🏆 View Leaderboard
+          {' '}
+          View Leaderboard
         </a>
       </div>
     </section>

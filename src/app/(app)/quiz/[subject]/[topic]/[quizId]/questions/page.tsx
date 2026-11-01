@@ -19,7 +19,8 @@ interface QuestionFormData {
   tempId: string; // Used for UI management only
 }
 
-const API_MSG = 'Unable to connect to the API. Please contact the administrator.';
+const API_MSG =
+  'Unable to connect to the API. Please contact the administrator.';
 
 // A blank 4-answer question (first answer marked correct) for the editor.
 function createEmptyQuestion(): QuestionFormData {
@@ -101,7 +102,9 @@ export default function QuestionsManagementPage() {
             })
           );
           setQuestions(formattedQuestions);
-          setExistingQuestionIds(data.questions.map((q: { id: string }) => q.id));
+          setExistingQuestionIds(
+            data.questions.map((q: { id: string }) => q.id)
+          );
         } else {
           setQuestions((prev) => [...prev, createEmptyQuestion()]);
         }
@@ -296,12 +299,10 @@ export default function QuestionsManagementPage() {
     return (
       <div className="container mx-auto py-8 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-800 dark:bg-white rounded-lg shadow-md p-6 flex justify-center items-center h-64">
+          <div className="bg-surface rounded-lg shadow-md p-6 flex justify-center items-center h-64">
             <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-blue-500 border-r-transparent border-b-blue-500 border-l-transparent mb-4"></div>
-              <p className="text-gray-400 dark:text-gray-600">
-                Loading quiz...
-              </p>
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-brand border-r-transparent border-b-brand border-l-transparent mb-4"></div>
+              <p className="text-soft">Loading quiz...</p>
             </div>
           </div>
         </div>
@@ -315,20 +316,18 @@ export default function QuestionsManagementPage() {
         <div className="flex items-center justify-between mb-6">
           <button
             onClick={() => router.back()}
-            className="text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+            className="text-brand hover:underline flex items-center"
           >
             ← Back
           </button>
         </div>
 
-        <div className="bg-gray-800 dark:bg-white rounded-lg shadow-md p-6">
+        <div className="bg-surface rounded-lg shadow-md p-6">
           <div className="mb-6">
             <h1 className="text-2xl font-bold mb-2">
               {quizName}: Add Questions
             </h1>
-            <p className="text-gray-400 dark:text-gray-600">
-              Add questions and answers to your quiz
-            </p>
+            <p className="text-soft">Add questions and answers to your quiz</p>
           </div>
 
           {error && (
@@ -341,7 +340,7 @@ export default function QuestionsManagementPage() {
             {questions.map((question, qIndex) => (
               <div
                 key={question.tempId}
-                className="border border-gray-700 dark:border-gray-200 rounded-lg p-4"
+                className="border border-border rounded-lg p-4"
               >
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-medium">Question {qIndex + 1}</h3>
@@ -354,7 +353,7 @@ export default function QuestionsManagementPage() {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-soft mb-1">
                     Question Text
                   </label>
                   <textarea
@@ -362,14 +361,14 @@ export default function QuestionsManagementPage() {
                     onChange={(e) =>
                       updateQuestion(qIndex, 'text', e.target.value)
                     }
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 !text-black"
+                    className="w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand/40 !text-black"
                     rows={2}
                     placeholder="Enter your question here"
                   />
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-soft mb-1">
                     Question Type
                   </label>
                   <div className="flex space-x-4">
@@ -378,9 +377,9 @@ export default function QuestionsManagementPage() {
                         type="radio"
                         checked={question.type === 'radio'}
                         onChange={() => updateQuestion(qIndex, 'type', 'radio')}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                        className="h-4 w-4 text-brand focus:ring-brand/40"
                       />
-                      <span className="ml-2 text-sm text-gray-300 dark:text-gray-700">
+                      <span className="ml-2 text-sm text-soft">
                         Single choice
                       </span>
                     </label>
@@ -391,9 +390,9 @@ export default function QuestionsManagementPage() {
                         onChange={() =>
                           updateQuestion(qIndex, 'type', 'checkbox')
                         }
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                        className="h-4 w-4 text-brand focus:ring-brand/40"
                       />
-                      <span className="ml-2 text-sm text-gray-300 dark:text-gray-700">
+                      <span className="ml-2 text-sm text-soft">
                         Multiple choice
                       </span>
                     </label>
@@ -401,7 +400,7 @@ export default function QuestionsManagementPage() {
                 </div>
 
                 <div className="mb-2">
-                  <label className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-soft mb-2">
                     Answers
                   </label>
 
@@ -419,7 +418,7 @@ export default function QuestionsManagementPage() {
                               onChange={() =>
                                 updateAnswer(qIndex, aIndex, 'isCorrect', true)
                               }
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                              className="h-4 w-4 text-brand focus:ring-brand/40"
                               name={`question-${question.tempId}`}
                             />
                           ) : (
@@ -434,7 +433,7 @@ export default function QuestionsManagementPage() {
                                   e.target.checked
                                 )
                               }
-                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"
+                              className="h-4 w-4 text-brand focus:ring-brand/40 rounded"
                             />
                           )}
                         </div>
@@ -451,14 +450,14 @@ export default function QuestionsManagementPage() {
                                 e.target.value
                               )
                             }
-                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 dark:bg-gray-800 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 !text-black"
+                            className="w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand/40 !text-black"
                             placeholder={`Answer ${aIndex + 1}`}
                           />
                         </div>
 
                         <button
                           onClick={() => removeAnswer(qIndex, aIndex)}
-                          className="text-gray-400 hover:text-red-500"
+                          className="text-soft hover:text-red-500"
                           disabled={question.answers.length <= 2}
                         >
                           <svg
@@ -481,7 +480,7 @@ export default function QuestionsManagementPage() {
                   <button
                     type="button"
                     onClick={() => addAnswer(qIndex)}
-                    className="mt-3 inline-flex items-center px-3 py-1 border border-gray-600 dark:border-gray-300 text-sm rounded-md text-gray-300 dark:text-gray-700 bg-gray-800 dark:bg-white hover:bg-gray-50 dark:hover:bg-gray-700"
+                    className="mt-3 inline-flex items-center px-3 py-1 border border-border text-sm rounded-md text-soft bg-surface hover:bg-surface-2"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -504,7 +503,7 @@ export default function QuestionsManagementPage() {
             <button
               type="button"
               onClick={addNewQuestion}
-              className="w-full p-3 border border-dashed border-gray-600 dark:border-gray-300 rounded-lg text-gray-300 dark:text-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center justify-center"
+              className="w-full p-3 border border-dashed border-border rounded-lg text-soft hover:bg-surface-2 flex items-center justify-center"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -521,18 +520,18 @@ export default function QuestionsManagementPage() {
               Add New Question
             </button>
 
-            <div className="pt-4 border-t border-gray-700 dark:border-gray-200">
+            <div className="pt-4 border-t border-border">
               <div className="flex justify-end">
                 <button
                   onClick={() => router.back()}
-                  className="mr-3 px-4 py-2 border border-gray-600 dark:border-gray-300 text-gray-300 dark:text-gray-700 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+                  className="mr-3 px-4 py-2 border border-border text-soft rounded-md hover:bg-surface-2"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={saveQuestions}
                   disabled={saving || questions.length === 0}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+                  className="px-4 py-2 bg-[var(--band-via)] text-white rounded-md hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-brand/40 focus:ring-offset-2 disabled:opacity-50"
                 >
                   {saving ? 'Saving...' : 'Save Questions'}
                 </button>

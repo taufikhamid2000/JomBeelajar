@@ -177,11 +177,11 @@ export default function AdminQuizPreviewPage() {
   }
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+      <div className="min-h-screen bg-surface">
         <div className="flex">
           <AdminNavigation />
           <div className="flex-1 p-8 flex items-center justify-center">
-            <div className="w-8 h-8 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+            <div className="w-8 h-8 border-t-2 border-b-2 border-brand/40 rounded-full animate-spin"></div>
           </div>
         </div>
       </div>
@@ -189,7 +189,7 @@ export default function AdminQuizPreviewPage() {
   }
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+      <div className="min-h-screen bg-surface">
         <div className="flex">
           <AdminNavigation />
           <div className="flex-1 p-8">
@@ -199,7 +199,7 @@ export default function AdminQuizPreviewPage() {
             <div className="text-center">
               <button
                 onClick={() => router.push('/admin/quizzes')}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded"
+                className="px-4 py-2 bg-[var(--band-via)] hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)] text-white rounded"
               >
                 Back to Quizzes
               </button>
@@ -211,7 +211,7 @@ export default function AdminQuizPreviewPage() {
   }
   if (questions.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+      <div className="min-h-screen bg-surface">
         <div className="flex">
           <AdminNavigation />
           <div className="flex-1 p-8">
@@ -219,21 +219,21 @@ export default function AdminQuizPreviewPage() {
               <div>
                 <Link
                   href={`/admin/quizzes/${quizId}/questions`}
-                  className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 mb-2 inline-flex items-center"
+                  className="text-brand hover:text-brand mb-2 inline-flex items-center"
                 >
                   ← Back to Questions
                 </Link>
-                <h1 className="text-3xl font-bold text-white dark:text-gray-900">
+                <h1 className="text-3xl font-bold text-strong">
                   {quiz?.title || 'Quiz'}: Preview
                 </h1>
               </div>
             </div>
 
-            <div className="bg-gray-800 dark:bg-white rounded-lg shadow p-6">
+            <div className="bg-surface rounded-lg shadow p-6">
               <div className="text-center py-10">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"
+                  className="mx-auto h-12 w-12 text-soft"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -245,10 +245,10 @@ export default function AdminQuizPreviewPage() {
                     d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                   />
                 </svg>
-                <h2 className="mt-2 text-lg font-medium text-white dark:text-gray-900">
+                <h2 className="mt-2 text-lg font-medium text-strong">
                   No questions added yet
                 </h2>
-                <p className="mt-1 text-gray-400 dark:text-gray-500">
+                <p className="mt-1 text-soft">
                   {' '}
                   This quiz doesn&apos;t have any questions. Add some questions
                   before previewing.
@@ -256,7 +256,7 @@ export default function AdminQuizPreviewPage() {
                 <div className="mt-6">
                   <Link
                     href={`/admin/quizzes/${quizId}/questions`}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded"
+                    className="px-4 py-2 bg-[var(--band-via)] hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)] text-white rounded"
                   >
                     Add Questions
                   </Link>
@@ -271,7 +271,7 @@ export default function AdminQuizPreviewPage() {
 
   const currentQuestion = questions[currentQuestionIndex];
   return (
-    <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+    <div className="min-h-screen bg-surface">
       <div className="flex">
         <AdminNavigation />
         <div className="flex-1 p-8">
@@ -280,14 +280,14 @@ export default function AdminQuizPreviewPage() {
               {' '}
               <Link
                 href={`/admin/quizzes/${quizId}/questions`}
-                className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 mb-2 inline-flex items-center"
+                className="text-brand hover:text-brand mb-2 inline-flex items-center"
               >
                 ← Back to Questions
               </Link>
-              <h1 className="text-3xl font-bold text-white dark:text-gray-900">
+              <h1 className="text-3xl font-bold text-strong">
                 {quiz?.title || 'Quiz'}: Preview
               </h1>
-              <div className="text-gray-400 dark:text-gray-500 mt-1">
+              <div className="text-soft mt-1">
                 {quiz?.subject_name} / {quiz?.topic_name}
               </div>
             </div>
@@ -309,7 +309,7 @@ export default function AdminQuizPreviewPage() {
             </div>
           </div>
 
-          <div className="bg-gray-800 dark:bg-white rounded-lg shadow overflow-hidden mb-6">
+          <div className="bg-surface rounded-lg shadow overflow-hidden mb-6">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
                 <div>
@@ -327,18 +327,18 @@ export default function AdminQuizPreviewPage() {
                         quiz.difficulty.slice(1)
                       : 'Medium'}
                   </span>
-                  <span className="ml-2 text-gray-400 dark:text-gray-500 text-sm">
+                  <span className="ml-2 text-soft text-sm">
                     {Math.floor((quiz?.time_limit || 0) / 60)} min{' '}
                     {(quiz?.time_limit || 0) % 60} sec
                   </span>
                 </div>{' '}
-                <div className="text-sm font-medium text-white dark:text-gray-900">
+                <div className="text-sm font-medium text-strong">
                   Question {currentQuestionIndex + 1} of{' '}
                   {questions?.length || 0}
                 </div>
               </div>{' '}
               <div className="mb-8">
-                <h2 className="text-xl font-medium mb-4 text-white dark:text-gray-900">
+                <h2 className="text-xl font-medium mb-4 text-strong">
                   {currentQuestion?.text}
                 </h2>
 
@@ -359,7 +359,7 @@ export default function AdminQuizPreviewPage() {
                               answer.id as string
                             )
                           }
-                          className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500"
+                          className="mt-1 h-4 w-4 text-brand focus:ring-brand/40"
                         />
                       ) : (
                         <input
@@ -374,12 +374,12 @@ export default function AdminQuizPreviewPage() {
                               answer.id as string
                             )
                           }
-                          className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"
+                          className="mt-1 h-4 w-4 text-brand focus:ring-brand/40 rounded"
                         />
                       )}
                       <label
                         htmlFor={`answer-${answer.id}`}
-                        className="ml-3 text-gray-300 dark:text-gray-700"
+                        className="ml-3 text-soft"
                       >
                         {answer.text}
                       </label>
@@ -425,8 +425,8 @@ export default function AdminQuizPreviewPage() {
                   disabled={currentQuestionIndex === 0}
                   className={`px-4 py-2 rounded ${
                     currentQuestionIndex === 0
-                      ? 'bg-gray-700 dark:bg-gray-200 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                      : 'bg-gray-700 dark:bg-gray-200 text-gray-200 dark:text-gray-800 hover:bg-gray-300 dark:hover:bg-gray-600'
+                      ? 'bg-muted text-soft cursor-not-allowed'
+                      : 'bg-muted text-strong hover:bg-muted'
                   }`}
                 >
                   Previous
@@ -436,8 +436,8 @@ export default function AdminQuizPreviewPage() {
                   disabled={currentQuestionIndex === questions.length - 1}
                   className={`px-4 py-2 rounded ${
                     currentQuestionIndex === questions.length - 1
-                      ? 'bg-gray-700 dark:bg-gray-200 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-                      : 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white'
+                      ? 'bg-muted text-soft cursor-not-allowed'
+                      : 'bg-[var(--band-via)] hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)] text-white'
                   }`}
                 >
                   Next
@@ -446,11 +446,9 @@ export default function AdminQuizPreviewPage() {
             </div>
           </div>
 
-          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
-            <h3 className="font-medium text-blue-800 dark:text-blue-200 mb-2">
-              Preview Mode Notice
-            </h3>
-            <p className="text-blue-700 dark:text-blue-300 text-sm">
+          <div className="bg-brand-soft dark:bg-[var(--band-via)]/20 rounded-lg p-6 border border-brand/40">
+            <h3 className="font-medium text-brand mb-2">Preview Mode Notice</h3>
+            <p className="text-brand text-sm">
               You are viewing this quiz in admin preview mode. Correct answers
               are marked for your review. Students taking this quiz will not see
               which answers are correct until after submission.

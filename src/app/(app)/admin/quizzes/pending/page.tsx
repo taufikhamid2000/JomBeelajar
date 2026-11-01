@@ -226,58 +226,53 @@ export default function PendingQuizzesPage() {
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand/40"></div>
         </div>
       ) : quizzes.length === 0 ? (
-        <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg text-center">
-          <p className="text-gray-600 dark:text-gray-300">
-            No quizzes pending verification!
-          </p>
+        <div className="bg-muted p-6 rounded-lg text-center">
+          <p className="text-soft">No quizzes pending verification!</p>
         </div>
       ) : (
         <div className="space-y-6">
           {quizzes.map((quiz) => (
-            <div
-              key={quiz.id}
-              className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6"
-            >
+            <div key={quiz.id} className="bg-surface shadow-md rounded-lg p-6">
               <h2 className="text-xl font-semibold mb-2">{quiz.name}</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-soft">
                     <strong>Subject:</strong>{' '}
                     {quiz.topic?.chapter?.subject?.name || 'Unknown'}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-soft">
                     <strong>Chapter:</strong>{' '}
                     {quiz.topic?.chapter?.name || 'Unknown'}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-soft">
                     <strong>Topic:</strong> {quiz.topic?.name || 'Unknown'}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-soft">
                     <strong>Created By:</strong>{' '}
                     {quiz.creator?.display_name || 'Unknown User'}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-soft">
                     <strong>Created:</strong>{' '}
                     {new Date(quiz.created_at).toLocaleDateString()}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-soft">
                     <strong>Questions:</strong> {quiz.question_count}
                   </p>
                 </div>
               </div>
 
-              <div className="border-t dark:border-gray-700 pt-4 mt-4">
-                <label className="block text-gray-700 dark:text-gray-300 mb-2">
+              <div className="border-t pt-4 mt-4">
+                <label className="block text-soft mb-2">
                   Feedback (optional):
                 </label>
                 <textarea
-                  className="w-full p-2 border dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full p-2 border rounded-lg bg-surface-2 text-strong"
                   rows={2}
                   placeholder="Provide feedback about this quiz..."
                   value={feedback[quiz.id] || ''}

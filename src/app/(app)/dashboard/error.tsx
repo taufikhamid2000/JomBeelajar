@@ -19,7 +19,7 @@ export default function Error({
   return (
     <main className="container mx-auto py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-8 text-center">
+        <div className="bg-surface rounded-xl shadow-lg p-8 text-center">
           <div className="mb-6">
             <svg
               className="mx-auto h-12 w-12 text-red-500 dark:text-red-400"
@@ -36,27 +36,27 @@ export default function Error({
               />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+          <h2 className="text-2xl font-bold text-strong mb-4">
             Something went wrong!
           </h2>
-          <p className="text-gray-400 dark:text-gray-600 mb-6">
+          <p className="text-soft mb-6">
             {error.message || 'An error occurred while loading the dashboard'}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => reset()}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40 dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)]"
             >
               Try again
             </button>
             <Link
               href="/static/dashboard"
-              className="inline-flex items-center px-4 py-2 border border-gray-600 dark:border-gray-300 text-base font-medium rounded-md shadow-sm text-gray-300 dark:text-gray-700 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="inline-flex items-center px-4 py-2 border border-border text-base font-medium rounded-md shadow-sm text-soft bg-surface hover:bg-surface-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40"
             >
               View Static Dashboard
             </Link>
           </div>
-          <p className="mt-4 text-sm text-gray-400 dark:text-gray-500">
+          <p className="mt-4 text-sm text-soft">
             If the problem persists, please contact support
           </p>
         </div>

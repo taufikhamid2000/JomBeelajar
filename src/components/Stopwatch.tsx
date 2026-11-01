@@ -21,8 +21,7 @@ export default function Stopwatch() {
   };
 
   const getTimeColor = (seconds: number) => {
-    if (seconds < NEXT_BUILD_TIME * 0.5)
-      return 'text-blue-600 dark:text-blue-300';
+    if (seconds < NEXT_BUILD_TIME * 0.5) return 'text-brand';
     if (seconds < NEXT_BUILD_TIME)
       return 'text-yellow-600 dark:text-yellow-300';
     return 'text-red-600 dark:text-red-300';

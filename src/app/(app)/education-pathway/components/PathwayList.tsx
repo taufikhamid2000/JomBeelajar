@@ -16,30 +16,30 @@ const PathwayList: FC<PathwayListProps> = ({
 }) => {
   if (pathways.length === 0) {
     return (
-      <div className="px-4 py-5 text-center text-gray-400 dark:text-gray-500">
+      <div className="px-4 py-5 text-center text-soft">
         No pathways match your search.
       </div>
     );
   }
 
   return (
-    <ul className="divide-y divide-gray-700 dark:divide-gray-200">
+    <ul className="divide-y divide-border">
       {pathways.map((pathway) => (
         <li key={pathway.id}>
           <button
             className={`w-full text-left px-4 py-5 focus:outline-none ${
               selectedId === pathway.id
-                ? 'bg-gray-700 dark:bg-indigo-50'
-                : 'hover:bg-gray-700 dark:hover:bg-gray-50'
+                ? 'bg-muted dark:bg-brand-soft'
+                : 'hover:bg-muted'
             }`}
             onClick={() => onSelect(pathway)}
           >
             <div className="flex justify-between">
               <div>
-                <h3 className="text-sm font-medium text-indigo-400 dark:text-indigo-600">
+                <h3 className="text-sm font-medium text-brand">
                   {pathway.career}
                 </h3>
-                <p className="mt-1 text-xs text-gray-400 dark:text-gray-500 line-clamp-2">
+                <p className="mt-1 text-xs text-soft line-clamp-2">
                   {pathway.description}
                 </p>
               </div>
@@ -59,7 +59,7 @@ const PathwayList: FC<PathwayListProps> = ({
                 </span>
               </div>
             </div>
-            <div className="mt-2 text-xs text-gray-300 dark:text-gray-600">
+            <div className="mt-2 text-xs text-soft">
               <span className="font-medium">Salary range:</span> RM
               {pathway.careerOutlook.salaryRange.min.toLocaleString()} - RM
               {pathway.careerOutlook.salaryRange.max.toLocaleString()} /month

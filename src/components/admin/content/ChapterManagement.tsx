@@ -209,16 +209,14 @@ export default function ChapterManagement({
       key: 'name',
       header: 'Title',
       render: (chapter) => (
-        <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-          {chapter.name}
-        </div>
+        <div className="text-sm font-medium text-strong">{chapter.name}</div>
       ),
     },
     {
       key: 'subject',
       header: 'Subject',
       render: (chapter) => (
-        <div className="text-sm text-gray-400 dark:text-gray-500">
+        <div className="text-sm text-soft">
           {subjects.find((s) => s.id === chapter.subject_id)?.name || 'N/A'}
         </div>
       ),
@@ -227,9 +225,7 @@ export default function ChapterManagement({
       key: 'form',
       header: 'Form',
       render: (chapter) => (
-        <div className="text-sm text-gray-400 dark:text-gray-500">
-          {chapter.form}
-        </div>
+        <div className="text-sm text-soft">{chapter.form}</div>
       ),
     },
   ];
@@ -240,16 +236,14 @@ export default function ChapterManagement({
       label: 'Title',
       isHeader: true,
       render: (chapter) => (
-        <div className="text-base font-medium text-gray-900 dark:text-gray-100">
-          {chapter.name}
-        </div>
+        <div className="text-base font-medium text-strong">{chapter.name}</div>
       ),
     },
     {
       key: 'subject',
       label: 'Subject',
       render: (chapter) => (
-        <div className="text-sm text-gray-900 dark:text-gray-100">
+        <div className="text-sm text-strong">
           {subjects.find((s) => s.id === chapter.subject_id)?.name || 'N/A'}
         </div>
       ),
@@ -258,9 +252,7 @@ export default function ChapterManagement({
       key: 'form',
       label: 'Form',
       render: (chapter) => (
-        <div className="text-sm text-gray-900 dark:text-gray-100">
-          {chapter.form}
-        </div>
+        <div className="text-sm text-strong">{chapter.form}</div>
       ),
     },
   ];
@@ -269,7 +261,7 @@ export default function ChapterManagement({
     <>
       <Link
         href={`/admin/content/chapters/${chapter.id}`}
-        className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-4"
+        className="text-brand hover:text-brand mr-4"
       >
         Edit
       </Link>
@@ -284,12 +276,10 @@ export default function ChapterManagement({
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold dark:text-white">
-          Chapter Management
-        </h2>
+        <h2 className="text-xl font-semibold">Chapter Management</h2>
         <button
           onClick={() => setShowNewChapterForm(!showNewChapterForm)}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
+          className="bg-[var(--band-via)] text-white px-4 py-2 rounded hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)]"
         >
           {showNewChapterForm ? 'Cancel' : 'Add New Chapter'}
         </button>
@@ -305,10 +295,10 @@ export default function ChapterManagement({
 
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 mb-3">
           {/* Subject Filter Dropdown */}
-          <div className="w-full md:w-56 bg-gray-800 dark:bg-white rounded-lg shadow-sm p-2">
+          <div className="w-full md:w-56 bg-surface rounded-lg shadow-sm p-2">
             <label
               htmlFor="subject-filter"
-              className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+              className="block text-sm font-medium text-soft mb-1"
             >
               Filter by Subject
             </label>
@@ -316,9 +306,9 @@ export default function ChapterManagement({
               id="subject-filter"
               value={subjectFilter}
               onChange={(e) => setSubjectFilter(e.target.value)}
-              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-700 
-                         dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none 
-                         focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-surface border border-border rounded-md text-strong 
+                          focus:outline-none 
+                         focus:ring-2 focus:ring-brand/40"
             >
               <option value="all">All Subjects</option>
               {subjects.map((subject) => (
@@ -330,10 +320,10 @@ export default function ChapterManagement({
           </div>
 
           {/* Form Filter Dropdown */}
-          <div className="w-full md:w-56 bg-gray-800 dark:bg-white rounded-lg shadow-sm p-2">
+          <div className="w-full md:w-56 bg-surface rounded-lg shadow-sm p-2">
             <label
               htmlFor="form-filter"
-              className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+              className="block text-sm font-medium text-soft mb-1"
             >
               Filter by Form
             </label>
@@ -345,9 +335,9 @@ export default function ChapterManagement({
                   e.target.value === 'all' ? 'all' : Number(e.target.value)
                 )
               }
-              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-700 
-                         dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none 
-                         focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-surface border border-border rounded-md text-strong 
+                          focus:outline-none 
+                         focus:ring-2 focus:ring-brand/40"
             >
               <option value="all">All Forms</option>
               {uniqueFormNumbers.map((form) => (
@@ -374,15 +364,13 @@ export default function ChapterManagement({
         />
       </div>
       {showNewChapterForm && (
-        <div className="mb-6 p-4 border rounded-lg dark:border-gray-700">
-          <h3 className="text-lg font-medium mb-3 dark:text-white">
-            Create New Chapter
-          </h3>
+        <div className="mb-6 p-4 border rounded-lg">
+          <h3 className="text-lg font-medium mb-3">Create New Chapter</h3>
           <form onSubmit={handleCreateChapter}>
             <div className="mb-3">
               <label
                 htmlFor="chapter-name"
-                className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+                className="block text-sm font-medium text-soft mb-1"
               >
                 Chapter Title
               </label>
@@ -396,14 +384,14 @@ export default function ChapterManagement({
                     name: e.target.value,
                   })
                 }
-                className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="w-full px-3 py-2 border rounded-md"
                 placeholder="Enter chapter title"
               />
             </div>
             <div className="mb-3">
               <label
                 htmlFor="chapter-subject"
-                className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+                className="block text-sm font-medium text-soft mb-1"
               >
                 Subject
               </label>
@@ -416,7 +404,7 @@ export default function ChapterManagement({
                     subject_id: e.target.value,
                   })
                 }
-                className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="w-full px-3 py-2 border rounded-md"
               >
                 <option value="">Select a subject</option>
                 {subjects.map((subject) => (
@@ -429,7 +417,7 @@ export default function ChapterManagement({
             <div className="mb-3">
               <label
                 htmlFor="chapter-form"
-                className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+                className="block text-sm font-medium text-soft mb-1"
               >
                 Form
               </label>
@@ -442,7 +430,7 @@ export default function ChapterManagement({
                     form: Number(e.target.value),
                   })
                 }
-                className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="w-full px-3 py-2 border rounded-md"
               >
                 <option value={4}>Form 4</option>
                 <option value={5}>Form 5</option>

@@ -37,5 +37,5 @@ export default function AdminLayout({
     return null;
   }
 
-  return <div className="admin-layout dark:bg-gray-900">{children}</div>;
+  return <div className="admin-layout">{children}</div>;
 }

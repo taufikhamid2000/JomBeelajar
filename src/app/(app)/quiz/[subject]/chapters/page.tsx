@@ -30,8 +30,8 @@ export default function ChaptersPage() {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading chapters...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand/40 mx-auto mb-4"></div>
+          <p className="text-soft">Loading chapters...</p>
         </div>
       </div>
     );
@@ -40,7 +40,7 @@ export default function ChaptersPage() {
   // Error state
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-800 dark:bg-gray-100 text-gray-300 dark:text-gray-700">
+      <div className="flex flex-col items-center justify-center h-screen bg-surface text-soft">
         <h1 className="text-2xl font-bold mb-4">Error</h1>
         <p>
           {error instanceof Error
@@ -49,7 +49,7 @@ export default function ChaptersPage() {
         </p>
         <button
           onClick={() => window.location.reload()}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="mt-4 px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)]"
         >
           Retry
         </button>
@@ -59,12 +59,12 @@ export default function ChaptersPage() {
   // Handle undefined subjectWithChapters (shouldn't happen if API works)
   if (!subjectWithChapters) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-800 dark:bg-gray-100 text-gray-300 dark:text-gray-700">
+      <div className="flex flex-col items-center justify-center h-screen bg-surface text-soft">
         <h1 className="text-2xl font-bold mb-4">Error</h1>
         <p>Unable to connect to the API. Please contact the administrator.</p>
         <button
           onClick={() => window.location.reload()}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="mt-4 px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)]"
         >
           Retry
         </button>
@@ -73,7 +73,7 @@ export default function ChaptersPage() {
   }
   return (
     <div className="container mx-auto py-8 px-4 md:px-8">
-      <header className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-6 px-4 rounded-lg shadow-md mb-8">
+      <header className="band-gradient text-white py-6 px-4 rounded-lg shadow-md mb-8">
         <h1 className="text-3xl font-bold">
           Chapters for {subjectWithChapters.subject.name}
         </h1>
@@ -97,9 +97,9 @@ export default function ChaptersPage() {
       </header>
 
       {subjectWithChapters.chapters.length === 0 ? (
-        <div className="text-center py-10 px-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm border border-gray-700 dark:border-gray-200">
+        <div className="text-center py-10 px-6 bg-surface-2 rounded-lg shadow-sm border border-border">
           <svg
-            className="mx-auto h-12 w-12 text-gray-400 mb-4"
+            className="mx-auto h-12 w-12 text-soft mb-4"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -112,7 +112,7 @@ export default function ChaptersPage() {
               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
             />
           </svg>
-          <p className="text-gray-300 dark:text-gray-700">
+          <p className="text-soft">
             No chapters available for this subject. Please check back later.
           </p>
         </div>

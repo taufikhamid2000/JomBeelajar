@@ -52,7 +52,9 @@ export default function UserProfileClient({ user }: UserProfileClientProps) {
         setCreatedQuizzes(quizzesData || []);
       } catch (err) {
         logger.error('Error loading user data:', err);
-        setError('Unable to connect to the API. Please contact the administrator.');
+        setError(
+          'Unable to connect to the API. Please contact the administrator.'
+        );
       } finally {
         setLoading(false);
       }
@@ -74,8 +76,8 @@ export default function UserProfileClient({ user }: UserProfileClientProps) {
           <button
             className={`px-4 py-2 rounded ${
               activeTab === 'stats'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700'
+                ? 'bg-[var(--band-via)] text-white'
+                : 'bg-muted text-soft'
             }`}
             onClick={() => setActiveTab('stats')}
           >
@@ -84,8 +86,8 @@ export default function UserProfileClient({ user }: UserProfileClientProps) {
           <button
             className={`px-4 py-2 rounded ${
               activeTab === 'achievements'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700'
+                ? 'bg-[var(--band-via)] text-white'
+                : 'bg-muted text-soft'
             }`}
             onClick={() => setActiveTab('achievements')}
           >
@@ -94,8 +96,8 @@ export default function UserProfileClient({ user }: UserProfileClientProps) {
           <button
             className={`px-4 py-2 rounded ${
               activeTab === 'created-quizzes'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700'
+                ? 'bg-[var(--band-via)] text-white'
+                : 'bg-muted text-soft'
             }`}
             onClick={() => setActiveTab('created-quizzes')}
           >

@@ -52,12 +52,12 @@ export default function TopicProgressBadge({
       className={`mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ${
         isCompleted
           ? 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300'
-          : 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300'
+          : 'bg-brand-soft text-brand dark:bg-[var(--band-via)]/40'
       }`}
     >
       <span
         className={`inline-block w-2 h-2 rounded-full ${
-          isCompleted ? 'bg-green-500' : 'bg-blue-500'
+          isCompleted ? 'bg-green-500' : 'bg-[var(--band-via)]'
         }`}
       />
       {isCompleted ? 'Completed' : 'In progress'}

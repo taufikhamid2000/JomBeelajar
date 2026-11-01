@@ -141,7 +141,11 @@ export default function QuizPlayer({
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [score, setScore] = useState(0);
   const [questionResults, setQuestionResults] = useState<
-    | Array<{ questionId: string; correct: boolean; correctAnswerIds: string[] }>
+    | Array<{
+        questionId: string;
+        correct: boolean;
+        correctAnswerIds: string[];
+      }>
     | undefined
   >(undefined);
   const [timeRemaining, setTimeRemaining] = useState(
@@ -187,7 +191,10 @@ export default function QuizPlayer({
     };
   }, []);
   // Shuffled questions, derived from the questions prop and the seed
-  const validQuestions = useMemo(() => getValidQuestions(questions), [questions]);
+  const validQuestions = useMemo(
+    () => getValidQuestions(questions),
+    [questions]
+  );
   const shuffledQuestions = useMemo(() => {
     if (validQuestions.length > 0) {
       return shuffleArray(validQuestions, shuffleSeed);
@@ -523,8 +530,8 @@ export default function QuizPlayer({
 
   if (!quizStarted) {
     return (
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-        <h1 className="mb-4 text-2xl font-extrabold text-gray-900 dark:text-gray-100">
+      <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
+        <h1 className="mb-4 text-2xl font-extrabold text-strong">
           Quiz: {quizName}
         </h1>
 
@@ -543,12 +550,12 @@ export default function QuizPlayer({
         )}
 
         {!isAuthenticated && (
-          <div className="mb-4 rounded-2xl border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-900/20 dark:text-blue-200">
+          <div className="mb-4 rounded-2xl border border-brand/40 bg-brand-soft p-3 text-sm text-brand dark:bg-[var(--band-via)]/20">
             You&apos;re playing as a guest.{' '}
             <button
               type="button"
               onClick={() => router.push('/auth')}
-              className="font-semibold underline hover:text-blue-600 dark:hover:text-blue-100"
+              className="font-semibold underline hover:text-brand"
             >
               Sign in
             </button>{' '}
@@ -557,7 +564,7 @@ export default function QuizPlayer({
         )}
 
         {topicContext && (
-          <div className="mb-4 space-y-1 text-gray-600 dark:text-gray-300">
+          <div className="mb-4 space-y-1 text-soft">
             <p>
               <strong>Topic:</strong> {topicContext.topicTitle}
             </p>
@@ -570,7 +577,7 @@ export default function QuizPlayer({
             </p>
           </div>
         )}
-        <div className="mb-6 space-y-1 text-gray-600 dark:text-gray-300">
+        <div className="mb-6 space-y-1 text-soft">
           <p>This quiz contains {shuffledQuestions.length} questions.</p>
           {timeLimit && (
             <p>You will have {timeLimit} minutes to complete this quiz.</p>
@@ -579,7 +586,7 @@ export default function QuizPlayer({
         </div>
         <button
           onClick={handleStartQuiz}
-          className="min-h-12 w-full rounded-2xl bg-blue-600 px-6 py-3 font-bold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:w-auto"
+          className="min-h-12 w-full rounded-2xl bg-[var(--band-via)] px-6 py-3 font-bold text-white shadow-sm transition-colors hover:bg-[var(--band-from)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2 sm:w-auto"
         >
           Start Quiz
         </button>
@@ -612,15 +619,13 @@ export default function QuizPlayer({
     });
 
     return (
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+      <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
         <div className="text-center">
           {!loadingTimeout ? (
             <>
-              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-r-transparent border-l-transparent motion-reduce:animate-none"></div>
-              <p className="mt-4 text-gray-600 dark:text-gray-300">
-                Preparing quiz questions...
-              </p>
-              <p className="mt-2 text-sm text-gray-500">
+              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-brand/40 border-r-transparent border-l-transparent motion-reduce:animate-none"></div>
+              <p className="mt-4 text-soft">Preparing quiz questions...</p>
+              <p className="mt-2 text-sm text-soft">
                 {questions.length > 0
                   ? `Found ${questions.length} questions, shuffling...`
                   : 'Waiting for questions...'}
@@ -629,10 +634,10 @@ export default function QuizPlayer({
           ) : (
             <>
               <div className="mb-2 text-yellow-500">⚠️</div>
-              <p className="font-medium text-gray-800 dark:text-gray-200">
+              <p className="font-medium text-strong">
                 Taking longer than expected
               </p>
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-sm text-soft">
                 {questions.length > 0
                   ? `Found ${questions.length} questions, but having trouble shuffling them.`
                   : 'There was a problem loading the quiz questions.'}
@@ -650,7 +655,7 @@ export default function QuizPlayer({
                       window.location.reload();
                     }
                   }}
-                  className="min-h-11 rounded-2xl bg-blue-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+                  className="min-h-11 rounded-2xl bg-[var(--band-via)] px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[var(--band-from)]"
                 >
                   {questions.length > 0 ? 'Try Again' : 'Reload Quiz'}
                 </button>
@@ -675,7 +680,7 @@ export default function QuizPlayer({
       : undefined;
 
   return (
-    <div className="fixed inset-0 z-40 flex flex-col bg-gray-50 dark:bg-gray-900">
+    <div className="fixed inset-0 z-40 flex flex-col bg-surface-2">
       {showSignInGate && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
@@ -683,14 +688,14 @@ export default function QuizPlayer({
           aria-modal="true"
           aria-labelledby="signin-gate-title"
         >
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
+          <div className="w-full max-w-sm rounded-2xl bg-surface p-6 shadow-xl">
             <h3
               id="signin-gate-title"
-              className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100"
+              className="mb-2 text-lg font-bold text-strong"
             >
               Sign in to save your score and XP
             </h3>
-            <p className="mb-6 text-sm text-gray-600 dark:text-gray-300">
+            <p className="mb-6 text-sm text-soft">
               You&apos;re browsing as a guest, so this attempt can&apos;t be
               submitted or scored. Sign in to record your result and earn XP.
             </p>
@@ -699,14 +704,14 @@ export default function QuizPlayer({
                 type="button"
                 autoFocus
                 onClick={() => setShowSignInGate(false)}
-                className="min-h-11 rounded-2xl border border-gray-300 px-4 py-2 font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
+                className="min-h-11 rounded-2xl border border-border px-4 py-2 font-semibold text-soft hover:bg-surface-2"
               >
                 Keep reviewing
               </button>
               <button
                 type="button"
                 onClick={() => router.push('/auth')}
-                className="min-h-11 rounded-2xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+                className="min-h-11 rounded-2xl bg-[var(--band-via)] px-4 py-2 font-semibold text-white hover:bg-[var(--band-from)]"
               >
                 Sign in
               </button>
@@ -723,17 +728,14 @@ export default function QuizPlayer({
           aria-labelledby="exit-quiz-title"
           aria-describedby="exit-quiz-desc"
         >
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
+          <div className="w-full max-w-sm rounded-2xl bg-surface p-6 shadow-xl">
             <h3
               id="exit-quiz-title"
-              className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100"
+              className="mb-2 text-lg font-bold text-strong"
             >
               Leave this quiz?
             </h3>
-            <p
-              id="exit-quiz-desc"
-              className="mb-6 text-sm text-gray-600 dark:text-gray-300"
-            >
+            <p id="exit-quiz-desc" className="mb-6 text-sm text-soft">
               Your progress won&apos;t be saved.
             </p>
             <div className="flex justify-end gap-3">
@@ -741,14 +743,14 @@ export default function QuizPlayer({
                 type="button"
                 autoFocus
                 onClick={() => setShowExitConfirm(false)}
-                className="min-h-11 rounded-2xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+                className="min-h-11 rounded-2xl bg-[var(--band-via)] px-4 py-2 font-semibold text-white hover:bg-[var(--band-from)]"
               >
                 Keep going
               </button>
               <button
                 type="button"
                 onClick={exitQuiz}
-                className="min-h-11 rounded-2xl border border-gray-300 px-4 py-2 font-semibold text-red-600 hover:bg-red-50 dark:border-gray-600 dark:text-red-400 dark:hover:bg-red-900/20"
+                className="min-h-11 rounded-2xl border border-border px-4 py-2 font-semibold text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
               >
                 Exit
               </button>
@@ -793,8 +795,8 @@ export default function QuizPlayer({
               ? currentFeedback.isCorrect
                 ? 'border-green-200 bg-green-50 dark:border-green-900 dark:bg-green-950'
                 : 'border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950'
-              : 'border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-950'
-            : 'border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900'
+              : 'border-brand/40 bg-brand-soft'
+            : 'border-border bg-surface'
         }`}
       >
         <div className="mx-auto max-w-2xl">
@@ -816,9 +818,13 @@ export default function QuizPlayer({
             type="button"
             onClick={handlePrimary}
             disabled={primaryDisabled}
-            className="min-h-14 w-full rounded-2xl bg-blue-600 px-6 py-3 text-base font-bold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-400 disabled:shadow-none dark:focus-visible:ring-offset-gray-900 dark:disabled:bg-gray-700 dark:disabled:text-gray-500"
+            className="min-h-14 w-full rounded-2xl bg-[var(--band-via)] px-6 py-3 text-base font-bold text-white shadow-sm transition-colors hover:bg-[var(--band-from)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-muted disabled:text-soft disabled:shadow-none dark:focus-visible:ring-offset-gray-900"
           >
-            {submitting ? 'Submitting...' : checking ? 'Checking...' : primaryLabel}
+            {submitting
+              ? 'Submitting...'
+              : checking
+                ? 'Checking...'
+                : primaryLabel}
           </button>
         </div>
       </div>
@@ -850,7 +856,7 @@ function FeedbackPanel({
     return () => cancelAnimationFrame(id);
   }, []);
   const tone = !verdict
-    ? 'text-blue-800 dark:text-blue-200'
+    ? 'text-brand'
     : verdict.isCorrect
       ? 'text-green-800 dark:text-green-200'
       : 'text-red-800 dark:text-red-200';

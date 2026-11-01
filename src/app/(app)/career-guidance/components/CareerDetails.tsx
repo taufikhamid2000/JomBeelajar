@@ -83,19 +83,17 @@ const CareerDetails: FC<CareerDetailsProps> = ({
     <div id="career-details" className="mt-12 pt-4">
       {' '}
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-white dark:text-gray-900">
-          {career.title}
-        </h2>
-        <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-300 dark:text-gray-600">
+        <h2 className="text-3xl font-bold text-strong">{career.title}</h2>
+        <p className="mt-3 max-w-2xl mx-auto text-xl text-soft">
           {career.description}
         </p>{' '}
-        <div className="mt-4 bg-blue-950/30 dark:bg-blue-100/30 rounded-lg px-4 py-3 max-w-2xl mx-auto">
+        <div className="mt-4 bg-brand-soft dark:bg-brand-soft/30 rounded-lg px-4 py-3 max-w-2xl mx-auto">
           <details className="mt-2">
-            <summary className="cursor-pointer text-sm font-medium text-blue-400 dark:text-blue-700 hover:text-blue-300 dark:hover:text-blue-600">
+            <summary className="cursor-pointer text-sm font-medium text-brand hover:text-brand">
               Important note about SPM requirements
             </summary>
-            <div className="mt-2 text-sm text-blue-300 dark:text-blue-800 pl-4 border-l-2 border-blue-800/30 dark:border-blue-300/30">
-              <p className="text-sm text-blue-300 dark:text-blue-800">
+            <div className="mt-2 text-sm text-brand pl-4 border-l-2 border-brand/40">
+              <p className="text-sm text-brand">
                 <span className="font-semibold">SPM Context:</span> The subjects
                 shown below are relevant to your SPM studies and will help
                 prepare you for this career path.
@@ -135,14 +133,14 @@ const CareerDetails: FC<CareerDetailsProps> = ({
         />{' '}
       </div>
       {contributionInfo && (
-        <div className="mt-10 bg-gray-800 dark:bg-gray-100 rounded-lg p-5 shadow-lg">
+        <div className="mt-10 bg-surface rounded-lg p-5 shadow-lg">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold text-white dark:text-gray-900">
+            <h3 className="text-xl font-semibold text-strong">
               Contributor Information
             </h3>
             <button
               onClick={() => setShowContributorDetails(!showContributorDetails)}
-              className="text-blue-400 dark:text-blue-700 hover:text-blue-300 dark:hover:text-blue-600 focus:outline-none"
+              className="text-brand hover:text-brand focus:outline-none"
             >
               {showContributorDetails ? 'Hide Details' : 'Show Details'}
             </button>
@@ -152,7 +150,7 @@ const CareerDetails: FC<CareerDetailsProps> = ({
             <div className="space-y-4">
               {/* Contributor Info */}
               <div className="flex items-center">
-                <div className="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center">
+                <div className="h-10 w-10 rounded-full bg-[var(--band-via)] flex items-center justify-center">
                   <span className="text-white font-medium text-sm">
                     {contributionInfo.submitterName
                       ? contributionInfo.submitterName.charAt(0).toUpperCase()
@@ -160,11 +158,11 @@ const CareerDetails: FC<CareerDetailsProps> = ({
                   </span>
                 </div>
                 <div className="ml-3">
-                  <p className="text-white dark:text-gray-800 font-medium">
+                  <p className="text-strong font-medium">
                     {contributionInfo.submitterName || 'Anonymous Contributor'}
                   </p>
                   {contributionInfo.submitterEmail && (
-                    <p className="text-gray-400 dark:text-gray-500 text-sm">
+                    <p className="text-soft text-sm">
                       {contributionInfo.submitterEmail}
                     </p>
                   )}
@@ -174,11 +172,11 @@ const CareerDetails: FC<CareerDetailsProps> = ({
               {/* Additional Notes */}
               {contributionInfo.additionalNotes && (
                 <div>
-                  <h4 className="text-lg font-medium text-white dark:text-gray-900 mt-4">
+                  <h4 className="text-lg font-medium text-strong mt-4">
                     Additional Notes
                   </h4>
-                  <div className="mt-2 bg-gray-700/50 dark:bg-gray-200/50 rounded-md p-4">
-                    <p className="text-gray-300 dark:text-gray-600">
+                  <div className="mt-2 bg-muted/50 rounded-md p-4">
+                    <p className="text-soft">
                       {contributionInfo.additionalNotes}
                     </p>
                   </div>
@@ -191,20 +189,18 @@ const CareerDetails: FC<CareerDetailsProps> = ({
       {/* Comments Section */}
       <div className="mt-12 mb-10">
         <div className="flex justify-between items-center mb-6">
-          <h3 className="text-2xl font-semibold text-white dark:text-gray-900">
+          <h3 className="text-2xl font-semibold text-strong">
             Student Feedback & Experiences
           </h3>{' '}
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-400 dark:text-gray-600">
-              Sort by:
-            </span>
+            <span className="text-sm text-soft">Sort by:</span>
             <div className="relative">
               <select
                 value={sortOrder}
                 onChange={(e) =>
                   setSortOrder(e.target.value as 'newest' | 'oldest')
                 }
-                className="bg-gray-700 dark:bg-white border border-gray-600 dark:border-gray-300 text-white dark:text-gray-900 rounded-md py-1 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="bg-muted border border-border text-strong rounded-md py-1 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40"
               >
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
@@ -215,9 +211,7 @@ const CareerDetails: FC<CareerDetailsProps> = ({
         <div className="space-y-6">
           {isLoadingComments ? (
             <div className="text-center py-8">
-              <p className="text-gray-400 dark:text-gray-600">
-                Loading comments...
-              </p>
+              <p className="text-soft">Loading comments...</p>
             </div>
           ) : commentsError ? (
             <div className="text-center py-8">
@@ -227,7 +221,7 @@ const CareerDetails: FC<CareerDetailsProps> = ({
             </div>
           ) : totalComments === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-400 dark:text-gray-600">
+              <p className="text-soft">
                 No comments yet. Be the first to share your experience!
               </p>
             </div>
@@ -235,22 +229,22 @@ const CareerDetails: FC<CareerDetailsProps> = ({
             comments.map((comment) => (
               <div
                 key={comment.id}
-                className="bg-gray-800/70 dark:bg-white/70 rounded-lg p-5 border-l-4 border-indigo-500 dark:border-indigo-600"
+                className="bg-surface/70 rounded-lg p-5 border-l-4 border-brand/40"
               >
                 <div className="flex items-start">
                   <div className="flex-shrink-0 mr-4">
-                    <div className="h-10 w-10 rounded-full bg-gray-700 dark:bg-gray-200 flex items-center justify-center text-xl">
+                    <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center text-xl">
                       {comment.avatar || '👤'}
                     </div>
                   </div>
                   <div className="flex-1 min-w-0">
                     {' '}
                     <div className="flex items-center justify-between mb-1">
-                      <p className="text-sm font-medium text-white dark:text-gray-900">
+                      <p className="text-sm font-medium text-strong">
                         {comment.authorName}
                       </p>
                       <div className="flex items-center space-x-2">
-                        <span className="text-xs text-gray-400 dark:text-gray-500">
+                        <span className="text-xs text-soft">
                           {formatDistanceToNow(new Date(comment.createdAt), {
                             addSuffix: true,
                           })}
@@ -267,9 +261,7 @@ const CareerDetails: FC<CareerDetailsProps> = ({
                         )}
                       </div>
                     </div>
-                    <p className="text-gray-300 dark:text-gray-600">
-                      {comment.comment}
-                    </p>
+                    <p className="text-soft">{comment.comment}</p>
                   </div>
                 </div>
                 {/* Admin delete button */}
@@ -299,8 +291,8 @@ const CareerDetails: FC<CareerDetailsProps> = ({
                 disabled={currentPage === 1}
                 className={`relative inline-flex items-center px-2 py-2 rounded-l-md border ${
                   currentPage === 1
-                    ? 'border-gray-700 bg-gray-800 text-gray-500 cursor-not-allowed'
-                    : 'border-gray-600 bg-gray-700 text-gray-400 hover:bg-gray-600'
+                    ? 'border-border bg-surface text-soft cursor-not-allowed'
+                    : 'border-border bg-muted text-soft hover:bg-muted'
                 } text-sm font-medium`}
               >
                 <span className="sr-only">Previous</span>←
@@ -312,8 +304,8 @@ const CareerDetails: FC<CareerDetailsProps> = ({
                   onClick={() => setCurrentPage(index + 1)}
                   className={`relative inline-flex items-center px-4 py-2 border ${
                     currentPage === index + 1
-                      ? 'bg-indigo-600 text-white border-indigo-500'
-                      : 'border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      ? 'bg-[var(--band-via)] text-white border-brand/40'
+                      : 'border-border bg-muted text-soft hover:bg-muted'
                   } text-sm font-medium`}
                 >
                   {index + 1}
@@ -327,8 +319,8 @@ const CareerDetails: FC<CareerDetailsProps> = ({
                 disabled={currentPage === totalPages}
                 className={`relative inline-flex items-center px-2 py-2 rounded-r-md border ${
                   currentPage === totalPages
-                    ? 'border-gray-700 bg-gray-800 text-gray-500 cursor-not-allowed'
-                    : 'border-gray-600 bg-gray-700 text-gray-400 hover:bg-gray-600'
+                    ? 'border-border bg-surface text-soft cursor-not-allowed'
+                    : 'border-border bg-muted text-soft hover:bg-muted'
                 } text-sm font-medium`}
               >
                 <span className="sr-only">Next</span>→
@@ -336,11 +328,11 @@ const CareerDetails: FC<CareerDetailsProps> = ({
             </nav>
           </div>
         )}{' '}
-        <div className="mt-6 bg-gray-750 dark:bg-gray-100 rounded-lg p-5 border border-gray-700 dark:border-gray-300">
-          <h4 className="font-medium text-white dark:text-gray-900 mb-2">
+        <div className="mt-6 bg-muted rounded-lg p-5 border border-border">
+          <h4 className="font-medium text-strong mb-2">
             Share Your Experience
           </h4>
-          <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
+          <p className="text-sm text-soft mb-4">
             Have you followed this career guidance in your studies? Let others
             know about your experience or ask questions!
           </p>{' '}
@@ -349,13 +341,13 @@ const CareerDetails: FC<CareerDetailsProps> = ({
               <input
                 type="text"
                 placeholder="Write your comment..."
-                className="flex-1 rounded-l-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 dark:bg-white text-white dark:text-gray-900"
+                className="flex-1 rounded-l-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong"
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
               />
               <button
                 type="button"
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md shadow-sm text-white bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40"
                 onClick={handleSubmitComment}
               >
                 Comment
@@ -367,13 +359,13 @@ const CareerDetails: FC<CareerDetailsProps> = ({
               <input
                 id="anonymous-checkbox"
                 type="checkbox"
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-500 rounded"
+                className="h-4 w-4 text-brand focus:ring-brand/40 border-border rounded"
                 checked={isAnonymous}
                 onChange={(e) => setIsAnonymous(e.target.checked)}
               />
               <label
                 htmlFor="anonymous-checkbox"
-                className="ml-2 block text-sm text-gray-400 dark:text-gray-500"
+                className="ml-2 block text-sm text-soft"
               >
                 Post anonymously
               </label>
@@ -390,7 +382,7 @@ const CareerDetails: FC<CareerDetailsProps> = ({
               </p>
             )}
           </div>
-          <p className="mt-4 text-xs text-gray-400 dark:text-gray-500">
+          <p className="mt-4 text-xs text-soft">
             Comments are moderated and may take up to 24 hours to appear.
           </p>
         </div>
@@ -398,14 +390,14 @@ const CareerDetails: FC<CareerDetailsProps> = ({
       <div className="mt-8 text-center space-x-4">
         <button
           type="button"
-          className="inline-flex items-center px-5 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400 focus:ring-offset-gray-900"
+          className="inline-flex items-center px-5 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40 focus:ring-offset-gray-900"
           onClick={() => router.push(`/dashboard?career=${career.id}`)}
         >
           Start Learning These Subjects
         </button>
         <button
           type="button"
-          className="inline-flex items-center px-5 py-3 border border-gray-600 text-base font-medium rounded-md shadow-sm text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400 focus:ring-offset-gray-900"
+          className="inline-flex items-center px-5 py-3 border border-border text-base font-medium rounded-md shadow-sm text-soft bg-surface hover:bg-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40 focus:ring-offset-gray-900"
           onClick={() => router.push('/')}
         >
           Back to Home

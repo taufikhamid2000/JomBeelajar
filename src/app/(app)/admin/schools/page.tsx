@@ -96,7 +96,9 @@ export default function AdminSchoolsPage() {
       setSchools(data);
     } catch (err) {
       logger.error('Error fetching schools:', err);
-      setError('Unable to connect to the API. Please contact the administrator.');
+      setError(
+        'Unable to connect to the API. Please contact the administrator.'
+      );
     } finally {
       setLoading(false);
     }
@@ -115,7 +117,8 @@ export default function AdminSchoolsPage() {
     try {
       const res = await fetch(`/api/schools/${school.id}`);
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to load school details');
+      if (!res.ok)
+        throw new Error(data.error || 'Failed to load school details');
       setFormData({
         name: data.name,
         type: data.type,
@@ -130,12 +133,18 @@ export default function AdminSchoolsPage() {
       });
     } catch (err) {
       logger.error('Error loading school for edit:', err);
-      setError('Unable to connect to the API. Please contact the administrator.');
+      setError(
+        'Unable to connect to the API. Please contact the administrator.'
+      );
     }
   }
 
   async function handleSubmit() {
-    if (!formData.name.trim() || !formData.district.trim() || !formData.state.trim()) {
+    if (
+      !formData.name.trim() ||
+      !formData.district.trim() ||
+      !formData.state.trim()
+    ) {
       setError('Name, district, and state are required');
       return;
     }
@@ -237,10 +246,8 @@ export default function AdminSchoolsPage() {
       header: 'School',
       render: (school) => (
         <div>
-          <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-            {school.name}
-          </div>
-          <div className="text-sm text-gray-400 dark:text-gray-500">
+          <div className="text-sm font-medium text-strong">{school.name}</div>
+          <div className="text-sm text-soft">
             {school.district}, {school.state}
           </div>
         </div>
@@ -250,16 +257,14 @@ export default function AdminSchoolsPage() {
       key: 'type',
       header: 'Type',
       render: (school) => (
-        <span className="text-sm text-gray-400 dark:text-gray-500">
-          {school.type}
-        </span>
+        <span className="text-sm text-soft">{school.type}</span>
       ),
     },
     {
       key: 'averageScore',
       header: 'Avg Score',
       render: (school) => (
-        <span className="text-sm text-gray-400 dark:text-gray-500">
+        <span className="text-sm text-soft">
           {school.averageScore.toFixed(1)}%
         </span>
       ),
@@ -268,7 +273,7 @@ export default function AdminSchoolsPage() {
       key: 'participationRate',
       header: 'Participation',
       render: (school) => (
-        <span className="text-sm text-gray-400 dark:text-gray-500">
+        <span className="text-sm text-soft">
           {school.participationRate.toFixed(1)}%
         </span>
       ),
@@ -282,10 +287,8 @@ export default function AdminSchoolsPage() {
       isHeader: true,
       render: (school) => (
         <div className="mb-3">
-          <div className="text-base font-medium text-gray-900 dark:text-gray-100">
-            {school.name}
-          </div>
-          <div className="text-sm text-gray-400 dark:text-gray-500">
+          <div className="text-base font-medium text-strong">{school.name}</div>
+          <div className="text-sm text-soft">
             {school.district}, {school.state}
           </div>
         </div>
@@ -329,7 +332,11 @@ export default function AdminSchoolsPage() {
   ];
 
   return (
-    <AdminLayout title="Schools" refreshAction={fetchSchools} isLoading={loading}>
+    <AdminLayout
+      title="Schools"
+      refreshAction={fetchSchools}
+      isLoading={loading}
+    >
       <div className="space-y-4">
         {error && (
           <Message
@@ -351,7 +358,7 @@ export default function AdminSchoolsPage() {
         <div className="flex justify-between items-center">
           <div className="hidden md:block" />
           <button
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
+            className="bg-[var(--band-via)] text-white px-4 py-2 rounded hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)]"
             onClick={openCreateForm}
           >
             Create New School
@@ -393,7 +400,7 @@ export default function AdminSchoolsPage() {
           actions={(school) => (
             <>
               <button
-                className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-4"
+                className="text-brand hover:text-brand mr-4"
                 onClick={() => openEditForm(school)}
               >
                 Edit
@@ -421,15 +428,15 @@ export default function AdminSchoolsPage() {
 
       {isFormOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4 overflow-y-auto">
-          <div className="bg-gray-800 dark:bg-white rounded-lg shadow-xl max-w-lg w-full p-6 my-8">
-            <h3 className="text-xl font-bold mb-4 text-white dark:text-gray-900">
+          <div className="bg-surface rounded-lg shadow-xl max-w-lg w-full p-6 my-8">
+            <h3 className="text-xl font-bold mb-4 text-strong">
               {editingId ? 'Edit School' : 'Create School'}
             </h3>
 
             <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">
-                  <label className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2">
+                  <label className="block text-soft text-sm font-bold mb-2">
                     Name*
                   </label>
                   <input
@@ -438,13 +445,13 @@ export default function AdminSchoolsPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2">
+                  <label className="block text-soft text-sm font-bold mb-2">
                     Type*
                   </label>
                   <select
@@ -455,7 +462,7 @@ export default function AdminSchoolsPage() {
                         type: e.target.value as SchoolType,
                       })
                     }
-                    className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                   >
                     {SCHOOL_TYPES.map((t) => (
                       <option key={t} value={t}>
@@ -466,7 +473,7 @@ export default function AdminSchoolsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2">
+                  <label className="block text-soft text-sm font-bold mb-2">
                     Code
                   </label>
                   <input
@@ -475,12 +482,12 @@ export default function AdminSchoolsPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, code: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2">
+                  <label className="block text-soft text-sm font-bold mb-2">
                     District*
                   </label>
                   <input
@@ -489,13 +496,13 @@ export default function AdminSchoolsPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, district: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2">
+                  <label className="block text-soft text-sm font-bold mb-2">
                     State*
                   </label>
                   <input
@@ -504,13 +511,13 @@ export default function AdminSchoolsPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, state: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                     required
                   />
                 </div>
 
                 <div className="col-span-2">
-                  <label className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2">
+                  <label className="block text-soft text-sm font-bold mb-2">
                     Address
                   </label>
                   <input
@@ -519,12 +526,12 @@ export default function AdminSchoolsPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, address: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2">
+                  <label className="block text-soft text-sm font-bold mb-2">
                     Website
                   </label>
                   <input
@@ -533,12 +540,12 @@ export default function AdminSchoolsPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, website: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2">
+                  <label className="block text-soft text-sm font-bold mb-2">
                     Phone
                   </label>
                   <input
@@ -547,26 +554,29 @@ export default function AdminSchoolsPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, phone: e.target.value })
                     }
-                    className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2">
+                  <label className="block text-soft text-sm font-bold mb-2">
                     Principal
                   </label>
                   <input
                     type="text"
                     value={formData.principalName}
                     onChange={(e) =>
-                      setFormData({ ...formData, principalName: e.target.value })
+                      setFormData({
+                        ...formData,
+                        principalName: e.target.value,
+                      })
                     }
-                    className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2">
+                  <label className="block text-soft text-sm font-bold mb-2">
                     Total Students
                   </label>
                   <input
@@ -574,9 +584,12 @@ export default function AdminSchoolsPage() {
                     min="0"
                     value={formData.totalStudents}
                     onChange={(e) =>
-                      setFormData({ ...formData, totalStudents: e.target.value })
+                      setFormData({
+                        ...formData,
+                        totalStudents: e.target.value,
+                      })
                     }
-                    className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                   />
                 </div>
               </div>
@@ -585,14 +598,14 @@ export default function AdminSchoolsPage() {
             <div className="flex justify-end space-x-2 mt-6">
               <button
                 onClick={() => setIsFormOpen(false)}
-                className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-200 dark:text-gray-800 rounded hover:bg-gray-400 dark:hover:bg-gray-500"
+                className="px-4 py-2 bg-muted text-strong rounded hover:bg-muted"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={saving}
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50"
+                className="px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)] disabled:opacity-50"
               >
                 {saving ? 'Saving...' : editingId ? 'Save Changes' : 'Create'}
               </button>

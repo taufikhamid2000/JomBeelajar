@@ -111,11 +111,11 @@ export default function AdminUserDetailPage() {
   }
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+      <div className="min-h-screen bg-surface">
         <div className="flex">
           <AdminNavigation />
           <div className="flex-1 p-8 flex justify-center items-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand/40"></div>
           </div>
         </div>
       </div>
@@ -124,7 +124,7 @@ export default function AdminUserDetailPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+      <div className="min-h-screen bg-surface">
         <div className="flex">
           <AdminNavigation />
           <div className="flex-1 p-8">
@@ -136,7 +136,7 @@ export default function AdminUserDetailPage() {
               </p>
               <Link
                 href="/admin/users"
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                className="px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)] transition-colors"
               >
                 Return to User List
               </Link>
@@ -149,7 +149,7 @@ export default function AdminUserDetailPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+      <div className="min-h-screen bg-surface">
         <div className="flex">
           <AdminNavigation />
           <div className="flex-1 p-8">
@@ -160,7 +160,7 @@ export default function AdminUserDetailPage() {
               </p>
               <Link
                 href="/admin/users"
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                className="px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)] transition-colors"
               >
                 Return to User List
               </Link>
@@ -171,7 +171,7 @@ export default function AdminUserDetailPage() {
     );
   }
   return (
-    <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+    <div className="min-h-screen bg-surface">
       <div className="flex">
         <AdminNavigation />
         <div className="flex-1 p-8">
@@ -182,7 +182,7 @@ export default function AdminUserDetailPage() {
           <UserProfile user={user} />
 
           {/* Main content with tabs */}
-          <div className="bg-gray-800 dark:bg-white shadow rounded-lg">
+          <div className="bg-surface shadow rounded-lg">
             <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
 
             <div className="p-6">

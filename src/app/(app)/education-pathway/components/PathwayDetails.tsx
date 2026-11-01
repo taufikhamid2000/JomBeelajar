@@ -12,23 +12,19 @@ const PathwayDetails: FC<PathwayDetailsProps> = ({ pathway }) => {
   // Helper function to render individual education option
   const renderEducationOption = (option: EducationOption) => {
     return (
-      <div className="bg-gray-700 dark:bg-gray-50 rounded-md p-4">
-        <h5 className="text-sm font-medium text-white dark:text-gray-900">
-          {option.name}
-        </h5>
-        <p className="mt-1 text-sm text-gray-300 dark:text-gray-600">
-          {option.description}
-        </p>
+      <div className="bg-muted rounded-md p-4">
+        <h5 className="text-sm font-medium text-strong">{option.name}</h5>
+        <p className="mt-1 text-sm text-soft">{option.description}</p>
         {option.institutions && option.institutions.length > 0 && (
           <div className="mt-3">
-            <h6 className="text-xs font-medium text-gray-400 dark:text-gray-500">
+            <h6 className="text-xs font-medium text-soft">
               Example Institutions
             </h6>
             <div className="mt-1 flex flex-wrap gap-1">
               {option.institutions.map((institution, i) => (
                 <span
                   key={i}
-                  className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-600 text-gray-200 dark:bg-gray-100 dark:text-gray-800"
+                  className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-muted text-strong"
                 >
                   {institution}
                 </span>
@@ -38,20 +34,16 @@ const PathwayDetails: FC<PathwayDetailsProps> = ({ pathway }) => {
         )}
         <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <h6 className="text-xs font-medium text-gray-400 dark:text-gray-500">
-              Advantages
-            </h6>
-            <ul className="mt-1 text-xs text-gray-300 dark:text-gray-600 list-disc list-inside space-y-1">
+            <h6 className="text-xs font-medium text-soft">Advantages</h6>
+            <ul className="mt-1 text-xs text-soft list-disc list-inside space-y-1">
               {option.advantages.map((adv, i) => (
                 <li key={i}>{adv}</li>
               ))}
             </ul>
           </div>
           <div>
-            <h6 className="text-xs font-medium text-gray-400 dark:text-gray-500">
-              Challenges
-            </h6>
-            <ul className="mt-1 text-xs text-gray-300 dark:text-gray-600 list-disc list-inside space-y-1">
+            <h6 className="text-xs font-medium text-soft">Challenges</h6>
+            <ul className="mt-1 text-xs text-soft list-disc list-inside space-y-1">
               {option.challenges.map((challenge, i) => (
                 <li key={i}>{challenge}</li>
               ))}
@@ -60,10 +52,8 @@ const PathwayDetails: FC<PathwayDetailsProps> = ({ pathway }) => {
         </div>
         {option.requirements && (
           <div className="mt-3">
-            <h6 className="text-xs font-medium text-gray-400 dark:text-gray-500">
-              Requirements
-            </h6>
-            <ul className="mt-1 text-xs text-gray-300 dark:text-gray-600 list-disc list-inside space-y-1">
+            <h6 className="text-xs font-medium text-soft">Requirements</h6>
+            <ul className="mt-1 text-xs text-soft list-disc list-inside space-y-1">
               {option.requirements.map((req, i) => (
                 <li key={i}>{req}</li>
               ))}
@@ -76,7 +66,7 @@ const PathwayDetails: FC<PathwayDetailsProps> = ({ pathway }) => {
               href={option.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-medium text-indigo-400 dark:text-indigo-600 hover:text-indigo-300 dark:hover:text-indigo-500"
+              className="text-xs font-medium text-brand hover:text-brand"
             >
               Learn more about this option
               <svg
@@ -101,10 +91,10 @@ const PathwayDetails: FC<PathwayDetailsProps> = ({ pathway }) => {
   };
 
   return (
-    <div className="bg-gray-800 dark:bg-white shadow overflow-hidden rounded-md">
-      <div className="px-4 py-5 border-b border-gray-700 dark:border-gray-200 sm:px-6">
+    <div className="bg-surface shadow overflow-hidden rounded-md">
+      <div className="px-4 py-5 border-b border-border sm:px-6">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg leading-6 font-medium text-white dark:text-gray-900">
+          <h3 className="text-lg leading-6 font-medium text-strong">
             {pathway.career}
           </h3>
           <span
@@ -121,24 +111,20 @@ const PathwayDetails: FC<PathwayDetailsProps> = ({ pathway }) => {
             demand
           </span>
         </div>
-        <p className="mt-2 max-w-2xl text-sm text-gray-300 dark:text-gray-500">
+        <p className="mt-2 max-w-2xl text-sm text-soft">
           {pathway.description}
         </p>
         <div className="mt-3 grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
           <div className="sm:col-span-1">
-            <dt className="text-sm font-medium text-gray-400 dark:text-gray-500">
-              Salary Range
-            </dt>
-            <dd className="mt-1 text-sm text-gray-100 dark:text-gray-900">
+            <dt className="text-sm font-medium text-soft">Salary Range</dt>
+            <dd className="mt-1 text-sm text-strong">
               RM {pathway.careerOutlook.salaryRange.min.toLocaleString()} - RM{' '}
               {pathway.careerOutlook.salaryRange.max.toLocaleString()} /month
             </dd>
           </div>
           <div className="sm:col-span-1">
-            <dt className="text-sm font-medium text-gray-400 dark:text-gray-500">
-              Growth Outlook
-            </dt>
-            <dd className="mt-1 text-sm text-gray-100 dark:text-gray-900">
+            <dt className="text-sm font-medium text-soft">Growth Outlook</dt>
+            <dd className="mt-1 text-sm text-strong">
               {pathway.careerOutlook.growthOutlook}
             </dd>
           </div>
@@ -147,19 +133,14 @@ const PathwayDetails: FC<PathwayDetailsProps> = ({ pathway }) => {
       <div className="px-4 py-5 sm:p-6">
         <div className="space-y-8">
           {pathway.pathways.map((step, index) => (
-            <div
-              key={index}
-              className="border-l-2 border-indigo-500 pl-4 -ml-px"
-            >
-              <h4 className="text-lg font-medium text-white dark:text-gray-900">
+            <div key={index} className="border-l-2 border-brand/40 pl-4 -ml-px">
+              <h4 className="text-lg font-medium text-strong">
                 {step.title}
-                <span className="ml-2 text-sm font-normal text-gray-400 dark:text-gray-500">
+                <span className="ml-2 text-sm font-normal text-soft">
                   ({step.duration})
                 </span>
               </h4>
-              <p className="mt-1 text-sm text-gray-300 dark:text-gray-600">
-                {step.description}
-              </p>
+              <p className="mt-1 text-sm text-soft">{step.description}</p>
 
               <div className="mt-4 space-y-4">
                 {step.options.map((option, optionIndex) => (

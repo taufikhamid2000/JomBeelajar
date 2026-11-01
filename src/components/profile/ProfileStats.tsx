@@ -22,62 +22,52 @@ export default function ProfileStats({ user }: ProfileStatsProps) {
       {/* XP and Level Progress */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-300 dark:text-gray-700">
+          <span className="text-sm font-medium text-soft">
             Level Progress: {currentProgress}/{xpNeeded} XP to Level{' '}
             {user.level + 1}
           </span>
-          <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
+          <span className="text-sm font-medium text-brand">
             {progressPercentage}%
           </span>
         </div>
-        <div className="w-full bg-gray-700 dark:bg-gray-200 rounded-full h-2.5">
+        <div className="w-full bg-muted rounded-full h-2.5">
           <div
-            className="bg-blue-600 dark:bg-blue-500 h-2.5 rounded-full transition-all duration-500 ease-out"
+            className="bg-[var(--band-via)] dark:bg-[var(--band-via)] h-2.5 rounded-full transition-all duration-500 ease-out"
             style={{ width: `${progressPercentage}%` }}
           ></div>
         </div>
       </div>
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-gray-800 dark:bg-white p-6 rounded-lg border border-gray-700 dark:border-gray-200 shadow-sm">
-          <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+        <div className="bg-surface p-6 rounded-lg border border-border shadow-sm">
+          <div className="text-3xl font-bold text-brand">
             {user.xp.toLocaleString()}
           </div>
-          <div className="text-sm text-gray-400 dark:text-gray-500 mt-1">
-            Total XP Earned
-          </div>
+          <div className="text-sm text-soft mt-1">Total XP Earned</div>
         </div>{' '}
-        <div className="bg-gray-800 dark:bg-white p-6 rounded-lg border border-gray-700 dark:border-gray-200 shadow-sm">
+        <div className="bg-surface p-6 rounded-lg border border-border shadow-sm">
           <div className="text-3xl font-bold text-orange-500 dark:text-orange-400">
             {user.streak}
           </div>
-          <div className="text-sm text-gray-400 dark:text-gray-500 mt-1">
-            Day Streak
-          </div>
+          <div className="text-sm text-soft mt-1">Day Streak</div>
         </div>
-        <div className="bg-gray-800 dark:bg-white p-6 rounded-lg border border-gray-700 dark:border-gray-200 shadow-sm">
+        <div className="bg-surface p-6 rounded-lg border border-border shadow-sm">
           <div className="text-3xl font-bold text-green-600 dark:text-green-500">
             {user.level}
           </div>
-          <div className="text-sm text-gray-400 dark:text-gray-500 mt-1">
-            Current Level
-          </div>
+          <div className="text-sm text-soft mt-1">Current Level</div>
         </div>
       </div>
       {/* Recent Activity Placeholder */}
       <div className="mt-8">
-        <h3 className="text-lg font-medium mb-4 dark:text-gray-200">
-          Recent Activity
-        </h3>
+        <h3 className="text-lg font-medium mb-4">Recent Activity</h3>
         {user.lastQuizDate ? (
-          <p className="text-gray-300 dark:text-gray-600">
+          <p className="text-soft">
             Last quiz completed on{' '}
             {new Date(user.lastQuizDate).toLocaleDateString()}
           </p>
         ) : (
-          <p className="text-gray-400 dark:text-gray-500 italic">
-            No recent activity
-          </p>
+          <p className="text-soft italic">No recent activity</p>
         )}
       </div>
     </div>

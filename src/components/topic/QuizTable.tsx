@@ -114,9 +114,7 @@ export default function QuizTable({
     <div className="mt-6">
       {title && (
         <div className="mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
-            {title}
-          </h3>
+          <h3 className="text-lg font-semibold text-strong mb-2">{title}</h3>
         </div>
       )}
 
@@ -132,11 +130,11 @@ export default function QuizTable({
             placeholder="Search quiz name or creator..."
             value={searchTerm}
             onChange={(e) => updateSearchTerm(e.target.value)}
-            className="pl-10 pr-4 py-2 border rounded-md w-full max-w-xs bg-gray-800 dark:bg-white border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="pl-10 pr-4 py-2 border rounded-md w-full max-w-xs bg-surface border-border focus:outline-none focus:ring-2 focus:ring-brand/40"
             aria-label="Search quizzes"
           />
           <svg
-            className="absolute left-3 top-2.5 h-5 w-5 text-gray-400 dark:text-gray-500"
+            className="absolute left-3 top-2.5 h-5 w-5 text-soft"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -156,12 +154,12 @@ export default function QuizTable({
         <div className="flex flex-wrap gap-2">
           <span
             id="status-filter-label"
-            className="text-sm text-gray-300 dark:text-gray-600 self-center"
+            className="text-sm text-soft self-center"
           >
             Status:
           </span>
           <div
-            className="flex rounded-md overflow-hidden border border-gray-300 dark:border-gray-700"
+            className="flex rounded-md overflow-hidden border border-border"
             role="group"
             aria-labelledby="status-filter-label"
           >
@@ -169,8 +167,8 @@ export default function QuizTable({
               onClick={() => updateStatusFilter('all')}
               className={`px-3 py-1 text-sm ${
                 statusFilter === 'all'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-800 dark:bg-white text-gray-300 dark:text-gray-700 hover:bg-gray-700 dark:hover:bg-gray-100'
+                  ? 'bg-[var(--band-via)] text-white'
+                  : 'bg-surface text-soft hover:bg-muted'
               }`}
               aria-pressed={statusFilter === 'all'}
             >
@@ -180,8 +178,8 @@ export default function QuizTable({
               onClick={() => updateStatusFilter('verified')}
               className={`px-3 py-1 text-sm ${
                 statusFilter === 'verified'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-800 dark:bg-white text-gray-300 dark:text-gray-700 hover:bg-gray-700 dark:hover:bg-gray-100'
+                  ? 'bg-[var(--band-via)] text-white'
+                  : 'bg-surface text-soft hover:bg-muted'
               }`}
               aria-pressed={statusFilter === 'verified'}
             >
@@ -191,8 +189,8 @@ export default function QuizTable({
               onClick={() => updateStatusFilter('unverified')}
               className={`px-3 py-1 text-sm ${
                 statusFilter === 'unverified'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-800 dark:bg-white text-gray-300 dark:text-gray-700 hover:bg-gray-700 dark:hover:bg-gray-100'
+                  ? 'bg-[var(--band-via)] text-white'
+                  : 'bg-surface text-soft hover:bg-muted'
               }`}
               aria-pressed={statusFilter === 'unverified'}
             >
@@ -204,7 +202,7 @@ export default function QuizTable({
 
       {/* Result count */}
       {showResultCount && (
-        <div className="text-sm text-gray-400 dark:text-gray-500 mb-2">
+        <div className="text-sm text-soft mb-2">
           {sortedQuizzes.length === 0
             ? 'No quizzes found'
             : `Showing ${sortedQuizzes.length} ${sortedQuizzes.length === 1 ? 'quiz' : 'quizzes'}`}
@@ -214,7 +212,7 @@ export default function QuizTable({
       <div className="overflow-x-auto rounded-lg shadow">
         <table className="table-auto w-full">
           <thead>
-            <tr className="bg-gray-800 dark:bg-gray-100">
+            <tr className="bg-surface">
               <th className="px-4 py-2 text-left">Quiz Code</th>
               {showCreator && (
                 <th className="px-4 py-2 text-left hidden sm:table-cell">
@@ -248,12 +246,12 @@ export default function QuizTable({
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-700 dark:divide-gray-200">
+          <tbody className="divide-y divide-border">
             {paginatedQuizzes.length === 0 ? (
               <tr>
                 <td
                   colSpan={showCreator ? 4 : 3}
-                  className="text-center py-8 text-gray-400 dark:text-gray-500"
+                  className="text-center py-8 text-soft"
                 >
                   {searchTerm || statusFilter !== 'all'
                     ? 'No quizzes match your search criteria'
@@ -264,7 +262,7 @@ export default function QuizTable({
               paginatedQuizzes.map((quiz, index) => (
                 <tr
                   key={`${quiz.id}-${index}`}
-                  className="border-b hover:bg-gray-800 dark:hover:bg-gray-50/80 transition-colors"
+                  className="border-b hover:bg-surface transition-colors"
                 >
                   <td className="px-4 py-3">
                     <div className="flex items-center">
@@ -274,7 +272,7 @@ export default function QuizTable({
                             ? getQuizLink(quiz)
                             : defaultGetQuizLink(quiz)
                         }
-                        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+                        className="text-brand hover:text-brand font-medium"
                         onClick={(e) => {
                           e.preventDefault();
                           const link = getQuizLink
@@ -311,7 +309,7 @@ export default function QuizTable({
                               '_blank'
                             );
                           }}
-                          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline cursor-pointer"
+                          className="text-brand hover:text-brand hover:underline cursor-pointer"
                           title={`View ${
                             quiz.display_name ||
                             quiz.email?.split('@')[0] ||
@@ -323,7 +321,7 @@ export default function QuizTable({
                             'Unknown User'}
                         </button>
                       ) : (
-                        <span className="text-gray-400 dark:text-gray-500">
+                        <span className="text-soft">
                           {quiz.display_name ||
                             quiz.email?.split('@')[0] ||
                             'Unknown'}
@@ -361,10 +359,7 @@ export default function QuizTable({
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="mt-4 flex items-center justify-between">
-          <div
-            className="text-sm text-gray-400 dark:text-gray-500"
-            aria-live="polite"
-          >
+          <div className="text-sm text-soft" aria-live="polite">
             Page {currentPage} of {totalPages}
           </div>
           <nav aria-label="Quiz pagination">
@@ -376,8 +371,8 @@ export default function QuizTable({
                 aria-label="Go to previous page"
                 className={`px-3 py-1 rounded ${
                   currentPage === 1
-                    ? 'bg-gray-800 dark:bg-gray-100 text-gray-400 dark:text-gray-600 cursor-not-allowed'
-                    : 'bg-gray-800 dark:bg-white text-blue-600 dark:text-blue-400 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
+                    ? 'bg-surface text-soft cursor-not-allowed'
+                    : 'bg-surface text-brand border border-border hover:bg-surface-2'
                 }`}
               >
                 Previous
@@ -391,8 +386,8 @@ export default function QuizTable({
                 aria-label="Go to next page"
                 className={`px-3 py-1 rounded ${
                   currentPage === totalPages
-                    ? 'bg-gray-800 dark:bg-gray-100 text-gray-400 dark:text-gray-600 cursor-not-allowed'
-                    : 'bg-gray-800 dark:bg-white text-blue-600 dark:text-blue-400 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
+                    ? 'bg-surface text-soft cursor-not-allowed'
+                    : 'bg-surface text-brand border border-border hover:bg-surface-2'
                 }`}
               >
                 Next

@@ -115,17 +115,15 @@ export default function AdminMigrationsPage() {
     }
   }
   return (
-    <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+    <div className="min-h-screen bg-surface">
       <div className="flex">
         <AdminNavigation />
         <div className="flex-1 p-8">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold dark:text-white">
-              Database Migrations
-            </h1>
+            <h1 className="text-3xl font-bold">Database Migrations</h1>
             <button
               onClick={fetchMigrations}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-800"
+              className="px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)] dark:hover:bg-[var(--band-from)]"
               disabled={loading}
             >
               {loading ? 'Loading...' : 'Refresh'}
@@ -142,49 +140,49 @@ export default function AdminMigrationsPage() {
               <p>{message.text}</p>
             </div>
           )}{' '}
-          <div className="bg-gray-800 dark:bg-white rounded-lg shadow overflow-hidden">
-            <div className="p-6 border-b border-gray-700 dark:border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+          <div className="bg-surface rounded-lg shadow overflow-hidden">
+            <div className="p-6 border-b border-border">
+              <h2 className="text-lg font-medium text-strong">
                 Available Migrations
               </h2>
-              <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+              <p className="text-sm text-soft mt-1">
                 Apply database migrations from this interface. Use with caution
                 as migrations can modify your database structure.
               </p>
             </div>{' '}
             {loading ? (
               <div className="p-8 flex justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 dark:border-blue-400"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand/40"></div>
               </div>
             ) : migrations.length === 0 ? (
-              <div className="p-8 text-center text-gray-400 dark:text-gray-500">
+              <div className="p-8 text-center text-soft">
                 No migration files found. Place SQL migration files in the
                 migrations directory.
               </div>
             ) : (
-              <table className="min-w-full divide-y divide-gray-700 dark:divide-gray-200">
-                <thead className="bg-gray-50 dark:bg-gray-800">
+              <table className="min-w-full divide-y divide-border">
+                <thead className="bg-surface-2">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                       Migration File
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                       Last Applied
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-right text-xs font-medium text-soft uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-gray-800 dark:bg-white divide-y divide-gray-700 dark:divide-gray-200">
+                <tbody className="bg-surface divide-y divide-border">
                   {migrations.map((migration) => (
                     <tr key={migration.name}>
                       {' '}
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900 dark:text-gray-200">
+                        <div className="text-sm font-medium text-strong">
                           {migration.name}
                         </div>
                       </td>
@@ -203,7 +201,7 @@ export default function AdminMigrationsPage() {
                           </span>
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400 dark:text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-soft">
                         {migration.lastApplied
                           ? new Date(migration.lastApplied).toLocaleString()
                           : 'Never'}
@@ -212,7 +210,7 @@ export default function AdminMigrationsPage() {
                         <button
                           onClick={() => applyMigration(migration.name)}
                           disabled={applying}
-                          className={`text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 ${applying ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          className={`text-brand hover:text-brand ${applying ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
                           {applying ? 'Applying...' : 'Apply'}
                         </button>

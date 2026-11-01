@@ -35,8 +35,8 @@ export default function TermsPage() {
           Terms of Service
         </h1>
 
-        <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-8">
-          <p className="mb-4 italic text-gray-400 dark:text-gray-600 text-center">
+        <div className="bg-surface rounded-xl shadow-lg p-8">
+          <p className="mb-4 italic text-soft text-center">
             Last Updated: May 18, 2025
           </p>
 
@@ -44,7 +44,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-semibold mb-3">
               1. Acceptance of Terms
             </h2>
-            <p className="text-gray-300 dark:text-gray-700">
+            <p className="text-soft">
               By accessing or using JomBeelajar ("we", "our", or "us") website,
               mobile application, or any of our services (collectively, the
               "Services"), you agree to be bound by these Terms of Service. If
@@ -56,14 +56,14 @@ export default function TermsPage() {
             <h2 className="text-2xl font-semibold mb-3">
               2. Description of Services
             </h2>
-            <p className="text-gray-300 dark:text-gray-700">
+            <p className="text-soft">
               JomBeelajar is a microlearning platform that offers educational
               content through quizzes, activities, and other learning materials
               primarily focused on the Malaysian Form 4 and Form 5 curriculum.
               Our Services include features such as daily quizzes, progress
               tracking, leaderboards, and reward systems.
             </p>
-            <p className="mt-3 text-gray-300 dark:text-gray-700">
+            <p className="mt-3 text-soft">
               We operate independently and do not claim official alignment with
               any examination board or curriculum.
             </p>
@@ -71,11 +71,11 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-3">3. User Accounts</h2>
-            <p className="mb-3 text-gray-300 dark:text-gray-700">
+            <p className="mb-3 text-soft">
               To access certain features of our Services, you may need to create
               an account. You are responsible for:
             </p>
-            <ul className="list-disc pl-5 space-y-2 text-gray-300 dark:text-gray-700">
+            <ul className="list-disc pl-5 space-y-2 text-soft">
               <li>
                 Providing accurate and complete information during registration
               </li>
@@ -87,10 +87,10 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-3">4. User Conduct</h2>
-            <p className="mb-3 text-gray-300 dark:text-gray-700">
+            <p className="mb-3 text-soft">
               By using our Services, you agree not to:
             </p>
-            <ul className="list-disc pl-5 space-y-2 text-gray-300 dark:text-gray-700">
+            <ul className="list-disc pl-5 space-y-2 text-soft">
               <li>Use our Services for any illegal purpose</li>
               <li>Attempt to gain unauthorized access to our systems</li>
               <li>
@@ -111,7 +111,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-semibold mb-3">
               5. Intellectual Property
             </h2>
-            <p className="text-gray-300 dark:text-gray-700">
+            <p className="text-soft">
               All content, features, and functionality of our Services,
               including but not limited to text, graphics, logos, and software,
               are owned by JomBeelajar or our licensors and are protected by
@@ -124,7 +124,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-semibold mb-3">
               6. Disclaimer of Warranties
             </h2>
-            <p className="text-gray-300 dark:text-gray-700">
+            <p className="text-soft">
               Our Services are provided on an "as is" and "as available" basis.
               We make no warranties, expressed or implied, regarding the
               operation or availability of our Services, or the accuracy of any
@@ -136,7 +136,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-semibold mb-3">
               7. Limitation of Liability
             </h2>
-            <p className="text-gray-300 dark:text-gray-700">
+            <p className="text-soft">
               In no event shall JomBeelajar be liable for any indirect,
               incidental, special, or consequential damages arising out of or in
               any way connected with the use of our Services.
@@ -145,7 +145,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-3">8. Changes to Terms</h2>
-            <p className="text-gray-300 dark:text-gray-700">
+            <p className="text-soft">
               We may modify these Terms of Service at any time. We will provide
               notice of any material changes through our Services or by other
               means. Your continued use of our Services after such modifications
@@ -155,7 +155,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="text-2xl font-semibold mb-3">9. Contact Us</h2>
-            <p className="text-gray-300 dark:text-gray-700">
+            <p className="text-soft">
               If you have any questions about these Terms, please contact us at
               terms@edubridge.example.com.
             </p>

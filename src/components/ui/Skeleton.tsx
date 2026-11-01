@@ -4,7 +4,7 @@ export function Skeleton({ className = '' }: { className?: string }) {
   return (
     <div
       aria-hidden="true"
-      className={`animate-pulse rounded-xl bg-slate-200 dark:bg-slate-700 ${className}`}
+      className={`animate-pulse rounded-xl bg-muted ${className}`}
     />
   );
 }
@@ -13,7 +13,7 @@ export function SkeletonCard({ className = '' }: { className?: string }) {
   return (
     <div
       aria-hidden="true"
-      className={`rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800 ${className}`}
+      className={`rounded-2xl border border-border bg-surface p-5 shadow-sm ${className}`}
     >
       <Skeleton className="mb-4 h-10 w-10 rounded-full" />
       <Skeleton className="mb-3 h-5 w-2/3" />

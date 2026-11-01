@@ -134,14 +134,14 @@ export default function CommentsAdminPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-white dark:text-gray-900">
+        <h1 className="text-2xl font-bold text-strong">
           <MessageSquare className="inline-block mr-2" size={24} />
           Comments Management
         </h1>
 
         <button
           onClick={reloadComments}
-          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="flex items-center px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)]"
         >
           <RefreshCw className="mr-2" size={16} /> Refresh
         </button>
@@ -153,19 +153,17 @@ export default function CommentsAdminPage() {
         </div>
       )}
 
-      <div className="bg-gray-800/30 dark:bg-gray-100/30 rounded-lg p-6 mb-8">
+      <div className="bg-surface/30 rounded-lg p-6 mb-8">
         <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
           <div className="flex items-center">
-            <Filter className="mr-2 text-gray-400" size={18} />
-            <span className="text-gray-300 dark:text-gray-700 mr-3">
-              Filter by:
-            </span>
+            <Filter className="mr-2 text-soft" size={18} />
+            <span className="text-soft mr-3">Filter by:</span>
             <select
               value={filter}
               onChange={(e) =>
                 setFilter(e.target.value as CommentSource | 'all')
               }
-              className="bg-gray-700 dark:bg-white text-white dark:text-gray-900 rounded-md px-3 py-2"
+              className="bg-muted text-strong rounded-md px-3 py-2"
             >
               <option value="all">All Comments</option>
               <option value="pathway">Education Pathway</option>
@@ -174,47 +172,42 @@ export default function CommentsAdminPage() {
           </div>
 
           <div className="relative flex-grow">
-            <Search
-              className="absolute left-3 top-2.5 text-gray-400"
-              size={18}
-            />
+            <Search className="absolute left-3 top-2.5 text-soft" size={18} />
             <input
               type="text"
               placeholder="Search comments or authors..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 w-full bg-gray-700 dark:bg-white text-white dark:text-gray-900 rounded-md px-3 py-2"
+              className="pl-10 w-full bg-muted text-strong rounded-md px-3 py-2"
             />
           </div>
         </div>
 
-        <p className="text-sm text-gray-400 dark:text-gray-500">
+        <p className="text-sm text-soft">
           Showing {filteredComments.length} of {comments.length} total comments
         </p>
       </div>
 
       {isLoading ? (
         <div className="flex justify-center my-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand/40"></div>
         </div>
       ) : filteredComments.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-400 dark:text-gray-500">
-            No comments found matching your filters.
-          </p>
+          <p className="text-soft">No comments found matching your filters.</p>
         </div>
       ) : (
         <div className="space-y-4">
           {filteredComments.map((comment) => (
             <div
               key={comment.id}
-              className="bg-gray-800/70 dark:bg-white/70 rounded-lg p-5 border-l-4 border-indigo-500 dark:border-indigo-600"
+              className="bg-surface/70 rounded-lg p-5 border-l-4 border-brand/40"
             >
               <div className="flex items-start">
                 <div className="flex-1">
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <p className="text-sm font-medium text-white dark:text-gray-900">
+                      <p className="text-sm font-medium text-strong">
                         {comment.authorName}
                         {comment.isAnonymous && (
                           <span className="ml-2 text-xs text-yellow-500">
@@ -222,18 +215,18 @@ export default function CommentsAdminPage() {
                           </span>
                         )}
                       </p>
-                      <div className="flex items-center text-xs text-gray-400 dark:text-gray-500 mt-1">
+                      <div className="flex items-center text-xs text-soft mt-1">
                         <span className="mr-2">
                           {formatDistanceToNow(new Date(comment.createdAt), {
                             addSuffix: true,
                           })}
                         </span>
-                        <span className="px-2 py-1 rounded-full bg-gray-700/50 dark:bg-gray-200/50 text-xs">
+                        <span className="px-2 py-1 rounded-full bg-muted/50 text-xs">
                           {comment.source === 'pathway'
                             ? 'Education Pathway'
                             : 'Career Guidance'}
                         </span>
-                        <span className="ml-2 text-xs text-gray-500">
+                        <span className="ml-2 text-xs text-soft">
                           ID: {comment.sourceId}
                         </span>
                       </div>
@@ -246,9 +239,7 @@ export default function CommentsAdminPage() {
                       <Trash2 size={18} />
                     </button>
                   </div>
-                  <p className="text-gray-300 dark:text-gray-600 mt-2">
-                    {comment.comment}
-                  </p>
+                  <p className="text-soft mt-2">{comment.comment}</p>
                 </div>
               </div>
             </div>

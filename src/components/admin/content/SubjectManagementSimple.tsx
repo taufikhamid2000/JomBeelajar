@@ -27,16 +27,14 @@ export default function SubjectManagementSimple({
       key: 'name',
       header: 'Name',
       render: (subject: Subject) => (
-        <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-          {subject.name}
-        </div>
+        <div className="text-sm font-medium text-strong">{subject.name}</div>
       ),
     },
     {
       key: 'description',
       header: 'Description',
       render: (subject: Subject) => (
-        <div className="text-sm text-gray-400 dark:text-gray-500 truncate max-w-xs">
+        <div className="text-sm text-soft truncate max-w-xs">
           {subject.description}
         </div>
       ),
@@ -45,18 +43,14 @@ export default function SubjectManagementSimple({
       key: 'topic_count',
       header: 'Topics',
       render: (subject: Subject) => (
-        <div className="text-sm text-gray-400 dark:text-gray-500">
-          {subject.topic_count}
-        </div>
+        <div className="text-sm text-soft">{subject.topic_count}</div>
       ),
     },
     {
       key: 'quiz_count',
       header: 'Quizzes',
       render: (subject: Subject) => (
-        <div className="text-sm text-gray-400 dark:text-gray-500">
-          {subject.quiz_count}
-        </div>
+        <div className="text-sm text-soft">{subject.quiz_count}</div>
       ),
     },
   ];
@@ -68,36 +62,28 @@ export default function SubjectManagementSimple({
       label: 'Name',
       isHeader: true,
       render: (subject: Subject) => (
-        <div className="text-base font-medium text-gray-900 dark:text-gray-100">
-          {subject.name}
-        </div>
+        <div className="text-base font-medium text-strong">{subject.name}</div>
       ),
     },
     {
       key: 'description',
       label: 'Description',
       render: (subject: Subject) => (
-        <div className="text-sm text-gray-400 dark:text-gray-500">
-          {subject.description}
-        </div>
+        <div className="text-sm text-soft">{subject.description}</div>
       ),
     },
     {
       key: 'topic_count',
       label: 'Topics',
       render: (subject: Subject) => (
-        <div className="text-sm text-gray-900 dark:text-gray-100">
-          {subject.topic_count}
-        </div>
+        <div className="text-sm text-strong">{subject.topic_count}</div>
       ),
     },
     {
       key: 'quiz_count',
       label: 'Quizzes',
       render: (subject: Subject) => (
-        <div className="text-sm text-gray-900 dark:text-gray-100">
-          {subject.quiz_count}
-        </div>
+        <div className="text-sm text-strong">{subject.quiz_count}</div>
       ),
     },
   ];
@@ -112,7 +98,7 @@ export default function SubjectManagementSimple({
       <div className="mb-3">
         <label
           htmlFor="subject-name"
-          className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+          className="block text-sm font-medium text-soft mb-1"
         >
           Subject Name
         </label>
@@ -126,7 +112,7 @@ export default function SubjectManagementSimple({
               name: e.target.value,
             })
           }
-          className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border rounded-md"
           placeholder="Enter subject name"
           disabled={loading}
         />
@@ -134,7 +120,7 @@ export default function SubjectManagementSimple({
       <div className="mb-3">
         <label
           htmlFor="subject-desc"
-          className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+          className="block text-sm font-medium text-soft mb-1"
         >
           Description
         </label>
@@ -148,7 +134,7 @@ export default function SubjectManagementSimple({
             })
           }
           rows={3}
-          className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border rounded-md"
           placeholder="Enter subject description"
           disabled={loading}
         />

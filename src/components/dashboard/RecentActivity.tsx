@@ -47,7 +47,7 @@ const RecentActivity = ({
 
     return (
       <div className="flex items-center">
-        <div className="w-full bg-gray-200 rounded-full h-2 mr-2 dark:bg-gray-700">
+        <div className="w-full bg-muted rounded-full h-2 mr-2">
           <div
             className={`h-2 rounded-full ${scoreColor}`}
             style={{ width: `${percentage}%` }}
@@ -62,7 +62,7 @@ const RecentActivity = ({
 
   if (isLoading) {
     return (
-      <section className="bg-gray-800 dark:bg-white shadow-md rounded-lg p-6 text-gray-200 dark:text-gray-800">
+      <section className="bg-surface shadow-md rounded-lg p-6 text-strong">
         <h2 className="text-2xl font-semibold mb-4">Recent Activity</h2>
         <div className="animate-pulse">
           {[...Array(3)].map((_, i) => (
@@ -70,9 +70,9 @@ const RecentActivity = ({
               key={i}
               className="mb-4 border-b pb-4 last:border-b-0 last:pb-0"
             >
-              <div className="h-5 bg-gray-300 rounded dark:bg-gray-600 w-3/4 mb-2"></div>
-              <div className="h-4 bg-gray-200 rounded dark:bg-gray-700 w-1/2 mb-2"></div>
-              <div className="h-2 bg-gray-200 rounded dark:bg-gray-700 w-full"></div>
+              <div className="h-5 bg-muted rounded w-3/4 mb-2"></div>
+              <div className="h-4 bg-muted rounded w-1/2 mb-2"></div>
+              <div className="h-2 bg-muted rounded w-full"></div>
             </div>
           ))}
         </div>
@@ -82,7 +82,7 @@ const RecentActivity = ({
 
   if (error) {
     return (
-      <section className="bg-gray-800 dark:bg-white shadow-md rounded-lg p-6 text-gray-200 dark:text-gray-800">
+      <section className="bg-surface shadow-md rounded-lg p-6 text-strong">
         <h2 className="text-2xl font-semibold mb-4">Recent Activity</h2>
         <div className="text-red-500 p-4 bg-red-100 rounded-lg dark:bg-red-900 dark:text-red-200">
           Error loading recent activity: {error}
@@ -92,15 +92,15 @@ const RecentActivity = ({
   }
 
   return (
-    <section className="bg-gray-800 dark:bg-white shadow-md rounded-lg p-6 text-gray-200 dark:text-gray-800">
+    <section className="bg-surface shadow-md rounded-lg p-6 text-strong">
       <h2 className="text-2xl font-semibold mb-4">Recent Activity</h2>
 
       {recentActivity.length === 0 ? (
-        <div className="text-gray-500 text-center py-4 dark:text-gray-400">
+        <div className="text-soft text-center py-4">
           <p>You haven't attempted any quizzes yet.</p>
           <Link
             href="/quiz/mathematics/chapters"
-            className="inline-block mt-2 text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            className="inline-block mt-2 text-brand hover:text-brand"
           >
             Try a quiz now
           </Link>
@@ -110,23 +110,23 @@ const RecentActivity = ({
           {recentActivity.map((attempt) => (
             <div
               key={attempt.id}
-              className="border-b pb-4 last:border-b-0 last:pb-0 dark:border-gray-700"
+              className="border-b pb-4 last:border-b-0 last:pb-0"
             >
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="font-medium">
                     <Link
                       href={`/quiz/${attempt.subject}/${attempt.topic}`}
-                      className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                      className="text-brand hover:text-brand"
                     >
                       {attempt.quizTitle}
                     </Link>
                   </h3>
-                  <p className="text-sm text-gray-400 dark:text-gray-500">
+                  <p className="text-sm text-soft">
                     {attempt.subject} &gt; {attempt.topic}
                   </p>
                 </div>
-                <div className="text-xs text-gray-400 dark:text-gray-500">
+                <div className="text-xs text-soft">
                   {formatDate(attempt.attemptedAt)}
                 </div>
               </div>
@@ -146,7 +146,7 @@ const RecentActivity = ({
           <div className="text-center pt-2">
             <Link
               href="/user/history"
-              className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+              className="text-sm text-brand hover:text-brand"
             >
               View all activity
             </Link>

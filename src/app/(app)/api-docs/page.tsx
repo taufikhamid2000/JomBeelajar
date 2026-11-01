@@ -12,7 +12,7 @@ type Endpoint = {
 type EndpointGroup = { tag: string; endpoints: Endpoint[] };
 
 const METHOD_CLASS: Record<Endpoint['method'], string> = {
-  GET: 'text-sky-600 dark:text-sky-400',
+  GET: 'text-brand',
   POST: 'text-emerald-600 dark:text-emerald-400',
   PATCH: 'text-amber-600 dark:text-amber-400',
   PUT: 'text-amber-600 dark:text-amber-400',
@@ -29,53 +29,209 @@ const groups: EndpointGroup[] = [
   {
     tag: 'Subjects and topics',
     endpoints: [
-      { method: 'GET', path: '/api/subjects', description: 'List subjects.', status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/subjects/{slug}', description: 'Get one subject.', status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/subjects/{slug}/chapters', description: "List a subject's chapters.", status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/subjects/{slug}/chapters-with-topics', description: "List a subject's chapters with their topics.", status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/topics/{topicId}', description: 'Get one topic.', status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/topics/random', description: 'Get a random topic.', status: 'live', response: JSON_TYPE },
+      {
+        method: 'GET',
+        path: '/api/subjects',
+        description: 'List subjects.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/subjects/{slug}',
+        description: 'Get one subject.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/subjects/{slug}/chapters',
+        description: "List a subject's chapters.",
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/subjects/{slug}/chapters-with-topics',
+        description: "List a subject's chapters with their topics.",
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/topics/{topicId}',
+        description: 'Get one topic.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/topics/random',
+        description: 'Get a random topic.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
     ],
   },
   {
     tag: 'Quizzes',
     endpoints: [
-      { method: 'GET', path: '/api/quizzes-list', description: 'List quizzes. Optional ?topicId filters by topic.', status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/quizzes/random', description: 'Get a random quiz.', status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/quiz/{quizId}', description: 'Get a quiz.', status: 'live', response: JSON_TYPE },
-      { method: 'POST', path: '/api/quiz/{quizId}/submit', description: 'Submit answers for a quiz attempt.', status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/quiz/{quizId}/comments', description: 'List comments on a quiz.', status: 'live', response: JSON_TYPE },
-      { method: 'POST', path: '/api/quiz/{quizId}/comments', description: 'Comment on a quiz.', status: 'live', response: JSON_TYPE },
+      {
+        method: 'GET',
+        path: '/api/quizzes-list',
+        description: 'List quizzes. Optional ?topicId filters by topic.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/quizzes/random',
+        description: 'Get a random quiz.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/quiz/{quizId}',
+        description: 'Get a quiz.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'POST',
+        path: '/api/quiz/{quizId}/submit',
+        description: 'Submit answers for a quiz attempt.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/quiz/{quizId}/comments',
+        description: 'List comments on a quiz.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'POST',
+        path: '/api/quiz/{quizId}/comments',
+        description: 'Comment on a quiz.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
     ],
   },
   {
     tag: 'Leaderboard and schools',
     endpoints: [
-      { method: 'GET', path: '/api/leaderboard', description: 'Student leaderboard. ?timeFrame=daily|weekly|allTime.', status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/leaderboard/schools', description: 'School leaderboard.', status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/schools', description: 'List schools.', status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/schools/{id}', description: 'Get one school.', status: 'live', response: JSON_TYPE },
+      {
+        method: 'GET',
+        path: '/api/leaderboard',
+        description: 'Student leaderboard. ?timeFrame=daily|weekly|allTime.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/leaderboard/schools',
+        description: 'School leaderboard.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/schools',
+        description: 'List schools.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/schools/{id}',
+        description: 'Get one school.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
     ],
   },
   {
     tag: 'Profile and progress',
     endpoints: [
-      { method: 'GET', path: '/api/profile/{userId}', description: "Get a user's public profile.", status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/profile/{userId}/achievements', description: "List a user's achievements.", status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/dashboard', description: 'Dashboard data for the signed-in user.', status: 'live', response: JSON_TYPE },
-      { method: 'GET', path: '/api/me/progress', description: "The signed-in user's learning progress.", status: 'live', response: JSON_TYPE },
-      { method: 'PATCH', path: '/api/me', description: "Update the signed-in user's profile.", status: 'live', response: JSON_TYPE },
+      {
+        method: 'GET',
+        path: '/api/profile/{userId}',
+        description: "Get a user's public profile.",
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/profile/{userId}/achievements',
+        description: "List a user's achievements.",
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/dashboard',
+        description: 'Dashboard data for the signed-in user.',
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'GET',
+        path: '/api/me/progress',
+        description: "The signed-in user's learning progress.",
+        status: 'live',
+        response: JSON_TYPE,
+      },
+      {
+        method: 'PATCH',
+        path: '/api/me',
+        description: "Update the signed-in user's profile.",
+        status: 'live',
+        response: JSON_TYPE,
+      },
     ],
   },
   {
     tag: 'Planned',
     endpoints: [
-      { method: 'GET', path: '/api/v1/subjects', description: 'Versioned, API-key-authenticated list of subjects.', status: 'planned' },
-      { method: 'GET', path: '/api/v1/quizzes', description: 'Versioned, API-key-authenticated list of quizzes.', status: 'planned' },
-      { method: 'GET', path: '/api/v1/me/progress', description: 'Your progress, readable with an API key.', status: 'planned' },
-      { method: 'GET', path: '/api/keys', description: 'List your API keys (without their secret values).', status: 'planned' },
-      { method: 'POST', path: '/api/keys', description: 'Create a new API key.', status: 'planned' },
-      { method: 'DELETE', path: '/api/keys/{id}', description: 'Revoke an API key.', status: 'planned' },
+      {
+        method: 'GET',
+        path: '/api/v1/subjects',
+        description: 'Versioned, API-key-authenticated list of subjects.',
+        status: 'planned',
+      },
+      {
+        method: 'GET',
+        path: '/api/v1/quizzes',
+        description: 'Versioned, API-key-authenticated list of quizzes.',
+        status: 'planned',
+      },
+      {
+        method: 'GET',
+        path: '/api/v1/me/progress',
+        description: 'Your progress, readable with an API key.',
+        status: 'planned',
+      },
+      {
+        method: 'GET',
+        path: '/api/keys',
+        description: 'List your API keys (without their secret values).',
+        status: 'planned',
+      },
+      {
+        method: 'POST',
+        path: '/api/keys',
+        description: 'Create a new API key.',
+        status: 'planned',
+      },
+      {
+        method: 'DELETE',
+        path: '/api/keys/{id}',
+        description: 'Revoke an API key.',
+        status: 'planned',
+      },
     ],
   },
 ];
@@ -91,10 +247,10 @@ export default function ApiDocsPage() {
       </div>
 
       <p className="rounded-2xl border border-border bg-muted/40 p-4 text-sm text-foreground">
-        Placeholder: the API is not public yet. The endpoints marked live
-        exist because the web app uses them, but they only accept a signed-in
-        session, are not documented as stable, and may change without notice.
-        API keys do not exist yet.
+        Placeholder: the API is not public yet. The endpoints marked live exist
+        because the web app uses them, but they only accept a signed-in session,
+        are not documented as stable, and may change without notice. API keys do
+        not exist yet.
       </p>
 
       <div className="rounded-2xl border border-border bg-muted/40 p-4 text-sm text-foreground/60">
@@ -110,15 +266,24 @@ export default function ApiDocsPage() {
       <div className="flex flex-col gap-6">
         {groups.map((group) => (
           <section key={group.tag} className="flex flex-col gap-2">
-            <h2 className="text-sm font-medium text-foreground/60">{group.tag}</h2>
+            <h2 className="text-sm font-medium text-foreground/60">
+              {group.tag}
+            </h2>
             <ul className="flex flex-col divide-y divide-border rounded-2xl border border-border">
               {group.endpoints.map((endpoint) => (
-                <li key={`${endpoint.method} ${endpoint.path}`} className="flex flex-col gap-1.5 p-4">
+                <li
+                  key={`${endpoint.method} ${endpoint.path}`}
+                  className="flex flex-col gap-1.5 p-4"
+                >
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className={`font-mono text-xs font-semibold ${METHOD_CLASS[endpoint.method]}`}>
+                    <span
+                      className={`font-mono text-xs font-semibold ${METHOD_CLASS[endpoint.method]}`}
+                    >
                       {endpoint.method}
                     </span>
-                    <code className="text-sm text-foreground">{endpoint.path}</code>
+                    <code className="text-sm text-foreground">
+                      {endpoint.path}
+                    </code>
                     <span
                       className={
                         endpoint.status === 'live'
@@ -129,12 +294,18 @@ export default function ApiDocsPage() {
                       {endpoint.status === 'live' ? 'Live' : 'Planned'}
                     </span>
                   </div>
-                  <p className="text-sm text-foreground/60">{endpoint.description}</p>
+                  <p className="text-sm text-foreground/60">
+                    {endpoint.description}
+                  </p>
                   {endpoint.status === 'live' && (
                     <>
-                      <p className="text-xs text-foreground/40">Auth: signed-in session cookie only</p>
+                      <p className="text-xs text-foreground/40">
+                        Auth: signed-in session cookie only
+                      </p>
                       {endpoint.response && (
-                        <p className="text-xs text-foreground/40">Response: {endpoint.response}</p>
+                        <p className="text-xs text-foreground/40">
+                          Response: {endpoint.response}
+                        </p>
                       )}
                     </>
                   )}

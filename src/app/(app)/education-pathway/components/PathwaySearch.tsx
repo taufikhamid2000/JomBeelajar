@@ -9,17 +9,14 @@ interface PathwaySearchProps {
 
 const PathwaySearch: FC<PathwaySearchProps> = ({ value, onChange }) => {
   return (
-    <div className="bg-gray-800 dark:bg-white shadow overflow-hidden rounded-md p-4">
-      <label
-        htmlFor="search"
-        className="block text-sm font-medium text-gray-300 dark:text-gray-700"
-      >
+    <div className="bg-surface shadow overflow-hidden rounded-md p-4">
+      <label htmlFor="search" className="block text-sm font-medium text-soft">
         Search Educational Pathways
       </label>
       <div className="mt-1 relative rounded-md shadow-sm">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <svg
-            className="h-5 w-5 text-gray-400"
+            className="h-5 w-5 text-soft"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -36,7 +33,7 @@ const PathwaySearch: FC<PathwaySearchProps> = ({ value, onChange }) => {
           type="text"
           name="search"
           id="search"
-          className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-600 dark:border-gray-300 rounded-md bg-gray-700 dark:bg-white text-white dark:text-gray-900"
+          className="focus:ring-brand/40 focus:border-brand/40 block w-full pl-10 sm:text-sm border-border rounded-md bg-muted text-strong"
           placeholder="Search by career name or keyword..."
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -45,7 +42,7 @@ const PathwaySearch: FC<PathwaySearchProps> = ({ value, onChange }) => {
           <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
             <button
               type="button"
-              className="text-gray-400 hover:text-gray-300 dark:hover:text-gray-500"
+              className="text-soft hover:text-soft"
               onClick={() => onChange('')}
             >
               <span className="sr-only">Clear search</span>
@@ -66,7 +63,7 @@ const PathwaySearch: FC<PathwaySearchProps> = ({ value, onChange }) => {
           </div>
         )}
       </div>
-      <div className="mt-2 text-sm text-gray-400 dark:text-gray-500">
+      <div className="mt-2 text-sm text-soft">
         Search for a career or field of interest to discover suitable
         educational pathways
       </div>

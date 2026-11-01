@@ -4,6 +4,7 @@ import { logger } from '@/lib/logger';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { FiAward, FiShuffle, FiCompass } from 'react-icons/fi';
 import { getUserData, DashboardUser } from '@/services/dashboardService';
 
 interface WelcomeBannerProps {
@@ -46,10 +47,13 @@ const EnhancedWelcomeBanner = ({
 
   if (isLoading) {
     return (
-      <section className="dashboard-section welcome bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md dark:bg-gradient-to-r dark:from-gray-800 dark:to-gray-900">
-        <div>
-          <p className="text-3xl sm:text-4xl font-bold mb-2">Loading...</p>
-        </div>
+      <section
+        aria-busy="true"
+        aria-label="Loading your dashboard"
+        className="animate-pulse space-y-3"
+      >
+        <div className="h-8 w-2/3 max-w-sm rounded-lg bg-muted" />
+        <div className="h-4 w-1/2 max-w-xs rounded-lg bg-muted" />
       </section>
     );
   }
@@ -94,51 +98,51 @@ const EnhancedWelcomeBanner = ({
     }
   };
 
+  const actionClass =
+    'press inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-border bg-surface px-4 text-sm font-semibold text-strong hover:bg-muted';
+
   return (
-    <section className="dashboard-section welcome bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md dark:bg-gradient-to-r dark:from-gray-800 dark:to-gray-900">
-      <div>
-        <h1 className="text-3xl sm:text-4xl font-bold mb-2">
-          Welcome back, {user.display_name || user.email.split('@')[0]}
-          {!user.display_name && (
-            <Link
-              href={isStatic ? '/static/profile' : '/profile'}
-              className="inline-block ml-4"
-            >
-              <button className="text-sm bg-white bg-opacity-20 hover:bg-opacity-30 px-3 py-1 rounded transition-colors">
-                Set username
-              </button>
-            </Link>
-          )}
-        </h1>
-        <p className="text-base sm:text-lg">
-          Ready to continue your learning journey?
-        </p>{' '}
-        <p className="mt-4 text-sm sm:text-base">
-          Your current streak: <strong>{user.streak} days</strong>
-        </p>{' '}
-        <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:space-x-4">
-          <Link
-            href={isStatic ? '/static/leaderboard' : '/leaderboard'}
-            className="inline-flex items-center justify-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 transition-all rounded-lg text-sm font-medium"
-          >
-            <span className="mr-2">🏆</span>
-            View Leaderboard
-          </Link>
-          <button
-            onClick={handleRandomQuiz}
-            className="inline-flex items-center justify-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 transition-all rounded-lg text-sm font-medium"
-          >
-            <span className="mr-2">🎯</span>
-            Try Random Quiz
-          </button>
-          <button
-            onClick={handleRandomTopic}
-            className="inline-flex items-center justify-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 transition-all rounded-lg text-sm font-medium"
-          >
-            <span className="mr-2">🔄</span>
-            Explore Random Topic
-          </button>
-        </div>
+    <section className="dashboard-section welcome">
+      <h1 className="text-2xl font-extrabold tracking-tight text-strong sm:text-3xl">
+        Welcome back, {user.display_name || user.email.split('@')[0]}
+      </h1>
+      {!user.display_name && (
+        <Link
+          href={isStatic ? '/static/profile' : '/profile'}
+          className="mt-2 inline-flex min-h-[44px] items-center text-sm font-semibold text-brand underline underline-offset-4"
+        >
+          Set a username
+        </Link>
+      )}
+      <p className="mt-1 text-base text-soft">
+        {user.streak > 0
+          ? `You are on a ${user.streak}-day streak.`
+          : 'Pick up where you left off, or try something new.'}
+      </p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={handleRandomQuiz}
+          className={actionClass}
+        >
+          <FiShuffle className="h-4 w-4" aria-hidden="true" />
+          Random quiz
+        </button>
+        <button
+          type="button"
+          onClick={handleRandomTopic}
+          className={actionClass}
+        >
+          <FiCompass className="h-4 w-4" aria-hidden="true" />
+          Random topic
+        </button>
+        <Link
+          href={isStatic ? '/static/leaderboard' : '/leaderboard'}
+          className={actionClass}
+        >
+          <FiAward className="h-4 w-4" aria-hidden="true" />
+          Leaderboard
+        </Link>
       </div>
     </section>
   );

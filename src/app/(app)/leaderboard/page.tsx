@@ -19,7 +19,9 @@ async function fetchLeaderboardData(
 ): Promise<LeaderboardResponse> {
   const response = await fetch(`/api/leaderboard?timeFrame=${timeFrame}`);
   if (!response.ok) {
-    throw new Error('Unable to connect to the API. Please contact the administrator.');
+    throw new Error(
+      'Unable to connect to the API. Please contact the administrator.'
+    );
   }
   return response.json();
 }
@@ -46,7 +48,8 @@ export default function LeaderboardPage() {
     setSubjectFilter(subjectId);
   };
 
-  const errorMessage = 'Unable to connect to the API. Please contact the administrator.';
+  const errorMessage =
+    'Unable to connect to the API. Please contact the administrator.';
   const lastUpdated = dataUpdatedAt ? new Date(dataUpdatedAt) : new Date();
 
   return (
@@ -54,7 +57,7 @@ export default function LeaderboardPage() {
       <LeaderboardNav activeTab="students" />
       <LeaderboardHeader currentUserRank={data?.currentUserRank ?? null} />
 
-      <div className="bg-gray-800 dark:bg-white rounded-lg shadow-lg p-6 mb-6 border border-gray-700 dark:border-gray-200 transition-all duration-300 hover:shadow-xl">
+      <div className="bg-surface rounded-lg shadow-lg p-6 mb-6 border border-border transition-all duration-300 hover:shadow-xl">
         <LeaderboardFilters
           timeFrame={timeFrame}
           onTimeFrameChange={handleTimeFrameChange}
@@ -86,17 +89,17 @@ export default function LeaderboardPage() {
                 />
               </svg>
             </div>
-            <p className="text-xl font-medium text-gray-200 dark:text-gray-800 mb-2">
+            <p className="text-xl font-medium text-strong mb-2">
               {errorMessage}
             </p>
-            <p className="text-gray-400 dark:text-gray-600 mb-6 max-w-md mx-auto">
+            <p className="text-soft mb-6 max-w-md mx-auto">
               {errorMessage.includes('No leaderboard data')
                 ? 'Complete quizzes to appear on the leaderboard and compete with other students!'
                 : 'Unable to connect to the API. Please contact the administrator.'}
             </p>
             <button
               onClick={() => refetch()}
-              className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-md hover:shadow-lg dark:bg-blue-700 dark:hover:bg-blue-600"
+              className="px-5 py-2.5 bg-[var(--band-via)] hover:bg-[var(--band-from)] text-white rounded-lg font-medium transition-colors shadow-md hover:shadow-lg dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)]"
             >
               Try Again
             </button>
@@ -104,7 +107,7 @@ export default function LeaderboardPage() {
         ) : (
           <div className="fade-in animate-fadeIn">
             <LeaderboardTable data={data?.data || []} timeFrame={timeFrame} />
-            <div className="text-center mt-6 text-sm text-gray-400 dark:text-gray-500">
+            <div className="text-center mt-6 text-sm text-soft">
               Showing top {data?.data.length || 0} students • Last updated:{' '}
               {lastUpdated.toLocaleTimeString()} • Auto-refreshing every minute
             </div>

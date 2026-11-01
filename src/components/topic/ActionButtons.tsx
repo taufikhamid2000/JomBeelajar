@@ -19,7 +19,7 @@ export default function ActionButtons({
       {/* Primary action - prominent and centered */}
       <div className="flex justify-center mb-4">
         <button
-          className="px-5 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-md transition-colors shadow-md font-medium text-lg flex items-center"
+          className="px-5 py-3 bg-[var(--band-via)] hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)] text-white rounded-md transition-colors shadow-md font-medium text-lg flex items-center"
           onClick={() =>
             router.push(
               `/quiz/${subject}/${topic}/create?chapter=${encodeURIComponent(chapterData?.name || 'Unknown Chapter')}`

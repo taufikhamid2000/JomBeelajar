@@ -9,7 +9,8 @@ import { logger } from '@/lib/logger';
 import { supabase } from '@/lib/supabase';
 import { DEFAULT_QUIZ_TIME_LIMIT_MINUTES } from '@/config/app';
 
-const API_MSG = 'Unable to connect to the API. Please contact the administrator.';
+const API_MSG =
+  'Unable to connect to the API. Please contact the administrator.';
 
 export default function PlayQuizPage() {
   const params = useParams();
@@ -52,7 +53,10 @@ export default function PlayQuizPage() {
 
         if (cancelled) return;
 
-        const { data: { session }, error: authError } = authResult;
+        const {
+          data: { session },
+          error: authError,
+        } = authResult;
 
         if (authError) {
           logger.warn('Session check error while loading quiz:', authError);
@@ -94,10 +98,10 @@ export default function PlayQuizPage() {
     return (
       <div className="container mx-auto py-8 px-4">
         <div className="max-w-3xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-8 flex items-center justify-center">
+          <div className="bg-surface border border-border rounded-2xl shadow-sm p-8 flex items-center justify-center">
             <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-blue-500 border-r-transparent border-b-blue-500 border-l-transparent"></div>
-              <p className="mt-4 text-gray-600 dark:text-gray-300">Loading quiz...</p>
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-brand border-r-transparent border-b-brand border-l-transparent"></div>
+              <p className="mt-4 text-soft">Loading quiz...</p>
             </div>
           </div>
         </div>
@@ -109,16 +113,14 @@ export default function PlayQuizPage() {
     return (
       <div className="container mx-auto py-8 px-4">
         <div className="max-w-3xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-8">
+          <div className="bg-surface border border-border rounded-2xl shadow-sm p-8">
             <h1 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
               Error Loading Quiz
             </h1>
-            <p className="text-gray-700 dark:text-gray-300">
-              {error || API_MSG}
-            </p>
+            <p className="text-soft">{error || API_MSG}</p>
             <button
               onClick={() => window.history.back()}
-              className="mt-6 min-h-11 px-5 py-2 bg-blue-600 text-white font-semibold rounded-2xl hover:bg-blue-700"
+              className="mt-6 min-h-11 px-5 py-2 bg-[var(--band-via)] text-white font-semibold rounded-2xl hover:bg-[var(--band-from)]"
             >
               Go Back
             </button>

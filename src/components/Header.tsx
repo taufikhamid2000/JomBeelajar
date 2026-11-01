@@ -11,7 +11,7 @@ import { verifyAdminAccess } from '@/services/adminAuthService';
 import { useTheme } from '@/hooks/useTheme';
 import type { User } from '@supabase/supabase-js';
 import { JSX } from 'react/jsx-dev-runtime';
-import Image from 'next/image';
+import { LogoMark } from '@/components/auth/logo-mark';
 import { usePathname } from 'next/navigation';
 import { FiMoon, FiSun } from 'react-icons/fi';
 import { PRIMARY_NAV, isActive } from './nav-items';
@@ -108,19 +108,13 @@ export default function Header(): JSX.Element {
   const initial = (user?.email ?? '?').charAt(0).toUpperCase();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-surface/95 backdrop-blur">
+    <header className="relative z-20 pb-8 pt-[env(safe-area-inset-top)] text-[var(--band-foreground)]">
       <div className="header-container">
         <Link
           href={user ? '/dashboard' : '/'}
-          className="flex min-h-[44px] items-center gap-2 text-xl font-extrabold text-strong md:text-2xl"
+          className="press flex min-h-[44px] items-center gap-2.5 text-xl font-extrabold tracking-tight"
         >
-          <Image
-            src="/favicon.ico"
-            alt=""
-            width={32}
-            height={32}
-            className="h-8 w-8"
-          />
+          <LogoMark size={32} />
           JomBeelajar
         </Link>
 
@@ -130,7 +124,7 @@ export default function Header(): JSX.Element {
               <Link
                 key={href}
                 href={href}
-                className="jb-navlink"
+                className="jb-navlink jb-navlink-band"
                 aria-current={isActive(pathname, href) ? 'page' : undefined}
               >
                 <Icon className="h-5 w-5" aria-hidden="true" />
@@ -141,23 +135,9 @@ export default function Header(): JSX.Element {
         )}
 
         <div className="flex items-center gap-2">
-          {user && (
-            <div
-              className="flex min-h-[44px] items-center gap-3 rounded-full bg-streak-soft px-3 text-sm font-bold text-strong"
-              title="Streak and XP (coming soon)"
-            >
-              <span aria-label="Streak">
-                <span aria-hidden="true">🔥</span> 0
-              </span>
-              <span aria-label="XP" className="text-brand">
-                <span aria-hidden="true">⚡</span> 0 XP
-              </span>
-            </div>
-          )}
-
           <button
             type="button"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-strong hover:bg-muted"
+            className="press flex h-11 w-11 items-center justify-center rounded-full bg-white/15 hover:bg-white/25"
             onClick={toggleTheme}
             aria-label={
               isLightLook ? 'Switch to dark theme' : 'Switch to light theme'
@@ -178,7 +158,7 @@ export default function Header(): JSX.Element {
                 aria-haspopup="menu"
                 aria-expanded={menuOpen}
                 aria-label="Account menu"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-brand text-base font-bold text-primary-foreground"
+                className="press flex h-11 w-11 items-center justify-center rounded-full bg-surface text-base font-bold text-[#0b5f58]"
               >
                 {initial}
               </button>
@@ -229,7 +209,7 @@ export default function Header(): JSX.Element {
           ) : (
             <Link
               href="/auth"
-              className="inline-flex min-h-[44px] items-center rounded-full bg-brand px-5 text-base font-bold text-primary-foreground shadow-card hover:opacity-90"
+              className="press inline-flex min-h-[44px] items-center rounded-full bg-surface px-5 text-base font-bold text-[#0b5f58] hover:bg-white/90"
             >
               Get Started
             </Link>

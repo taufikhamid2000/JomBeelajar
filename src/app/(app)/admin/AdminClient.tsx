@@ -11,18 +11,16 @@ interface AdminClientProps {
 
 export default function AdminClient({ className = '' }: AdminClientProps) {
   return (
-    <div className={`min-h-screen bg-gray-900 dark:bg-gray-50 ${className}`}>
+    <div className={`min-h-screen bg-surface ${className}`}>
       <div className="flex">
         <AdminNavigation />
         <div className="flex-1 p-8">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold dark:text-white">
-              Admin Dashboard
-            </h1>
+            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
             <div>
               <button
                 onClick={() => logger.log('Dashboard refresh clicked')}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
+                className="px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)]"
               >
                 Refresh Data
               </button>

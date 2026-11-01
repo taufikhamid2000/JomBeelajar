@@ -5,9 +5,5 @@ interface EmptyStateProps {
 }
 
 export default function ContentEmptyState({ message }: EmptyStateProps) {
-  return (
-    <div className="text-center py-8 text-gray-400 dark:text-gray-500">
-      {message}
-    </div>
-  );
+  return <div className="text-center py-8 text-soft">{message}</div>;
 }

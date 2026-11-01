@@ -50,7 +50,6 @@ export default function AdminQuizzesPage() {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-
         let query = supabase
           .from('quizzes')
           .select(
@@ -148,7 +147,7 @@ export default function AdminQuizzesPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-surface-2">
       <div className="flex">
         <AdminNavigation />
         <div className="flex-1 p-8">
@@ -164,20 +163,20 @@ export default function AdminQuizzesPage() {
               </Link>
               <Link
                 href="/admin/quizzes/new"
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                className="px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)]"
               >
                 Create New Quiz
               </Link>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow overflow-hidden mb-6">
-            <div className="p-4 border-b border-gray-200">
+          <div className="bg-surface rounded-lg shadow overflow-hidden mb-6">
+            <div className="p-4 border-b border-border">
               <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
                 <div className="flex-1">
                   <input
                     type="text"
                     placeholder="Search quizzes..."
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/40"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
@@ -189,7 +188,7 @@ export default function AdminQuizzesPage() {
                       setLoading(true);
                       setSubjectFilter(e.target.value);
                     }}
-                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/40"
                   >
                     <option value="all">All Subjects</option>
                     {subjects.map((subject) => (
@@ -204,7 +203,7 @@ export default function AdminQuizzesPage() {
                       setLoading(true);
                       setDifficultyFilter(e.target.value);
                     }}
-                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/40"
                   >
                     <option value="all">All Difficulties</option>
                     <option value="easy">Easy</option>
@@ -213,7 +212,7 @@ export default function AdminQuizzesPage() {
                   </select>
                   <button
                     onClick={refreshQuizzes}
-                    className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                    className="px-4 py-2 bg-muted rounded hover:bg-muted"
                   >
                     Refresh
                   </button>
@@ -223,16 +222,16 @@ export default function AdminQuizzesPage() {
 
             {loading ? (
               <div className="p-8 flex justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand/40"></div>
               </div>
             ) : filteredQuizzes.length === 0 ? (
-              <div className="p-8 text-center text-gray-500">
+              <div className="p-8 text-center text-soft">
                 {quizzes.length === 0 ? (
                   <div>
                     <p className="mb-4">No quizzes found in the system.</p>
                     <Link
                       href="/admin/quizzes/new"
-                      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                      className="px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)]"
                     >
                       Create Your First Quiz
                     </Link>
@@ -243,42 +242,42 @@ export default function AdminQuizzesPage() {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+                <table className="min-w-full divide-y divide-border">
+                  <thead className="bg-surface-2">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                         Title
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                         Subject / Topic
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                         Difficulty
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                         Questions
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                         Created
                       </th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-right text-xs font-medium text-soft uppercase tracking-wider">
                         Actions
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-surface divide-y divide-border">
                     {filteredQuizzes.map((quiz) => (
                       <tr key={quiz.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-sm font-medium text-strong">
                             {quiz.title}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
+                          <div className="text-sm text-strong">
                             {quiz.subject_name}
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-soft">
                             {quiz.topic_name}
                           </div>
                         </td>
@@ -297,16 +296,16 @@ export default function AdminQuizzesPage() {
                               quiz.difficulty.slice(1)}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-soft">
                           {quiz.question_count}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-soft">
                           {new Date(quiz.created_at).toLocaleDateString()}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <Link
                             href={`/admin/quizzes/${quiz.id}/edit`}
-                            className="text-blue-600 hover:text-blue-900 mr-4"
+                            className="text-brand hover:text-brand mr-4"
                           >
                             Edit
                           </Link>

@@ -59,7 +59,10 @@ const checkAdminStatus = async () => {
 async function loadAdminContent<T>(
   label: string,
   fetcherName: string,
-  fetcher: () => Promise<{ data: T[] | null; error: { message?: string } | null }>
+  fetcher: () => Promise<{
+    data: T[] | null;
+    error: { message?: string } | null;
+  }>
 ): Promise<T[]> {
   logger.log(`Attempting to fetch ${label} via client-side service...`);
 
@@ -150,13 +153,16 @@ export default function AdminContentPage() {
   const loadChapters = useCallback(
     () =>
       loadAdminContent('chapters', 'fetchAdminChapters', fetchAdminChapters)
-        .then((data) => {
-          setChapters(data);
-          logger.log('Admin content page - chapters fetched:', {
-            chaptersCount: data.length,
-            chapters: data.map((c) => ({ id: c.id, name: c.name })),
-          });
-        }, (error) => handleContentError('chapters', error))
+        .then(
+          (data) => {
+            setChapters(data);
+            logger.log('Admin content page - chapters fetched:', {
+              chaptersCount: data.length,
+              chapters: data.map((c) => ({ id: c.id, name: c.name })),
+            });
+          },
+          (error) => handleContentError('chapters', error)
+        )
         .finally(() => setLoading(false)),
     [handleContentError]
   );
@@ -274,8 +280,8 @@ export default function AdminContentPage() {
             onClick={() => selectTab('subjects')}
             className={`px-4 py-2 rounded ${
               activeTab === 'subjects'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border dark:border-gray-600'
+                ? 'bg-[var(--band-via)] text-white'
+                : 'bg-surface text-soft border'
             }`}
           >
             Subjects
@@ -284,8 +290,8 @@ export default function AdminContentPage() {
             onClick={() => selectTab('chapters')}
             className={`px-4 py-2 rounded ${
               activeTab === 'chapters'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border dark:border-gray-600'
+                ? 'bg-[var(--band-via)] text-white'
+                : 'bg-surface text-soft border'
             }`}
           >
             Chapters
@@ -294,8 +300,8 @@ export default function AdminContentPage() {
             onClick={() => selectTab('topics')}
             className={`px-4 py-2 rounded ${
               activeTab === 'topics'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border dark:border-gray-600'
+                ? 'bg-[var(--band-via)] text-white'
+                : 'bg-surface text-soft border'
             }`}
           >
             Topics
@@ -304,8 +310,8 @@ export default function AdminContentPage() {
             onClick={() => selectTab('quizzes')}
             className={`px-4 py-2 rounded ${
               activeTab === 'quizzes'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border dark:border-gray-600'
+                ? 'bg-[var(--band-via)] text-white'
+                : 'bg-surface text-soft border'
             }`}
           >
             Quizzes
@@ -327,7 +333,7 @@ export default function AdminContentPage() {
         onDismiss={() => setSuccessMessage(null)}
       />
 
-      <div className="bg-gray-800 dark:bg-white rounded-lg shadow p-6">
+      <div className="bg-surface rounded-lg shadow p-6">
         {activeTab === 'subjects' && (
           <SubjectManagement
             subjects={subjects}

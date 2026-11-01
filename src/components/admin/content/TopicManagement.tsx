@@ -43,16 +43,14 @@ export default function TopicManagement({
       key: 'name',
       header: 'Title',
       render: (topic: Topic) => (
-        <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-          {topic.name}
-        </div>
+        <div className="text-sm font-medium text-strong">{topic.name}</div>
       ),
     },
     {
       key: 'chapter',
       header: 'Chapter',
       render: (topic: Topic) => (
-        <div className="text-sm text-gray-400 dark:text-gray-500">
+        <div className="text-sm text-soft">
           {getChapterTitle(topic.chapter_id)}
         </div>
       ),
@@ -61,7 +59,7 @@ export default function TopicManagement({
       key: 'created_at',
       header: 'Created',
       render: (topic: Topic) => (
-        <div className="text-sm text-gray-400 dark:text-gray-500">
+        <div className="text-sm text-soft">
           {new Date(topic.created_at).toLocaleDateString()}
         </div>
       ),
@@ -74,16 +72,14 @@ export default function TopicManagement({
       label: 'Title',
       isHeader: true,
       render: (topic: Topic) => (
-        <div className="text-base font-medium text-gray-900 dark:text-gray-100">
-          {topic.name}
-        </div>
+        <div className="text-base font-medium text-strong">{topic.name}</div>
       ),
     },
     {
       key: 'chapter',
       label: 'Chapter',
       render: (topic: Topic) => (
-        <div className="text-sm text-gray-900 dark:text-gray-100">
+        <div className="text-sm text-strong">
           {getChapterTitle(topic.chapter_id)}
         </div>
       ),
@@ -92,7 +88,7 @@ export default function TopicManagement({
       key: 'created_at',
       label: 'Created',
       render: (topic: Topic) => (
-        <div className="text-sm text-gray-900 dark:text-gray-100">
+        <div className="text-sm text-strong">
           {new Date(topic.created_at).toLocaleDateString()}
         </div>
       ),
@@ -113,7 +109,7 @@ export default function TopicManagement({
       <div className="mb-3">
         <label
           htmlFor="topic-title"
-          className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+          className="block text-sm font-medium text-soft mb-1"
         >
           Topic Title
         </label>
@@ -127,7 +123,7 @@ export default function TopicManagement({
               name: e.target.value,
             })
           }
-          className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border rounded-md"
           placeholder="Enter topic title"
           disabled={loading}
           required
@@ -136,7 +132,7 @@ export default function TopicManagement({
       <div className="mb-3">
         <label
           htmlFor="topic-chapter"
-          className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+          className="block text-sm font-medium text-soft mb-1"
         >
           Chapter
         </label>
@@ -149,7 +145,7 @@ export default function TopicManagement({
               chapter_id: e.target.value,
             })
           }
-          className="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border rounded-md"
           disabled={loading}
           required
         >

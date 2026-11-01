@@ -38,39 +38,25 @@ export function QuizForm({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Quiz Context Information */}
       {(subjectName || chapterName || topicName) && (
-        <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg mb-6">
-          <h3 className="font-medium text-blue-800 dark:text-blue-300 mb-2">
-            Quiz Context
-          </h3>
+        <div className="bg-brand-soft dark:bg-[var(--band-via)]/30 p-4 rounded-lg mb-6">
+          <h3 className="font-medium text-brand mb-2">Quiz Context</h3>
           <dl className="grid grid-cols-1 gap-2 text-sm">
             {subjectName && (
               <div className="flex">
-                <dt className="font-medium text-gray-400 dark:text-gray-500 w-24">
-                  Subject:
-                </dt>
-                <dd className="text-gray-100 dark:text-gray-800">
-                  {subjectName}
-                </dd>
+                <dt className="font-medium text-soft w-24">Subject:</dt>
+                <dd className="text-strong">{subjectName}</dd>
               </div>
             )}
             {chapterName && (
               <div className="flex">
-                <dt className="font-medium text-gray-400 dark:text-gray-500 w-24">
-                  Chapter:
-                </dt>
-                <dd className="text-gray-100 dark:text-gray-800">
-                  {chapterName}
-                </dd>
+                <dt className="font-medium text-soft w-24">Chapter:</dt>
+                <dd className="text-strong">{chapterName}</dd>
               </div>
             )}
             {topicName && (
               <div className="flex">
-                <dt className="font-medium text-gray-400 dark:text-gray-500 w-24">
-                  Topic:
-                </dt>
-                <dd className="text-gray-100 dark:text-gray-800">
-                  {topicName}
-                </dd>
+                <dt className="font-medium text-soft w-24">Topic:</dt>
+                <dd className="text-strong">{topicName}</dd>
               </div>
             )}
           </dl>
@@ -83,14 +69,14 @@ export function QuizForm({
         <div className="space-y-2">
           <label
             htmlFor="quizName"
-            className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+            className="block text-sm font-medium text-soft"
           >
             Quiz Code
           </label>
           <div className="relative">
             <input
               id="quizName"
-              className="w-full px-3 py-2 border rounded-md shadow-sm bg-gray-700/50 dark:bg-gray-50 border-gray-300 dark:border-gray-700 text-gray-200 dark:text-gray-800 font-mono"
+              className="w-full px-3 py-2 border rounded-md shadow-sm bg-muted/50 border-border text-strong font-mono"
               readOnly
               value={quizCode}
               {...register('name', {
@@ -99,22 +85,22 @@ export function QuizForm({
               })}
             />
           </div>
-          <p className="text-xs text-gray-400 dark:text-gray-500">
+          <p className="text-xs text-soft">
             Auto-generated unique quiz identifier
           </p>
         </div>
         <div className="space-y-2">
           <label
             htmlFor="description"
-            className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+            className="block text-sm font-medium text-soft"
           >
             Description
           </label>{' '}
           <textarea
             id="description"
             rows={3}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 dark:bg-white text-gray-200 dark:text-gray-800 placeholder-gray-400 dark:placeholder-gray-500
-              ${errors.description ? 'border-red-400 focus:ring-red-500' : 'border-gray-600 dark:border-gray-300'}`}
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand/40 bg-surface text-strong placeholder-gray-400 dark:placeholder-gray-500
+              ${errors.description ? 'border-red-400 focus:ring-red-500' : 'border-border'}`}
             placeholder="Describe what this quiz covers"
             {...register('description')}
           />
@@ -127,13 +113,13 @@ export function QuizForm({
         <div className="space-y-2">
           <label
             htmlFor="difficulty"
-            className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+            className="block text-sm font-medium text-soft"
           >
             Difficulty Level
           </label>
           <select
             id="difficulty"
-            className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 bg-gray-700 dark:bg-white text-gray-200 dark:text-gray-800 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-border bg-muted text-strong rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand/40"
             {...register('difficulty')}
           >
             <option value="">Unspecified</option>
@@ -145,7 +131,7 @@ export function QuizForm({
         <div className="space-y-2">
           <label
             htmlFor="timeLimit"
-            className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+            className="block text-sm font-medium text-soft"
           >
             Time Limit (minutes)
           </label>
@@ -154,15 +140,15 @@ export function QuizForm({
             type="number"
             min="1"
             max="120"
-            className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 bg-gray-700 dark:bg-white text-gray-200 dark:text-gray-800 placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-border bg-muted text-strong placeholder:text-soft rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand/40"
             placeholder="Leave blank for no limit"
             {...register('timeLimit', { valueAsNumber: true })}
           />
         </div>
         <div className="space-y-2 opacity-50">
-          <label className="flex items-center text-sm font-medium text-gray-300 dark:text-gray-700">
+          <label className="flex items-center text-sm font-medium text-soft">
             Number of Questions
-            <span className="ml-2 text-xs py-0.5 px-1.5 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded">
+            <span className="ml-2 text-xs py-0.5 px-1.5 bg-brand-soft dark:bg-[var(--band-via)] text-brand rounded">
               Coming soon
             </span>
           </label>
@@ -173,11 +159,11 @@ export function QuizForm({
               max="20"
               disabled
               value={questionCount}
-              className="w-full h-2 bg-gray-700 dark:bg-gray-200 rounded-lg appearance-none cursor-not-allowed"
+              className="w-full h-2 bg-muted rounded-lg appearance-none cursor-not-allowed"
             />
             <span className="w-8 text-center">{questionCount}</span>
           </div>
-          <p className="text-xs text-gray-400 dark:text-gray-500">
+          <p className="text-xs text-soft">
             Questions are added after creating the quiz
           </p>
         </div>
@@ -185,13 +171,10 @@ export function QuizForm({
           <input
             id="isPublic"
             type="checkbox"
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            className="h-4 w-4 text-brand focus:ring-brand/40 border-border rounded"
             {...register('isPublic')}
           />
-          <label
-            htmlFor="isPublic"
-            className="ml-2 text-sm text-gray-300 dark:text-gray-700"
-          >
+          <label htmlFor="isPublic" className="ml-2 text-sm text-soft">
             Make this quiz public
           </label>
         </div>
@@ -202,8 +185,8 @@ export function QuizForm({
           type="submit"
           disabled={isLoading}
           className="w-full px-4 py-3 text-white font-medium rounded-md shadow-sm 
-            bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 
-            focus:ring-blue-500 disabled:opacity-50 transition-colors"
+            bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 
+            focus:ring-brand/40 disabled:opacity-50 transition-colors"
         >
           {isLoading ? 'Creating Quiz...' : 'Create Quiz'}
         </button>

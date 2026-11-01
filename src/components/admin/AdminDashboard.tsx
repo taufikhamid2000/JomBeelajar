@@ -55,10 +55,10 @@ export default function AdminDashboard() {
           value={loading ? '...' : stats?.totalUsers || 0}
           change={5.25}
           icon={
-            <div className="rounded-full bg-blue-100 dark:bg-blue-900/30 p-3">
+            <div className="rounded-full bg-brand-soft dark:bg-[var(--band-via)]/30 p-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-blue-500 dark:text-blue-400"
+                className="h-6 w-6 text-brand"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -101,10 +101,10 @@ export default function AdminDashboard() {
           value={loading ? '...' : stats?.totalSubjects || 0}
           change={0}
           icon={
-            <div className="rounded-full bg-purple-100 dark:bg-purple-900/30 p-3">
+            <div className="rounded-full bg-brand-soft dark:bg-[var(--band-via)]/30 p-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-purple-500 dark:text-purple-400"
+                className="h-6 w-6 text-brand"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -121,14 +121,12 @@ export default function AdminDashboard() {
         />{' '}
       </div>{' '}
       {/* Audit System Statistics */}
-      <div className="bg-gray-800 dark:bg-white rounded-lg shadow p-6 mb-8">
+      <div className="bg-surface rounded-lg shadow p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold dark:text-gray-100">
-            Quiz Audit System
-          </h2>
+          <h2 className="text-xl font-semibold">Quiz Audit System</h2>
           <Link
             href="/admin/quizzes"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium"
+            className="text-brand hover:text-brand text-sm font-medium"
           >
             View All Quizzes →
           </Link>
@@ -138,8 +136,8 @@ export default function AdminDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {[...Array(4)].map((_, i) => (
               <div key={i} className="animate-pulse">
-                <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-1/2 mb-2"></div>
-                <div className="h-8 bg-gray-700 dark:bg-gray-200 rounded w-1/3 mb-2"></div>
+                <div className="h-4 bg-muted rounded w-1/2 mb-2"></div>
+                <div className="h-8 bg-muted rounded w-1/3 mb-2"></div>
               </div>
             ))}
           </div>
@@ -150,33 +148,25 @@ export default function AdminDashboard() {
                 <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
                   {auditStats?.total_unverified_quizzes || 0}
                 </div>
-                <div className="text-sm text-gray-400 dark:text-gray-500">
-                  Unverified Quizzes
-                </div>
+                <div className="text-sm text-soft">Unverified Quizzes</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-red-600 dark:text-red-400">
                   {auditStats?.total_pending_comments || 0}
                 </div>
-                <div className="text-sm text-gray-400 dark:text-gray-500">
-                  Pending Comments
-                </div>
+                <div className="text-sm text-soft">Pending Comments</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                   {auditStats?.total_verified_today || 0}
                 </div>
-                <div className="text-sm text-gray-400 dark:text-gray-500">
-                  Verified Today
-                </div>
+                <div className="text-sm text-soft">Verified Today</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                <div className="text-2xl font-bold text-brand">
                   {auditStats?.total_rejected_today || 0}
                 </div>
-                <div className="text-sm text-gray-400 dark:text-gray-500">
-                  Rejected Today
-                </div>
+                <div className="text-sm text-soft">Rejected Today</div>
               </div>
             </div>
 
@@ -184,7 +174,7 @@ export default function AdminDashboard() {
             {auditStats?.quizzes_needing_review &&
               auditStats.quizzes_needing_review.length > 0 && (
                 <div>
-                  <h3 className="text-lg font-medium dark:text-gray-200 mb-3">
+                  <h3 className="text-lg font-medium mb-3">
                     Quizzes Needing Review
                   </h3>
                   <div className="space-y-2">
@@ -192,13 +182,11 @@ export default function AdminDashboard() {
                       (quiz: QuizWithAudit) => (
                         <div
                           key={quiz.id}
-                          className="flex items-center justify-between p-3 bg-gray-500 dark:bg-gray-700 rounded-lg"
+                          className="flex items-center justify-between p-3 bg-muted rounded-lg"
                         >
                           <div className="flex-1">
-                            <h4 className="font-medium dark:text-gray-100">
-                              {quiz.name}
-                            </h4>{' '}
-                            <p className="text-sm text-gray-400 dark:text-gray-500">
+                            <h4 className="font-medium">{quiz.name}</h4>{' '}
+                            <p className="text-sm text-soft">
                               Created{' '}
                               {new Date(quiz.created_at).toLocaleDateString()}
                             </p>
@@ -215,7 +203,7 @@ export default function AdminDashboard() {
                             )}
                             <a
                               href={`/admin/quizzes/${quiz.id}/audit`}
-                              className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded"
+                              className="bg-[var(--band-via)] hover:bg-[var(--band-from)] text-white text-sm px-3 py-1 rounded"
                             >
                               Review
                             </a>
@@ -229,20 +217,18 @@ export default function AdminDashboard() {
           </>
         )}
       </div>
-      <div className="bg-gray-800 dark:bg-white rounded-lg shadow p-6 mb-8">
-        <h2 className="text-xl font-semibold mb-4 dark:text-gray-100">
-          Recent Activities
-        </h2>
+      <div className="bg-surface rounded-lg shadow p-6 mb-8">
+        <h2 className="text-xl font-semibold mb-4">Recent Activities</h2>
         {loading ? (
           <div className="animate-pulse">
-            <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-3/4 mb-4"></div>
-            <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-1/2 mb-4"></div>
-            <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-5/6 mb-4"></div>
-            <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-2/3 mb-4"></div>
+            <div className="h-4 bg-muted rounded w-3/4 mb-4"></div>
+            <div className="h-4 bg-muted rounded w-1/2 mb-4"></div>
+            <div className="h-4 bg-muted rounded w-5/6 mb-4"></div>
+            <div className="h-4 bg-muted rounded w-2/3 mb-4"></div>
           </div>
         ) : (
           <div className="space-y-4">
-            <p className="dark:text-gray-300">
+            <p className="">
               No recent activities to display. This feature will be implemented
               soon.
             </p>
@@ -250,39 +236,33 @@ export default function AdminDashboard() {
         )}
       </div>{' '}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-gray-800 dark:bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4 dark:text-gray-100">
+        <div className="bg-surface rounded-lg shadow p-6">
+          <h2 className="text-xl font-semibold mb-4">
             Top Performing Students
           </h2>
           {loading ? (
             <div className="animate-pulse space-y-3">
-              <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-full"></div>
-              <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-full"></div>
-              <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-full"></div>
+              <div className="h-4 bg-muted rounded w-full"></div>
+              <div className="h-4 bg-muted rounded w-full"></div>
+              <div className="h-4 bg-muted rounded w-full"></div>
             </div>
           ) : (
             <div className="space-y-2">
-              <p className="dark:text-gray-300">
-                Leaderboard data will be displayed here.
-              </p>
+              <p className="">Leaderboard data will be displayed here.</p>
             </div>
           )}
         </div>{' '}
-        <div className="bg-gray-800 dark:bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4 dark:text-gray-100">
-            Popular Quizzes
-          </h2>
+        <div className="bg-surface rounded-lg shadow p-6">
+          <h2 className="text-xl font-semibold mb-4">Popular Quizzes</h2>
           {loading ? (
             <div className="animate-pulse space-y-3">
-              <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-full"></div>
-              <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-full"></div>
-              <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-full"></div>
+              <div className="h-4 bg-muted rounded w-full"></div>
+              <div className="h-4 bg-muted rounded w-full"></div>
+              <div className="h-4 bg-muted rounded w-full"></div>
             </div>
           ) : (
             <div className="space-y-2">
-              <p className="dark:text-gray-300">
-                Quiz analytics will be displayed here.
-              </p>
+              <p className="">Quiz analytics will be displayed here.</p>
             </div>
           )}
         </div>
@@ -293,13 +273,11 @@ export default function AdminDashboard() {
 
 function StatCard({ title, value, change, icon }: StatsCard) {
   return (
-    <div className="bg-gray-800 dark:bg-white rounded-lg shadow p-6">
+    <div className="bg-surface rounded-lg shadow p-6">
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-sm text-gray-400 dark:text-gray-500 mb-1">
-            {title}
-          </p>
-          <p className="text-2xl font-bold dark:text-white">{value}</p>
+          <p className="text-sm text-soft mb-1">{title}</p>
+          <p className="text-2xl font-bold">{value}</p>
           <div className="flex items-center mt-2">
             <span
               className={`text-xs font-medium ${change >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}
@@ -307,9 +285,7 @@ function StatCard({ title, value, change, icon }: StatsCard) {
               {change >= 0 ? '+' : ''}
               {change}%
             </span>
-            <span className="text-xs text-gray-400 dark:text-gray-500 ml-1">
-              from last month
-            </span>
+            <span className="text-xs text-soft ml-1">from last month</span>
           </div>
         </div>
         {icon}

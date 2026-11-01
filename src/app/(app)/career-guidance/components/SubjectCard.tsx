@@ -35,16 +35,14 @@ const SubjectCard: FC<SubjectCardProps> = ({ subject, colorScheme }) => {
   return (
     <li className="py-4">
       <Link href={subjectUrl} className="group">
-        <h4 className="text-lg font-semibold text-white dark:text-gray-900 group-hover:text-blue-400 dark:group-hover:text-blue-600 transition-colors">
+        <h4 className="text-lg font-semibold text-strong group-hover:text-brand transition-colors">
           {subject.name}
-          <span className="inline-block ml-1 text-blue-500 dark:text-blue-700 opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="inline-block ml-1 text-brand opacity-0 group-hover:opacity-100 transition-opacity">
             →
           </span>
         </h4>
       </Link>
-      <p className="mt-2 text-sm text-gray-400 dark:text-gray-500">
-        {subject.description}
-      </p>{' '}
+      <p className="mt-2 text-sm text-soft">{subject.description}</p>{' '}
       {subject.topics && subject.topics.length > 0 && (
         <div className="mt-2 flex flex-wrap gap-2">
           {subject.topics.map((topic: string, idx: number) => (

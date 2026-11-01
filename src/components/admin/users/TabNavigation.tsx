@@ -10,14 +10,14 @@ export default function TabNavigation({
   onTabChange,
 }: TabNavigationProps) {
   return (
-    <div className="border-b border-gray-700 dark:border-gray-200">
+    <div className="border-b border-border">
       <nav className="-mb-px flex">
         <button
           onClick={() => onTabChange('overview')}
           className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${
             activeTab === 'overview'
-              ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-              : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
+              ? 'border-brand/40 text-brand'
+              : 'border-transparent text-soft hover:text-soft hover:border-border'
           }`}
         >
           Overview
@@ -26,8 +26,8 @@ export default function TabNavigation({
           onClick={() => onTabChange('achievements')}
           className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${
             activeTab === 'achievements'
-              ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-              : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
+              ? 'border-brand/40 text-brand'
+              : 'border-transparent text-soft hover:text-soft hover:border-border'
           }`}
         >
           Achievements
@@ -36,8 +36,8 @@ export default function TabNavigation({
           onClick={() => onTabChange('quizzes')}
           className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${
             activeTab === 'quizzes'
-              ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-              : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
+              ? 'border-brand/40 text-brand'
+              : 'border-transparent text-soft hover:text-soft hover:border-border'
           }`}
         >
           Quiz History
@@ -46,8 +46,8 @@ export default function TabNavigation({
           onClick={() => onTabChange('activity')}
           className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${
             activeTab === 'activity'
-              ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-              : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
+              ? 'border-brand/40 text-brand'
+              : 'border-transparent text-soft hover:text-soft hover:border-border'
           }`}
         >
           Activity Log

@@ -43,7 +43,7 @@ export default function RootPage() {
 
   if (error) {
     return (
-      <div className="flex min-h-screen items-center justify-center p-8 text-center text-gray-600 dark:text-gray-300">
+      <div className="flex min-h-screen items-center justify-center p-8 text-center text-soft">
         {error}
       </div>
     );

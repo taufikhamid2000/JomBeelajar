@@ -14,7 +14,7 @@ interface PathwayOptionInputProps {
 const ArrayItems = ({
   items,
   onRemove,
-  colorClass = 'bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-200',
+  colorClass = 'bg-muted text-strong',
 }: {
   items: string[];
   onRemove: (index: number) => void;
@@ -32,11 +32,11 @@ const ArrayItems = ({
             <button
               type="button"
               onClick={() => onRemove(idx)}
-              className="ml-1.5 inline-flex items-center justify-center h-4 w-4 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none"
+              className="ml-1.5 inline-flex items-center justify-center h-4 w-4 rounded-full hover:bg-muted focus:outline-none"
             >
               <span className="sr-only">Remove {item}</span>
               <svg
-                className="h-3 w-3 text-gray-400"
+                className="h-3 w-3 text-soft"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -104,11 +104,9 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
   const [requirementInput, setRequirementInput] = useState('');
 
   return (
-    <div className="bg-gray-700 dark:bg-gray-100 p-4 rounded-md mb-4 border border-gray-600 dark:border-gray-300">
+    <div className="bg-muted p-4 rounded-md mb-4 border border-border">
       <div className="flex justify-between items-center mb-3">
-        <div className="font-medium text-white dark:text-gray-900">
-          Option {index + 1}
-        </div>
+        <div className="font-medium text-strong">Option {index + 1}</div>
         <button
           onClick={onDelete}
           type="button"
@@ -121,7 +119,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
       <div className="mb-3">
         <label
           htmlFor={`option-name-${index}`}
-          className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+          className="block text-sm font-medium text-soft"
         >
           Name*
         </label>
@@ -130,7 +128,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
           id={`option-name-${index}`}
           value={option.name}
           onChange={(e) => handleChange('name', e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-600 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+          className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
           placeholder="e.g., STPM, Foundation in Computing, Bachelor of Computer Science"
           required
         />
@@ -139,7 +137,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
       <div className="mb-3">
         <label
           htmlFor={`option-description-${index}`}
-          className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+          className="block text-sm font-medium text-soft"
         >
           Description*
         </label>
@@ -148,7 +146,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
           value={option.description}
           onChange={(e) => handleChange('description', e.target.value)}
           rows={2}
-          className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-600 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+          className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
           placeholder="Brief description of this education option"
           required
         />
@@ -157,7 +155,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
       <div className="mb-3">
         <label
           htmlFor={`option-duration-${index}`}
-          className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+          className="block text-sm font-medium text-soft"
         >
           Duration
         </label>
@@ -166,7 +164,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
           id={`option-duration-${index}`}
           value={option.duration || ''}
           onChange={(e) => handleChange('duration', e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-600 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+          className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
           placeholder="e.g., 1-2 years, 3-4 years"
         />
       </div>
@@ -174,7 +172,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
       <button
         type="button"
         onClick={() => setShowDetails(!showDetails)}
-        className="mt-1 text-sm flex items-center text-indigo-400 hover:text-indigo-300 dark:text-indigo-700 dark:hover:text-indigo-800"
+        className="mt-1 text-sm flex items-center text-brand hover:text-brand"
       >
         {showDetails ? 'Hide' : 'Show'} additional details
         <svg
@@ -197,7 +195,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
         <div className="mt-4 space-y-4">
           {/* Institutions */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 dark:text-gray-700">
+            <label className="block text-sm font-medium text-soft">
               Institutions
             </label>
             <div className="mt-1 flex rounded-md shadow-sm">
@@ -205,7 +203,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
                 type="text"
                 value={institutionInput}
                 onChange={(e) => setInstitutionInput(e.target.value)}
-                className="flex-1 min-w-0 block w-full rounded-l-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-600 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                className="flex-1 min-w-0 block w-full rounded-l-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 placeholder="Add an institution offering this option"
               />
               <button
@@ -215,7 +213,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
                     setInstitutionInput('');
                   }
                 }}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40 text-white"
               >
                 Add
               </button>
@@ -223,13 +221,13 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
             <ArrayItems
               items={option.institutions || []}
               onRemove={(idx) => handleRemoveItem('institutions', idx)}
-              colorClass="bg-gray-600 text-white dark:bg-gray-200 dark:text-gray-800"
+              colorClass="bg-muted text-strong"
             />
           </div>
 
           {/* Advantages */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 dark:text-gray-700">
+            <label className="block text-sm font-medium text-soft">
               Advantages
             </label>
             <div className="mt-1 flex rounded-md shadow-sm">
@@ -237,7 +235,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
                 type="text"
                 value={advantageInput}
                 onChange={(e) => setAdvantageInput(e.target.value)}
-                className="flex-1 min-w-0 block w-full rounded-l-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-600 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                className="flex-1 min-w-0 block w-full rounded-l-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 placeholder="Add an advantage of this option"
               />
               <button
@@ -247,7 +245,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
                     setAdvantageInput('');
                   }
                 }}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40 text-white"
               >
                 Add
               </button>
@@ -261,7 +259,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
 
           {/* Challenges */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 dark:text-gray-700">
+            <label className="block text-sm font-medium text-soft">
               Challenges
             </label>
             <div className="mt-1 flex rounded-md shadow-sm">
@@ -269,7 +267,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
                 type="text"
                 value={challengeInput}
                 onChange={(e) => setChallengeInput(e.target.value)}
-                className="flex-1 min-w-0 block w-full rounded-l-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-600 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                className="flex-1 min-w-0 block w-full rounded-l-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 placeholder="Add a challenge of this option"
               />
               <button
@@ -279,7 +277,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
                     setChallengeInput('');
                   }
                 }}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40 text-white"
               >
                 Add
               </button>
@@ -293,7 +291,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
 
           {/* Requirements */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 dark:text-gray-700">
+            <label className="block text-sm font-medium text-soft">
               Requirements
             </label>
             <div className="mt-1 flex rounded-md shadow-sm">
@@ -301,7 +299,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
                 type="text"
                 value={requirementInput}
                 onChange={(e) => setRequirementInput(e.target.value)}
-                className="flex-1 min-w-0 block w-full rounded-l-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-600 dark:bg-white text-white dark:text-gray-900 sm:text-sm"
+                className="flex-1 min-w-0 block w-full rounded-l-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong sm:text-sm"
                 placeholder="Add a requirement for this option"
               />
               <button
@@ -311,7 +309,7 @@ const PathwayOptionInput: FC<PathwayOptionInputProps> = ({
                     setRequirementInput('');
                   }
                 }}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40 text-white"
               >
                 Add
               </button>

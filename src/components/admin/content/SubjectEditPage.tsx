@@ -88,7 +88,7 @@ export default function SubjectEditPage() {
               type="text"
               id="icon-url"
               placeholder="Enter a URL (https://...) or an emoji (e.g., 📚)"
-              className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:text-white"
+              className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm"
               value={iconValue}
               onChange={(e) => onChange(e.target.value)}
               disabled={disabled}
@@ -112,16 +112,14 @@ export default function SubjectEditPage() {
                       unoptimized={iconValue.startsWith('data:')}
                     />
                   ) : (
-                    <div className="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded">
+                    <div className="w-10 h-10 flex items-center justify-center bg-muted rounded">
                       <span className="text-lg">
                         {iconValue.length > 2 ? '📄' : iconValue}
                       </span>
                     </div>
                   )}
                 </div>
-                <span className="text-xs text-gray-400 dark:text-gray-500">
-                  Icon preview
-                </span>
+                <span className="text-xs text-soft">Icon preview</span>
               </div>
             )}
           </>
@@ -271,19 +269,17 @@ export default function SubjectEditPage() {
   const renderChaptersTab = () => (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-medium text-white dark:text-gray-900">
-          Chapters
-        </h2>
+        <h2 className="text-lg font-medium text-strong">Chapters</h2>
         <Link
           href={`/admin/content/chapters/new?subject=${subjectId}`}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
+          className="px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)]"
         >
           Add New Chapter
         </Link>
       </div>
 
       {chapters.length === 0 ? (
-        <div className="text-center py-8 text-gray-400 dark:text-gray-500">
+        <div className="text-center py-8 text-soft">
           <p className="mb-4">No chapters found for this subject.</p>
           <p>To begin building your course content:</p>
           <ol className="list-decimal list-inside text-left max-w-md mx-auto mt-4">
@@ -296,55 +292,53 @@ export default function SubjectEditPage() {
         </div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-700 dark:divide-gray-200">
-            <thead className="bg-gray-50 dark:bg-gray-700">
+          <table className="min-w-full divide-y divide-border">
+            <thead className="bg-surface-2">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                   Title
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                   Form/Grade
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                   Topics
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                   Order
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium text-soft uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-gray-800 dark:bg-white divide-y divide-gray-700 dark:divide-gray-200">
+            <tbody className="bg-surface divide-y divide-border">
               {chapters.map((chapter) => (
                 <tr key={chapter.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-white dark:text-gray-900">
+                    <div className="text-sm font-medium text-strong">
                       {chapter.name}
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-400 dark:text-gray-500">
-                      {chapter.form}
-                    </div>
+                    <div className="text-sm text-soft">{chapter.form}</div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-400 dark:text-gray-500">
-                      <span className="px-2 py-1 text-xs rounded bg-gray-100 dark:bg-gray-700">
+                    <div className="text-sm text-soft">
+                      <span className="px-2 py-1 text-xs rounded bg-muted">
                         {chapter.topic_count || 0} topics
                       </span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-400 dark:text-gray-500">
+                    <div className="text-sm text-soft">
                       {chapter.order_index}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <Link
                       href={`/admin/content/chapters/${chapter.id}`}
-                      className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-4"
+                      className="text-brand hover:text-brand mr-4"
                     >
                       Edit
                     </Link>

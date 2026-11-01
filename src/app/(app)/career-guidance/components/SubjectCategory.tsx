@@ -72,7 +72,7 @@ const SubjectCategory: FC<SubjectCategoryProps> = ({
             ))}
           </ul>
         ) : (
-          <div className="py-4 text-center text-gray-400">
+          <div className="py-4 text-center text-soft">
             No SPM subjects found for this category
           </div>
         )}

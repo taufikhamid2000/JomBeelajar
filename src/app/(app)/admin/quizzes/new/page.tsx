@@ -140,7 +140,7 @@ export default function NewQuizPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+    <div className="min-h-screen bg-surface">
       <div className="flex">
         <AdminNavigation />
         <div className="flex-1 p-8">
@@ -148,11 +148,11 @@ export default function NewQuizPage() {
             <div>
               <Link
                 href="/admin/quizzes"
-                className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 mb-2 inline-flex items-center"
+                className="text-brand hover:text-brand mb-2 inline-flex items-center"
               >
                 ← Back to Quizzes
               </Link>
-              <h1 className="text-3xl font-bold text-white dark:text-gray-900">
+              <h1 className="text-3xl font-bold text-strong">
                 Create New Quiz
               </h1>
             </div>
@@ -170,12 +170,12 @@ export default function NewQuizPage() {
             </div>
           )}
 
-          <div className="bg-gray-800 dark:bg-white rounded-lg shadow overflow-hidden">
+          <div className="bg-surface rounded-lg shadow overflow-hidden">
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
               <div>
                 <label
                   htmlFor="title"
-                  className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                  className="block text-sm font-medium text-soft"
                 >
                   Quiz Title <span className="text-red-500">*</span>
                 </label>
@@ -184,7 +184,7 @@ export default function NewQuizPage() {
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-white dark:text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 bg-surface text-strong focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm"
                   placeholder="Enter a descriptive quiz title"
                 />
               </div>
@@ -192,7 +192,7 @@ export default function NewQuizPage() {
               <div>
                 <label
                   htmlFor="description"
-                  className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                  className="block text-sm font-medium text-soft"
                 >
                   Description
                 </label>
@@ -201,7 +201,7 @@ export default function NewQuizPage() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={3}
-                  className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-white dark:text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 bg-surface text-strong focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm"
                   placeholder="Provide a brief description of the quiz (optional)"
                 />
               </div>
@@ -210,7 +210,7 @@ export default function NewQuizPage() {
                 <div>
                   <label
                     htmlFor="subject"
-                    className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                    className="block text-sm font-medium text-soft"
                   >
                     Subject <span className="text-red-500">*</span>
                   </label>
@@ -231,7 +231,7 @@ export default function NewQuizPage() {
                         setTopicId('');
                       }
                     }}
-                    className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-white dark:text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 bg-surface text-strong focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm"
                   >
                     <option value="">Select a subject</option>
                     {subjects.map((subject) => (
@@ -245,7 +245,7 @@ export default function NewQuizPage() {
                 <div>
                   <label
                     htmlFor="topic"
-                    className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                    className="block text-sm font-medium text-soft"
                   >
                     Topic <span className="text-red-500">*</span>
                   </label>
@@ -254,7 +254,7 @@ export default function NewQuizPage() {
                     value={topicId}
                     onChange={(e) => setTopicId(e.target.value)}
                     disabled={!subjectId || filteredTopics.length === 0}
-                    className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-white dark:text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-500 dark:disabled:text-gray-400"
+                    className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 bg-surface text-strong focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm disabled:bg-muted disabled:text-soft"
                   >
                     <option value="">
                       {!subjectId
@@ -276,7 +276,7 @@ export default function NewQuizPage() {
                 <div>
                   <label
                     htmlFor="difficulty"
-                    className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                    className="block text-sm font-medium text-soft"
                   >
                     Difficulty
                   </label>
@@ -288,7 +288,7 @@ export default function NewQuizPage() {
                         e.target.value as 'easy' | 'medium' | 'hard'
                       )
                     }
-                    className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-white dark:text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 bg-surface text-strong focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm"
                   >
                     <option value="easy">Easy</option>
                     <option value="medium">Medium</option>
@@ -299,7 +299,7 @@ export default function NewQuizPage() {
                 <div>
                   <label
                     htmlFor="time-limit"
-                    className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                    className="block text-sm font-medium text-soft"
                   >
                     Time Limit (seconds)
                   </label>
@@ -310,9 +310,9 @@ export default function NewQuizPage() {
                     onChange={(e) => setTimeLimit(Number(e.target.value))}
                     min={60}
                     max={3600}
-                    className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-white dark:text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 bg-surface text-strong focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm"
                   />
-                  <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">
+                  <p className="mt-1 text-xs text-soft">
                     {Math.floor(timeLimit / 60)} minutes {timeLimit % 60}{' '}
                     seconds
                   </p>
@@ -321,7 +321,7 @@ export default function NewQuizPage() {
                 <div>
                   <label
                     htmlFor="passing-score"
-                    className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                    className="block text-sm font-medium text-soft"
                   >
                     Passing Score (%)
                   </label>
@@ -332,7 +332,7 @@ export default function NewQuizPage() {
                     onChange={(e) => setPassingScore(Number(e.target.value))}
                     min={0}
                     max={100}
-                    className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-white dark:text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 bg-surface text-strong focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm"
                   />
                 </div>
               </div>
@@ -340,14 +340,14 @@ export default function NewQuizPage() {
               <div className="flex justify-end pt-4">
                 <Link
                   href="/admin/quizzes"
-                  className="bg-gray-700 dark:bg-gray-200 py-2 px-4 border border-gray-600 dark:border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-300 dark:text-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-2"
+                  className="bg-muted py-2 px-4 border border-border rounded-md shadow-sm text-sm font-medium text-soft hover:bg-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40 mr-2"
                 >
                   Cancel
                 </Link>
                 <button
                   type="submit"
                   disabled={saving || loading}
-                  className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-300 dark:disabled:bg-blue-800"
+                  className="bg-[var(--band-via)] hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)] py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40 disabled:bg-brand-soft dark:disabled:bg-[var(--band-via)]"
                 >
                   {saving ? 'Creating...' : 'Create Quiz'}
                 </button>

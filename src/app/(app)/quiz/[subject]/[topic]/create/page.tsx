@@ -72,7 +72,9 @@ export default function CreateQuizPage() {
     let cancelled = false;
     const timeout = setTimeout(() => {
       if (!cancelled) {
-        setError('Unable to connect to the API. Please contact the administrator.');
+        setError(
+          'Unable to connect to the API. Please contact the administrator.'
+        );
         setIsLoading(false);
       }
     }, 10000);
@@ -82,13 +84,31 @@ export default function CreateQuizPage() {
       .then((data) => {
         if (cancelled) return;
         if (data.error) throw new Error(data.error);
-        if (data.subject) setSubjectData({ id: data.subject.id, name: data.subject.name, slug: data.subject.slug });
-        if (data.topic) setTopicData({ id: data.topic.id, title: data.topic.name, chapter_id: data.topic.chapter_id });
-        if (data.chapter) setChapterData({ id: data.chapter.id, title: data.chapter.name, form: data.chapter.form });
+        if (data.subject)
+          setSubjectData({
+            id: data.subject.id,
+            name: data.subject.name,
+            slug: data.subject.slug,
+          });
+        if (data.topic)
+          setTopicData({
+            id: data.topic.id,
+            title: data.topic.name,
+            chapter_id: data.topic.chapter_id,
+          });
+        if (data.chapter)
+          setChapterData({
+            id: data.chapter.id,
+            title: data.chapter.name,
+            form: data.chapter.form,
+          });
       })
       .catch((err) => {
         logger.error('Error fetching topic metadata:', err);
-        if (!cancelled) setError('Unable to connect to the API. Please contact the administrator.');
+        if (!cancelled)
+          setError(
+            'Unable to connect to the API. Please contact the administrator.'
+          );
       })
       .finally(() => {
         if (!cancelled) {
@@ -97,7 +117,10 @@ export default function CreateQuizPage() {
         }
       });
 
-    return () => { cancelled = true; clearTimeout(timeout); };
+    return () => {
+      cancelled = true;
+      clearTimeout(timeout);
+    };
   }, [topic]);
 
   const mutation = useMutation({
@@ -122,7 +145,9 @@ export default function CreateQuizPage() {
     },
     onError: (error) => {
       logger.error('Error creating quiz:', error);
-      setError('Unable to connect to the API. Please contact the administrator.');
+      setError(
+        'Unable to connect to the API. Please contact the administrator.'
+      );
     },
   });
 
@@ -140,10 +165,8 @@ export default function CreateQuizPage() {
       <div className="container mx-auto py-8 px-4">
         <div className="max-w-3xl mx-auto flex justify-center items-center min-h-[300px]">
           <div className="text-center">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-blue-500 border-r-transparent border-b-blue-500 border-l-transparent mb-4"></div>
-            <p className="text-gray-400 dark:text-gray-600">
-              Loading quiz information...
-            </p>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-t-brand border-r-transparent border-b-brand border-l-transparent mb-4"></div>
+            <p className="text-soft">Loading quiz information...</p>
           </div>
         </div>
       </div>
@@ -156,18 +179,18 @@ export default function CreateQuizPage() {
         <div className="flex items-center justify-between mb-6">
           <button
             onClick={() => router.back()}
-            className="text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+            className="text-brand hover:underline flex items-center"
           >
             ← Back
           </button>
         </div>
 
-        <div className="bg-gray-800 dark:bg-white rounded-lg shadow-md p-6 md:p-8">
+        <div className="bg-surface rounded-lg shadow-md p-6 md:p-8">
           <div className="mb-6">
             <h1 className="text-2xl md:text-3xl font-bold mb-2">
               Create New Quiz
             </h1>
-            <p className="text-gray-400 dark:text-gray-600">
+            <p className="text-soft">
               Design a quiz for students to test their knowledge
             </p>
           </div>
@@ -192,11 +215,11 @@ export default function CreateQuizPage() {
           />
         </div>
 
-        <div className="mt-8 bg-gray-50 dark:bg-gray-800/50 border border-gray-700 dark:border-gray-200 rounded-lg p-5">
-          <h2 className="text-lg font-medium mb-3 text-gray-200 dark:text-gray-800">
+        <div className="mt-8 bg-surface-2 border border-border rounded-lg p-5">
+          <h2 className="text-lg font-medium mb-3 text-strong">
             Tips for creating effective quizzes
           </h2>
-          <ul className="space-y-2 text-sm text-gray-400 dark:text-gray-600">
+          <ul className="space-y-2 text-sm text-soft">
             <li className="flex items-start">
               <span className="text-green-500 mr-2">✓</span>
               <span>Use clear, concise language in your questions</span>

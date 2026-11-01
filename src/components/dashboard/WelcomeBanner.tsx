@@ -61,7 +61,7 @@ const WelcomeBanner = ({ user, isStatic = false }: WelcomeBannerProps) => {
   };
 
   return (
-    <section className="dashboard-section welcome bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md dark:bg-gradient-to-r dark:from-gray-800 dark:to-gray-900">
+    <section className="dashboard-section welcome band-gradient text-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md dark:bg-gradient-to-r dark:from-gray-800 dark:to-gray-900">
       <div>
         <h1 className="text-3xl sm:text-4xl font-bold mb-2">
           Welcome back, {user.display_name || user.email.split('@')[0]}
@@ -70,7 +70,7 @@ const WelcomeBanner = ({ user, isStatic = false }: WelcomeBannerProps) => {
               href={isStatic ? '/static/profile' : '/profile'}
               className="inline-block ml-4"
             >
-              <button className="text-sm bg-white bg-opacity-20 hover:bg-opacity-30 px-3 py-1 rounded transition-colors">
+              <button className="text-sm bg-surface bg-opacity-20 hover:bg-opacity-30 px-3 py-1 rounded transition-colors">
                 Set username
               </button>
             </Link>
@@ -85,21 +85,21 @@ const WelcomeBanner = ({ user, isStatic = false }: WelcomeBannerProps) => {
         <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:space-x-4">
           <Link
             href={isStatic ? '/static/leaderboard' : '/leaderboard'}
-            className="inline-flex items-center justify-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 transition-all rounded-lg text-sm font-medium"
+            className="inline-flex items-center justify-center px-4 py-2 bg-surface bg-opacity-20 hover:bg-opacity-30 transition-all rounded-lg text-sm font-medium"
           >
             <span className="mr-2">🏆</span>
             View Leaderboard
           </Link>
           <button
             onClick={handleRandomQuiz}
-            className="inline-flex items-center justify-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 transition-all rounded-lg text-sm font-medium"
+            className="inline-flex items-center justify-center px-4 py-2 bg-surface bg-opacity-20 hover:bg-opacity-30 transition-all rounded-lg text-sm font-medium"
           >
             <span className="mr-2">🎯</span>
             Try Random Quiz
           </button>
           <button
             onClick={handleRandomTopic}
-            className="inline-flex items-center justify-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 transition-all rounded-lg text-sm font-medium"
+            className="inline-flex items-center justify-center px-4 py-2 bg-surface bg-opacity-20 hover:bg-opacity-30 transition-all rounded-lg text-sm font-medium"
           >
             <span className="mr-2">🎲</span>
             Explore Random Topic

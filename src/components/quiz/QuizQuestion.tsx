@@ -39,7 +39,7 @@ const QuizQuestion = forwardRef<HTMLHeadingElement, QuizQuestionProps>(
           <h2
             ref={headingRef}
             tabIndex={-1}
-            className="mb-4 text-xl font-bold text-gray-900 focus:outline-none dark:text-gray-100"
+            className="mb-4 text-xl font-bold text-strong focus:outline-none"
           >
             {question.text}
           </h2>
@@ -56,13 +56,16 @@ const QuizQuestion = forwardRef<HTMLHeadingElement, QuizQuestionProps>(
           id={headingId}
           ref={headingRef}
           tabIndex={-1}
-          className="mb-2 text-xl font-bold leading-snug text-gray-900 focus:outline-none sm:text-2xl dark:text-gray-100"
+          className="mb-2 text-xl font-bold leading-snug text-strong focus:outline-none sm:text-2xl"
         >
           {question.text}
         </h2>
-        <p className="mb-5 text-sm text-gray-500 dark:text-gray-400">
+        <p className="mb-5 text-sm text-soft">
           {isMulti ? 'Select all that apply' : 'Choose one answer'}
-          <span className="hidden sm:inline"> &middot; press 1-{Math.min(9, question.answers.length)} to pick</span>
+          <span className="hidden sm:inline">
+            {' '}
+            &middot; press 1-{Math.min(9, question.answers.length)} to pick
+          </span>
         </p>
         <div
           role={isMulti ? 'group' : 'radiogroup'}
@@ -84,14 +87,14 @@ const QuizQuestion = forwardRef<HTMLHeadingElement, QuizQuestionProps>(
                 aria-disabled={locked}
                 data-option
                 onClick={() => toggle(answer.id)}
-                className={`flex min-h-14 w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-left text-base font-medium shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 motion-safe:transition-colors dark:focus-visible:ring-offset-gray-900 ${
+                className={`flex min-h-14 w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-left text-base font-medium shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2 motion-safe:transition-colors dark:focus-visible:ring-offset-gray-900 ${
                   isRight
                     ? 'border-green-600 bg-green-50 text-green-900 dark:border-green-400 dark:bg-green-900/30 dark:text-green-100'
                     : isWrong
-                    ? 'border-red-600 bg-red-50 text-red-900 dark:border-red-400 dark:bg-red-900/30 dark:text-red-100'
-                    : selected
-                    ? 'border-blue-600 bg-blue-50 text-blue-900 dark:border-blue-400 dark:bg-blue-900/30 dark:text-blue-100'
-                    : 'border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-gray-600 dark:hover:bg-gray-700/60'
+                      ? 'border-red-600 bg-red-50 text-red-900 dark:border-red-400 dark:bg-red-900/30 dark:text-red-100'
+                      : selected
+                        ? 'border-brand/40 bg-brand-soft text-brand dark:bg-[var(--band-via)]/30'
+                        : 'border-border bg-surface text-strong hover:border-border hover:bg-surface-2'
                 } ${locked ? 'cursor-default' : 'cursor-pointer'}`}
               >
                 <span
@@ -102,10 +105,10 @@ const QuizQuestion = forwardRef<HTMLHeadingElement, QuizQuestionProps>(
                     isRight
                       ? 'border-green-600 bg-green-600 text-white dark:border-green-400 dark:bg-green-500'
                       : isWrong
-                      ? 'border-red-600 bg-red-600 text-white dark:border-red-400 dark:bg-red-500'
-                      : selected
-                      ? 'border-blue-600 bg-blue-600 text-white dark:border-blue-400 dark:bg-blue-500'
-                      : 'border-gray-300 text-gray-500 dark:border-gray-600 dark:text-gray-400'
+                        ? 'border-red-600 bg-red-600 text-white dark:border-red-400 dark:bg-red-500'
+                        : selected
+                          ? 'border-brand/40 bg-[var(--band-via)] text-white dark:bg-[var(--band-via)]'
+                          : 'border-border text-soft'
                   }`}
                 >
                   {isRight ? '✓' : isWrong ? '✕' : i + 1}

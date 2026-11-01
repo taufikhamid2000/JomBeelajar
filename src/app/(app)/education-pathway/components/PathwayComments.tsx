@@ -29,23 +29,21 @@ const PathwayComments: FC<PathwayCommentsProps> = ({ pathwayId }) => {
     handleDeleteComment,
   } = usePathwayComments(pathwayId);
   return (
-    <div className="border-t border-gray-700 dark:border-gray-200 px-4 py-5 sm:px-6">
+    <div className="border-t border-border px-4 py-5 sm:px-6">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-semibold text-white dark:text-gray-900">
+        <h3 className="text-xl font-semibold text-strong">
           Student Tips & Experiences
         </h3>
 
         <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-400 dark:text-gray-600">
-            Sort by:
-          </span>
+          <span className="text-sm text-soft">Sort by:</span>
           <div className="relative">
             <select
               value={sortOrder}
               onChange={(e) =>
                 setSortOrder(e.target.value as 'newest' | 'oldest')
               }
-              className="bg-gray-700 dark:bg-white border border-gray-600 dark:border-gray-300 text-white dark:text-gray-900 rounded-md py-1 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="bg-muted border border-border text-strong rounded-md py-1 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand/40"
             >
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
@@ -57,9 +55,7 @@ const PathwayComments: FC<PathwayCommentsProps> = ({ pathwayId }) => {
       <div className="space-y-6">
         {isLoading ? (
           <div className="text-center py-8">
-            <p className="text-gray-400 dark:text-gray-600">
-              Loading comments...
-            </p>
+            <p className="text-soft">Loading comments...</p>
           </div>
         ) : error ? (
           <div className="text-center py-8">
@@ -69,7 +65,7 @@ const PathwayComments: FC<PathwayCommentsProps> = ({ pathwayId }) => {
           </div>
         ) : currentComments.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-gray-400 dark:text-gray-600">
+            <p className="text-soft">
               No comments yet for this education pathway. Be the first to share
               your experience!
             </p>
@@ -78,22 +74,22 @@ const PathwayComments: FC<PathwayCommentsProps> = ({ pathwayId }) => {
           currentComments.map((comment) => (
             <div
               key={comment.id}
-              className="bg-gray-700/70 dark:bg-gray-100/70 rounded-lg p-5 border-l-4 border-indigo-500 dark:border-indigo-600"
+              className="bg-muted/70 rounded-lg p-5 border-l-4 border-brand/40"
             >
               <div className="flex items-start">
                 <div className="flex-shrink-0 mr-4">
-                  <div className="h-10 w-10 rounded-full bg-gray-600 dark:bg-gray-300 flex items-center justify-center text-xl">
+                  <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center text-xl">
                     {comment.avatar || '👤'}
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
                   {' '}
                   <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm font-medium text-white dark:text-gray-900">
+                    <p className="text-sm font-medium text-strong">
                       {comment.authorName}
                     </p>
                     <div className="flex items-center space-x-2">
-                      <span className="text-xs text-gray-400 dark:text-gray-500">
+                      <span className="text-xs text-soft">
                         {formatDistanceToNow(new Date(comment.createdAt), {
                           addSuffix: true,
                         })}
@@ -110,9 +106,7 @@ const PathwayComments: FC<PathwayCommentsProps> = ({ pathwayId }) => {
                       )}
                     </div>
                   </div>
-                  <p className="text-gray-300 dark:text-gray-600">
-                    {comment.comment}
-                  </p>
+                  <p className="text-soft">{comment.comment}</p>
                 </div>
               </div>
             </div>
@@ -132,8 +126,8 @@ const PathwayComments: FC<PathwayCommentsProps> = ({ pathwayId }) => {
               disabled={currentPage === 1}
               className={`relative inline-flex items-center px-2 py-2 rounded-l-md border ${
                 currentPage === 1
-                  ? 'border-gray-700 bg-gray-800 text-gray-500 cursor-not-allowed'
-                  : 'border-gray-600 bg-gray-700 text-gray-400 hover:bg-gray-600'
+                  ? 'border-border bg-surface text-soft cursor-not-allowed'
+                  : 'border-border bg-muted text-soft hover:bg-muted'
               } text-sm font-medium`}
             >
               <span className="sr-only">Previous</span>←
@@ -145,8 +139,8 @@ const PathwayComments: FC<PathwayCommentsProps> = ({ pathwayId }) => {
                 onClick={() => setCurrentPage(index + 1)}
                 className={`relative inline-flex items-center px-4 py-2 border ${
                   currentPage === index + 1
-                    ? 'bg-indigo-600 text-white border-indigo-500'
-                    : 'border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    ? 'bg-[var(--band-via)] text-white border-brand/40'
+                    : 'border-border bg-muted text-soft hover:bg-muted'
                 } text-sm font-medium`}
               >
                 {index + 1}
@@ -158,8 +152,8 @@ const PathwayComments: FC<PathwayCommentsProps> = ({ pathwayId }) => {
               disabled={currentPage === totalPages}
               className={`relative inline-flex items-center px-2 py-2 rounded-r-md border ${
                 currentPage === totalPages
-                  ? 'border-gray-700 bg-gray-800 text-gray-500 cursor-not-allowed'
-                  : 'border-gray-600 bg-gray-700 text-gray-400 hover:bg-gray-600'
+                  ? 'border-border bg-surface text-soft cursor-not-allowed'
+                  : 'border-border bg-muted text-soft hover:bg-muted'
               } text-sm font-medium`}
             >
               <span className="sr-only">Next</span>→
@@ -168,22 +162,20 @@ const PathwayComments: FC<PathwayCommentsProps> = ({ pathwayId }) => {
         </div>
       )}
 
-      <div className="mt-6 bg-gray-700 dark:bg-gray-200 rounded-lg p-5 border border-gray-600 dark:border-gray-300">
-        <h4 className="font-medium text-white dark:text-gray-900 mb-2">
-          Share Your Experience
-        </h4>
-        <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
+      <div className="mt-6 bg-muted rounded-lg p-5 border border-border">
+        <h4 className="font-medium text-strong mb-2">Share Your Experience</h4>
+        <p className="text-sm text-soft mb-4">
           Have you followed this education pathway? Share your tips, experiences
           or alternative options with others!
         </p>
 
         <div className="mb-3">
-          <label className="flex items-center space-x-2 text-sm text-gray-300 dark:text-gray-600">
+          <label className="flex items-center space-x-2 text-sm text-soft">
             <input
               type="checkbox"
               checked={isAnonymous}
               onChange={(e) => setIsAnonymous(e.target.checked)}
-              className="rounded border-gray-600 text-indigo-600 focus:ring-indigo-500"
+              className="rounded border-border text-brand focus:ring-brand/40"
             />
             <span>Post anonymously</span>
           </label>
@@ -196,7 +188,7 @@ const PathwayComments: FC<PathwayCommentsProps> = ({ pathwayId }) => {
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
             disabled={authLoading}
-            className="flex-1 rounded-l-md border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-600 dark:bg-white text-white dark:text-gray-900"
+            className="flex-1 rounded-l-md border-border shadow-sm focus:border-brand/40 focus:ring-brand/40 bg-muted text-strong"
           />
           <button
             type="button"
@@ -204,8 +196,8 @@ const PathwayComments: FC<PathwayCommentsProps> = ({ pathwayId }) => {
             disabled={!commentText.trim() || authLoading}
             className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md shadow-sm text-white ${
               !commentText.trim() || authLoading
-                ? 'bg-gray-500 cursor-not-allowed'
-                : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                ? 'bg-muted cursor-not-allowed'
+                : 'bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40'
             }`}
           >
             Comment
@@ -218,7 +210,7 @@ const PathwayComments: FC<PathwayCommentsProps> = ({ pathwayId }) => {
           </p>
         )}
 
-        <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
+        <p className="mt-2 text-xs text-soft">
           Comments are moderated and may take up to 24 hours to appear.
         </p>
       </div>

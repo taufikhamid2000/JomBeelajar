@@ -74,27 +74,29 @@ export default function AboutPage() {
       <Head>
         <title>About JomBeelajar</title>
       </Head>{' '}
-      <div className="relative bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-24 px-8 md:px-20 overflow-hidden">
+      <div className="relative band-gradient text-white py-24 px-8 md:px-20 overflow-hidden">
         {' '}
         {/* Parallax decorative elements */}
         <div className="absolute top-0 left-0 w-full h-full opacity-10">
-          <div className="absolute top-10 left-10 w-20 h-20 rounded-full bg-white transform translate-y-[calc(var(--scroll)*0.2px)]"></div>
-          <div className="absolute bottom-10 right-10 w-32 h-32 rounded-full bg-white transform translate-y-[calc(var(--scroll)*-0.3px)]"></div>
-          <div className="absolute top-1/3 right-1/4 w-16 h-16 rounded-full bg-white transform translate-y-[calc(var(--scroll)*0.15px)]"></div>
+          <div className="absolute top-10 left-10 w-20 h-20 rounded-full bg-surface transform translate-y-[calc(var(--scroll)*0.2px)]"></div>
+          <div className="absolute bottom-10 right-10 w-32 h-32 rounded-full bg-surface transform translate-y-[calc(var(--scroll)*-0.3px)]"></div>
+          <div className="absolute top-1/3 right-1/4 w-16 h-16 rounded-full bg-surface transform translate-y-[calc(var(--scroll)*0.15px)]"></div>
 
           {/* Additional parallax elements */}
-          <div className="absolute top-1/4 left-1/4 w-12 h-12 rounded-full bg-white transform translate-y-[calc(var(--scroll)*-0.1px)]"></div>
-          <div className="absolute bottom-1/3 left-1/5 w-24 h-24 rounded-full bg-white transform translate-y-[calc(var(--scroll)*0.25px)]"></div>
+          <div className="absolute top-1/4 left-1/4 w-12 h-12 rounded-full bg-surface transform translate-y-[calc(var(--scroll)*-0.1px)]"></div>
+          <div className="absolute bottom-1/3 left-1/5 w-24 h-24 rounded-full bg-surface transform translate-y-[calc(var(--scroll)*0.25px)]"></div>
 
           {/* Enhanced parallax elements */}
-          <div className="absolute top-1/5 right-1/3 w-28 h-28 rounded-lg rotate-45 bg-white transform translate-y-[calc(var(--scroll)*0.13px)] opacity-40"></div>
+          <div className="absolute top-1/5 right-1/3 w-28 h-28 rounded-lg rotate-45 bg-surface transform translate-y-[calc(var(--scroll)*0.13px)] opacity-40"></div>
           <div className="absolute bottom-1/4 left-1/3 w-16 h-16 rounded-full bg-yellow-300 mix-blend-screen transform translate-y-[calc(var(--scroll)*-0.18px)] opacity-25"></div>
-          <div className="absolute top-2/3 right-1/5 w-10 h-10 rounded-md bg-white transform translate-y-[calc(var(--scroll)*0.22px)] rotate-12"></div>
+          <div className="absolute top-2/3 right-1/5 w-10 h-10 rounded-md bg-surface transform translate-y-[calc(var(--scroll)*0.22px)] rotate-12"></div>
         </div>
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fadeIn">
             <span className="inline-block">Edu</span>
-            <span className="inline-block text-yellow-300">Bridge</span>
+            <span className="inline-block text-[var(--band-accent)]">
+              Bridge
+            </span>
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto font-light">
             Earn up to RM1000 when you join JomBeelajar – and make your school
@@ -103,40 +105,37 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {' '}
             <button
-              className="inline-block uppercase tracking-wide rounded-full shadow-lg transition-all duration-300 ease-in-out px-8 py-4 bg-white text-blue-600 font-medium hover:bg-gray-100 hover:scale-105 transform"
+              className="inline-block press min-h-[44px] rounded-full bg-surface px-6 py-3 text-sm font-semibold text-[#0b5f58] hover:bg-white/90"
               onClick={() => {
-                logger.log(
-                  'Dashboard button clicked, isLoggedIn:',
-                  isLoggedIn
-                );
+                logger.log('Dashboard button clicked, isLoggedIn:', isLoggedIn);
                 router.push(isLoggedIn ? '/dashboard' : '/auth');
               }}
             >
               Access your dashboard
             </button>{' '}
             <button
-              className="inline-block uppercase tracking-wide rounded-full shadow-lg transition-all duration-300 ease-in-out px-8 py-4 bg-yellow-400 text-blue-800 font-medium hover:bg-yellow-300 hover:scale-105 transform"
+              className="inline-block press min-h-[44px] rounded-full border-2 border-white/70 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
               onClick={() => {
                 router.push('/career-guidance');
               }}
             >
-              Subject Guidance 📚
+              Subject Guidance
             </button>{' '}
             <button
-              className="inline-block uppercase tracking-wide rounded-full shadow-lg transition-all duration-300 ease-in-out px-8 py-4 bg-green-400 text-blue-800 font-medium hover:bg-green-300 hover:scale-105 transform"
+              className="inline-block press min-h-[44px] rounded-full border-2 border-white/70 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
               onClick={() => {
                 router.push('/education-pathway');
               }}
             >
-              Education Pathway 🎓
+              Education Pathway
             </button>{' '}
             <button
-              className="inline-block uppercase tracking-wide rounded-full shadow-lg transition-all duration-300 ease-in-out px-8 py-4 bg-transparent border-2 border-white text-white font-medium hover:bg-white/10 hover:scale-105 transform"
+              className="inline-block press min-h-[44px] rounded-full border-2 border-white/70 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
               onClick={() => {
                 window.open('/docs/JomBeelajar%20Research.pdf', '_blank');
               }}
             >
-              Learn More 📄
+              Learn More
             </button>
           </div>
           {/* Stats preview */}
@@ -157,29 +156,30 @@ export default function AboutPage() {
         </div>
       </div>{' '}
       <section className="container mx-auto px-4 py-12 max-w-4xl">
-        <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-8 mb-8">
+        <div className="bg-surface rounded-xl shadow-lg p-8 mb-8">
           <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
-          <p className="mb-4 text-gray-300 dark:text-gray-700">
-            JomBeelajar is a lightweight, gamified microlearning platform built to
-            help Malaysian Form 4 and Form 5 students strengthen their academic
-            skills through daily engagement. By offering fast, rewarding quiz
-            experiences, JomBeelajar motivates students to build consistent study
-            habits, earn recognition, and achieve measurable academic growth.
+          <p className="mb-4 text-soft">
+            JomBeelajar is a lightweight, gamified microlearning platform built
+            to help Malaysian Form 4 and Form 5 students strengthen their
+            academic skills through daily engagement. By offering fast,
+            rewarding quiz experiences, JomBeelajar motivates students to build
+            consistent study habits, earn recognition, and achieve measurable
+            academic growth.
           </p>
-          <p className="text-gray-300 dark:text-gray-700">
+          <p className="text-soft">
             The platform operates independently, without claiming alignment with
             any official examination board or curriculum.
           </p>
         </div>
 
-        <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-8 mb-8">
+        <div className="bg-surface rounded-xl shadow-lg p-8 mb-8">
           <h2 className="text-2xl font-semibold mb-4">Our Approach</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="text-xl font-medium mb-2 text-blue-600 dark:text-blue-400">
+              <h3 className="text-xl font-medium mb-2 text-brand">
                 Learning Method
               </h3>
-              <ul className="list-disc pl-5 space-y-2 text-gray-300 dark:text-gray-700">
+              <ul className="list-disc pl-5 space-y-2 text-soft">
                 <li>
                   Daily bite-sized quizzes covering key secondary school topics
                 </li>
@@ -189,10 +189,10 @@ export default function AboutPage() {
               </ul>
             </div>
             <div>
-              <h3 className="text-xl font-medium mb-2 text-blue-600 dark:text-blue-400">
+              <h3 className="text-xl font-medium mb-2 text-brand">
                 Platform Principles
               </h3>
-              <ul className="list-disc pl-5 space-y-2 text-gray-300 dark:text-gray-700">
+              <ul className="list-disc pl-5 space-y-2 text-soft">
                 <li>Mobile-first design</li>
                 <li>Low-bandwidth usage</li>
                 <li>Gamification at the core</li>
@@ -208,28 +208,28 @@ export default function AboutPage() {
           {/* About us parallax background */}
           <div className="absolute inset-0 w-full h-full -z-10 overflow-hidden">
             {/* Animated background shapes */}
-            <div className="absolute -top-10 -left-10 w-64 h-64 bg-blue-50/30 dark:bg-blue-900/5 rounded-full blur-3xl transform translate-y-[calc(var(--scroll)*0.06px)]"></div>
-            <div className="absolute -bottom-20 -right-10 w-72 h-72 bg-indigo-50/30 dark:bg-indigo-900/5 rounded-full blur-3xl transform translate-y-[calc(var(--scroll)*-0.04px)]"></div>
+            <div className="absolute -top-10 -left-10 w-64 h-64 bg-brand-soft/30 dark:bg-[var(--band-via)]/5 rounded-full blur-3xl transform translate-y-[calc(var(--scroll)*0.06px)]"></div>
+            <div className="absolute -bottom-20 -right-10 w-72 h-72 bg-brand-soft/30 dark:bg-[var(--band-via)]/5 rounded-full blur-3xl transform translate-y-[calc(var(--scroll)*-0.04px)]"></div>
           </div>
 
-          <span className="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-semibold mb-4 dark:bg-blue-900/30 dark:text-blue-300 relative">
-            <span className="absolute -bottom-1 -right-1 w-2 h-2 bg-blue-400 rounded-full transform translate-y-[calc(var(--scroll)*0.25px)]"></span>
+          <span className="inline-block px-4 py-1 rounded-full bg-brand-soft text-brand text-sm font-semibold mb-4 dark:bg-[var(--band-via)]/30 relative">
+            <span className="absolute -bottom-1 -right-1 w-2 h-2 bg-brand-soft rounded-full transform translate-y-[calc(var(--scroll)*0.25px)]"></span>
             ABOUT US
           </span>
           <h2 className="text-4xl font-bold mb-6">
             Welcome to{' '}
-            <span className="text-blue-600 dark:text-blue-400 relative inline-block">
+            <span className="text-brand relative inline-block">
               JomBeelajar
             </span>
           </h2>
           <div className="h-1 w-20 bg-yellow-400 mx-auto"></div>
         </div>{' '}
-        <div className="bg-gray-800 dark:bg-white rounded-xl shadow-xl p-8 mb-16 border border-gray-100 dark:border-gray-700 transform transition-all hover:shadow-2xl">
+        <div className="bg-surface rounded-xl shadow-xl p-8 mb-16 border border-border transform transition-all hover:shadow-2xl">
           <div className="max-w-4xl mx-auto">
-            <div className="prose prose-lg max-w-none text-gray-300 dark:text-gray-700">
-              <h2 className="text-3xl font-bold mb-6 text-gray-100 dark:text-gray-800">
-                Earn up to RM1000 when you join JomBeelajar – and make your school
-                proud!
+            <div className="prose prose-lg max-w-none text-soft">
+              <h2 className="text-3xl font-bold mb-6 text-strong">
+                Earn up to RM1000 when you join JomBeelajar – and make your
+                school proud!
               </h2>
 
               <p className="text-lg mb-6">
@@ -247,9 +247,9 @@ export default function AboutPage() {
               </p>
 
               <p className="text-lg mb-6">
-                But why stop at solo success? JomBeelajar lets you represent your
-                school. Your points don't just boost your own ranking – they
-                contribute to your school's total. Imagine Sekolah Menengah
+                But why stop at solo success? JomBeelajar lets you represent
+                your school. Your points don't just boost your own ranking –
+                they contribute to your school's total. Imagine Sekolah Menengah
                 Kebangsaan Ayer Jernih outperforming MRSM Tawau. Pergh. The
                 bragging rights would be legendary! Watch the leaderboard as
                 your school rises through the ranks, bringing pride (yeah its
@@ -260,9 +260,9 @@ export default function AboutPage() {
                 And it's not just the students paying attention. KPM be like:
                 "Alamak, this analytics says students from Klang, Selangor are
                 actually far behind. What are they doing? Maybe we gotta send in
-                some reinforcement." JomBeelajar doesn't just gamify studying – it
-                generates real insights that spotlight where schools shine and
-                where they need extra support.
+                some reinforcement." JomBeelajar doesn't just gamify studying –
+                it generates real insights that spotlight where schools shine
+                and where they need extra support.
               </p>
 
               <p className="text-lg mb-6">
@@ -310,7 +310,7 @@ export default function AboutPage() {
           {/* Subtle parallax decorative elements */}
           <div className="absolute pointer-events-none -z-10 opacity-5">
             <div className="absolute -top-20 -left-20 w-40 h-40 rounded-full bg-green-500 transform translate-y-[calc(var(--scroll)*-0.05px)]"></div>
-            <div className="absolute -bottom-20 -right-20 w-40 h-40 rounded-full bg-blue-500 transform translate-y-[calc(var(--scroll)*0.05px)]"></div>
+            <div className="absolute -bottom-20 -right-20 w-40 h-40 rounded-full bg-[var(--band-via)] transform translate-y-[calc(var(--scroll)*0.05px)]"></div>
           </div>
 
           <span className="inline-block px-4 py-1 rounded-full bg-green-100 text-green-800 text-sm font-semibold mb-4 dark:bg-green-900/30 dark:text-green-300">
@@ -320,11 +320,11 @@ export default function AboutPage() {
           <div className="h-1 w-20 bg-yellow-400 mx-auto"></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          <div className="bg-surface rounded-xl shadow-lg p-6 border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <div className="flex items-center mb-4">
-              <div className="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-full mr-4">
+              <div className="bg-brand-soft dark:bg-[var(--band-via)]/30 p-3 rounded-full mr-4">
                 <svg
-                  className="h-6 w-6 text-blue-600 dark:text-blue-400"
+                  className="h-6 w-6 text-brand"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -337,7 +337,7 @@ export default function AboutPage() {
                   />
                 </svg>
               </div>
-              <h4 className="text-xl font-semibold text-gray-100 dark:text-gray-800">
+              <h4 className="text-xl font-semibold text-strong">
                 Market Overview
               </h4>
             </div>
@@ -356,7 +356,7 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
+                <span className="text-soft">
                   <strong>1.1 million</strong> students in Malaysian upper
                   secondary education (Form 4 and 5)
                 </span>
@@ -375,7 +375,7 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
+                <span className="text-soft">
                   Competitors focus on static notes or traditional AI tutors
                 </span>
               </li>
@@ -393,17 +393,17 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
+                <span className="text-soft">
                   Current options lack proper engagement loops
                 </span>
               </li>
             </ul>
           </div>
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          <div className="bg-surface rounded-xl shadow-lg p-6 border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <div className="flex items-center mb-4">
-              <div className="bg-purple-100 dark:bg-purple-900/30 p-3 rounded-full mr-4">
+              <div className="bg-brand-soft dark:bg-[var(--band-via)]/30 p-3 rounded-full mr-4">
                 <svg
-                  className="h-6 w-6 text-purple-600 dark:text-purple-400"
+                  className="h-6 w-6 text-brand"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -416,7 +416,7 @@ export default function AboutPage() {
                   />
                 </svg>
               </div>
-              <h4 className="text-xl font-semibold text-gray-100 dark:text-gray-800">
+              <h4 className="text-xl font-semibold text-strong">
                 Gaps Identified
               </h4>
             </div>
@@ -435,9 +435,9 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
-                  Limited tools combining quick learning ⚡, habit formation,
-                  and tangible rewards 🏅
+                <span className="text-soft">
+                  Limited tools combining quick learning, habit formation, and
+                  tangible rewards
                 </span>
               </li>
               <li className="flex items-start">
@@ -454,7 +454,7 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
+                <span className="text-soft">
                   Traditional apps are not mobile-data friendly, disadvantaging
                   B40 groups
                 </span>
@@ -473,7 +473,7 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
+                <span className="text-soft">
                   No major platform currently gamifies daily subject mastery at
                   secondary school level
                 </span>
@@ -494,16 +494,16 @@ export default function AboutPage() {
             <span className="absolute -bottom-1 -left-1 w-2 h-2 bg-yellow-400 rounded-full transform translate-y-[calc(var(--scroll)*-0.3px)]"></span>
             AUDIENCE
           </span>
-          <h3 className="text-3xl font-bold mb-6">🎯 Target Users</h3>
+          <h3 className="text-3xl font-bold mb-6"> Target Users</h3>
           <div className="h-1 w-20 bg-yellow-400 mx-auto mb-8 relative">
             <div className="absolute w-3 h-3 rounded-full bg-yellow-300 -left-4 -top-1 transform translate-y-[calc(var(--scroll)*-0.25px)]"></div>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-            <div className="bg-blue-100 dark:bg-blue-900/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="bg-surface rounded-xl shadow-md p-6 border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="bg-brand-soft dark:bg-[var(--band-via)]/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg
-                className="h-8 w-8 text-blue-600 dark:text-blue-400"
+                className="h-8 w-8 text-brand"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -516,19 +516,18 @@ export default function AboutPage() {
                 />
               </svg>
             </div>
-            <h4 className="text-xl font-semibold mb-3 text-center text-gray-100 dark:text-gray-800">
+            <h4 className="text-xl font-semibold mb-3 text-center text-strong">
               Primary
             </h4>
-            <p className="text-gray-300 dark:text-gray-600 text-center">
+            <p className="text-soft text-center">
               Form 4 and Form 5 students aiming to strengthen academic mastery
-              📚
             </p>
           </div>
 
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-            <div className="bg-purple-100 dark:bg-purple-900/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="bg-surface rounded-xl shadow-md p-6 border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="bg-brand-soft dark:bg-[var(--band-via)]/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg
-                className="h-8 w-8 text-purple-600 dark:text-purple-400"
+                className="h-8 w-8 text-brand"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -541,15 +540,15 @@ export default function AboutPage() {
                 />
               </svg>
             </div>
-            <h4 className="text-xl font-semibold mb-3 text-center text-gray-100 dark:text-gray-800">
+            <h4 className="text-xl font-semibold mb-3 text-center text-strong">
               Secondary
             </h4>
-            <p className="text-gray-300 dark:text-gray-600 text-center">
-              Students retaking secondary-level examinations 🔄
+            <p className="text-soft text-center">
+              Students retaking secondary-level examinations
             </p>
           </div>
 
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          <div className="bg-surface rounded-xl shadow-md p-6 border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <div className="bg-green-100 dark:bg-green-900/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg
                 className="h-8 w-8 text-green-600 dark:text-green-400"
@@ -565,38 +564,38 @@ export default function AboutPage() {
                 />
               </svg>
             </div>
-            <h4 className="text-xl font-semibold mb-3 text-center text-gray-100 dark:text-gray-800">
+            <h4 className="text-xl font-semibold mb-3 text-center text-strong">
               Tertiary
             </h4>
-            <p className="text-gray-300 dark:text-gray-600 text-center">
+            <p className="text-soft text-center">
               Parents and teachers seeking complementary study tools for their
-              children or students 👨‍🏫
+              children or students
             </p>
           </div>
         </div>{' '}
         <div className="text-center mb-12 mt-20 relative">
           {/* Floating shapes with parallax */}
           <div className="absolute inset-0 w-full h-full -z-10 overflow-hidden">
-            <div className="absolute -top-10 left-1/4 w-16 h-16 rounded-md bg-blue-500/5 rotate-45 transform translate-y-[calc(var(--scroll)*0.08px)]"></div>
-            <div className="absolute top-1/2 -right-5 w-20 h-20 rounded-md bg-indigo-500/5 rotate-12 transform translate-y-[calc(var(--scroll)*-0.1px)]"></div>
+            <div className="absolute -top-10 left-1/4 w-16 h-16 rounded-md bg-[var(--band-via)]/5 rotate-45 transform translate-y-[calc(var(--scroll)*0.08px)]"></div>
+            <div className="absolute top-1/2 -right-5 w-20 h-20 rounded-md bg-[var(--band-via)]/5 rotate-12 transform translate-y-[calc(var(--scroll)*-0.1px)]"></div>
             <div className="absolute -bottom-5 left-10 w-12 h-12 rounded-full bg-green-500/5 transform translate-y-[calc(var(--scroll)*0.12px)]"></div>
           </div>
 
-          <span className="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-semibold mb-4 dark:bg-blue-900/30 dark:text-blue-300">
+          <span className="inline-block px-4 py-1 rounded-full bg-brand-soft text-brand text-sm font-semibold mb-4 dark:bg-[var(--band-via)]/30">
             FEATURES
           </span>
-          <h3 className="text-3xl font-bold mb-6">💡 Core Concept</h3>
+          <h3 className="text-3xl font-bold mb-6"> Core Concept</h3>
           <div className="h-1 w-20 bg-yellow-400 mx-auto mb-8 relative">
             <div className="absolute w-4 h-4 rounded-full bg-yellow-300/30 -left-5 -top-1 transform translate-y-[calc(var(--scroll)*-0.2px)]"></div>
             <div className="absolute w-3 h-3 rounded-full bg-yellow-300/20 -right-4 -top-1 transform translate-y-[calc(var(--scroll)*0.15px)]"></div>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl">
-            <h4 className="text-xl font-semibold mb-4 text-gray-100 dark:text-gray-800 flex items-center">
-              <span className="bg-indigo-100 dark:bg-indigo-900/30 p-2 rounded-full mr-3">
+          <div className="bg-surface rounded-xl shadow-lg p-6 border border-border transform transition-all duration-300 hover:shadow-xl">
+            <h4 className="text-xl font-semibold mb-4 text-strong flex items-center">
+              <span className="bg-brand-soft dark:bg-[var(--band-via)]/30 p-2 rounded-full mr-3">
                 <svg
-                  className="h-6 w-6 text-indigo-600 dark:text-indigo-400"
+                  className="h-6 w-6 text-brand"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -626,9 +625,8 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
+                <span className="text-soft">
                   Daily bite-sized quizzes covering key secondary school topics
-                  ❓
                 </span>
               </li>
               <li className="flex items-start">
@@ -645,8 +643,8 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
-                  XP points earned for participation and mastery ✨
+                <span className="text-soft">
+                  XP points earned for participation and mastery
                 </span>
               </li>
               <li className="flex items-start">
@@ -663,8 +661,8 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
-                  Streak rewards for consecutive daily engagement 🔥
+                <span className="text-soft">
+                  Streak rewards for consecutive daily engagement
                 </span>
               </li>
               <li className="flex items-start">
@@ -681,15 +679,15 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
-                  Weekly and monthly cash prizes to drive motivation 💰
+                <span className="text-soft">
+                  Weekly and monthly cash prizes to drive motivation
                 </span>
               </li>
             </ul>
           </div>
 
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl">
-            <h4 className="text-xl font-semibold mb-4 text-gray-100 dark:text-gray-800 flex items-center">
+          <div className="bg-surface rounded-xl shadow-lg p-6 border border-border transform transition-all duration-300 hover:shadow-xl">
+            <h4 className="text-xl font-semibold mb-4 text-strong flex items-center">
               <span className="bg-teal-100 dark:bg-teal-900/30 p-2 rounded-full mr-3">
                 <svg
                   className="h-6 w-6 text-teal-600 dark:text-teal-400"
@@ -722,9 +720,7 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
-                  Mobile-first design 📱
-                </span>
+                <span className="text-soft">Mobile-first design</span>
               </li>
               <li className="flex items-start">
                 <svg
@@ -740,9 +736,7 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
-                  Low-bandwidth usage 🌐
-                </span>
+                <span className="text-soft">Low-bandwidth usage</span>
               </li>
               <li className="flex items-start">
                 <svg
@@ -758,9 +752,7 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
-                  Gamification at the core 🎮
-                </span>
+                <span className="text-soft">Gamification at the core</span>
               </li>
               <li className="flex items-start">
                 <svg
@@ -776,8 +768,8 @@ export default function AboutPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-gray-300 dark:text-gray-700">
-                  Independent and curriculum-neutral 🔍
+                <span className="text-soft">
+                  Independent and curriculum-neutral
                 </span>
               </li>
             </ul>
@@ -786,121 +778,111 @@ export default function AboutPage() {
         <div className="text-center mb-12 mt-20 relative">
           {/* Roadmap parallax decorations */}
           <div className="absolute inset-0 w-full h-full -z-10">
-            <div className="absolute top-1/2 left-1/4 transform translate-y-[calc(-50%+var(--scroll)*0.05px)] w-28 h-28 rounded-full border-2 border-dashed border-indigo-200/30 dark:border-indigo-700/20 rotate-[calc(var(--scroll)*0.03deg)]"></div>
-            <div className="absolute top-1/3 right-1/5 transform translate-y-[calc(-50%+var(--scroll)*-0.03px)] w-40 h-40 rounded-full border border-indigo-200/20 dark:border-indigo-700/10 rotate-[calc(var(--scroll)*-0.02deg)]"></div>
+            <div className="absolute top-1/2 left-1/4 transform translate-y-[calc(-50%+var(--scroll)*0.05px)] w-28 h-28 rounded-full border-2 border-dashed border-brand/40 rotate-[calc(var(--scroll)*0.03deg)]"></div>
+            <div className="absolute top-1/3 right-1/5 transform translate-y-[calc(-50%+var(--scroll)*-0.03px)] w-40 h-40 rounded-full border border-brand/40 rotate-[calc(var(--scroll)*-0.02deg)]"></div>
           </div>
 
-          <span className="inline-block px-4 py-1 rounded-full bg-indigo-100 text-indigo-800 text-sm font-semibold mb-4 dark:bg-indigo-900/30 dark:text-indigo-300 relative">
-            <span className="absolute -right-2 -top-2 w-2 h-2 bg-indigo-400 rounded-full transform translate-y-[calc(var(--scroll)*-0.15px)]"></span>
+          <span className="inline-block px-4 py-1 rounded-full bg-brand-soft text-brand text-sm font-semibold mb-4 dark:bg-[var(--band-via)]/30 relative">
+            <span className="absolute -right-2 -top-2 w-2 h-2 bg-brand-soft rounded-full transform translate-y-[calc(var(--scroll)*-0.15px)]"></span>
             ROADMAP
           </span>
-          <h3 className="text-3xl font-bold mb-6">📅 Phase-by-Phase Plan</h3>
+          <h3 className="text-3xl font-bold mb-6"> Phase-by-Phase Plan</h3>
           <div className="h-1 w-20 bg-yellow-400 mx-auto mb-8"></div>
         </div>
-        <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-8 border border-gray-100 dark:border-gray-700 mb-16">
+        <div className="bg-surface rounded-xl shadow-lg p-8 border border-border mb-16">
           <div className="relative">
             {' '}
             {/* Timeline line with parallax effect */}
-            <div className="absolute left-6 top-0 bottom-0 w-1 bg-blue-200 dark:bg-blue-900/50 rounded-full ml-0.5 timeline-line"></div>
+            <div className="absolute left-6 top-0 bottom-0 w-1 bg-brand-soft dark:bg-[var(--band-via)]/50 rounded-full ml-0.5 timeline-line"></div>
             {/* Parallax timeline decorations */}
-            <div className="absolute left-6 top-[10%] w-3 h-3 bg-blue-400/30 dark:bg-blue-400/20 rounded-full ml-0.5 transform -translate-x-1/2 translate-y-[calc(var(--scroll)*-0.12px)]"></div>
-            <div className="absolute left-6 top-[35%] w-3 h-3 bg-blue-400/30 dark:bg-blue-400/20 rounded-full ml-0.5 transform -translate-x-1/2 translate-y-[calc(var(--scroll)*0.14px)]"></div>
-            <div className="absolute left-6 top-[60%] w-3 h-3 bg-blue-400/30 dark:bg-blue-400/20 rounded-full ml-0.5 transform -translate-x-1/2 translate-y-[calc(var(--scroll)*-0.08px)]"></div>
-            <div className="absolute left-6 top-[85%] w-3 h-3 bg-blue-400/30 dark:bg-blue-400/20 rounded-full ml-0.5 transform -translate-x-1/2 translate-y-[calc(var(--scroll)*0.10px)]"></div>
+            <div className="absolute left-6 top-[10%] w-3 h-3 bg-brand-soft rounded-full ml-0.5 transform -translate-x-1/2 translate-y-[calc(var(--scroll)*-0.12px)]"></div>
+            <div className="absolute left-6 top-[35%] w-3 h-3 bg-brand-soft rounded-full ml-0.5 transform -translate-x-1/2 translate-y-[calc(var(--scroll)*0.14px)]"></div>
+            <div className="absolute left-6 top-[60%] w-3 h-3 bg-brand-soft rounded-full ml-0.5 transform -translate-x-1/2 translate-y-[calc(var(--scroll)*-0.08px)]"></div>
+            <div className="absolute left-6 top-[85%] w-3 h-3 bg-brand-soft rounded-full ml-0.5 transform -translate-x-1/2 translate-y-[calc(var(--scroll)*0.10px)]"></div>
             <div className="space-y-8">
               {/* Phase 1 */}
               <div className="relative pl-16">
-                <div className="absolute left-0 top-1 w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600 dark:text-blue-400 font-bold">
-                    1
-                  </span>
+                <div className="absolute left-0 top-1 w-12 h-12 bg-brand-soft dark:bg-[var(--band-via)]/30 rounded-full flex items-center justify-center">
+                  <span className="text-brand font-bold">1</span>
                 </div>
-                <h4 className="text-xl font-bold text-gray-100 dark:text-gray-800 mb-2">
+                <h4 className="text-xl font-bold text-strong mb-2">
                   MVP Development{' '}
-                  <span className="text-sm text-gray-400 dark:text-gray-500 font-normal">
+                  <span className="text-sm text-soft font-normal">
                     (0-4 months)
                   </span>
                 </h4>
-                <p className="text-gray-300 dark:text-gray-600">
+                <p className="text-soft">
                   Bahasa Melayu and Sejarah modules, XP system, streak
                   mechanics, leaderboard functionality. Pilot version tested
-                  internally 🧪
+                  internally
                 </p>
               </div>
 
               {/* Phase 2 */}
               <div className="relative pl-16">
-                <div className="absolute left-0 top-1 w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600 dark:text-blue-400 font-bold">
-                    2
-                  </span>
+                <div className="absolute left-0 top-1 w-12 h-12 bg-brand-soft dark:bg-[var(--band-via)]/30 rounded-full flex items-center justify-center">
+                  <span className="text-brand font-bold">2</span>
                 </div>
-                <h4 className="text-xl font-bold text-gray-100 dark:text-gray-800 mb-2">
+                <h4 className="text-xl font-bold text-strong mb-2">
                   Pilot Testing{' '}
-                  <span className="text-sm text-gray-400 dark:text-gray-500 font-normal">
+                  <span className="text-sm text-soft font-normal">
                     (4-6 months)
                   </span>
                 </h4>
-                <p className="text-gray-300 dark:text-gray-600">
-                  Soft-launch with 2–3 schools 🏫, Target 100–500 students 🎯,
-                  Measure Day-2 retention and weekly engagement metrics 📊
+                <p className="text-soft">
+                  Soft-launch with 2–3 schools, Target 100–500 students, Measure
+                  Day-2 retention and weekly engagement metrics
                 </p>
               </div>
 
               {/* Phase 3 */}
               <div className="relative pl-16">
-                <div className="absolute left-0 top-1 w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600 dark:text-blue-400 font-bold">
-                    3
-                  </span>
+                <div className="absolute left-0 top-1 w-12 h-12 bg-brand-soft dark:bg-[var(--band-via)]/30 rounded-full flex items-center justify-center">
+                  <span className="text-brand font-bold">3</span>
                 </div>
-                <h4 className="text-xl font-bold text-gray-100 dark:text-gray-800 mb-2">
+                <h4 className="text-xl font-bold text-strong mb-2">
                   Expansion{' '}
-                  <span className="text-sm text-gray-400 dark:text-gray-500 font-normal">
+                  <span className="text-sm text-soft font-normal">
                     (6-9 months)
                   </span>
                 </h4>
-                <p className="text-gray-300 dark:text-gray-600">
-                  Add new subjects (Mathematics, Science) ➕, Improve user
-                  experience based on pilot feedback 🔄
+                <p className="text-soft">
+                  Add new subjects (Mathematics, Science), Improve user
+                  experience based on pilot feedback
                 </p>
               </div>
 
               {/* Phase 4 */}
               <div className="relative pl-16">
-                <div className="absolute left-0 top-1 w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600 dark:text-blue-400 font-bold">
-                    4
-                  </span>
+                <div className="absolute left-0 top-1 w-12 h-12 bg-brand-soft dark:bg-[var(--band-via)]/30 rounded-full flex items-center justify-center">
+                  <span className="text-brand font-bold">4</span>
                 </div>
-                <h4 className="text-xl font-bold text-gray-100 dark:text-gray-800 mb-2">
+                <h4 className="text-xl font-bold text-strong mb-2">
                   Malaysia-Wide Launch{' '}
-                  <span className="text-sm text-gray-400 dark:text-gray-500 font-normal">
+                  <span className="text-sm text-soft font-normal">
                     (9-15 months)
                   </span>
                 </h4>
-                <p className="text-gray-300 dark:text-gray-600">
-                  Regional marketing efforts 📣, Introduce first formal
-                  sponsorship programs 🤝
+                <p className="text-soft">
+                  Regional marketing efforts, Introduce first formal sponsorship
+                  programs
                 </p>
               </div>
 
               {/* Phase 5 */}
               <div className="relative pl-16">
-                <div className="absolute left-0 top-1 w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600 dark:text-blue-400 font-bold">
-                    5
-                  </span>
+                <div className="absolute left-0 top-1 w-12 h-12 bg-brand-soft dark:bg-[var(--band-via)]/30 rounded-full flex items-center justify-center">
+                  <span className="text-brand font-bold">5</span>
                 </div>
-                <h4 className="text-xl font-bold text-gray-100 dark:text-gray-800 mb-2">
+                <h4 className="text-xl font-bold text-strong mb-2">
                   Optional Regional Expansion{' '}
-                  <span className="text-sm text-gray-400 dark:text-gray-500 font-normal">
+                  <span className="text-sm text-soft font-normal">
                     (15+ months)
                   </span>
                 </h4>
-                <p className="text-gray-300 dark:text-gray-600">
+                <p className="text-soft">
                   Launch "Global Skills Track" (basic English, Math, Science
-                  quizzes) 🌍, Offer flexible onboarding for regional markets 🛫
+                  quizzes), Offer flexible onboarding for regional markets
                 </p>
               </div>
             </div>
@@ -910,17 +892,15 @@ export default function AboutPage() {
           <span className="inline-block px-4 py-1 rounded-full bg-green-100 text-green-800 text-sm font-semibold mb-4 dark:bg-green-900/30 dark:text-green-300">
             BUSINESS
           </span>
-          <h3 className="text-3xl font-bold mb-6">
-            💰 Revenue & Sustainability
-          </h3>
+          <h3 className="text-3xl font-bold mb-6"> Revenue & Sustainability</h3>
           <div className="h-1 w-20 bg-yellow-400 mx-auto mb-8"></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          <div className="bg-surface rounded-xl shadow-lg p-6 border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <div className="flex items-center mb-5">
-              <div className="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-full">
+              <div className="bg-brand-soft dark:bg-[var(--band-via)]/30 p-3 rounded-full">
                 <svg
-                  className="h-6 w-6 text-blue-600 dark:text-blue-400"
+                  className="h-6 w-6 text-brand"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -933,16 +913,16 @@ export default function AboutPage() {
                   />
                 </svg>
               </div>
-              <h4 className="text-xl font-semibold ml-3 text-gray-100 dark:text-gray-800">
+              <h4 className="text-xl font-semibold ml-3 text-strong">
                 Revenue Streams
               </h4>
             </div>
 
             <ul className="space-y-4">
               <li className="flex items-start">
-                <div className="bg-blue-50 dark:bg-blue-900/20 p-2 rounded-full mr-3 mt-0.5">
+                <div className="bg-brand-soft dark:bg-[var(--band-via)]/20 p-2 rounded-full mr-3 mt-0.5">
                   <svg
-                    className="h-4 w-4 text-blue-600 dark:text-blue-400"
+                    className="h-4 w-4 text-brand"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -956,10 +936,8 @@ export default function AboutPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-gray-200 dark:text-gray-800">
-                    Freemium Access 🆓
-                  </p>
-                  <p className="text-sm text-gray-400 dark:text-gray-600">
+                  <p className="font-medium text-strong">Freemium Access 🆓</p>
+                  <p className="text-sm text-soft">
                     Free quizzes with optional upgrades (analytics, offline
                     packs)
                   </p>
@@ -967,9 +945,9 @@ export default function AboutPage() {
               </li>
 
               <li className="flex items-start">
-                <div className="bg-blue-50 dark:bg-blue-900/20 p-2 rounded-full mr-3 mt-0.5">
+                <div className="bg-brand-soft dark:bg-[var(--band-via)]/20 p-2 rounded-full mr-3 mt-0.5">
                   <svg
-                    className="h-4 w-4 text-blue-600 dark:text-blue-400"
+                    className="h-4 w-4 text-brand"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -983,10 +961,8 @@ export default function AboutPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-gray-200 dark:text-gray-800">
-                    Sponsored Rewards 🏆
-                  </p>
-                  <p className="text-sm text-gray-400 dark:text-gray-600">
+                  <p className="font-medium text-strong">Sponsored Rewards</p>
+                  <p className="text-sm text-soft">
                     Corporate sponsors for cash prizes and tournament events
                   </p>
                 </div>
@@ -994,11 +970,11 @@ export default function AboutPage() {
             </ul>
           </div>
 
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          <div className="bg-surface rounded-xl shadow-lg p-6 border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <div className="flex items-center mb-5">
-              <div className="bg-purple-100 dark:bg-purple-900/30 p-3 rounded-full">
+              <div className="bg-brand-soft dark:bg-[var(--band-via)]/30 p-3 rounded-full">
                 <svg
-                  className="h-6 w-6 text-purple-600 dark:text-purple-400"
+                  className="h-6 w-6 text-brand"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -1011,16 +987,16 @@ export default function AboutPage() {
                   />
                 </svg>
               </div>
-              <h4 className="text-xl font-semibold ml-3 text-gray-100 dark:text-gray-800">
+              <h4 className="text-xl font-semibold ml-3 text-strong">
                 Partnership Models
               </h4>
             </div>
 
             <ul className="space-y-4">
               <li className="flex items-start">
-                <div className="bg-purple-50 dark:bg-purple-900/20 p-2 rounded-full mr-3 mt-0.5">
+                <div className="bg-brand-soft dark:bg-[var(--band-via)]/20 p-2 rounded-full mr-3 mt-0.5">
                   <svg
-                    className="h-4 w-4 text-purple-600 dark:text-purple-400"
+                    className="h-4 w-4 text-brand"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -1034,19 +1010,17 @@ export default function AboutPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-gray-200 dark:text-gray-800">
-                    B2B Licensing 🏢
-                  </p>
-                  <p className="text-sm text-gray-400 dark:text-gray-600">
+                  <p className="font-medium text-strong">B2B Licensing</p>
+                  <p className="text-sm text-soft">
                     Packages for tuition centers, NGOs, and community programs
                   </p>
                 </div>
               </li>
 
               <li className="flex items-start">
-                <div className="bg-purple-50 dark:bg-purple-900/20 p-2 rounded-full mr-3 mt-0.5">
+                <div className="bg-brand-soft dark:bg-[var(--band-via)]/20 p-2 rounded-full mr-3 mt-0.5">
                   <svg
-                    className="h-4 w-4 text-purple-600 dark:text-purple-400"
+                    className="h-4 w-4 text-brand"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -1060,10 +1034,8 @@ export default function AboutPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-gray-200 dark:text-gray-800">
-                    Supporter Donations 🎗️
-                  </p>
-                  <p className="text-sm text-gray-400 dark:text-gray-600">
+                  <p className="font-medium text-strong">Supporter Donations</p>
+                  <p className="text-sm text-soft">
                     Voluntary support from alumni, parents, or public backers
                   </p>
                 </div>
@@ -1075,12 +1047,12 @@ export default function AboutPage() {
           <span className="inline-block px-4 py-1 rounded-full bg-amber-100 text-amber-800 text-sm font-semibold mb-4 dark:bg-amber-900/30 dark:text-amber-300">
             RISK MANAGEMENT
           </span>
-          <h3 className="text-3xl font-bold mb-6">⚠️ Risks and Mitigation</h3>
+          <h3 className="text-3xl font-bold mb-6"> Risks and Mitigation</h3>
           <div className="h-1 w-20 bg-yellow-400 mx-auto mb-8"></div>
         </div>
-        <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-8 border border-gray-100 dark:border-gray-700 mb-16">
+        <div className="bg-surface rounded-xl shadow-lg p-8 border border-border mb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-gray-700/50 dark:bg-gray-50 rounded-lg p-5 border border-gray-600 dark:border-gray-100">
+            <div className="bg-muted/50 rounded-lg p-5 border border-border">
               <div className="flex items-center mb-3">
                 <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded-full">
                   <svg
@@ -1097,16 +1069,16 @@ export default function AboutPage() {
                     />
                   </svg>
                 </div>
-                <h4 className="text-lg font-bold ml-3 text-gray-100 dark:text-gray-800">
+                <h4 className="text-lg font-bold ml-3 text-strong">
                   Competition Risk
                 </h4>
               </div>
               <div className="ml-10">
-                <p className="text-gray-300 dark:text-gray-700 mb-2">
+                <p className="text-soft mb-2">
                   <strong>Risk:</strong> Competition from existing education
                   apps.
                 </p>
-                <p className="text-gray-400 dark:text-gray-600 text-sm bg-green-900/20 dark:bg-green-50 p-2 rounded-md border-l-4 border-green-500">
+                <p className="text-soft text-sm bg-green-900/20 dark:bg-green-50 p-2 rounded-md border-l-4 border-green-500">
                   <strong>Mitigation:</strong> Focus on gamification and rewards
                   system, not static content. Unique selling proposition through
                   engagement loops.
@@ -1114,7 +1086,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="bg-gray-700/50 dark:bg-gray-50 rounded-lg p-5 border border-gray-600 dark:border-gray-100">
+            <div className="bg-muted/50 rounded-lg p-5 border border-border">
               <div className="flex items-center mb-3">
                 <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded-full">
                   <svg
@@ -1131,15 +1103,15 @@ export default function AboutPage() {
                     />
                   </svg>
                 </div>
-                <h4 className="text-lg font-bold ml-3 text-gray-100 dark:text-gray-800">
+                <h4 className="text-lg font-bold ml-3 text-strong">
                   Retention Risk
                 </h4>
               </div>
               <div className="ml-10">
-                <p className="text-gray-300 dark:text-gray-700 mb-2">
+                <p className="text-soft mb-2">
                   <strong>Risk:</strong> Low user retention rates.
                 </p>
-                <p className="text-gray-400 dark:text-gray-600 text-sm bg-green-900/20 dark:bg-green-50 p-2 rounded-md border-l-4 border-green-500">
+                <p className="text-soft text-sm bg-green-900/20 dark:bg-green-50 p-2 rounded-md border-l-4 border-green-500">
                   <strong>Mitigation:</strong> Implement gamified loops, cash
                   incentives, and social recognition features to enhance user
                   engagement.
@@ -1147,7 +1119,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="bg-gray-700/50 dark:bg-gray-50 rounded-lg p-5 border border-gray-600 dark:border-gray-100">
+            <div className="bg-muted/50 rounded-lg p-5 border border-border">
               <div className="flex items-center mb-3">
                 <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded-full">
                   <svg
@@ -1164,15 +1136,15 @@ export default function AboutPage() {
                     />
                   </svg>
                 </div>
-                <h4 className="text-lg font-bold ml-3 text-gray-100 dark:text-gray-800">
+                <h4 className="text-lg font-bold ml-3 text-strong">
                   System Abuse Risk
                 </h4>
               </div>
               <div className="ml-10">
-                <p className="text-gray-300 dark:text-gray-700 mb-2">
+                <p className="text-soft mb-2">
                   <strong>Risk:</strong> Abuse of prize system.
                 </p>
-                <p className="text-gray-400 dark:text-gray-600 text-sm bg-green-900/20 dark:bg-green-50 p-2 rounded-md border-l-4 border-green-500">
+                <p className="text-soft text-sm bg-green-900/20 dark:bg-green-50 p-2 rounded-md border-l-4 border-green-500">
                   <strong>Mitigation:</strong> Implement fraud prevention
                   through ID verification, randomized audits, and behavior
                   pattern analysis.
@@ -1180,7 +1152,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="bg-gray-700/50 dark:bg-gray-50 rounded-lg p-5 border border-gray-600 dark:border-gray-100">
+            <div className="bg-muted/50 rounded-lg p-5 border border-border">
               <div className="flex items-center mb-3">
                 <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded-full">
                   <svg
@@ -1197,15 +1169,15 @@ export default function AboutPage() {
                     />
                   </svg>
                 </div>
-                <h4 className="text-lg font-bold ml-3 text-gray-100 dark:text-gray-800">
+                <h4 className="text-lg font-bold ml-3 text-strong">
                   Financial Risk
                 </h4>
               </div>
               <div className="ml-10">
-                <p className="text-gray-300 dark:text-gray-700 mb-2">
+                <p className="text-soft mb-2">
                   <strong>Risk:</strong> Funding shortages.
                 </p>
-                <p className="text-gray-400 dark:text-gray-600 text-sm bg-green-900/20 dark:bg-green-50 p-2 rounded-md border-l-4 border-green-500">
+                <p className="text-soft text-sm bg-green-900/20 dark:bg-green-50 p-2 rounded-md border-l-4 border-green-500">
                   <strong>Mitigation:</strong> Secure early sponsorship deals
                   and implement low-cost serverless hosting strategies to
                   minimize burn rate.
@@ -1218,32 +1190,32 @@ export default function AboutPage() {
           {/* Success metrics parallax decorations */}
           <div className="absolute inset-0 w-full h-full -z-10">
             {/* Chart-like decorative elements with parallax */}
-            <div className="absolute top-1/4 left-1/4 w-24 h-1 bg-blue-500/10 transform translate-y-[calc(var(--scroll)*0.14px)]"></div>
-            <div className="absolute top-1/3 left-1/4 w-32 h-1 bg-blue-500/10 transform translate-y-[calc(var(--scroll)*0.08px)]"></div>
-            <div className="absolute top-1/2 left-1/4 w-16 h-1 bg-blue-500/10 transform translate-y-[calc(var(--scroll)*0.11px)]"></div>
+            <div className="absolute top-1/4 left-1/4 w-24 h-1 bg-[var(--band-via)]/10 transform translate-y-[calc(var(--scroll)*0.14px)]"></div>
+            <div className="absolute top-1/3 left-1/4 w-32 h-1 bg-[var(--band-via)]/10 transform translate-y-[calc(var(--scroll)*0.08px)]"></div>
+            <div className="absolute top-1/2 left-1/4 w-16 h-1 bg-[var(--band-via)]/10 transform translate-y-[calc(var(--scroll)*0.11px)]"></div>
 
             {/* Right side chart elements */}
             <div className="absolute top-1/4 right-1/4 w-16 h-1 bg-green-500/10 transform translate-y-[calc(var(--scroll)*-0.15px)]"></div>
             <div className="absolute top-1/3 right-1/4 w-24 h-1 bg-green-500/10 transform translate-y-[calc(var(--scroll)*-0.09px)]"></div>
             <div className="absolute top-1/2 right-1/4 w-20 h-1 bg-green-500/10 transform translate-y-[calc(var(--scroll)*-0.12px)]"></div>
           </div>
-          <span className="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-semibold mb-4 dark:bg-blue-900/30 dark:text-blue-300 relative">
-            <span className="absolute -top-1 -left-1 w-2 h-2 bg-blue-400 rounded-full transform translate-y-[calc(var(--scroll)*-0.2px)]"></span>
+          <span className="inline-block px-4 py-1 rounded-full bg-brand-soft text-brand text-sm font-semibold mb-4 dark:bg-[var(--band-via)]/30 relative">
+            <span className="absolute -top-1 -left-1 w-2 h-2 bg-brand-soft rounded-full transform translate-y-[calc(var(--scroll)*-0.2px)]"></span>
             PERFORMANCE
           </span>
-          <h3 className="text-3xl font-bold mb-6">📈 Success Metrics</h3>
+          <h3 className="text-3xl font-bold mb-6"> Success Metrics</h3>
           <div className="h-1 w-20 bg-yellow-400 mx-auto mb-8 relative">
             <div className="absolute -right-4 -top-1 w-3 h-3 rounded-full bg-yellow-300 transform translate-y-[calc(var(--scroll)*0.22px)]"></div>
           </div>{' '}
         </div>{' '}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 relative">
           {/* Parallax effect for first card */}
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-md p-4 sm:p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-center sm:translate-y-[calc(var(--scroll)*0.02px)]">
+          <div className="bg-surface rounded-xl shadow-md p-4 sm:p-6 border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-center sm:translate-y-[calc(var(--scroll)*0.02px)]">
             {' '}
-            <div className="bg-indigo-100 dark:bg-indigo-900/30 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-4 relative overflow-hidden">
-              <div className="absolute w-10 sm:w-12 h-3 bg-indigo-200/50 dark:bg-indigo-700/30 rounded-full -rotate-45 transform sm:translate-y-[calc(var(--scroll)*-0.05px)]"></div>
+            <div className="bg-brand-soft dark:bg-[var(--band-via)]/30 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-4 relative overflow-hidden">
+              <div className="absolute w-10 sm:w-12 h-3 bg-brand-soft/50 dark:bg-[var(--band-via)]/30 rounded-full -rotate-45 transform sm:translate-y-[calc(var(--scroll)*-0.05px)]"></div>
               <svg
-                className="h-8 w-8 text-indigo-600 dark:text-indigo-400"
+                className="h-8 w-8 text-brand"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -1256,14 +1228,10 @@ export default function AboutPage() {
                 />
               </svg>
             </div>
-            <h4 className="text-2xl font-bold text-gray-100 dark:text-gray-800 mb-2">
-              45%
-            </h4>
-            <p className="text-gray-300 dark:text-gray-600">
-              Day-2 retention among pilot users
-            </p>
+            <h4 className="text-2xl font-bold text-strong mb-2">45%</h4>
+            <p className="text-soft">Day-2 retention among pilot users</p>
           </div>{' '}
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-md p-4 sm:p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-center">
+          <div className="bg-surface rounded-xl shadow-md p-4 sm:p-6 border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-center">
             <div className="bg-green-100 dark:bg-green-900/30 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg
                 className="h-8 w-8 text-green-600 dark:text-green-400"
@@ -1279,18 +1247,14 @@ export default function AboutPage() {
                 />
               </svg>
             </div>
-            <h4 className="text-2xl font-bold text-gray-100 dark:text-gray-800 mb-2">
-              30+
-            </h4>
-            <p className="text-gray-300 dark:text-gray-600">
-              Quizzes per user weekly
-            </p>{' '}
+            <h4 className="text-2xl font-bold text-strong mb-2">30+</h4>
+            <p className="text-soft">Quizzes per user weekly</p>{' '}
           </div>{' '}
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-md p-4 sm:p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-center sm:translate-y-[calc(var(--scroll)*-0.015px)]">
-            <div className="bg-purple-100 dark:bg-purple-900/30 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-4 relative overflow-hidden">
-              <div className="absolute w-10 h-10 bg-purple-200/40 dark:bg-purple-700/30 rounded-full transform sm:translate-y-[calc(var(--scroll)*0.04px)] rotate-45"></div>
+          <div className="bg-surface rounded-xl shadow-md p-4 sm:p-6 border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-center sm:translate-y-[calc(var(--scroll)*-0.015px)]">
+            <div className="bg-brand-soft dark:bg-[var(--band-via)]/30 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-4 relative overflow-hidden">
+              <div className="absolute w-10 h-10 bg-brand-soft/40 dark:bg-[var(--band-via)]/30 rounded-full transform sm:translate-y-[calc(var(--scroll)*0.04px)] rotate-45"></div>
               <svg
-                className="h-8 w-8 text-purple-600 dark:text-purple-400"
+                className="h-8 w-8 text-brand"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -1303,14 +1267,10 @@ export default function AboutPage() {
                 />
               </svg>
             </div>
-            <h4 className="text-2xl font-bold text-gray-100 dark:text-gray-800 mb-2">
-              1,000+
-            </h4>
-            <p className="text-gray-300 dark:text-gray-600">
-              Monthly active users by Month 4
-            </p>{' '}
+            <h4 className="text-2xl font-bold text-strong mb-2">1,000+</h4>
+            <p className="text-soft">Monthly active users by Month 4</p>{' '}
           </div>{' '}
-          <div className="bg-gray-800 dark:bg-white rounded-xl shadow-md p-4 sm:p-6 border border-gray-100 dark:border-gray-700 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-center sm:translate-y-[calc(var(--scroll)*0.025px)]">
+          <div className="bg-surface rounded-xl shadow-md p-4 sm:p-6 border border-border transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-center sm:translate-y-[calc(var(--scroll)*0.025px)]">
             <div className="bg-amber-100 dark:bg-amber-900/30 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-4 relative overflow-hidden">
               <div className="absolute inset-0 bg-amber-200/30 dark:bg-amber-700/20 rounded-full clip-path-star transform sm:translate-y-[calc(var(--scroll)*-0.06px)] rotate-[25deg]"></div>
               <svg
@@ -1327,24 +1287,20 @@ export default function AboutPage() {
                 />
               </svg>
             </div>
-            <h4 className="text-2xl font-bold text-gray-100 dark:text-gray-800 mb-2">
-              70%
-            </h4>
-            <p className="text-gray-300 dark:text-gray-600">
-              Users showing academic improvement
-            </p>
+            <h4 className="text-2xl font-bold text-strong mb-2">70%</h4>
+            <p className="text-soft">Users showing academic improvement</p>
           </div>
         </div>
         <div className="text-center mb-12 mt-20">
-          <span className="inline-block px-4 py-1 rounded-full bg-purple-100 text-purple-800 text-sm font-semibold mb-4 dark:bg-purple-900/30 dark:text-purple-300">
+          <span className="inline-block px-4 py-1 rounded-full bg-brand-soft text-brand text-sm font-semibold mb-4 dark:bg-[var(--band-via)]/30">
             SUMMARY
           </span>
-          <h3 className="text-3xl font-bold mb-6">🔚 Conclusion</h3>
+          <h3 className="text-3xl font-bold mb-6"> Conclusion</h3>
           <div className="h-1 w-20 bg-yellow-400 mx-auto mb-8"></div>
         </div>
-        <div className="bg-gray-800 dark:bg-white rounded-xl shadow-lg p-8 border border-gray-100 dark:border-gray-700 mb-16">
+        <div className="bg-surface rounded-xl shadow-lg p-8 border border-border mb-16">
           <div className="max-w-3xl mx-auto">
-            <p className="text-xl text-gray-300 dark:text-gray-700 leading-relaxed text-center">
+            <p className="text-xl text-soft leading-relaxed text-center">
               JomBeelajar addresses a critical gap in Malaysia&rsquo;s education
               ecosystem: the need for daily, engaging, rewarding, and low-data
               independent learning. Its initial launch in Malaysia gives it a
@@ -1358,20 +1314,20 @@ export default function AboutPage() {
           <span className="inline-block px-4 py-1 rounded-full bg-green-100 text-green-800 text-sm font-semibold mb-4 dark:bg-green-900/30 dark:text-green-300">
             ACTION PLAN
           </span>
-          <h3 className="text-3xl font-bold mb-6">Next Steps ➡️</h3>
+          <h3 className="text-3xl font-bold mb-6">Next Steps</h3>
           <div className="h-1 w-20 bg-yellow-400 mx-auto mb-8"></div>
         </div>
-        <div className="bg-gradient-to-br from-gray-800 to-gray-900 dark:from-blue-50 dark:to-indigo-50 rounded-xl shadow-lg p-8 border border-gray-700 dark:border-blue-100 mb-16">
+        <div className="bg-surface rounded-xl shadow-lg p-8 border border-border mb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="flex items-start">
-              <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="bg-[var(--band-via)] text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1">
                 <span className="font-bold">1</span>
               </div>
               <div className="ml-4">
-                <h4 className="text-lg font-bold mb-2 text-gray-100 dark:text-gray-800">
+                <h4 className="text-lg font-bold mb-2 text-strong">
                   Finalize MVP Specifications
                 </h4>
-                <p className="text-gray-300 dark:text-gray-600">
+                <p className="text-soft">
                   Complete technical requirements and feature prioritization for
                   the minimum viable product.
                 </p>
@@ -1379,14 +1335,14 @@ export default function AboutPage() {
             </div>
 
             <div className="flex items-start">
-              <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="bg-[var(--band-via)] text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1">
                 <span className="font-bold">2</span>
               </div>
               <div className="ml-4">
-                <h4 className="text-lg font-bold mb-2 text-gray-100 dark:text-gray-800">
+                <h4 className="text-lg font-bold mb-2 text-strong">
                   Build Minimum Content
                 </h4>
-                <p className="text-gray-300 dark:text-gray-600">
+                <p className="text-soft">
                   Develop initial quiz sets for Bahasa Melayu and Sejarah
                   modules to support launch.
                 </p>
@@ -1394,14 +1350,14 @@ export default function AboutPage() {
             </div>
 
             <div className="flex items-start">
-              <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="bg-[var(--band-via)] text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1">
                 <span className="font-bold">3</span>
               </div>
               <div className="ml-4">
-                <h4 className="text-lg font-bold mb-2 text-gray-100 dark:text-gray-800">
+                <h4 className="text-lg font-bold mb-2 text-strong">
                   Prepare Reward Pool
                 </h4>
-                <p className="text-gray-300 dark:text-gray-600">
+                <p className="text-soft">
                   Establish initial funding for the early reward pool to
                   incentivize user participation.
                 </p>
@@ -1409,14 +1365,14 @@ export default function AboutPage() {
             </div>
 
             <div className="flex items-start">
-              <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="bg-[var(--band-via)] text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1">
                 <span className="font-bold">4</span>
               </div>
               <div className="ml-4">
-                <h4 className="text-lg font-bold mb-2 text-gray-100 dark:text-gray-800">
+                <h4 className="text-lg font-bold mb-2 text-strong">
                   Begin Pilot Outreach
                 </h4>
-                <p className="text-gray-300 dark:text-gray-600">
+                <p className="text-soft">
                   Contact potential school partners for initial testing phase
                   and feedback collection.
                 </p>
@@ -1425,18 +1381,18 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="text-center mb-12 mt-20">
-          <span className="inline-block px-4 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-semibold mb-4 dark:bg-blue-900/30 dark:text-blue-300">
+          <span className="inline-block px-4 py-1 rounded-full bg-brand-soft text-brand text-sm font-semibold mb-4 dark:bg-[var(--band-via)]/30">
             JOIN US
           </span>
-          <h3 className="text-3xl font-bold mb-6">🙌 Get Involved</h3>
+          <h3 className="text-3xl font-bold mb-6"> Get Involved</h3>
           <div className="h-1 w-20 bg-yellow-400 mx-auto mb-8"></div>
         </div>{' '}
-        <div className="bg-gradient-to-br from-indigo-600 to-blue-700 text-white rounded-xl shadow-xl p-12 border border-blue-500 mb-16 text-center relative overflow-hidden">
+        <div className="band-gradient text-white rounded-xl shadow-xl p-12 border border-brand/40 mb-16 text-center relative overflow-hidden">
           {/* Parallax background elements */}
           <div className="absolute inset-0 -z-10">
-            <div className="absolute top-0 left-1/4 w-40 h-40 rounded-full bg-white opacity-5 transform translate-y-[calc(var(--scroll)*-0.07px)]"></div>
-            <div className="absolute bottom-10 right-1/5 w-60 h-60 rounded-full bg-white opacity-5 transform translate-y-[calc(var(--scroll)*0.04px)]"></div>
-            <div className="absolute top-1/2 left-3/4 w-20 h-20 rounded-full bg-white opacity-5 transform translate-y-[calc(var(--scroll)*-0.12px)]"></div>
+            <div className="absolute top-0 left-1/4 w-40 h-40 rounded-full bg-surface opacity-5 transform translate-y-[calc(var(--scroll)*-0.07px)]"></div>
+            <div className="absolute bottom-10 right-1/5 w-60 h-60 rounded-full bg-surface opacity-5 transform translate-y-[calc(var(--scroll)*0.04px)]"></div>
+            <div className="absolute top-1/2 left-3/4 w-20 h-20 rounded-full bg-surface opacity-5 transform translate-y-[calc(var(--scroll)*-0.12px)]"></div>
           </div>
 
           <h4 className="text-2xl md:text-3xl font-bold mb-6">
@@ -1448,7 +1404,7 @@ export default function AboutPage() {
           </p>
           <a
             href={jomIdSignupHref}
-            className="inline-block uppercase tracking-wide rounded-full shadow-lg transition-all duration-300 ease-in-out px-8 py-4 bg-white text-blue-600 font-medium hover:bg-gray-100 hover:scale-105 transform"
+            className="inline-block uppercase tracking-wide rounded-full shadow-lg transition-all duration-300 ease-in-out px-8 py-4 bg-surface text-brand font-medium hover:bg-muted hover:scale-105 transform"
           >
             Sign Up Now
           </a>

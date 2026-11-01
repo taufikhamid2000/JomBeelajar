@@ -31,13 +31,7 @@ async function fetchSchoolLeaderboard(): Promise<SchoolLeaderboardResponse> {
 }
 
 export default function SchoolLeaderboardPage() {
-  const { 
-    data,
-    isLoading,
-    error,
-    dataUpdatedAt,
-    refetch
-  } = useQuery({
+  const { data, isLoading, error, dataUpdatedAt, refetch } = useQuery({
     queryKey: ['schoolLeaderboard'],
     queryFn: fetchSchoolLeaderboard,
     staleTime: 60000, // Consider data fresh for 1 minute
@@ -45,7 +39,8 @@ export default function SchoolLeaderboardPage() {
     refetchInterval: 60000, // Auto-refresh every minute
   });
 
-  const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+  const errorMessage =
+    error instanceof Error ? error.message : 'An unexpected error occurred';
   const lastUpdated = dataUpdatedAt ? new Date(dataUpdatedAt) : new Date();
 
   return (
@@ -53,11 +48,10 @@ export default function SchoolLeaderboardPage() {
       <LeaderboardNav activeTab="schools" />
 
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-          🏫 School Rankings
-        </h1>
-        <p className="mt-2 text-gray-400 dark:text-gray-600">
-          Compare and track performance across different schools, districts, and states
+        <h1 className="text-3xl font-bold text-strong"> School Rankings</h1>
+        <p className="mt-2 text-soft">
+          Compare and track performance across different schools, districts, and
+          states
         </p>
       </div>
 
@@ -86,12 +80,10 @@ export default function SchoolLeaderboardPage() {
               />
             </svg>
           </div>
-          <p className="text-xl font-medium text-gray-200 dark:text-gray-800 mb-2">
-            {errorMessage}
-          </p>
+          <p className="text-xl font-medium text-strong mb-2">{errorMessage}</p>
           <button
             onClick={() => refetch()}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            className="mt-4 px-4 py-2 bg-[var(--band-via)] text-white rounded-lg hover:bg-[var(--band-from)] transition-colors"
           >
             Try Again
           </button>
@@ -100,58 +92,59 @@ export default function SchoolLeaderboardPage() {
         <>
           {/* Stats Overview */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-gray-800 dark:bg-white rounded-lg shadow p-6">
-              <h3 className="text-sm font-medium text-gray-400 dark:text-gray-500">
+            <div className="bg-surface rounded-lg shadow p-6">
+              <h3 className="text-sm font-medium text-soft">
                 Total Active Schools
               </h3>
-              <p className="text-2xl font-semibold text-white dark:text-gray-900 mt-2">
+              <p className="text-2xl font-semibold text-strong mt-2">
                 {data?.stats.totalSchools.toLocaleString()}
               </p>
               <div className="mt-2 flex items-center text-sm">
                 <span className="text-green-500 mr-2">
                   ↑ {data?.stats.growthRates.schools}%
                 </span>
-                <span className="text-gray-500">from last month</span>
+                <span className="text-soft">from last month</span>
               </div>
             </div>
-            <div className="bg-gray-800 dark:bg-white rounded-lg shadow p-6">
-              <h3 className="text-sm font-medium text-gray-400 dark:text-gray-500">
+            <div className="bg-surface rounded-lg shadow p-6">
+              <h3 className="text-sm font-medium text-soft">
                 Average Participation
               </h3>
-              <p className="text-2xl font-semibold text-white dark:text-gray-900 mt-2">
+              <p className="text-2xl font-semibold text-strong mt-2">
                 {data?.stats.averageParticipation.toFixed(1)}%
               </p>
               <div className="mt-2 flex items-center text-sm">
                 <span className="text-green-500 mr-2">
                   ↑ {data?.stats.growthRates.participation}%
                 </span>
-                <span className="text-gray-500">from last month</span>
+                <span className="text-soft">from last month</span>
               </div>
             </div>
-            <div className="bg-gray-800 dark:bg-white rounded-lg shadow p-6">
-              <h3 className="text-sm font-medium text-gray-400 dark:text-gray-500">
+            <div className="bg-surface rounded-lg shadow p-6">
+              <h3 className="text-sm font-medium text-soft">
                 Total Student Users
               </h3>
-              <p className="text-2xl font-semibold text-white dark:text-gray-900 mt-2">
+              <p className="text-2xl font-semibold text-strong mt-2">
                 {data?.stats.totalStudents.toLocaleString()}
               </p>
               <div className="mt-2 flex items-center text-sm">
                 <span className="text-green-500 mr-2">
                   ↑ {data?.stats.growthRates.students}%
                 </span>
-                <span className="text-gray-500">from last month</span>
+                <span className="text-soft">from last month</span>
               </div>
             </div>
           </div>
 
           {/* Main Content */}
-          <div className="bg-gray-800 dark:bg-white rounded-lg shadow-lg border border-gray-700 dark:border-gray-200">
+          <div className="bg-surface rounded-lg shadow-lg border border-border">
             <SchoolLeaderboardTable data={data?.data || []} />
           </div>
 
           {/* Bottom Info */}
-          <div className="mt-8 text-center text-sm text-gray-400 dark:text-gray-500">
-            Last updated: {lastUpdated.toLocaleString()} • Rankings are updated daily
+          <div className="mt-8 text-center text-sm text-soft">
+            Last updated: {lastUpdated.toLocaleString()} • Rankings are updated
+            daily
           </div>
         </>
       )}

@@ -221,8 +221,8 @@ export default function AllQuizzesPage() {
             onClick={() => handleFilterChange('all')}
             className={`px-3 py-1 rounded ${
               filter === 'all'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white'
+                ? 'bg-[var(--band-via)] text-white'
+                : 'bg-muted text-strong'
             }`}
           >
             All
@@ -232,7 +232,7 @@ export default function AllQuizzesPage() {
             className={`px-3 py-1 rounded ${
               filter === 'verified'
                 ? 'bg-green-500 text-white'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white'
+                : 'bg-muted text-strong'
             }`}
           >
             Verified
@@ -242,7 +242,7 @@ export default function AllQuizzesPage() {
             className={`px-3 py-1 rounded ${
               filter === 'unverified'
                 ? 'bg-red-500 text-white'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white'
+                : 'bg-muted text-strong'
             }`}
           >
             Unverified
@@ -258,58 +258,58 @@ export default function AllQuizzesPage() {
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand/40"></div>
         </div>
       ) : quizzes.length === 0 ? (
-        <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg text-center">
-          <p className="text-gray-600 dark:text-gray-300">No quizzes found!</p>
+        <div className="bg-muted p-6 rounded-lg text-center">
+          <p className="text-soft">No quizzes found!</p>
         </div>
       ) : (
-        <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+        <div className="bg-surface shadow-lg rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 dark:bg-gray-700">
+              <thead className="bg-surface-2">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                     Quiz Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                     Topic/Subject
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                     Created By
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                     Created At
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                     Verified By
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                     Questions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+              <tbody className="divide-y divide-border">
                 {quizzes.map((quiz) => (
                   <tr key={quiz.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-strong">
                       {quiz.name}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-soft">
                       <div>{quiz.topic?.name || 'Unknown Topic'}</div>
-                      <div className="text-xs text-gray-400">
+                      <div className="text-xs text-soft">
                         {quiz.topic?.chapter?.subject?.name ||
                           'Unknown Subject'}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-soft">
                       {quiz.creator?.display_name || 'Unknown'}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-soft">
                       {formatDate(quiz.created_at)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -324,22 +324,22 @@ export default function AllQuizzesPage() {
                       </span>
                       {quiz.verification_feedback && (
                         <span
-                          className="ml-2 cursor-pointer text-blue-500 dark:text-blue-400"
+                          className="ml-2 cursor-pointer text-brand"
                           title={quiz.verification_feedback}
                         >
                           ℹ️
                         </span>
                       )}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-soft">
                       {quiz.verifier?.display_name || 'Not Verified'}
                       {quiz.verified_at && (
-                        <div className="text-xs text-gray-400">
+                        <div className="text-xs text-soft">
                           {formatDate(quiz.verified_at)}
                         </div>
                       )}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-soft">
                       {quiz.question_count}
                     </td>
                   </tr>

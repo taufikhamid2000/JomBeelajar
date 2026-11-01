@@ -23,12 +23,10 @@ export function SkeletonLoader({
   if (variant === 'spinner') {
     return (
       <div className="flex flex-col items-center justify-center py-8 text-center">
-        <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 dark:border-blue-400"></div>
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand/40"></div>
         {message && (
           <div className="mt-4">
-            <p className="text-lg font-medium text-gray-300 dark:text-gray-700">
-              {message}
-            </p>
+            <p className="text-lg font-medium text-soft">{message}</p>
           </div>
         )}
         {showStopwatch && <Stopwatch />}
@@ -41,20 +39,14 @@ export function SkeletonLoader({
       <div className="animate-pulse">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {[...Array(4)].map((_, i) => (
-            <div
-              key={i}
-              className="h-24 bg-gray-700 dark:bg-gray-200 rounded-lg"
-            ></div>
+            <div key={i} className="h-24 bg-muted rounded-lg"></div>
           ))}
         </div>
         <div className="space-y-4">
           {[...Array(rows)].map((_, i) => (
             <div key={i} className="grid grid-cols-3 gap-4">
               {[...Array(cols)].map((_, j) => (
-                <div
-                  key={j}
-                  className="h-10 bg-gray-700 dark:bg-gray-200 rounded"
-                ></div>
+                <div key={j} className="h-10 bg-muted rounded"></div>
               ))}
             </div>
           ))}
@@ -72,8 +64,8 @@ export function SkeletonLoader({
     return (
       <div className="animate-pulse space-y-8">
         <div className="max-w-2xl mx-auto text-center mb-12">
-          <div className="h-8 bg-gray-700 dark:bg-gray-200 rounded-full w-48 mx-auto mb-4"></div>
-          <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-full max-w-md mx-auto"></div>
+          <div className="h-8 bg-muted rounded-full w-48 mx-auto mb-4"></div>
+          <div className="h-4 bg-muted rounded w-full max-w-md mx-auto"></div>
           {showStopwatch && (
             <div className="mt-4">
               <Stopwatch />
@@ -83,14 +75,11 @@ export function SkeletonLoader({
 
         <div className="space-y-6">
           {[...Array(rows)].map((_, i) => (
-            <div key={i} className="bg-gray-800 dark:bg-white rounded-xl p-6">
-              <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-3/4 mb-4"></div>
+            <div key={i} className="bg-surface rounded-xl p-6">
+              <div className="h-4 bg-muted rounded w-3/4 mb-4"></div>
               <div className="space-y-3">
                 {[...Array(3)].map((_, j) => (
-                  <div
-                    key={j}
-                    className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-full"
-                  ></div>
+                  <div key={j} className="h-4 bg-muted rounded w-full"></div>
                 ))}
               </div>
             </div>
@@ -105,10 +94,8 @@ export function SkeletonLoader({
   // Simple variant (default)
   return (
     <div className="animate-pulse flex flex-col items-center justify-center py-8 space-y-4 text-center">
-      <div className="h-4 bg-gray-700 dark:bg-gray-200 rounded w-48"></div>
-      {message && (
-        <p className="text-sm text-gray-400 dark:text-gray-500">{message}</p>
-      )}
+      <div className="h-4 bg-muted rounded w-48"></div>
+      {message && <p className="text-sm text-soft">{message}</p>}
       {showStopwatch && <Stopwatch />}
       {children}
     </div>

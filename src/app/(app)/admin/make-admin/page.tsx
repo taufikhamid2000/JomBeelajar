@@ -54,10 +54,10 @@ export default function MakeAdminTool() {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
+    <div className="p-6 bg-surface rounded-lg shadow-md">
       <h2 className="text-xl font-bold mb-4">Make User Admin</h2>
 
-      <p className="mb-4 text-gray-600">
+      <p className="mb-4 text-soft">
         Use this tool to grant admin privileges to a user. You'll need the
         user's ID from the Supabase dashboard or database.
       </p>
@@ -66,7 +66,7 @@ export default function MakeAdminTool() {
         <div>
           <label
             htmlFor="userId"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-soft"
           >
             User ID
           </label>
@@ -76,10 +76,10 @@ export default function MakeAdminTool() {
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
             placeholder="e.g., b6827677-c221-49a5-9758-9665c9d2b4ac"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="mt-1 block w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-brand/40 focus:border-brand/40"
             required
           />
-          <p className="mt-1 text-xs text-gray-500">
+          <p className="mt-1 text-xs text-soft">
             The user ID from Supabase (UUID format)
           </p>
         </div>
@@ -87,10 +87,10 @@ export default function MakeAdminTool() {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 ${
+          className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[var(--band-via)] ${
             loading
               ? 'opacity-50 cursor-not-allowed'
-              : 'hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+              : 'hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40'
           }`}
         >
           {loading ? 'Processing...' : 'Make Admin'}
@@ -107,7 +107,7 @@ export default function MakeAdminTool() {
 
       <div className="mt-6 border-t pt-4">
         <h3 className="text-md font-semibold mb-2">Instructions:</h3>
-        <ol className="list-decimal list-inside space-y-1 text-sm text-gray-600">
+        <ol className="list-decimal list-inside space-y-1 text-sm text-soft">
           <li>Get the user ID from the Supabase dashboard or database</li>
           <li>Enter the ID in the field above</li>
           <li>Click "Make Admin" to grant admin privileges</li>

@@ -35,27 +35,23 @@ export default function ChapterList({
         <div
           key={chapter.id}
           onClick={() => onChapterClick(chapter.id)}
-          className="bg-gray-800 dark:bg-white p-6 rounded-lg shadow-sm border border-gray-700 dark:border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
+          className="bg-surface p-6 rounded-lg shadow-sm border border-border hover:shadow-md transition-shadow cursor-pointer"
         >
           <h3 className="text-xl font-semibold mb-2">{chapter.title}</h3>
-          <p className="text-gray-400 dark:text-gray-600 mb-4">
-            {chapter.description}
-          </p>
+          <p className="text-soft mb-4">{chapter.description}</p>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-400 dark:text-gray-500">
+            <span className="text-sm text-soft">
               {chapter.quizCount} quizzes
             </span>
             {chapter.progress !== undefined && (
               <div className="flex items-center">
-                <div className="w-32 h-2 bg-gray-700 dark:bg-gray-200 rounded-full mr-2">
+                <div className="w-32 h-2 bg-muted rounded-full mr-2">
                   <div
                     className="h-2 bg-green-500 rounded-full"
                     style={{ width: `${chapter.progress}%` }}
                   />
                 </div>
-                <span className="text-sm text-gray-400 dark:text-gray-500">
-                  {chapter.progress}%
-                </span>
+                <span className="text-sm text-soft">{chapter.progress}%</span>
               </div>
             )}
           </div>

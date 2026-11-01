@@ -23,13 +23,13 @@ export default function AdminLayout({
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+    <div className="min-h-screen bg-surface">
       <div className="flex flex-col md:flex-row">
         {/* Mobile menu button */}
-        <div className="md:hidden p-4 bg-gray-800 dark:bg-white shadow sticky top-0 z-10 flex justify-between items-center">
+        <div className="md:hidden p-4 bg-surface shadow sticky top-0 z-10 flex justify-between items-center">
           <button
             onClick={toggleSidebar}
-            className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white focus:outline-none"
+            className="text-soft hover:text-strong focus:outline-none"
             aria-label="Toggle menu"
           >
             <svg
@@ -47,7 +47,7 @@ export default function AdminLayout({
               />
             </svg>
           </button>
-          <h1 className="text-xl font-bold dark:text-white">{title}</h1>
+          <h1 className="text-xl font-bold">{title}</h1>
           <div className="w-6"></div> {/* Empty div for flex spacing */}
         </div>
 
@@ -66,13 +66,11 @@ export default function AdminLayout({
           <div className="hidden md:block mb-6">
             <div className="flex justify-between items-center mb-4">
               <div className="flex items-center">
-                <h1 className="text-2xl md:text-3xl font-bold dark:text-white mr-4">
-                  {title}
-                </h1>
+                <h1 className="text-2xl md:text-3xl font-bold mr-4">{title}</h1>
                 {refreshAction && (
                   <button
                     onClick={refreshAction}
-                    className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center space-x-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="px-3 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)] flex items-center space-x-1 dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-brand/40"
                     disabled={isLoading}
                   >
                     <svg

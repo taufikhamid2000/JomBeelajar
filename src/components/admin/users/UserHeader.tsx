@@ -12,11 +12,11 @@ export default function UserHeader({ user, onStatusChange }: UserHeaderProps) {
       <div>
         <Link
           href="/admin/users"
-          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 mb-2 inline-flex items-center"
+          className="text-brand hover:text-brand mb-2 inline-flex items-center"
         >
           ← Back to Users
         </Link>
-        <h1 className="text-3xl font-bold text-white dark:text-gray-900">
+        <h1 className="text-3xl font-bold text-strong">
           {user.display_name}
           {user.is_disabled && (
             <span className="ml-3 text-sm px-2 py-1 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100 rounded-md font-semibold">

@@ -196,7 +196,8 @@ export default function AdminQuizStatsPage() {
           overallAvgScore = totalScores / totalAttempts;
 
           const totalCompletions = processedQuizStats.reduce(
-            (total, quiz) => total + (quiz.completion_rate * quiz.attempts) / 100,
+            (total, quiz) =>
+              total + (quiz.completion_rate * quiz.attempts) / 100,
             0
           );
           overallCompletionRate = (totalCompletions / totalAttempts) * 100;
@@ -234,23 +235,23 @@ export default function AdminQuizStatsPage() {
     return matchesSearch && matchesDifficulty;
   });
   return (
-    <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+    <div className="min-h-screen bg-surface">
       <div className="flex">
         <AdminNavigation />
         <div className="flex-1 p-8">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-white dark:text-gray-900">
+              <h1 className="text-3xl font-bold text-strong">
                 Quiz Statistics
               </h1>
-              <p className="text-gray-400 dark:text-gray-500 mt-1">
+              <p className="text-soft mt-1">
                 Performance metrics and completion rates for all quizzes
               </p>
             </div>
             <div>
               <Link
                 href="/admin/quizzes"
-                className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                className="text-brand hover:text-brand"
               >
                 ← Back to Quiz Management
               </Link>
@@ -264,22 +265,22 @@ export default function AdminQuizStatsPage() {
           )}
 
           {loading ? (
-            <div className="bg-white rounded-lg shadow overflow-hidden p-8 flex justify-center">
-              <div className="w-12 h-12 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+            <div className="bg-surface rounded-lg shadow overflow-hidden p-8 flex justify-center">
+              <div className="w-12 h-12 border-t-2 border-b-2 border-brand/40 rounded-full animate-spin"></div>
             </div>
           ) : (
             <>
               {/* Statistics Overview */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-                <div className="bg-white rounded-lg shadow p-6">
-                  <h3 className="text-sm font-medium text-gray-500 mb-1">
+                <div className="bg-surface rounded-lg shadow p-6">
+                  <h3 className="text-sm font-medium text-soft mb-1">
                     Total Quizzes
                   </h3>
                   <p className="text-3xl font-bold">{overview.total_quizzes}</p>
                 </div>
 
-                <div className="bg-white rounded-lg shadow p-6">
-                  <h3 className="text-sm font-medium text-gray-500 mb-1">
+                <div className="bg-surface rounded-lg shadow p-6">
+                  <h3 className="text-sm font-medium text-soft mb-1">
                     Total Questions
                   </h3>
                   <p className="text-3xl font-bold">
@@ -287,8 +288,8 @@ export default function AdminQuizStatsPage() {
                   </p>
                 </div>
 
-                <div className="bg-white rounded-lg shadow p-6">
-                  <h3 className="text-sm font-medium text-gray-500 mb-1">
+                <div className="bg-surface rounded-lg shadow p-6">
+                  <h3 className="text-sm font-medium text-soft mb-1">
                     Total Attempts
                   </h3>
                   <p className="text-3xl font-bold">
@@ -296,8 +297,8 @@ export default function AdminQuizStatsPage() {
                   </p>
                 </div>
 
-                <div className="bg-white rounded-lg shadow p-6">
-                  <h3 className="text-sm font-medium text-gray-500 mb-1">
+                <div className="bg-surface rounded-lg shadow p-6">
+                  <h3 className="text-sm font-medium text-soft mb-1">
                     Average Score
                   </h3>
                   <p className="text-3xl font-bold">
@@ -305,8 +306,8 @@ export default function AdminQuizStatsPage() {
                   </p>
                 </div>
 
-                <div className="bg-white rounded-lg shadow p-6">
-                  <h3 className="text-sm font-medium text-gray-500 mb-1">
+                <div className="bg-surface rounded-lg shadow p-6">
+                  <h3 className="text-sm font-medium text-soft mb-1">
                     Completion Rate
                   </h3>
                   <p className="text-3xl font-bold">
@@ -316,7 +317,7 @@ export default function AdminQuizStatsPage() {
               </div>
 
               {/* Subject Performance */}
-              <div className="bg-white rounded-lg shadow mb-6">
+              <div className="bg-surface rounded-lg shadow mb-6">
                 <div className="p-6">
                   <h2 className="text-xl font-semibold mb-4">
                     Performance by Subject
@@ -325,28 +326,28 @@ export default function AdminQuizStatsPage() {
                     <table className="min-w-full">
                       <thead>
                         <tr>
-                          <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 bg-surface-2 text-left text-xs font-medium text-soft uppercase tracking-wider">
                             Subject
                           </th>
-                          <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 bg-surface-2 text-left text-xs font-medium text-soft uppercase tracking-wider">
                             Quizzes
                           </th>
-                          <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 bg-surface-2 text-left text-xs font-medium text-soft uppercase tracking-wider">
                             Attempts
                           </th>
-                          <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 bg-surface-2 text-left text-xs font-medium text-soft uppercase tracking-wider">
                             Avg. Score
                           </th>
-                          <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 bg-surface-2 text-left text-xs font-medium text-soft uppercase tracking-wider">
                             Completion Rate
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
+                      <tbody className="bg-surface divide-y divide-border">
                         {subjectStats.map((subject) => (
-                          <tr key={subject.id} className="hover:bg-gray-50">
+                          <tr key={subject.id} className="hover:bg-surface-2">
                             <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="font-medium text-gray-900">
+                              <div className="font-medium text-strong">
                                 {subject.name}
                               </div>
                             </td>
@@ -364,9 +365,9 @@ export default function AdminQuizStatsPage() {
                                 <span className="mr-2">
                                   {subject.avg_completion_rate.toFixed(1)}%
                                 </span>
-                                <div className="w-24 bg-gray-200 rounded-full h-2.5">
+                                <div className="w-24 bg-muted rounded-full h-2.5">
                                   <div
-                                    className="bg-blue-600 h-2.5 rounded-full"
+                                    className="bg-[var(--band-via)] h-2.5 rounded-full"
                                     style={{
                                       width: `${Math.min(100, subject.avg_completion_rate)}%`,
                                     }}
@@ -383,7 +384,7 @@ export default function AdminQuizStatsPage() {
               </div>
 
               {/* Quiz List with Stats */}
-              <div className="bg-white rounded-lg shadow">
+              <div className="bg-surface rounded-lg shadow">
                 <div className="p-6">
                   <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-semibold">Quiz Performance</h2>
@@ -393,12 +394,12 @@ export default function AdminQuizStatsPage() {
                         placeholder="Search quizzes..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/40"
                       />
                       <select
                         value={difficultyFilter}
                         onChange={(e) => setDifficultyFilter(e.target.value)}
-                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/40"
                       >
                         <option value="all">All Difficulties</option>
                         <option value="easy">Easy</option>
@@ -412,47 +413,47 @@ export default function AdminQuizStatsPage() {
                     <table className="min-w-full">
                       <thead>
                         <tr>
-                          <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 bg-surface-2 text-left text-xs font-medium text-soft uppercase tracking-wider">
                             Quiz
                           </th>
-                          <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 bg-surface-2 text-left text-xs font-medium text-soft uppercase tracking-wider">
                             Subject
                           </th>
-                          <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 bg-surface-2 text-left text-xs font-medium text-soft uppercase tracking-wider">
                             Difficulty
                           </th>
-                          <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 bg-surface-2 text-left text-xs font-medium text-soft uppercase tracking-wider">
                             Questions
                           </th>
-                          <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 bg-surface-2 text-left text-xs font-medium text-soft uppercase tracking-wider">
                             Attempts
                           </th>
-                          <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 bg-surface-2 text-left text-xs font-medium text-soft uppercase tracking-wider">
                             Avg. Score
                           </th>
-                          <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <th className="px-6 py-3 bg-surface-2 text-left text-xs font-medium text-soft uppercase tracking-wider">
                             Actions
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
+                      <tbody className="bg-surface divide-y divide-border">
                         {filteredQuizStats.length === 0 ? (
                           <tr>
                             <td
                               colSpan={7}
-                              className="px-6 py-4 text-center text-gray-500"
+                              className="px-6 py-4 text-center text-soft"
                             >
                               No quizzes match your search criteria.
                             </td>
                           </tr>
                         ) : (
                           filteredQuizStats.map((quiz) => (
-                            <tr key={quiz.id} className="hover:bg-gray-50">
+                            <tr key={quiz.id} className="hover:bg-surface-2">
                               <td className="px-6 py-4">
-                                <div className="font-medium text-gray-900">
+                                <div className="font-medium text-strong">
                                   {quiz.title}
                                 </div>
-                                <div className="text-sm text-gray-500">
+                                <div className="text-sm text-soft">
                                   {quiz.topic_name}
                                 </div>
                               </td>
@@ -485,7 +486,7 @@ export default function AdminQuizStatsPage() {
                                     <span className="mr-2">
                                       {quiz.avg_score.toFixed(1)}%
                                     </span>
-                                    <div className="w-16 bg-gray-200 rounded-full h-1.5">
+                                    <div className="w-16 bg-muted rounded-full h-1.5">
                                       <div
                                         className={`h-1.5 rounded-full ${
                                           quiz.avg_score >= 70
@@ -501,13 +502,13 @@ export default function AdminQuizStatsPage() {
                                     </div>
                                   </div>
                                 ) : (
-                                  <span className="text-gray-400">No data</span>
+                                  <span className="text-soft">No data</span>
                                 )}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <Link
                                   href={`/admin/quizzes/${quiz.id}/questions`}
-                                  className="text-blue-600 hover:text-blue-900 mr-3"
+                                  className="text-brand hover:text-brand mr-3"
                                 >
                                   Questions
                                 </Link>

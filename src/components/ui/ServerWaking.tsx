@@ -20,7 +20,7 @@ export function ServerWaking({
     <div
       role="status"
       aria-live="polite"
-      className="mx-auto my-4 flex max-w-xl items-center gap-3 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900 shadow-sm dark:border-blue-800 dark:bg-blue-950 dark:text-blue-100"
+      className="mx-auto my-4 flex max-w-xl items-center gap-3 rounded-2xl border border-brand/40 bg-brand-soft px-4 py-3 text-sm text-brand shadow-sm"
     >
       <span className="text-xl" aria-hidden="true">
         ☕

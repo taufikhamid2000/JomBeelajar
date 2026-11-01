@@ -4,13 +4,13 @@ export default function ContentPlaceholder() {
   const { quizPrompt, hasData } = useContentPlaceholderData();
 
   return (
-    <div className="bg-[var(--color-card-bg)] dark:bg-gray-800/50 rounded-[var(--border-radius)] p-6 md:p-8 shadow mt-6 border border-gray-100 dark:border-gray-700">
+    <div className="bg-[var(--color-card-bg)] rounded-[var(--border-radius)] p-6 md:p-8 shadow mt-6 border border-border">
       <p className="text-[var(--color-subtext)] text-center mb-4">
         Quiz content for this topic is coming soon!
       </p>
       <div className="flex justify-center mt-4">
         <button
-          className="inline-flex items-center px-4 py-2 bg-white hover:bg-gray-800 dark:bg-gray-100 dark:hover:bg-gray-700 text-green-600 dark:text-green-400 border border-green-300 dark:border-green-800 rounded transition-colors"
+          className="inline-flex items-center px-4 py-2 bg-surface hover:bg-surface text-green-600 dark:text-green-400 border border-green-300 dark:border-green-800 rounded transition-colors"
           onClick={() => {
             if (quizPrompt) {
               const chatGPTUrl = `https://chat.openai.com/?prompt=${encodeURIComponent(quizPrompt)}`;

@@ -87,10 +87,10 @@ export default function AdminPage() {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-red-600 mb-4">Error</h1>
-          <p className="text-gray-600 mb-4">{error}</p>
+          <p className="text-soft mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)]"
           >
             Retry
           </button>
@@ -112,12 +112,12 @@ export default function AdminPage() {
           <h1 className="text-2xl font-bold text-red-600 mb-4">
             Authentication Required
           </h1>
-          <p className="text-gray-600 mb-4">
+          <p className="text-soft mb-4">
             Please sign in to access the admin panel.
           </p>
           <a
             href="/auth"
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)]"
           >
             Go to Sign In
           </a>

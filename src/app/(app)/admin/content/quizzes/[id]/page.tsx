@@ -21,15 +21,15 @@ export default function AdminQuizContentRedirect() {
   }, [quizId, router]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900 dark:bg-gray-50">
-      <div className="text-center p-8 bg-gray-800 dark:bg-white rounded-lg shadow-md max-w-md">
+    <div className="flex justify-center items-center min-h-screen bg-surface">
+      <div className="text-center p-8 bg-surface rounded-lg shadow-md max-w-md">
         <div className="mb-4">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand/40 mx-auto"></div>
         </div>
-        <h2 className="text-xl font-semibold text-white dark:text-gray-900 mb-2">
+        <h2 className="text-xl font-semibold text-strong mb-2">
           Redirecting to Audit System
         </h2>
-        <p className="text-gray-400 dark:text-gray-600">
+        <p className="text-soft">
           Quiz editing has been replaced with the new audit system. Redirecting
           you to the audit page...
         </p>

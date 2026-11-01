@@ -48,10 +48,10 @@ export default function FilterSortControls({
   return (
     <>
       {/* Desktop view */}
-      <div className="hidden md:flex items-center justify-between p-4 bg-gray-800 dark:bg-white rounded-lg shadow-sm mb-4">
+      <div className="hidden md:flex items-center justify-between p-4 bg-surface rounded-lg shadow-sm mb-4">
         <div className="flex items-center space-x-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-soft mb-1">
               Filter
             </label>
             <div className="flex space-x-2">
@@ -59,10 +59,10 @@ export default function FilterSortControls({
                 <button
                   key={option.id}
                   onClick={() => onFilterChange(option.id)}
-                  className={`px-3 py-1.5 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  className={`px-3 py-1.5 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-brand/40 ${
                     selectedFilter === option.id
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
+                      ? 'bg-[var(--band-via)] text-white'
+                      : 'bg-muted text-soft'
                   }`}
                 >
                   {option.label}
@@ -74,13 +74,13 @@ export default function FilterSortControls({
 
         <div className="flex items-center space-x-3">
           <div className="relative">
-            <label className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-soft mb-1">
               Sort by
             </label>
             <select
               value={selectedSort}
               onChange={(e) => onSortChange(e.target.value)}
-              className="px-3 py-1.5 bg-white border border-gray-300 rounded-md text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none pr-8"
+              className="px-3 py-1.5 bg-surface border border-border rounded-md text-soft focus:outline-none focus:ring-2 focus:ring-brand/40 appearance-none pr-8"
             >
               {sortOptions.map((option) => (
                 <option key={option.id} value={option.id}>
@@ -91,7 +91,7 @@ export default function FilterSortControls({
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none mt-6">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 text-gray-400 dark:text-gray-500"
+                className="h-4 w-4 text-soft"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -107,12 +107,12 @@ export default function FilterSortControls({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-soft mb-1">
               Direction
             </label>
             <button
               onClick={onSortDirectionChange}
-              className="px-3 py-1.5 bg-white border border-gray-300 rounded-md text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center space-x-1"
+              className="px-3 py-1.5 bg-surface border border-border rounded-md text-soft focus:outline-none focus:ring-2 focus:ring-brand/40 flex items-center space-x-1"
               aria-label={
                 sortDirection === 'asc' ? 'Sort ascending' : 'Sort descending'
               }
@@ -159,13 +159,13 @@ export default function FilterSortControls({
 
           {onItemsPerPageChange && (
             <div>
-              <label className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-soft mb-1">
                 Per Page
               </label>
               <select
                 value={itemsPerPage}
                 onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
-                className="px-3 py-1.5 bg-white border border-gray-300 rounded-md text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none pr-8"
+                className="px-3 py-1.5 bg-surface border border-border rounded-md text-soft focus:outline-none focus:ring-2 focus:ring-brand/40 appearance-none pr-8"
               >
                 {perPageOptions.map((option) => (
                   <option key={option} value={option}>
@@ -183,7 +183,7 @@ export default function FilterSortControls({
         <div className="flex gap-2">
           <button
             onClick={toggleFilterMenu}
-            className="flex-1 px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
+            className="flex-1 px-3 py-2 bg-surface border border-border rounded-lg text-soft focus:outline-none focus:ring-2 focus:ring-brand/40 flex items-center justify-center"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -206,7 +206,7 @@ export default function FilterSortControls({
             <select
               value={selectedSort}
               onChange={(e) => onSortChange(e.target.value)}
-              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+              className="w-full px-3 py-2 bg-surface border border-border rounded-lg text-soft focus:outline-none focus:ring-2 focus:ring-brand/40 appearance-none"
             >
               {sortOptions.map((option) => (
                 <option key={option.id} value={option.id}>
@@ -217,7 +217,7 @@ export default function FilterSortControls({
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 text-gray-400 dark:text-gray-500"
+                className="h-4 w-4 text-soft"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -234,7 +234,7 @@ export default function FilterSortControls({
 
           <button
             onClick={onSortDirectionChange}
-            className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 bg-surface border border-border rounded-lg text-soft focus:outline-none focus:ring-2 focus:ring-brand/40"
             aria-label={
               sortDirection === 'asc' ? 'Sort ascending' : 'Sort descending'
             }
@@ -275,19 +275,17 @@ export default function FilterSortControls({
 
         {/* Mobile filter dropdown */}
         {isFilterMenuOpen && (
-          <div className="mt-2 p-4 bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
-            <h3 className="text-sm font-medium text-gray-300 dark:text-gray-700 mb-2">
-              Filter
-            </h3>
+          <div className="mt-2 p-4 bg-surface border border-border rounded-lg shadow-lg">
+            <h3 className="text-sm font-medium text-soft mb-2">Filter</h3>
             <div className="grid grid-cols-2 gap-2">
               {filterOptions.map((option) => (
                 <button
                   key={option.id}
                   onClick={() => onFilterChange(option.id)}
-                  className={`px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  className={`px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-brand/40 ${
                     selectedFilter === option.id
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
+                      ? 'bg-[var(--band-via)] text-white'
+                      : 'bg-muted text-soft'
                   }`}
                 >
                   {option.label}

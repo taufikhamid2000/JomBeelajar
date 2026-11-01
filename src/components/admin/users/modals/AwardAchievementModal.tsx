@@ -105,8 +105,8 @@ export default function AwardAchievementModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
-      <div className="bg-gray-800 dark:bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-        <h3 className="text-xl font-bold mb-4 text-white dark:text-gray-900">
+      <div className="bg-surface rounded-lg shadow-xl max-w-md w-full p-6">
+        <h3 className="text-xl font-bold mb-4 text-strong">
           Award Achievement
         </h3>
 
@@ -116,8 +116,8 @@ export default function AwardAchievementModal({
             onClick={() => setMode('catalog')}
             className={`px-3 py-1 rounded text-sm ${
               mode === 'catalog'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-700 dark:bg-gray-200 text-gray-300 dark:text-gray-700'
+                ? 'bg-[var(--band-via)] text-white'
+                : 'bg-muted text-soft'
             }`}
           >
             From catalog
@@ -127,8 +127,8 @@ export default function AwardAchievementModal({
             onClick={() => setMode('custom')}
             className={`px-3 py-1 rounded text-sm ${
               mode === 'custom'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-700 dark:bg-gray-200 text-gray-300 dark:text-gray-700'
+                ? 'bg-[var(--band-via)] text-white'
+                : 'bg-muted text-soft'
             }`}
           >
             One-off / custom
@@ -137,19 +137,17 @@ export default function AwardAchievementModal({
 
         {mode === 'catalog' ? (
           loadingCatalog ? (
-            <p className="text-gray-400 dark:text-gray-500 text-sm mb-4">
-              Loading catalog...
-            </p>
+            <p className="text-soft text-sm mb-4">Loading catalog...</p>
           ) : catalog.length === 0 ? (
-            <p className="text-gray-400 dark:text-gray-500 text-sm mb-4">
-              No achievements in the catalog yet. Use &quot;One-off / custom&quot;
-              or create one first under Achievement Catalog.
+            <p className="text-soft text-sm mb-4">
+              No achievements in the catalog yet. Use &quot;One-off /
+              custom&quot; or create one first under Achievement Catalog.
             </p>
           ) : (
             <>
               <div className="mb-4">
                 <label
-                  className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2"
+                  className="block text-soft text-sm font-bold mb-2"
                   htmlFor="achievementSelect"
                 >
                   Achievement*
@@ -158,7 +156,7 @@ export default function AwardAchievementModal({
                   id="achievementSelect"
                   value={selectedId}
                   onChange={(e) => setSelectedId(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                  className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                 >
                   {catalog.map((a) => (
                     <option key={a.id} value={a.id}>
@@ -167,7 +165,7 @@ export default function AwardAchievementModal({
                   ))}
                 </select>
                 {selected?.description && (
-                  <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">
+                  <p className="mt-1 text-xs text-soft">
                     {selected.description}
                   </p>
                 )}
@@ -176,7 +174,7 @@ export default function AwardAchievementModal({
               {selected?.maxProgress != null && (
                 <div className="mb-6">
                   <label
-                    className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2"
+                    className="block text-soft text-sm font-bold mb-2"
                     htmlFor="progress"
                   >
                     Progress (out of {selected.maxProgress})
@@ -188,7 +186,7 @@ export default function AwardAchievementModal({
                     max={selected.maxProgress}
                     value={progress}
                     onChange={(e) => setProgress(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                    className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                   />
                 </div>
               )}
@@ -198,7 +196,7 @@ export default function AwardAchievementModal({
           <>
             <div className="mb-4">
               <label
-                className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2"
+                className="block text-soft text-sm font-bold mb-2"
                 htmlFor="title"
               >
                 Achievement Title*
@@ -208,14 +206,14 @@ export default function AwardAchievementModal({
                 id="title"
                 value={customTitle}
                 onChange={(e) => setCustomTitle(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                 required
               />
             </div>
 
             <div className="mb-4">
               <label
-                className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2"
+                className="block text-soft text-sm font-bold mb-2"
                 htmlFor="description"
               >
                 Description
@@ -224,14 +222,14 @@ export default function AwardAchievementModal({
                 id="description"
                 value={customDescription}
                 onChange={(e) => setCustomDescription(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
                 rows={3}
               />
             </div>
 
             <div className="mb-6">
               <label
-                className="block text-gray-300 dark:text-gray-700 text-sm font-bold mb-2"
+                className="block text-soft text-sm font-bold mb-2"
                 htmlFor="icon"
               >
                 Icon (emoji)
@@ -241,7 +239,7 @@ export default function AwardAchievementModal({
                 id="icon"
                 value={customIcon}
                 onChange={(e) => setCustomIcon(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-600 dark:border-gray-300 rounded-md bg-white dark:bg-gray-700 text-white dark:text-gray-900"
+                className="w-full px-3 py-2 border border-border rounded-md bg-surface text-strong"
               />
             </div>
           </>
@@ -250,14 +248,14 @@ export default function AwardAchievementModal({
         <div className="flex justify-end space-x-2">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-200 dark:text-gray-800 rounded hover:bg-gray-400 dark:hover:bg-gray-500"
+            className="px-4 py-2 bg-muted text-strong rounded hover:bg-muted"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50"
+            className="px-4 py-2 bg-[var(--band-via)] text-white rounded hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)] disabled:opacity-50"
           >
             {submitting ? 'Awarding...' : 'Award'}
           </button>

@@ -47,22 +47,22 @@ export default function DataTableCardView<T>({
   if (isLoading) {
     return (
       <div className="p-4 flex justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 dark:border-blue-400"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand/40"></div>
       </div>
     );
   }
 
   return (
-    <div className="bg-gray-800 dark:bg-white rounded-lg shadow">
+    <div className="bg-surface rounded-lg shadow">
       <div className="overflow-x-auto">
         {/* Desktop Table View */}
-        <table className="hidden md:table min-w-full divide-y divide-gray-700 dark:divide-gray-200">
-          <thead className="bg-gray-50 dark:bg-gray-700">
+        <table className="hidden md:table min-w-full divide-y divide-border">
+          <thead className="bg-surface-2">
             <tr>
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className={`px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider ${
+                  className={`px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider ${
                     column.className || ''
                   }`}
                 >
@@ -70,18 +70,18 @@ export default function DataTableCardView<T>({
                 </th>
               ))}
               {actions && (
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium text-soft uppercase tracking-wider">
                   Actions
                 </th>
               )}
             </tr>
           </thead>
-          <tbody className="bg-gray-800 dark:bg-white divide-y divide-gray-700 dark:divide-gray-200">
+          <tbody className="bg-surface divide-y divide-border">
             {data.length === 0 ? (
               <tr>
                 <td
                   colSpan={columns.length + (actions ? 1 : 0)}
-                  className="px-6 py-4 text-center text-gray-400 dark:text-gray-500"
+                  className="px-6 py-4 text-center text-soft"
                 >
                   {isFiltered ? emptyFilteredMessage : emptyMessage}
                 </td>
@@ -113,14 +113,14 @@ export default function DataTableCardView<T>({
         {/* Mobile Card View */}
         <div className="md:hidden grid grid-cols-1 gap-4 p-4">
           {data.length === 0 ? (
-            <div className="px-4 py-6 text-center text-gray-400 dark:text-gray-500">
+            <div className="px-4 py-6 text-center text-soft">
               {isFiltered ? emptyFilteredMessage : emptyMessage}
             </div>
           ) : (
             data.map((item) => (
               <div
                 key={keyExtractor(item)}
-                className="p-4 bg-gray-800 dark:bg-white rounded-lg shadow-sm border border-gray-100 dark:border-gray-700"
+                className="p-4 bg-surface rounded-lg shadow-sm border border-border"
               >
                 {/* Header section (if any) */}
                 {cardFields
@@ -143,7 +143,7 @@ export default function DataTableCardView<T>({
                         key={`${keyExtractor(item)}-${field.key}`}
                         className={field.className || ''}
                       >
-                        <div className="text-xs text-gray-400 dark:text-gray-500 uppercase mb-1">
+                        <div className="text-xs text-soft uppercase mb-1">
                           {field.label}
                         </div>
                         <div>{field.render(item)}</div>
@@ -159,7 +159,7 @@ export default function DataTableCardView<T>({
                       key={`${keyExtractor(item)}-${field.key}`}
                       className={`mb-3 ${field.className || ''}`}
                     >
-                      <div className="text-xs text-gray-400 dark:text-gray-500 uppercase mb-1">
+                      <div className="text-xs text-soft uppercase mb-1">
                         {field.label}
                       </div>
                       <div>{field.render(item)}</div>

@@ -53,10 +53,10 @@ export default function Pagination({
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="px-4 py-3 flex items-center justify-between border-t border-gray-700 dark:border-gray-200 sm:px-6">
+    <div className="px-4 py-3 flex items-center justify-between border-t border-border sm:px-6">
       <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm text-gray-300 dark:text-gray-700">
+          <p className="text-sm text-soft">
             Showing{' '}
             <span className="font-medium">
               {totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}
@@ -77,10 +77,10 @@ export default function Pagination({
             <button
               onClick={() => onPageChange(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${
+              className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-border bg-surface text-sm font-medium ${
                 currentPage === 1
-                  ? 'text-gray-300 cursor-not-allowed dark:bg-gray-800 dark:border-gray-700 dark:text-gray-600'
-                  : 'text-gray-500 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700'
+                  ? 'text-soft cursor-not-allowed'
+                  : 'text-soft hover:bg-surface-2'
               }`}
             >
               <span className="sr-only">Previous</span>
@@ -106,7 +106,7 @@ export default function Pagination({
                 return (
                   <span
                     key={`ellipsis-${index}`}
-                    className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                    className="relative inline-flex items-center px-4 py-2 border border-border bg-surface text-sm font-medium text-soft"
                   >
                     ...
                   </span>
@@ -121,8 +121,8 @@ export default function Pagination({
                   aria-current={pageNumber === currentPage ? 'page' : undefined}
                   className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
                     pageNumber === currentPage
-                      ? 'z-10 bg-blue-50 border-blue-500 text-blue-600 dark:bg-blue-900 dark:border-blue-500 dark:text-blue-300'
-                      : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700'
+                      ? 'z-10 bg-brand-soft border-brand/40 text-brand dark:bg-[var(--band-via)]'
+                      : 'bg-surface border-border text-soft hover:bg-surface-2'
                   }`}
                 >
                   {pageNumber}
@@ -136,10 +136,10 @@ export default function Pagination({
                 onPageChange(Math.min(totalPages, currentPage + 1))
               }
               disabled={currentPage === totalPages || totalPages === 0}
-              className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${
+              className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-border bg-surface text-sm font-medium ${
                 currentPage === totalPages || totalPages === 0
-                  ? 'text-gray-300 cursor-not-allowed dark:bg-gray-800 dark:border-gray-700 dark:text-gray-600'
-                  : 'text-gray-500 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700'
+                  ? 'text-soft cursor-not-allowed'
+                  : 'text-soft hover:bg-surface-2'
               }`}
             >
               <span className="sr-only">Next</span>
@@ -166,24 +166,24 @@ export default function Pagination({
         <button
           onClick={() => onPageChange(Math.max(1, currentPage - 1))}
           disabled={currentPage === 1}
-          className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
+          className={`relative inline-flex items-center px-4 py-2 border border-border text-sm font-medium rounded-md ${
             currentPage === 1
-              ? 'text-gray-300 bg-gray-100 cursor-not-allowed dark:bg-gray-800 dark:border-gray-700 dark:text-gray-600'
-              : 'text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700'
+              ? 'text-soft bg-muted cursor-not-allowed'
+              : 'text-soft bg-surface hover:bg-surface-2'
           }`}
         >
           Previous
         </button>
-        <div className="text-sm text-gray-300 dark:text-gray-700">
+        <div className="text-sm text-soft">
           {currentPage} of {totalPages}
         </div>
         <button
           onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
           disabled={currentPage === totalPages || totalPages === 0}
-          className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
+          className={`relative inline-flex items-center px-4 py-2 border border-border text-sm font-medium rounded-md ${
             currentPage === totalPages || totalPages === 0
-              ? 'text-gray-300 bg-gray-100 cursor-not-allowed dark:bg-gray-800 dark:border-gray-700 dark:text-gray-600'
-              : 'text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700'
+              ? 'text-soft bg-muted cursor-not-allowed'
+              : 'text-soft bg-surface hover:bg-surface-2'
           }`}
         >
           Next

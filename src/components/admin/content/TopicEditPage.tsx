@@ -240,41 +240,39 @@ export default function TopicEditPage() {
   const renderQuizzesTab = () => (
     <div>
       <div className="mb-4">
-        <h2 className="text-lg font-medium text-white dark:text-gray-900">
-          Quizzes
-        </h2>
+        <h2 className="text-lg font-medium text-strong">Quizzes</h2>
       </div>
 
       {quizzes.length === 0 ? (
-        <div className="text-center py-8 text-gray-400 dark:text-gray-500">
+        <div className="text-center py-8 text-soft">
           <p className="mb-4">No quizzes found for this topic.</p>
           <p>Create quizzes to test knowledge of this topic.</p>
         </div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-700 dark:divide-gray-200">
-            <thead className="bg-gray-50 dark:bg-gray-700">
+          <table className="min-w-full divide-y divide-border">
+            <thead className="bg-surface-2">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                   Title
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-soft uppercase tracking-wider">
                   Created
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium text-soft uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-gray-800 dark:bg-white divide-y divide-gray-700 dark:divide-gray-200">
+            <tbody className="bg-surface divide-y divide-border">
               {quizzes.map((quiz) => (
                 <tr key={quiz.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-white dark:text-gray-900">
+                    <div className="text-sm font-medium text-strong">
                       {quiz.title}
                     </div>
                     {quiz.description && (
-                      <div className="text-xs text-gray-400 dark:text-gray-500">
+                      <div className="text-xs text-soft">
                         {quiz.description.length > 60
                           ? `${quiz.description.substring(0, 60)}...`
                           : quiz.description}
@@ -282,14 +280,14 @@ export default function TopicEditPage() {
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-400 dark:text-gray-500">
+                    <div className="text-sm text-soft">
                       {new Date(quiz.created_at).toLocaleDateString()}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <Link
                       href={`/admin/content/quizzes/${quiz.id}`}
-                      className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-4"
+                      className="text-brand hover:text-brand mr-4"
                     >
                       Edit
                     </Link>

@@ -64,22 +64,22 @@ export default function AdminSettingsPage() {
     }
   }
   return (
-    <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+    <div className="min-h-screen bg-surface">
       <div className="flex">
         <AdminNavigation />
         <div className="flex-1 p-8">
-          <h1 className="text-3xl font-bold mb-6 dark:text-white">Settings</h1>
+          <h1 className="text-3xl font-bold mb-6">Settings</h1>
 
-          <div className="bg-gray-800 dark:bg-white rounded-lg shadow">
+          <div className="bg-surface rounded-lg shadow">
             {' '}
-            <div className="border-b border-gray-700 dark:border-gray-200">
+            <div className="border-b border-border">
               <nav className="-mb-px flex">
                 <button
                   onClick={() => setActiveTab('general')}
                   className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${
                     activeTab === 'general'
-                      ? 'border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-300'
-                      : 'border-transparent text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
+                      ? 'border-brand/40 text-brand'
+                      : 'border-transparent text-soft hover:text-soft hover:border-border'
                   }`}
                 >
                   General
@@ -88,8 +88,8 @@ export default function AdminSettingsPage() {
                   onClick={() => setActiveTab('gamification')}
                   className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${
                     activeTab === 'gamification'
-                      ? 'border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-300'
-                      : 'border-transparent text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
+                      ? 'border-brand/40 text-brand'
+                      : 'border-transparent text-soft hover:text-soft hover:border-border'
                   }`}
                 >
                   Gamification
@@ -98,8 +98,8 @@ export default function AdminSettingsPage() {
                   onClick={() => setActiveTab('notifications')}
                   className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${
                     activeTab === 'notifications'
-                      ? 'border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-300'
-                      : 'border-transparent text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
+                      ? 'border-brand/40 text-brand'
+                      : 'border-transparent text-soft hover:text-soft hover:border-border'
                   }`}
                 >
                   Notifications
@@ -109,21 +109,21 @@ export default function AdminSettingsPage() {
             <div className="p-6">
               {activeTab === 'general' && (
                 <div>
-                  <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
+                  <h2 className="text-lg font-medium text-strong mb-4">
                     General Settings
                   </h2>
                   <div className="space-y-4">
                     <div>
                       <label
                         htmlFor="site-name"
-                        className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                        className="block text-sm font-medium text-soft"
                       >
                         Site Name
                       </label>
                       <input
                         type="text"
                         id="site-name"
-                        className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 bg-surface text-strong focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm"
                         value={siteName}
                         onChange={(e) => setSiteName(e.target.value)}
                       />
@@ -132,14 +132,14 @@ export default function AdminSettingsPage() {
                       {' '}
                       <label
                         htmlFor="site-description"
-                        className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                        className="block text-sm font-medium text-soft"
                       >
                         Site Description
                       </label>
                       <textarea
                         id="site-description"
                         rows={3}
-                        className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 bg-surface text-strong focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm"
                         value={siteDescription}
                         onChange={(e) => setSiteDescription(e.target.value)}
                       />
@@ -147,7 +147,7 @@ export default function AdminSettingsPage() {
                     <div className="flex justify-end">
                       <button
                         type="button"
-                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[var(--band-via)] hover:bg-[var(--band-from)] dark:bg-[var(--band-via)] dark:hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40"
                         onClick={saveGeneralSettings}
                         disabled={saving}
                       >
@@ -159,21 +159,21 @@ export default function AdminSettingsPage() {
               )}{' '}
               {activeTab === 'gamification' && (
                 <div>
-                  <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
+                  <h2 className="text-lg font-medium text-strong mb-4">
                     Gamification Settings
                   </h2>
                   <div className="space-y-4">
                     <div>
                       <label
                         htmlFor="base-xp"
-                        className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                        className="block text-sm font-medium text-soft"
                       >
                         Base XP per Quiz Completion
                       </label>
                       <input
                         type="number"
                         id="base-xp"
-                        className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 bg-surface text-strong focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm"
                         value={baseXpPerQuiz}
                         onChange={(e) =>
                           setBaseXpPerQuiz(Number(e.target.value))
@@ -184,14 +184,14 @@ export default function AdminSettingsPage() {
                       {' '}
                       <label
                         htmlFor="correct-answer-xp"
-                        className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                        className="block text-sm font-medium text-soft"
                       >
                         XP per Correct Answer
                       </label>
                       <input
                         type="number"
                         id="correct-answer-xp"
-                        className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 bg-surface text-strong focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm"
                         value={xpPerCorrectAnswer}
                         onChange={(e) =>
                           setXpPerCorrectAnswer(Number(e.target.value))
@@ -202,20 +202,20 @@ export default function AdminSettingsPage() {
                       {' '}
                       <label
                         htmlFor="level-threshold"
-                        className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+                        className="block text-sm font-medium text-soft"
                       >
                         XP Threshold per Level
                       </label>
                       <input
                         type="number"
                         id="level-threshold"
-                        className="mt-1 block w-full border border-gray-600 dark:border-gray-300 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        className="mt-1 block w-full border border-border rounded-md shadow-sm py-2 px-3 bg-surface text-strong focus:outline-none focus:ring-brand/40 focus:border-brand/40 sm:text-sm"
                         value={levelThreshold}
                         onChange={(e) =>
                           setLevelThreshold(Number(e.target.value))
                         }
                       />
-                      <p className="mt-2 text-sm text-gray-500">
+                      <p className="mt-2 text-sm text-soft">
                         Users will level up after earning this amount of XP per
                         level.
                       </p>
@@ -223,7 +223,7 @@ export default function AdminSettingsPage() {
                     <div className="flex justify-end">
                       <button
                         type="button"
-                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40"
                         onClick={saveGamificationSettings}
                         disabled={saving}
                       >
@@ -235,10 +235,10 @@ export default function AdminSettingsPage() {
               )}
               {activeTab === 'notifications' && (
                 <div className="text-center py-8">
-                  <h2 className="text-lg font-medium text-gray-900 mb-4">
+                  <h2 className="text-lg font-medium text-strong mb-4">
                     Notification Settings
                   </h2>
-                  <p className="text-gray-500">
+                  <p className="text-soft">
                     Notification settings will be implemented soon.
                   </p>
                 </div>

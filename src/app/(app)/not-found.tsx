@@ -1,5 +1,4 @@
 'use client';
-/* eslint-disable react/no-unescaped-entities */
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -40,53 +39,39 @@ export default function NotFound() {
     }
   }, [pathname]);
 
+  const isTopicError = Boolean(error && from === 'random-topic');
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-900 dark:bg-gray-50">
-      <div className="bg-gray-800 dark:bg-white rounded-lg shadow-lg p-6 md:p-8 max-w-md w-full">
-        <h1 className="text-3xl font-bold text-center mb-6 text-blue-600 dark:text-blue-400">
-          {error && from === 'random-topic'
-            ? 'No Topics Available'
-            : 'Page Not Found'}
+    <div className="flex min-h-[60vh] items-center justify-center px-4 py-10">
+      <div className="jb-card w-full max-w-md p-6 text-center md:p-8">
+        <p className="text-sm font-semibold uppercase tracking-wide text-brand">
+          {isTopicError ? 'Nothing here yet' : 'Error 404'}
+        </p>
+        <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-strong">
+          {isTopicError ? 'No topics available' : 'Page not found'}
         </h1>
-
-        <div className="mb-6 text-center">
-          <p className="text-gray-300 dark:text-gray-700 mb-4">
-            {error && from === 'random-topic'
-              ? 'Sorry, there are no topics available right now.'
-              : "We couldn't find the page you're looking for."}
+        <p className="mt-3 text-soft">
+          {isTopicError
+            ? 'There are no topics available right now. Try again in a moment.'
+            : 'We could not find the page you are looking for.'}
+        </p>
+        {!error && pathname?.includes('/quiz/') && (
+          <p className="mt-3 rounded-xl bg-[var(--warn-bg)] p-3 text-sm text-[var(--warn-fg)]">
+            The topic or subject might not exist or has been removed.
           </p>
-
-          {error && from === 'random-topic' && (
-            <div className="text-sm bg-blue-50 dark:bg-blue-900/30 p-3 rounded-md text-blue-800 dark:text-blue-300 mb-4">
-              <p className="mb-2">Database query returned no results</p>
-              <p className="text-xs opacity-75">
-                Try clicking the button again or contact support if the problem
-                persists.
-              </p>
-            </div>
-          )}
-
-          {!error && pathname?.includes('/quiz/') && (
-            <p className="text-sm bg-yellow-50 dark:bg-yellow-900/30 p-3 rounded-md text-yellow-800 dark:text-yellow-300 mb-4">
-              The topic or subject you're looking for might not exist or has
-              been removed.
-            </p>
-          )}
-        </div>
-
-        <div className="flex flex-col gap-3">
+        )}
+        <div className="mt-6 flex flex-col gap-3">
           <Link
             href="/dashboard"
-            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded text-center transition-colors"
+            className="press inline-flex min-h-[44px] items-center justify-center rounded-full bg-[var(--band-via)] px-5 text-sm font-semibold text-white hover:bg-[var(--band-from)]"
           >
-            Go to Dashboard
+            Go to dashboard
           </Link>
-
           <button
+            type="button"
             onClick={() => window.history.back()}
-            className="bg-gray-700 dark:bg-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-200 dark:text-gray-800 py-2 px-4 rounded text-center transition-colors"
+            className="press inline-flex min-h-[44px] items-center justify-center rounded-full border border-border bg-surface px-5 text-sm font-semibold text-strong hover:bg-muted"
           >
-            Go Back
+            Go back
           </button>
         </div>
       </div>

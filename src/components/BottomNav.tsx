@@ -35,11 +35,17 @@ export default function BottomNav() {
               <Link
                 href={href}
                 aria-current={active ? 'page' : undefined}
-                className={`flex min-h-[56px] min-w-[44px] flex-col items-center justify-center gap-0.5 text-xs font-semibold transition-colors ${
+                className={`flex min-h-[60px] min-w-[44px] flex-col items-center justify-center gap-0.5 text-xs font-semibold transition-colors ${
                   active ? 'text-brand' : 'text-soft hover:text-strong'
                 }`}
               >
-                <Icon className="h-6 w-6" aria-hidden="true" />
+                <span
+                  className={`flex h-7 w-12 items-center justify-center rounded-full transition-colors ${
+                    active ? 'bg-brand-soft' : ''
+                  }`}
+                >
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </span>
                 <span>{label}</span>
               </Link>
             </li>

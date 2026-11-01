@@ -211,7 +211,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
           <div>
             <label
               htmlFor="displayName"
-              className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1"
+              className="block text-sm font-medium text-soft mb-1"
             >
               Display Name
             </label>
@@ -220,7 +220,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
               id="displayName"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-brand/40 focus:border-brand/40"
               placeholder="Your display name"
               required
             />
@@ -229,7 +229,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
           <div className="space-y-4">
             <label
               htmlFor="school"
-              className="block text-sm font-medium text-gray-300 dark:text-gray-700"
+              className="block text-sm font-medium text-soft"
             >
               School
             </label>
@@ -242,11 +242,11 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   placeholder="Search schools..."
                   value={schoolSearch}
                   onChange={(e) => setSchoolSearch(e.target.value)}
-                  className="w-full px-3 py-2 pl-9 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="w-full px-3 py-2 pl-9 border border-border rounded-md shadow-sm focus:outline-none focus:ring-brand/40 focus:border-brand/40"
                 />
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg
-                    className="h-4 w-4 text-gray-400"
+                    className="h-4 w-4 text-soft"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -264,7 +264,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
               <select
                 value={selectedState}
                 onChange={(e) => setSelectedState(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-brand/40 focus:border-brand/40"
               >
                 <option value="all">All States</option>
                 {states
@@ -279,7 +279,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-brand/40 focus:border-brand/40"
               >
                 <option value="all">All Types</option>
                 {types
@@ -298,7 +298,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                 id="school"
                 value={selectedSchoolId}
                 onChange={(e) => setSelectedSchoolId(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="w-full px-3 py-2 border border-border rounded-md shadow-sm focus:outline-none focus:ring-brand/40 focus:border-brand/40"
                 disabled={isLoadingSchools}
               >
                 <option value="">Select your school</option>
@@ -310,11 +310,9 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                 ))}
               </select>{' '}
               {isLoadingSchools ? (
-                <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">
-                  Loading schools...
-                </p>
+                <p className="mt-1 text-sm text-soft">Loading schools...</p>
               ) : (
-                <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">
+                <p className="mt-1 text-sm text-soft">
                   {filteredSchools.length} schools found
                 </p>
               )}
@@ -325,14 +323,14 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   id="schoolVisibility"
                   checked={isSchoolVisible}
                   onChange={(e) => setIsSchoolVisible(e.target.checked)}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-brand focus:ring-brand/40 border-border rounded"
                 />
                 <label
                   htmlFor="schoolVisibility"
-                  className="ml-2 block text-sm text-gray-400 dark:text-gray-600"
+                  className="ml-2 block text-sm text-soft"
                 >
                   Show my school on my public profile{' '}
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-soft">
                     (other students will be able to see which school you attend)
                   </span>
                 </label>
@@ -341,7 +339,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
           </div>
           {/* Avatar Upload */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 dark:text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-soft mb-1">
               Profile Picture
             </label>
             <div className="flex items-center space-x-6 mb-4">
@@ -356,14 +354,14 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                   />
                 </div>
               ) : (
-                <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
-                  <span className="text-gray-500">No image</span>
+                <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
+                  <span className="text-soft">No image</span>
                 </div>
               )}
               <div>
                 <label
                   htmlFor="avatarUpload"
-                  className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  className="cursor-pointer bg-[var(--band-via)] text-white px-4 py-2 rounded hover:bg-[var(--band-from)]"
                 >
                   Choose Image
                 </label>
@@ -376,7 +374,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
                 />
               </div>
             </div>
-            <p className="text-xs text-gray-400 dark:text-gray-500">
+            <p className="text-xs text-soft">
               Recommended: Square image, max 5MB (JPG, PNG, GIF)
             </p>
           </div>
@@ -385,7 +383,7 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+              className="w-full px-4 py-2 bg-[var(--band-via)] text-white rounded-md hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40 disabled:opacity-50"
             >
               {isSubmitting ? 'Saving...' : 'Save Changes'}
             </button>
@@ -394,14 +392,14 @@ export default function ProfileSettings({ user }: ProfileSettingsProps) {
       </form>
 
       {/* Divider */}
-      <div className="my-8 border-t border-gray-700 dark:border-gray-200"></div>
+      <div className="my-8 border-t border-border"></div>
 
       {/* Account Actions */}
       <div>
         <h3 className="text-lg font-medium mb-4">Account Actions</h3>
         <button
           onClick={handleSignOut}
-          className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+          className="px-4 py-2 bg-muted text-strong rounded-md hover:bg-muted"
         >
           Sign Out
         </button>

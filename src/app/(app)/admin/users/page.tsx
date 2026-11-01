@@ -313,7 +313,9 @@ export default function AdminUsersPage() {
       header: 'User',
       render: (user) => (
         <div className="flex items-center">
-          <div className={`flex-shrink-0 h-10 w-10 relative ${user.is_disabled ? 'opacity-60' : ''}`}>
+          <div
+            className={`flex-shrink-0 h-10 w-10 relative ${user.is_disabled ? 'opacity-60' : ''}`}
+          >
             {user.avatar_url ? (
               <Image
                 className={`h-10 w-10 rounded-full object-cover ${user.is_disabled ? 'grayscale' : ''}`}
@@ -324,22 +326,27 @@ export default function AdminUsersPage() {
                 unoptimized={user.avatar_url.startsWith('data:')}
               />
             ) : (
-              <div className={`h-10 w-10 rounded-full bg-gray-700 dark:bg-gray-200 flex items-center justify-center text-gray-400 dark:text-gray-500 ${user.is_disabled ? 'opacity-60' : ''}`}>
+              <div
+                className={`h-10 w-10 rounded-full bg-muted flex items-center justify-center text-soft ${user.is_disabled ? 'opacity-60' : ''}`}
+              >
                 {(user.display_name || user.email || '?')
                   .charAt(0)
                   .toUpperCase()}
               </div>
             )}
             {user.is_disabled && (
-              <div className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full border-2 border-white dark:border-gray-800" 
-                title="Account disabled">
-              </div>
+              <div
+                className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full border-2 border-white"
+                title="Account disabled"
+              ></div>
             )}
           </div>
           <div className="ml-4">
-            <div className={`text-sm font-medium ${user.is_disabled 
-              ? 'text-gray-400 dark:text-gray-500 line-through' 
-              : 'text-white dark:text-gray-900'}`}>
+            <div
+              className={`text-sm font-medium ${
+                user.is_disabled ? 'text-soft line-through' : 'text-strong'
+              }`}
+            >
               {user.display_name || 'Unnamed User'}
               {user.is_disabled && (
                 <span className="ml-2 text-xs px-1.5 py-0.5 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100 rounded-md font-semibold no-underline">
@@ -354,23 +361,17 @@ export default function AdminUsersPage() {
     {
       key: 'email',
       header: 'Email',
-      render: (user) => (
-        <div className="text-sm text-gray-400 dark:text-gray-500">
-          {user.email}
-        </div>
-      ),
+      render: (user) => <div className="text-sm text-soft">{user.email}</div>,
     },
     {
       key: 'level',
       header: 'Level/XP',
       render: (user) => (
         <>
-          <div className="text-sm font-medium text-white dark:text-gray-900">
+          <div className="text-sm font-medium text-strong">
             Level {user.level}
           </div>
-          <div className="text-sm text-gray-400 dark:text-gray-500">
-            {user.xp} XP
-          </div>
+          <div className="text-sm text-soft">{user.xp} XP</div>
         </>
       ),
     },
@@ -378,7 +379,7 @@ export default function AdminUsersPage() {
       key: 'joined',
       header: 'Joined',
       render: (user) => (
-        <div className="text-sm text-gray-400 dark:text-gray-500">
+        <div className="text-sm text-soft">
           {new Date(user.created_at).toLocaleDateString()}
         </div>
       ),
@@ -390,7 +391,7 @@ export default function AdminUsersPage() {
         <select
           value={user.role}
           onChange={(e) => handleRoleChange(user.id, e.target.value)}
-          className="text-sm border rounded py-1 px-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="text-sm border rounded py-1 px-2"
         >
           <option value="user">User</option>
           <option value="admin">Admin</option>
@@ -408,7 +409,9 @@ export default function AdminUsersPage() {
       isHeader: true,
       render: (user) => (
         <div className="flex items-center mb-3">
-          <div className={`flex-shrink-0 h-12 w-12 mr-3 relative ${user.is_disabled ? 'opacity-60' : ''}`}>
+          <div
+            className={`flex-shrink-0 h-12 w-12 mr-3 relative ${user.is_disabled ? 'opacity-60' : ''}`}
+          >
             {user.avatar_url ? (
               <Image
                 className={`h-12 w-12 rounded-full object-cover ${user.is_disabled ? 'grayscale' : ''}`}
@@ -419,22 +422,27 @@ export default function AdminUsersPage() {
                 unoptimized={user.avatar_url.startsWith('data:')}
               />
             ) : (
-              <div className={`h-12 w-12 rounded-full bg-gray-700 dark:bg-gray-200 flex items-center justify-center text-gray-400 dark:text-gray-500 ${user.is_disabled ? 'opacity-60' : ''}`}>
+              <div
+                className={`h-12 w-12 rounded-full bg-muted flex items-center justify-center text-soft ${user.is_disabled ? 'opacity-60' : ''}`}
+              >
                 {(user.display_name || user.email || '?')
                   .charAt(0)
                   .toUpperCase()}
               </div>
             )}
             {user.is_disabled && (
-              <div className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 rounded-full border-2 border-white dark:border-gray-800" 
-                title="Account disabled">
-              </div>
+              <div
+                className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 rounded-full border-2 border-white"
+                title="Account disabled"
+              ></div>
             )}
           </div>
           <div>
-            <div className={`text-base font-medium ${user.is_disabled 
-              ? 'text-gray-400 dark:text-gray-500' 
-              : 'text-gray-900 dark:text-gray-100'}`}>
+            <div
+              className={`text-base font-medium ${
+                user.is_disabled ? 'text-soft' : 'text-strong'
+              }`}
+            >
               {user.display_name || 'Unnamed User'}
               {user.is_disabled && (
                 <span className="ml-2 text-xs px-1.5 py-0.5 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100 rounded-md font-semibold">
@@ -442,7 +450,9 @@ export default function AdminUsersPage() {
                 </span>
               )}
             </div>
-            <div className={`text-sm text-gray-400 dark:text-gray-500 break-all ${user.is_disabled ? 'line-through' : ''}`}>
+            <div
+              className={`text-sm text-soft break-all ${user.is_disabled ? 'line-through' : ''}`}
+            >
               {user.email}
             </div>
           </div>
@@ -453,7 +463,7 @@ export default function AdminUsersPage() {
       key: 'level',
       label: 'Level/XP',
       render: (user) => (
-        <div className="text-sm text-gray-900 dark:text-gray-100">
+        <div className="text-sm text-strong">
           Level {user.level} ({user.xp} XP)
         </div>
       ),
@@ -462,7 +472,7 @@ export default function AdminUsersPage() {
       key: 'joined',
       label: 'Joined',
       render: (user) => (
-        <div className="text-sm text-gray-900 dark:text-gray-100">
+        <div className="text-sm text-strong">
           {new Date(user.created_at).toLocaleDateString()}
         </div>
       ),
@@ -475,7 +485,7 @@ export default function AdminUsersPage() {
         <select
           value={user.role}
           onChange={(e) => handleRoleChange(user.id, e.target.value)}
-          className="w-full text-sm border rounded py-2 px-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full text-sm border rounded py-2 px-2 focus:outline-none focus:ring-2 focus:ring-brand/40"
         >
           <option value="user">User</option>
           <option value="admin">Admin</option>
@@ -488,11 +498,11 @@ export default function AdminUsersPage() {
     <>
       <Link
         href={`/admin/users/${user.id}`}
-        className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+        className="text-brand hover:text-brand"
       >
         View
       </Link>
-      <span className="mx-2 dark:text-gray-400">|</span>
+      <span className="mx-2">|</span>
       <button
         onClick={() => handleToggleDisabled(user.id)}
         className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
@@ -505,7 +515,7 @@ export default function AdminUsersPage() {
     <div className="flex justify-between text-sm font-medium gap-2 mt-3">
       <Link
         href={`/admin/users/${user.id}`}
-        className="flex-1 text-center text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 py-2 px-3 border border-blue-500 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex-1 text-center text-brand hover:text-brand py-2 px-3 border border-brand/40 rounded focus:outline-none focus:ring-2 focus:ring-brand/40"
       >
         View Details
       </Link>
@@ -543,7 +553,7 @@ export default function AdminUsersPage() {
 
         <button
           onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}
-          className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
+          className="px-3 py-2 bg-surface border border-border rounded-lg text-soft focus:outline-none focus:ring-2 focus:ring-brand/40 flex items-center justify-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -563,8 +573,8 @@ export default function AdminUsersPage() {
         </button>
 
         {isFilterMenuOpen && (
-          <div className="mt-2 p-4 bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
-            <h3 className="text-sm font-medium text-gray-300 dark:text-gray-700 mb-2">
+          <div className="mt-2 p-4 bg-surface border border-border rounded-lg shadow-lg">
+            <h3 className="text-sm font-medium text-soft mb-2">
               Filter by Role
             </h3>
             <div className="grid grid-cols-2 gap-2 mb-4">
@@ -572,10 +582,10 @@ export default function AdminUsersPage() {
                 <button
                   key={option.id}
                   onClick={() => setRoleFilter(option.id as FilterOption)}
-                  className={`px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  className={`px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-brand/40 ${
                     roleFilter === option.id
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
+                      ? 'bg-[var(--band-via)] text-white'
+                      : 'bg-muted text-soft'
                   }`}
                 >
                   {option.label}
@@ -583,14 +593,12 @@ export default function AdminUsersPage() {
               ))}
             </div>
 
-            <h3 className="text-sm font-medium text-gray-300 dark:text-gray-700 mb-2">
-              Sort By
-            </h3>
+            <h3 className="text-sm font-medium text-soft mb-2">Sort By</h3>
             <div className="flex flex-col gap-2">
               <select
                 value={sortBy}
                 onChange={(e) => handleSortChange(e.target.value as SortOption)}
-                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-surface border border-border rounded-lg text-soft focus:outline-none focus:ring-2 focus:ring-brand/40"
               >
                 {sortOptions.map((option) => (
                   <option key={option.id} value={option.id}>
@@ -602,7 +610,7 @@ export default function AdminUsersPage() {
               <div className="flex gap-2">
                 <button
                   onClick={toggleSortDirection}
-                  className="flex-1 px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
+                  className="flex-1 px-3 py-2 bg-surface border border-border rounded-lg text-soft focus:outline-none focus:ring-2 focus:ring-brand/40 flex items-center justify-center"
                 >
                   Sort: {sortDirection === 'asc' ? 'Ascending' : 'Descending'}
                   {sortDirection === 'asc' ? (
@@ -641,7 +649,7 @@ export default function AdminUsersPage() {
                 <select
                   value={usersPerPage}
                   onChange={(e) => setUsersPerPage(Number(e.target.value))}
-                  className="flex-1 px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 px-3 py-2 bg-surface border border-border rounded-lg text-soft focus:outline-none focus:ring-2 focus:ring-brand/40"
                 >
                   <option value={5}>5 per page</option>
                   <option value={10}>10 per page</option>

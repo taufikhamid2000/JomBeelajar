@@ -95,7 +95,10 @@ export default function DashboardClient({
         const percents: Record<string, number> = {};
         for (const s of data.subjects) {
           if (typeof s.slug === 'string' && Number.isFinite(s.percent)) {
-            percents[s.slug] = Math.max(0, Math.min(100, Math.round(s.percent)));
+            percents[s.slug] = Math.max(
+              0,
+              Math.min(100, Math.round(s.percent))
+            );
           }
         }
         setProgress({ percents, lastSlug: data.last?.subjectSlug ?? null });
@@ -176,7 +179,7 @@ export default function DashboardClient({
     {
       title: 'Quiz Master',
       description: 'Completed 10 quizzes in a week',
-      bgColor: 'bg-blue-100',
+      bgColor: 'bg-brand-soft',
     },
     {
       title: 'High Scorer',
@@ -197,8 +200,8 @@ export default function DashboardClient({
     averageScore: 85,
   };
   return (
-    <main className="container mx-auto py-6 px-4 sm:px-6 md:px-8">
-      <div className="flex flex-col gap-8 sm:gap-10 md:gap-12">
+    <div className="container mx-auto px-4 pb-8 pt-6 sm:px-6 md:px-8">
+      <div className="flex flex-col gap-6 sm:gap-8">
         {/* Welcome Section */}
         <EnhancedWelcomeBanner initialUser={initialUser} />
         <ContinueLearningCard
@@ -215,7 +218,7 @@ export default function DashboardClient({
         {/* Subjects Section */}
         <section id="subjects-section">
           <div className="mb-4 sm:mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">
+            <h2 className="text-xl font-bold text-strong sm:text-2xl">
               Courses
             </h2>
           </div>
@@ -228,7 +231,7 @@ export default function DashboardClient({
           />
           {/* Subjects Grid with Results Count */}
           <div className="mb-4">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-soft">
               Showing {currentSubjects.length} of {filteredSubjects.length}{' '}
               subjects
               {searchQuery && ` matching "${searchQuery}"`}
@@ -257,6 +260,6 @@ export default function DashboardClient({
         {/* Recent Achievements Section */}
         <Achievements achievements={achievements} />
       </div>
-    </main>
+    </div>
   );
 }

@@ -22,17 +22,19 @@ export default function QuizProgress({
   timeCritical = false,
 }: QuizProgressProps) {
   const percentage =
-    totalQuestions > 0 ? Math.min(100, (answeredQuestions / totalQuestions) * 100) : 0;
+    totalQuestions > 0
+      ? Math.min(100, (answeredQuestions / totalQuestions) * 100)
+      : 0;
 
   return (
-    <div className="border-b border-gray-200 bg-white/95 backdrop-blur dark:border-gray-800 dark:bg-gray-900/95">
+    <div className="border-b border-border bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-2xl items-center gap-3 px-4 py-3">
         {onExit && (
           <button
             type="button"
             onClick={onExit}
             aria-label="Exit quiz"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-soft transition-colors hover:bg-muted hover:text-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
           >
             <svg
               viewBox="0 0 24 24"
@@ -49,7 +51,7 @@ export default function QuizProgress({
         )}
         <div className="min-w-0 flex-1">
           <div
-            className="h-2.5 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700"
+            className="h-2.5 w-full overflow-hidden rounded-full bg-muted"
             role="progressbar"
             aria-valuenow={Math.round(percentage)}
             aria-valuemin={0}
@@ -57,11 +59,11 @@ export default function QuizProgress({
             aria-label={`Question ${currentQuestion} of ${totalQuestions}`}
           >
             <div
-              className="h-full rounded-full bg-blue-600 motion-safe:transition-[width] motion-safe:duration-300 dark:bg-blue-500"
+              className="h-full rounded-full bg-[var(--band-via)] motion-safe:transition-[width] motion-safe:duration-300 dark:bg-[var(--band-via)]"
               style={{ width: `${percentage}%` }}
             />
           </div>
-          <p className="mt-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+          <p className="mt-1 text-xs font-medium text-soft">
             Question {currentQuestion} of {totalQuestions}
           </p>
         </div>
@@ -70,7 +72,7 @@ export default function QuizProgress({
             className={`shrink-0 rounded-full px-3 py-1 font-mono text-sm font-semibold ${
               timeCritical
                 ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
-                : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'
+                : 'bg-muted text-soft'
             }`}
           >
             <span className="sr-only">Time remaining: </span>

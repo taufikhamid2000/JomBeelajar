@@ -68,42 +68,42 @@ export default function CareerGuidancePage() {
       <Head>
         <title>Career Guidance - JomBeelajar</title>
       </Head>
-      <div className="min-h-screen bg-gray-900 dark:bg-gray-50">
+      <div className="min-h-screen bg-surface">
         <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
           {' '}
           <div className="text-center">
-            <h1 className="text-4xl font-extrabold text-white dark:text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+            <h1 className="text-4xl font-extrabold text-strong sm:text-5xl sm:tracking-tight lg:text-6xl">
               Subject-Based Career Guidance
             </h1>{' '}
-            <p className="max-w-xl mt-5 mx-auto text-xl text-gray-300 dark:text-gray-500">
+            <p className="max-w-xl mt-5 mx-auto text-xl text-soft">
               Find careers that match your favorite subjects or discover which
               subjects you need to focus on for your dream career path{' '}
             </p>
           </div>{' '}
           <div className="mt-8 mb-6 max-w-3xl mx-auto">
-            <div className="bg-gray-800 dark:bg-gray-100 rounded-lg p-5 shadow-lg">
+            <div className="bg-surface rounded-lg p-5 shadow-lg">
               <details>
-                <summary className="cursor-pointer text-sm font-medium text-blue-400 dark:text-blue-700 hover:text-blue-300 dark:hover:text-blue-600">
+                <summary className="cursor-pointer text-sm font-medium text-brand hover:text-brand">
                   How to Use This Tool
                 </summary>
-                <div className="mt-2 pl-4 border-l-2 border-blue-800/30 dark:border-blue-300/30">
+                <div className="mt-2 pl-4 border-l-2 border-brand/40">
                   {' '}
-                  <ol className="list-decimal pl-5 text-gray-300 dark:text-gray-600 space-y-2">
+                  <ol className="list-decimal pl-5 text-soft space-y-2">
                     <li>
-                      <span className="font-medium text-gray-200 dark:text-gray-700">
+                      <span className="font-medium text-strong">
                         Search for careers
                       </span>{' '}
                       by typing keywords in the search box or browse the list
                       below
                     </li>
                     <li>
-                      <span className="font-medium text-gray-200 dark:text-gray-700">
+                      <span className="font-medium text-strong">
                         Click on a career
                       </span>{' '}
                       to see which subjects are most important for that path
                     </li>
                     <li>
-                      <span className="font-medium text-gray-200 dark:text-gray-700">
+                      <span className="font-medium text-strong">
                         Explore subject details
                       </span>{' '}
                       to understand their relevance to your chosen career
@@ -141,7 +141,7 @@ export default function CareerGuidancePage() {
               <div className="mt-6 text-center">
                 <a
                   href="/education-pathway"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-300 dark:text-indigo-700 bg-gray-800 dark:bg-indigo-100 hover:bg-gray-700 dark:hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-brand bg-surface dark:bg-brand-soft hover:bg-muted dark:hover:bg-brand-soft focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40"
                 >
                   Explore Education Pathways for {selectedCareer.title}
                   <svg
@@ -163,14 +163,14 @@ export default function CareerGuidancePage() {
             </>
           )}{' '}
           {/* Call to action for contributions */}
-          <div className="mt-12 pt-8 border-t border-gray-800 dark:border-gray-200">
+          <div className="mt-12 pt-8 border-t border-border">
             <div className="text-center">
               {' '}
-              <h2 className="text-2xl font-bold text-white dark:text-gray-900">
+              <h2 className="text-2xl font-bold text-strong">
                 Don&apos;t see your career path or have subject insights to
                 share?
               </h2>
-              <p className="mt-3 text-lg text-gray-300 dark:text-gray-600">
+              <p className="mt-3 text-lg text-soft">
                 Share your knowledge about which subjects are most relevant for
                 specific careers and help students make better educational
                 choices.
@@ -178,7 +178,7 @@ export default function CareerGuidancePage() {
               <div className="mt-4">
                 <button
                   onClick={() => router.push('/career-guidance/contribute')}
-                  className="inline-flex items-center px-5 py-3 border border-transparent text-lg font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center px-5 py-3 border border-transparent text-lg font-medium rounded-md shadow-sm text-white bg-[var(--band-via)] hover:bg-[var(--band-from)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand/40"
                 >
                   Add Subject-Career Information
                 </button>

@@ -16,14 +16,14 @@ const CareerList: FC<CareerListProps> = ({
     <div className="mt-20 pb-12">
       {' '}
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-white dark:text-gray-900">
+        <h2 className="text-3xl font-bold text-strong">
           Explore Careers by Required Subjects
         </h2>
-        <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-300 dark:text-gray-500">
+        <p className="mt-3 max-w-2xl mx-auto text-xl text-soft">
           Click on any career below to see which school subjects are most
           important for success in that field
         </p>
-        <div className="mt-4 inline-flex items-center px-4 py-2 rounded-md bg-gray-700/50 dark:bg-gray-200/50">
+        <div className="mt-4 inline-flex items-center px-4 py-2 rounded-md bg-muted/50">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 text-amber-400 mr-2"
@@ -32,7 +32,7 @@ const CareerList: FC<CareerListProps> = ({
           >
             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
           </svg>
-          <span className="text-sm text-gray-300 dark:text-gray-600">
+          <span className="text-sm text-soft">
             Tip: Each career card shows the subjects most relevant for that
             career path
           </span>
@@ -42,7 +42,7 @@ const CareerList: FC<CareerListProps> = ({
         {careerPathways.map((career) => (
           <div
             key={career.id}
-            className="bg-gray-800 dark:bg-white shadow rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 border border-gray-700 dark:border-gray-200"
+            className="bg-surface shadow rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 border border-border"
             onClick={() => {
               onSelectCareer(career.id);
               // Scroll to the career details section
@@ -52,10 +52,10 @@ const CareerList: FC<CareerListProps> = ({
             }}
           >
             <div className="px-6 py-6">
-              <div className="mb-4 w-12 h-12 rounded-full bg-indigo-700/30 dark:bg-indigo-100 flex items-center justify-center">
+              <div className="mb-4 w-12 h-12 rounded-full bg-[var(--band-via)]/30 dark:bg-brand-soft flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-indigo-400 dark:text-indigo-600"
+                  className="h-6 w-6 text-brand"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -68,20 +68,16 @@ const CareerList: FC<CareerListProps> = ({
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-white dark:text-gray-900">
-                {career.title}
-              </h3>
-              <p className="mt-2 text-gray-400 dark:text-gray-500">
-                {career.description}
-              </p>
+              <h3 className="text-xl font-bold text-strong">{career.title}</h3>
+              <p className="mt-2 text-soft">{career.description}</p>
             </div>{' '}
-            <div className="px-6 py-3 bg-gray-750 bg-opacity-50 dark:bg-gray-100 flex justify-between items-center">
-              <span className="text-sm font-medium text-indigo-300 dark:text-indigo-600">
+            <div className="px-6 py-3 bg-muted bg-opacity-50 flex justify-between items-center">
+              <span className="text-sm font-medium text-brand">
                 See recommended subjects
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-indigo-300 dark:text-indigo-600"
+                className="h-5 w-5 text-brand"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
