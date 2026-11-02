@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
 import { getAchievementCatalog, createCatalogAchievement } from '@/lib/jombeelajar-api';
 import { getSessionToken } from '@/lib/serverSession';
+import { FORBIDDEN_MESSAGE } from '@/lib/permissions';
 
 export async function GET() {
   try {
@@ -41,7 +42,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     logger.error('Error creating catalog achievement:', error);
     if (error instanceof Error && error.message.includes('403')) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: FORBIDDEN_MESSAGE }, { status: 403 });
     }
     return NextResponse.json(
       { error: 'Unable to connect to the API. Please contact the administrator.' },

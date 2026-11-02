@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
 import { updateApiTopic, deleteApiTopic } from '@/lib/jombeelajar-api';
 import { getSessionToken } from '@/lib/serverSession';
+import { FORBIDDEN_MESSAGE } from '@/lib/permissions';
 
 export async function PATCH(
   request: NextRequest,
@@ -33,7 +34,7 @@ export async function PATCH(
   } catch (error) {
     logger.error('Error updating topic:', error);
     if (error instanceof Error && error.message.includes('403')) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: FORBIDDEN_MESSAGE }, { status: 403 });
     }
     if (error instanceof Error && error.message.includes('404')) {
       return NextResponse.json({ error: 'Topic not found' }, { status: 404 });
@@ -62,7 +63,7 @@ export async function DELETE(
   } catch (error) {
     logger.error('Error deleting topic:', error);
     if (error instanceof Error && error.message.includes('403')) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: FORBIDDEN_MESSAGE }, { status: 403 });
     }
     if (error instanceof Error && error.message.includes('409')) {
       return NextResponse.json(

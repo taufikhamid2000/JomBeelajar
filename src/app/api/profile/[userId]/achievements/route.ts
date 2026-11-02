@@ -8,6 +8,7 @@ import {
   getUserAchievements,
   JomBeelajarApiAchievement,
 } from '@/lib/jombeelajar-api';
+import { getSessionToken } from '@/lib/serverSession';
 
 function mapAchievement(a: JomBeelajarApiAchievement, userId: string) {
   return {
@@ -95,15 +96,24 @@ export async function GET(
     }
 
     // Fetch achievements for a specific OTHER user (public profile view).
-    // JomBeelajar API's GET /api/v1/users/{userId}/achievements is now public.
+    // The API returns an empty list for non-visible profiles unless the caller
+    // is that user, a platform moderator or a same-school teacher, so forward
+    // the viewer's token when logged in. Responses then vary per viewer and
+    // must not be shared-cached.
     try {
-      const achievements = await getUserAchievements(userId, null);
+      const token = await getSessionToken().catch(() => null);
+      const achievements = await getUserAchievements(userId, token);
       return NextResponse.json(
         achievements.map((a) => mapAchievement(a, userId)),
         {
-          headers: {
-            'Cache-Control': `public, s-maxage=${CACHE_DURATION}, stale-while-revalidate=${CACHE_DURATION * 2}`,
-          },
+          headers: token
+            ? {
+                'Cache-Control': 'private, no-store',
+                Vary: 'Cookie, Authorization',
+              }
+            : {
+                'Cache-Control': `public, s-maxage=${CACHE_DURATION}, stale-while-revalidate=${CACHE_DURATION * 2}`,
+              },
         }
       );
     } catch (error) {

@@ -1,5 +1,5 @@
 import { signIn, signUp, signOut } from '@/lib/auth';
-import { checkAdminPermission } from '@/lib/auth-utils';
+import { checkAdminPermission, derivePermissions } from '@/lib/auth-utils';
 import { hardNavigate } from '@/lib/hard-navigate';
 import { supabase } from '@/lib/supabase';
 import { makeFrom } from '@/test-utils/supabaseMock';
@@ -114,7 +114,7 @@ describe('checkAdminPermission (client-side UI gate)', () => {
   it('authorised for an admin role', async () => {
     auth.getSession.mockResolvedValue(session());
     from.mockImplementation(makeFrom({ user_roles: { data: { role: 'admin' }, error: null } }).from);
-    expect(await checkAdminPermission()).toEqual({ isAuthorized: true, userId: 'u1', role: 'admin' });
+    expect(await checkAdminPermission()).toEqual(expect.objectContaining({ isAuthorized: true, userId: 'u1', role: 'admin' }));
   });
 
   it('authorised for a teacher via school_role, but not for a plain student', async () => {
@@ -125,7 +125,16 @@ describe('checkAdminPermission (client-side UI gate)', () => {
         user_profiles: { data: { school_role: 'Teacher' }, error: null },
       }).from
     );
-    expect(await checkAdminPermission()).toEqual({ isAuthorized: true, userId: 'u1', role: 'teacher' });
+    const teacher = await checkAdminPermission();
+    expect(teacher).toEqual(expect.objectContaining({ isAuthorized: true, userId: 'u1', role: 'teacher' }));
+    // Teachers may moderate their own school but not edit the content tree / catalog.
+    expect(teacher.permissions).toEqual(
+      expect.objectContaining({
+        canModerateOwnSchool: true,
+        canManageContentTree: false,
+        canManageAchievementCatalog: false,
+      })
+    );
 
     from.mockImplementation(
       makeFrom({
@@ -133,7 +142,16 @@ describe('checkAdminPermission (client-side UI gate)', () => {
         user_profiles: { data: { school_role: 'student' }, error: null },
       }).from
     );
-    expect(await checkAdminPermission()).toEqual({ isAuthorized: false, userId: 'u1', role: undefined });
+    expect(await checkAdminPermission()).toEqual(expect.objectContaining({ isAuthorized: false, userId: 'u1', role: undefined }));
+  });
+
+  it('moderator role is platform staff and can manage the tree and catalog', async () => {
+    auth.getSession.mockResolvedValue(session());
+    from.mockImplementation(makeFrom({ user_roles: { data: { role: 'moderator' }, error: null } }).from);
+    const res = await checkAdminPermission();
+    expect(res).toEqual(expect.objectContaining({ isAuthorized: true, role: 'moderator' }));
+    expect(res.permissions?.canManageContentTree).toBe(true);
+    expect(res.permissions?.canManageAchievementCatalog).toBe(true);
   });
 
   it('fails closed on a role-query error and on thrown errors', async () => {
@@ -145,5 +163,52 @@ describe('checkAdminPermission (client-side UI gate)', () => {
 
     auth.getSession.mockRejectedValue(new Error('boom'));
     expect(await checkAdminPermission()).toEqual({ isAuthorized: false, userId: null });
+  });
+});
+
+describe('derivePermissions', () => {
+  it('admin (user_roles or school_role) can do everything', () => {
+    for (const p of [derivePermissions('admin', null), derivePermissions(null, 'admin')]) {
+      expect(p).toEqual(
+        expect.objectContaining({
+          isAdmin: true,
+          isPlatformStaff: true,
+          canManageContentTree: true,
+          canManageAchievementCatalog: true,
+          canModerateOwnSchool: true,
+        })
+      );
+    }
+  });
+
+  it('moderator can write the tree and catalog', () => {
+    const p = derivePermissions('Moderator', 'student');
+    expect(p.isModerator).toBe(true);
+    expect(p.canManageContentTree && p.canManageAchievementCatalog).toBe(true);
+  });
+
+  it('teacher is school-scoped only: no tree or catalog writes', () => {
+    const p = derivePermissions(null, 'Teacher');
+    expect(p).toEqual(
+      expect.objectContaining({
+        isTeacher: true,
+        isPlatformStaff: false,
+        canModerateOwnSchool: true,
+        canManageContentTree: false,
+        canManageAchievementCatalog: false,
+      })
+    );
+  });
+
+  it('a teacher who is also a moderator is platform staff, not scoped', () => {
+    const p = derivePermissions('moderator', 'teacher');
+    expect(p.isTeacher).toBe(false);
+    expect(p.canManageContentTree).toBe(true);
+  });
+
+  it('students and anonymous users have no permissions', () => {
+    for (const p of [derivePermissions(undefined, 'student'), derivePermissions(null, null)]) {
+      expect(Object.values(p).every((v) => v === false)).toBe(true);
+    }
   });
 });

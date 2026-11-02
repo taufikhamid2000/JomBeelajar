@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
 import { updateCatalogAchievement, deleteCatalogAchievement } from '@/lib/jombeelajar-api';
 import { getSessionToken } from '@/lib/serverSession';
+import { FORBIDDEN_MESSAGE } from '@/lib/permissions';
 
 export async function PATCH(
   request: NextRequest,
@@ -26,7 +27,7 @@ export async function PATCH(
   } catch (error) {
     logger.error('Error updating catalog achievement:', error);
     if (error instanceof Error && error.message.includes('403')) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: FORBIDDEN_MESSAGE }, { status: 403 });
     }
     return NextResponse.json(
       { error: 'Unable to connect to the API. Please contact the administrator.' },
@@ -52,7 +53,7 @@ export async function DELETE(
   } catch (error) {
     logger.error('Error deleting catalog achievement:', error);
     if (error instanceof Error && error.message.includes('403')) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: FORBIDDEN_MESSAGE }, { status: 403 });
     }
     return NextResponse.json(
       { error: 'Unable to connect to the API. Please contact the administrator.' },

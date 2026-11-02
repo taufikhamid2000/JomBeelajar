@@ -1,14 +1,23 @@
 import { supabase } from './supabase';
 import { logger } from './logger';
+import { derivePermissions, type Permissions } from './permissions';
+
+export { derivePermissions, FORBIDDEN_MESSAGE } from './permissions';
+export type { Permissions } from './permissions';
 
 /**
- * Checks if the current user has admin permissions
- * @returns Object containing authorization status and user ID
+ * Checks the current user's admin-area permissions.
+ *
+ * `isAuthorized` means "may use the admin area at all" (admin, moderator, or a
+ * teacher for school-scoped actions). Teachers get 403 from the API on
+ * content-tree and achievement-catalog writes, so gate those UI actions on
+ * `permissions.canManageContentTree` / `permissions.canManageAchievementCatalog`.
  */
 export async function checkAdminPermission(): Promise<{
   isAuthorized: boolean;
   userId: string | null;
   role?: string;
+  permissions?: Permissions;
 }> {
   try {
     // Get current session
@@ -35,30 +44,32 @@ export async function checkAdminPermission(): Promise<{
       return { isAuthorized: false, userId };
     }
 
-    // Check if the role is admin
-    const role = (roleData?.role || '').toLowerCase();
-    const isAdmin = role === 'admin' || role.includes('admin');
-
-    // Alternatively, check school_role from user_profiles (for teacher/admin)
-    if (!isAdmin) {
+    // school_role (teacher/admin) only matters when user_roles alone does not
+    // already make the user platform staff.
+    let schoolRole: string | null = null;
+    if (!derivePermissions(roleData?.role, null).isPlatformStaff) {
       const { data: profileData } = await supabase
         .from('user_profiles')
         .select('school_role')
         .eq('id', userId)
         .maybeSingle();
-
-      const schoolRole = (profileData?.school_role || '').toLowerCase();
-      const isTeacher = schoolRole === 'teacher' || schoolRole === 'admin';
-
-      if (isTeacher) {
-        return { isAuthorized: true, userId, role: schoolRole };
-      }
+      schoolRole = profileData?.school_role ?? null;
     }
 
+    const permissions = derivePermissions(roleData?.role, schoolRole);
+    const role = permissions.isAdmin
+      ? 'admin'
+      : permissions.isModerator
+        ? 'moderator'
+        : permissions.isTeacher
+          ? 'teacher'
+          : undefined;
+
     return {
-      isAuthorized: isAdmin,
+      isAuthorized: permissions.canModerateOwnSchool,
       userId,
-      role: isAdmin ? 'admin' : undefined,
+      role,
+      permissions,
     };
   } catch (error) {
     logger.error('Error checking admin permission:', error);
