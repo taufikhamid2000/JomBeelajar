@@ -93,7 +93,7 @@ describe('useTopicData hook', () => {
     };
     const mockTopic: Topic = {
       id: 'top1',
-      title: 'Algebra',
+      name: 'Algebra',
       description: 'Introduction to Algebra',
       difficulty_level: 1,
       time_estimate_minutes: 60,
@@ -101,7 +101,7 @@ describe('useTopicData hook', () => {
       chapters: [
         {
           id: 'ch1',
-          title: 'Introduction to Algebra',
+          name: 'Introduction to Algebra',
           order_index: 1,
           form: 1,
         },

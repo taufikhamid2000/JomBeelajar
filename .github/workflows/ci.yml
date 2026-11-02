@@ -1,10 +1,8 @@
 name: CI
 
-# Lint + unit tests on every push to main and on PRs.
-# Type-checking is enforced separately at build/deploy time: next.config.mjs
-# has typescript.ignoreBuildErrors=false, so the Vercel build fails on type
-# errors. (A standalone `tsc --noEmit` here would also flag the quarantined
-# legacy test files, so type safety is gated at the build instead.)
+# Lint, type-check and unit tests on every push to main and on PRs.
+# The Jest run enforces the coverageThreshold in config/jest.config.mjs and
+# fails the job if coverage drops below it.
 
 on:
   push:
@@ -29,5 +27,7 @@ jobs:
       - run: npm ci
       - name: Lint
         run: npx eslint .
-      - name: Unit tests
+      - name: Type check
+        run: npx tsc --noEmit
+      - name: Unit tests (enforces coverage thresholds)
         run: npx jest --config config/jest.config.mjs --ci

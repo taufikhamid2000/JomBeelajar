@@ -1,7 +1,7 @@
 // src/__tests__/components/Header.test.tsx
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/jest-globals';
 import Header from '@/components/Header';
 import { supabase } from '@/lib/supabase';
 import { jest, describe, it, expect, beforeEach } from '../../setupTests';

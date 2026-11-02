@@ -1,7 +1,7 @@
 // src/__tests__/components/Quiz.test.tsx
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/jest-globals';
 import Quiz from '@/components/Quiz';
 import { describe, it, expect } from '../../setupTests';
 
