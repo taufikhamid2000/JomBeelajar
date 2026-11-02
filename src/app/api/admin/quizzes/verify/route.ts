@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { logger } from '@/lib/logger';
-import { checkAdminPermission } from '@/lib/auth-utils';
+import { requireAdmin } from '@/lib/requireAdmin';
 
 /**
  * Admin API endpoint for verifying quizzes
@@ -10,14 +10,11 @@ import { checkAdminPermission } from '@/lib/auth-utils';
 export async function POST(request: NextRequest) {
   try {
     // Check if user has admin permission
-    const { isAuthorized, userId } = await checkAdminPermission();
-
-    if (!isAuthorized) {
-      return NextResponse.json(
-        { error: 'Unauthorized: Admin access required' },
-        { status: 401 }
-      );
+    const auth = await requireAdmin();
+    if (!auth.ok) {
+      return NextResponse.json({ error: auth.error }, { status: auth.status });
     }
+    const userId = auth.userId;
 
     // Parse request body
     const body = await request.json();
@@ -38,7 +35,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Update quiz verification status
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('quizzes')
       .update({
         verified,

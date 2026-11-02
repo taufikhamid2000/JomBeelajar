@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { logger } from '@/lib/logger';
 import { cookies, headers } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
@@ -18,6 +18,15 @@ export async function POST(request: Request) {
         { error: 'Missing required fields: userId and role' },
         { status: 400 }
       );
+    }
+
+    const UUID_RE =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (typeof userId !== 'string' || !UUID_RE.test(userId)) {
+      return NextResponse.json({ error: 'Invalid userId' }, { status: 400 });
+    }
+    if (typeof role !== 'string' || !['admin', 'moderator', 'user'].includes(role)) {
+      return NextResponse.json({ error: 'Invalid role' }, { status: 400 });
     }
 
     logger.info(`Attempting to set user ${userId} as ${role}`);

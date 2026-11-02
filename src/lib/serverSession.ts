@@ -5,6 +5,15 @@ import { jomCookieOptions } from '@/lib/supabase/cookie-options';
 /**
  * Reads the Supabase session from request cookies (server-side only) and
  * returns the access token to forward as a Bearer token to JomBeelajar API.
+ *
+ * AUTHORIZATION NOTE: this only proves the caller is authenticated. Role checks
+ * (moderator/admin) are enforced by JomBeelajar-API: ContentController,
+ * AuditController, AchievementCatalogController, AchievementsController use
+ * [Authorize(Policy = "Moderator")], SchoolsController writes use
+ * [Authorize(Policy = "Admin")], and quiz/question edits check owner-or-moderator
+ * (roles are resolved from the DB in Auth/SupabaseAuth.cs). Routes that talk to
+ * Supabase directly (admin/users, admin/make-admin, admin/quizzes/verify,
+ * admin/migrations) must use requireAdmin() from '@/lib/requireAdmin'.
  */
 export async function getSessionToken(): Promise<string | null> {
   const cookieStore = await cookies();
