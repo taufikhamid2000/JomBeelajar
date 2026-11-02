@@ -8,15 +8,25 @@ A gamified learning platform for Malaysian SPM students: browse subjects, chapte
 
 **Live site:** https://jombeelajar.taufikhamid.com
 
-Sign-in uses the shared Jom ID account. Most of the app (dashboard, profile, quiz submission) needs an account; the public pages (landing, about, leaderboards, career guidance) work without one.
+Sign-in uses the shared Jom ID account. The dashboard, profile and quiz submission need a signed-in session; the public pages (about, leaderboards, career guidance, privacy, terms) work without one.
+
+## Try the demo
+
+The sign-in page has a **Try the demo, no account needed** button. It starts a Supabase anonymous session (`supabase.auth.signInAnonymously()` in `src/app/auth/page.tsx`) and opens the dashboard as a "Guest User" with no email or password. It is the quickest way to look around the signed-in app. Guest sessions are not tied to a Jom ID account.
 
 ## Screenshots
 
-Public pages of the live site (the sign-in page is what visitors see first).
+Captured from a local build of the teal redesign. The dashboard and profile are shown as a guest demo user (empty progress).
 
-![JomBeelajar sign-in page, desktop](docs/screenshots/landing-desktop.png)
+![Sign-in page, desktop](docs/screenshots/landing-desktop.png)
 
-<img src="docs/screenshots/landing-mobile.png" alt="JomBeelajar sign-in page, mobile" width="280">
+![Dashboard, desktop](docs/screenshots/dashboard-desktop.png)
+
+![Leaderboard, desktop](docs/screenshots/leaderboard-desktop.png)
+
+![Profile, desktop](docs/screenshots/profile-desktop.png)
+
+<img src="docs/screenshots/landing-mobile.png" alt="Sign-in page, mobile" width="280">
 
 ## Tech stack
 
@@ -25,7 +35,7 @@ Public pages of the live site (the sign-in page is what visitors see first).
 - ASP.NET Core API (JomBeelajar-API, hosted on Render) for quiz and content logic
 - TanStack Query, react-hook-form, date-fns
 - Jest + React Testing Library, Playwright smoke tests
-- Deployed on Vercel; CI on GitHub Actions
+- Deployed on Vercel; CI on GitHub Actions (lint and Jest, E2E, and a scheduled keepalive ping for the API)
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how the pieces fit together.
 
@@ -45,6 +55,7 @@ Environment variables (see `.env.example`):
 | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Everything |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server-only admin features |
+| `SUPABASE_URL` | Optional server-side fallback for the Supabase URL |
 | `JOMBEELAJAR_API_URL` | Calls to the JomBeelajar API |
 | `SUPABASE_DB_URL` | `npm run db:migrate` only |
 | `E2E_TEST_EMAIL`, `E2E_TEST_PASSWORD` | Signed-in E2E specs (optional) |
