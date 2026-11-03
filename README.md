@@ -3,9 +3,9 @@
 [![CI](https://github.com/taufikhamid2000/JomBeelajar/actions/workflows/ci.yml/badge.svg)](https://github.com/taufikhamid2000/JomBeelajar/actions/workflows/ci.yml)
 [![Test](https://github.com/taufikhamid2000/JomBeelajar/actions/workflows/test.yml/badge.svg)](https://github.com/taufikhamid2000/JomBeelajar/actions/workflows/test.yml)
 [![E2E](https://github.com/taufikhamid2000/JomBeelajar/actions/workflows/e2e.yml/badge.svg)](https://github.com/taufikhamid2000/JomBeelajar/actions/workflows/e2e.yml)
-![Coverage](https://img.shields.io/badge/line%20coverage-8.09%25-red)
+![Coverage](https://img.shields.io/badge/line%20coverage-13.7%25-red)
 
-**Test coverage (honest numbers):** 147 Jest tests; overall statements 7.92%, branches 5.80%, functions 4.79%, lines 8.09%. Most UI and route code is still untested. The security-critical paths are covered much higher and pinned in `config/jest.config.mjs`: the quiz answer-check route (96% lines), `requireAdmin` (95%), session helpers and the admin client (100%), and the admin auth service (100%). CI fails if coverage drops below those floors.
+**Test coverage (honest numbers):** 236 Jest tests in 25 suites; overall statements 13.32%, branches 10.28%, functions 7.85%, lines 13.70%. Most UI and route code is still untested. The security-critical paths are covered much higher and pinned in `config/jest.config.mjs`: the quiz answer-check route (96% lines), `requireAdmin` (95%), session helpers and the admin client (100%), and the admin auth service (100%). CI fails if coverage drops below those floors.
 
 A gamified learning platform for Malaysian SPM students: browse subjects, chapters and topics, take quizzes, earn XP and achievements, and climb the leaderboards.
 

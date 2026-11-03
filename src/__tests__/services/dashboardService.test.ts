@@ -11,8 +11,10 @@ global.fetch = mockFetch;
 // Mock logger
 jest.mock('@/lib/logger', () => ({
   logger: {
-    error: jest.fn(),
+    log: jest.fn(),
     info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
   },
 }));
 
@@ -165,7 +167,7 @@ describe('Dashboard Service', () => {
       });
       expect(result).toEqual(mockUserStats);
     });
-    it('should handle authentication errors', async () => {
+    it('returns an empty guest payload on 401 instead of throwing', async () => {
       mockFetch.mockResolvedValueOnce({
         ok: false,
         status: 401,
@@ -174,31 +176,15 @@ describe('Dashboard Service', () => {
           .mockResolvedValueOnce({ error: 'Authentication required' }),
       });
 
-      // fetchUserStats returns fallback data instead of throwing for auth errors
       const result = await fetchUserStats();
       expect(result).toEqual({
         weeklyProgress: {
-          quizzesCompleted: 7,
-          quizzesTotal: 10,
-          averageScore: 85,
+          quizzesCompleted: 0,
+          quizzesTotal: 0,
+          averageScore: 0,
         },
-        achievements: [
-          {
-            title: 'Quiz Master',
-            description: 'Completed 10 quizzes in a week',
-            bgColor: 'bg-blue-100',
-          },
-          {
-            title: 'High Scorer',
-            description: 'Scored above 90% in 5 quizzes',
-            bgColor: 'bg-green-100',
-          },
-          {
-            title: 'Consistent Learner',
-            description: 'Maintained a 7-day streak',
-            bgColor: 'bg-yellow-100',
-          },
-        ],
+        achievements: [],
+        isGuest: true,
       });
     });
 
