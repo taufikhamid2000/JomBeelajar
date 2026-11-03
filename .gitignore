@@ -51,3 +51,6 @@ next-env.d.ts
 # editor / local tooling
 /.idea/
 /.supabase/
+
+# graphify (local code graph, rebuild with: graphify update .)
+graphify-out/
